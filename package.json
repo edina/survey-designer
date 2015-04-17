@@ -1,0 +1,36 @@
+{
+  "name": "survey-designer",
+  "version": "0.0.0",
+  "description": "Create custom forms",
+  "main": "index.js",
+  "scripts": {
+    "lint": "node_modules/jshint/bin/jshint src/www/js/**.js",
+    "release": "npm run lint && node_modules/release-it/bin/release.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edina/survey-designer.git"
+  },
+  "keywords": [
+    "fieldtrip",
+    "survey",
+    "designer"
+  ],
+  "author": "Panos Terzis",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/edina/survey-designer/issues"
+  },
+  "homepage": "https://github.com/edina/survey-designer",
+  "dependencies": {
+    "bootstrap": "^3.3.4",
+    "jquery": "^2.1.3"
+  },
+  "devDependencies": {
+    "beefy": "^2.1.5",
+    "browserify": "^9.0.8",
+    "jshint": "^2.7.0",
+    "release-it": "0.0.15"
+  }
+}
