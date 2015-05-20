@@ -1,0 +1,14 @@
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <div class="btn-toolbar" role="toolbar">
+      <div class="btn-group-vertical">
+        <% _.each(options, function(name, id){ %>
+          <button type="button" class="btn btn-default btn-lg" aria-label="Left Align">
+            <span class="glyphicon glyphicon-<%= name%>" aria-hidden="true"></span>
+          </button>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+</div>
