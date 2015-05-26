@@ -11,7 +11,7 @@
     <title>Survey Designer</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
     <link href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
 
@@ -28,18 +28,24 @@
       <!-- Sidebar -->
       <div id="sidebar-wrapper">
         <div class="btn-toolbar" role="toolbar">
-          <div class="btn-group-vertical">
-            <button type="button" class="btn btn-default btn-lg" aria-label="Left Align">
-              <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+          <div class="btn-group-vertical" id="dragme">
+            <button type="button" class="btn btn-default btn-lg" aria-label="Drag Text" data-toggle="tooltip" data-placement="right" title="Text">
+              <span class="glyphicon menu-icon icon-text" aria-hidden="true"></span>
             </button>
             <button type="button" class="btn btn-default btn-lg" aria-label="Center Align">
-              <span class="glyphicon glyphicon-align-center" aria-hidden="true"></span>
+              <span class="glyphicon menu-icon icon-slider" aria-hidden="true"></span>
             </button>
             <button type="button" class="btn btn-default btn-lg" aria-label="Right Align">
-              <span class="glyphicon glyphicon-align-right" aria-hidden="true"></span>
+              <span class="glyphicon menu-icon icon-textarea" aria-hidden="true"></span>
             </button>
-            <button type="button" class="btn btn-default btn-lg" aria-label="Justify">
-              <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+            <button type="button" class="btn btn-default btn-lg" aria-label="Right Align">
+              <span class="glyphicon menu-icon icon-checkbox" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-default btn-lg" aria-label="Right Align">
+              <span class="glyphicon menu-icon icon-radio" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-default btn-lg" aria-label="Right Align">
+              <span class="glyphicon menu-icon icon-select" aria-hidden="true"></span>
             </button>
           </div>
         </div>
@@ -47,7 +53,7 @@
     </div>
 
     <!-- Fixed navbar -->
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="header">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -66,7 +72,7 @@
       </div>
     </div>
 
-    <div class="container theme-showcase">
+    <div class="container theme-showcase" role="main" id="content">
 
       <div class="row">
         <div class="col-sm-12">
@@ -80,8 +86,6 @@
     Scripts
     ================================================== 
     Placed at the end of the document so the pages load faster -->
-    <!-- <script src="scripts/app.js"></script> -->
-    <script src="scripts/vendor.js"></script>
-    <script src="scripts/main.js"></script>
+    <script src="bundle.js"></script>
   </body>
 </html>

@@ -1,4 +1,86 @@
-.left-menu{
-    position: absolute;
-    left: 0;
+body {
+  padding-top: 70px;
+  padding-bottom: 30px;
+  padding-left: 100px;
+  background-color: #e4e1da;
+}
+
+.navbar-inverse{
+  background-image: linear-gradient(to bottom,#2F4820 0,#2F4820 100%);
+}
+
+.theme-showcase .navbar .container {
+  width: auto;
+}
+
+.mobile{
+  width: 450px;
+  height: 800px;
+  background-color: #FFFFFF;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  padding: 24px 20px 0px 20px;
+}
+
+.mobile-content{
+  background-image: url("images/draganddrop.jpg");
+  background-repeat: no-repeat;
+  width: 90%;
+  padding: 25px;
+  margin: auto 10px;
+  height: 700px;
+  border: 1px solid #a3a3a3;
+}
+
+/*** menu ***/
+.menu-icon{
+  width: 40px;
+  height: 40px;
+}
+
+.icon-text{
+  background-image: url("images/menu-icon.png");
+  background-position: -215px 0px;
+}
+
+.icon-slider{
+  background-image: url("images/menu-icon.png");
+  background-position: -215px -85px;
+}
+
+.icon-textarea{
+  background-image: url("images/menu-icon.png");
+  background-position: -215px -170px;
+}
+
+.icon-checkbox{
+  background-image: url("images/menu-icon.png");
+  background-position: -215px -255px;
+}
+
+.icon-radio{
+  background-image: url("images/menu-icon.png");
+  background-position: -215px -350px;
+}
+
+.icon-select{
+  background-image: url("images/menu-icon.png");
+  background-position: -215px -435px;
+}
+
+#header{
+  height: 50px;
+}
+
+#content{
+  
+    /*z-index: 10;
+    height: 100%;
+    margin: 0 auto;
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+    overflow-y: scroll;
+    overflow-x: hidden;*/
 }
