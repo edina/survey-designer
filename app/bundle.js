@@ -19,15 +19,12 @@ require('jquery-ui/draggable');
 require('jquery-ui/droppable');
 require('jquery-ui/sortable');
 
-console.log('xxx')
-
 module.exports = function DragDropper() {
-    var $draggable = $("#dragme button"),
-        $droppable = $(".mobile-content");
-    
+    var draggable = "#dragme li",
+        droppable = ".mobile-content";
+
     this.enableDrag = function() {
-        console.log('enable drag initialized')
-        $draggable.draggable({
+        $(draggable).draggable({
             appendTo: "body",
             helper: "clone",
             iframeFix: true,
@@ -38,7 +35,7 @@ module.exports = function DragDropper() {
     }
 
     this.enableDrop = function() {
-        $droppable.droppable({
+        $(droppable).droppable({
             activeClass: "ui-state-default",
             hoverClass: "ui-state-hover",
             accept: ":not(.ui-sortable-helper)",
@@ -55,7 +52,7 @@ module.exports = function DragDropper() {
     }
 
     this.enableSorting = function() {
-        $droppable.sortable({items: "div.fieldcontain", handle: '.handle', change: function(event, ui){
+        $(droppable).sortable({items: "div.fieldcontain", handle: '.handle', change: function(event, ui){
             console.log('enable sorting')
             //bformer.updateSyncStatus(false);
         }});
@@ -96,10 +93,8 @@ return __p;
 var $                   = require('jquery'),
     Backbone            = require('backbone'),
     template            = require("../templates/home.html"),
-    DragDropper         = require("../js/dragdrop");
-
-console.log('skata')
-    var dragdropper         = new DragDropper();
+    DragDropper         = require("../js/dragdrop"),
+    dragdropper         = new DragDropper();
 
 Backbone.$ = $;
 
@@ -114,6 +109,7 @@ module.exports = Backbone.View.extend({
         this.$el.html(template);
         dragdropper.enableDrag();
         dragdropper.enableDrop();
+        dragdropper.enableSorting();
         return this;
     }
 

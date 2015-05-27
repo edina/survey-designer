@@ -33,6 +33,14 @@ body {
   border: 1px solid #a3a3a3;
 }
 
+#dragme{
+  position: absolute;
+  padding-left:0px;
+}
+#dragme li{
+  list-style-type: none;
+}
+
 /*** menu ***/
 .menu-icon{
   width: 40px;

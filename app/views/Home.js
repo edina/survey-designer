@@ -1,10 +1,8 @@
 var $                   = require('jquery'),
     Backbone            = require('backbone'),
     template            = require("../templates/home.html"),
-    DragDropper         = require("../js/dragdrop");
-
-console.log('skata')
-    var dragdropper         = new DragDropper();
+    DragDropper         = require("../js/dragdrop"),
+    dragdropper         = new DragDropper();
 
 Backbone.$ = $;
 
@@ -19,6 +17,7 @@ module.exports = Backbone.View.extend({
         this.$el.html(template);
         dragdropper.enableDrag();
         dragdropper.enableDrop();
+        dragdropper.enableSorting();
         return this;
     }
 
