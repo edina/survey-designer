@@ -50,9 +50,8 @@
   },
   "jspm": {
     "directories": {
-      "packages": "app/jspm_packages"
+      "baseURL": "app"
     },
-    "configFile": "app/config.js",
     "dependencies": {
       "backbone": "npm:backbone@^1.2.0",
       "bootstrap": "github:twbs/bootstrap@^3.3.4",
