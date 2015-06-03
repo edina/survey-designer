@@ -3,7 +3,7 @@ import { SurveyView } from './views/Survey';
 import { MenuView } from './views/Menu';
 
 
-export class Router extends Backbone.Router {
+export class SurveyDesigner extends Backbone.Router {
 
   constructor () {
     super();
