@@ -1,7 +1,7 @@
 {
     "camelcase": true,
     "browser": true,
-    "globalstrict": true,
+    "esnext": true,
     "globals": {
         "console": false,
         "define": false,
