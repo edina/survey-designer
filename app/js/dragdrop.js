@@ -1,15 +1,17 @@
-var $ = require('jquery');
+import $ from 'jquery';
+import draggable from 'jquery-ui';
+import droppable from 'jquery-ui';
+import sortable from 'jquery-ui';
 
-require('jquery-ui/draggable');
-require('jquery-ui/droppable');
-require('jquery-ui/sortable');
+class DragDropper {
+    constructor (){
+        //super();
+        this.draggable = "#dragme li";
+        this.droppable = ".mobile-content";
+    }
 
-module.exports = function DragDropper() {
-    var draggable = "#dragme li",
-        droppable = ".mobile-content";
-
-    this.enableDrag = function() {
-        $(draggable).draggable({
+    enableDrag() {
+        $(this.draggable).draggable({
             appendTo: "body",
             helper: "clone",
             iframeFix: true,
@@ -19,8 +21,8 @@ module.exports = function DragDropper() {
         });
     }
 
-    this.enableDrop = function() {
-        $(droppable).droppable({
+    enableDrop() {
+        $(this.droppable).droppable({
             activeClass: "ui-state-default",
             hoverClass: "ui-state-hover",
             accept: ":not(.ui-sortable-helper)",
@@ -36,10 +38,12 @@ module.exports = function DragDropper() {
         });
     }
 
-    this.enableSorting = function() {
-        $(droppable).sortable({items: "div.fieldcontain", handle: '.handle', change: function(event, ui){
+    enableSorting() {
+        $(this.droppable).sortable({items: "div.fieldcontain", handle: '.handle', change: function(event, ui){
             console.log('enable sorting')
             //bformer.updateSyncStatus(false);
         }});
     }
 }
+
+export default DragDropper;

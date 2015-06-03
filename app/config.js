@@ -14,6 +14,7 @@ System.config({
     "i18next": "npm:i18next@1.9.0",
     "jquery": "github:components/jquery@2.1.4",
     "jquery-ui": "github:components/jqueryui@1.11.4",
+    "pcapi": "npm:pcapi@0.0.7",
     "traceur": "github:jmcriffey/bower-traceur@0.0.88",
     "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88",
     "underscore": "npm:underscore@1.8.3",
@@ -193,6 +194,9 @@ System.config({
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
+    "npm:jquery@1.11.2": {
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
     "npm:json5@0.2.0": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
@@ -228,6 +232,11 @@ System.config({
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+    },
+    "npm:pcapi@0.0.7": {
+      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+      "jquery": "npm:jquery@1.11.2",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
     "npm:public-encrypt@2.0.1": {

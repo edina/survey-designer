@@ -1,6 +1,6 @@
 import Backbone from 'backbone';
 import _ from 'underscore';
-import DragDropper from 'js/dragdropes6';
+import DragDropper from 'js/dragdrop';
 
 export class MenuView extends Backbone.View {
 

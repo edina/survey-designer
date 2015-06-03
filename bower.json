@@ -20,6 +20,7 @@
     "jquery-ui": "~1.11.4",
     "i18next": "~1.8.0",
     "underscore": "~1.8.3",
-    "backbone": "~1.2.0"
+    "backbone": "~1.2.0",
+    "pcapi": "~0.0.7"
   }
 }

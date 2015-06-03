@@ -1,5 +1,5 @@
 import Backbone from 'backbone';
-import { HomeView } from './views/Home';
+import { SurveyView } from './views/Survey';
 import { MenuView } from './views/Menu';
 
 
@@ -8,14 +8,14 @@ export class Router extends Backbone.Router {
   constructor () {
     super();
     this.routes = {
-      '': 'home'
+      'surveys': 'survey'
     };
     this._bindRoutes();
   }
 
-  home () {
-    console.log('Route#home');
-    new HomeView();
+  survey () {
+    console.log('Route#survey');
+    new SurveyView();
     new MenuView();
   }
 }
