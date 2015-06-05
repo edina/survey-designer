@@ -9,7 +9,7 @@ export class SurveyRouter extends Backbone.Router {
   constructor () {
     super();
     this.routes = {
-      'surveys': 'survey'
+      'survey-designer': 'survey'
     };
     this._bindRoutes();
   }

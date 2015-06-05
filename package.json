@@ -7,9 +7,7 @@
     "lint": "node_modules/jshint/bin/jshint src/www/js/**.js",
     "release": "npm run lint && node_modules/release-it/bin/release.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node_modules/beefy/bin/beefy app/app.js:app/bundle.js --live --cwd app -- -t [node-underscorify --extensions html]",
-    "bundle": "browserify -t [node-underscorify --extensions html] app/app.js -o app/bundle.js",
-    "watch": "watchify -t [node-underscorify --extensions html] app/app.js -o app/bundle.js"
+    "run-server": "node_modules/beefy/bin/beefy --cwd app"
   },
   "repository": {
     "type": "git",
