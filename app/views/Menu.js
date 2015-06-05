@@ -6,7 +6,7 @@ import '../styles/sidebar.css!';
 export class MenuView extends Backbone.View {
 
     initialize () {
-        this.$el = $("#wrapper");
+        this.$el = $("body");
         this.render();
     }
 
@@ -26,7 +26,7 @@ export class MenuView extends Backbone.View {
             "gps",
             "dtree"
         ];
-        this.$el.html(menuTemplate(options));
+        this.$el.append(menuTemplate(options));
         var dragdropper = new DragDropper();
         dragdropper.enableDrag();
 
