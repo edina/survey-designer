@@ -4,7 +4,7 @@ import { MenuView } from './views/Menu';
 import './styles/app.css!';
 
 
-export class SurveyDesigner extends Backbone.Router {
+export class SurveyRouter extends Backbone.Router {
 
   constructor () {
     super();
