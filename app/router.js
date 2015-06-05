@@ -1,7 +1,7 @@
 import Backbone from 'backbone';
 import { SurveyView } from './views/Survey';
 import { MenuView } from './views/Menu';
-import 'styles/app.css!';
+import './styles/app.css!';
 
 
 export class SurveyDesigner extends Backbone.Router {
