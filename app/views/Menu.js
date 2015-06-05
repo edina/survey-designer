@@ -1,6 +1,7 @@
 import Backbone from 'backbone';
-import _ from 'underscore';
-import DragDropper from 'js/dragdrop';
+import DragDropper from '../dragdrop';
+import menuTemplate from '../templates/menu.hbs!';
+import '../styles/sidebar.css!';
 
 export class MenuView extends Backbone.View {
 
@@ -11,7 +12,7 @@ export class MenuView extends Backbone.View {
 
     render () {
         //this.$el.html(template);
-        var optionsData = {"options": [
+        var options = [
             "text",
             "range",
             "textarea",
@@ -24,16 +25,11 @@ export class MenuView extends Backbone.View {
             "los",
             "gps",
             "dtree"
-        ]
-        };
-        $.ajax({
-            url: '/templates/menu.html'
-        }).done($.proxy(function(data){
-            this.$el.html(_.template(data)(optionsData));
-            var dragdropper = new DragDropper();
-            dragdropper.enableDrag();
-        }, this));
-        
+        ];
+        this.$el.html(menuTemplate(options));
+        var dragdropper = new DragDropper();
+        dragdropper.enableDrag();
+
         return this;
     }
 

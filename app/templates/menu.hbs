@@ -1,0 +1,16 @@
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <div class="btn-toolbar" role="toolbar">
+      <div id="dragme">
+        {{#each this}}
+          <li>
+            <a href="javascript:void(0);" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="{{this}}">
+              <span class="glyphicon menu-icon icon-{{this}}" aria-hidden="true"></span>
+            </a>
+          </li>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>

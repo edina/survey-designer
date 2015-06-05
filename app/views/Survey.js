@@ -1,6 +1,5 @@
 import Backbone from 'backbone';
-import _ from 'underscore';
-import DragDropper from 'js/dragdrop';
+import DragDropper from '../dragdrop';
 
 export class SurveyView extends Backbone.View {
 

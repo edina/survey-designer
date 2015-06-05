@@ -26,8 +26,7 @@
     "url": "https://github.com/edina/survey-designer/issues"
   },
   "homepage": "https://github.com/edina/survey-designer",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "beefy": "^2.1.5",
     "jshint": "^2.7.0",
@@ -41,6 +40,9 @@
     "dependencies": {
       "backbone": "npm:backbone@^1.2.0",
       "bootstrap": "github:twbs/bootstrap@^3.3.4",
+      "css": "github:systemjs/plugin-css@^0.1.12",
+      "handlebars": "github:components/handlebars.js@^3.0.3",
+      "hbs": "github:davis/plugin-hbs@master",
       "i18next": "npm:i18next@^1.9.0",
       "jquery": "github:components/jquery@^2.1.4",
       "jquery-ui": "github:components/jqueryui@^1.11.4",
