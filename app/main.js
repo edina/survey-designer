@@ -1,8 +1,8 @@
 import Backbone from 'backbone';
-import {SurveyDesigner} from './router';
+import {SurveyRouter} from './router';
 
 $(() => {
     // *Finally, we kick things off by creating the **App**.*
-    new SurveyDesigner();
+    new SurveyRouter();
     Backbone.history.start();
 });
