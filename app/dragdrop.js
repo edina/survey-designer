@@ -2,12 +2,13 @@ import $ from 'jquery';
 import draggable from 'jquery-ui';
 import droppable from 'jquery-ui';
 import sortable from 'jquery-ui';
+import FieldGenerator from './field_generate'
 
 class DragDropper {
-    constructor (){
+    constructor (myClass){
         //super();
         this.draggable = "#dragme li";
-        this.droppable = ".mobile-content";
+        this.droppable = "."+myClass;
     }
 
     enableDrag() {
@@ -26,20 +27,16 @@ class DragDropper {
             activeClass: "ui-state-default",
             hoverClass: "ui-state-hover",
             accept: ":not(.ui-sortable-helper)",
-            drop: function(event, ui){
-                console.log("drop me here")
-                //var action = new Action(choices, bformer.id, bformer.getElements());
-                //action.addElement(ui.draggable.children().text());
-                //bformer.updateSyncStatus(false);
-                //if($("#iframe").length > 0){
-                //    $("#iframe").remove();
-                //}
-            }
+            drop: $.proxy(function(event, ui){
+                let fieldGenerator = new FieldGenerator(this.droppable);
+                fieldGenerator.render(ui.draggable.children().attr("title"));
+                $(this.droppable).css("background-image", "none");
+            }, this)
         });
     }
 
     enableSorting() {
-        $(this.droppable).sortable({items: "div.fieldcontain", handle: '.handle', change: function(event, ui){
+        $(this.droppable).sortable({items: ".fieldcontain", handle: '.sortit', change: function(event, ui){
             console.log('enable sorting')
             //bformer.updateSyncStatus(false);
         }});

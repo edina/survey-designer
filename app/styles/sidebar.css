@@ -96,6 +96,29 @@
     background: none;
 }
 
+/** fieldset */
+.mobile-content {overflow-y: scroll;}
+.mobile-content fieldset{
+    border: 2px solid #000000;
+    border-style: solid;
+    padding: 10px;
+    position: relative;
+}
+
+.mobile-content legend{
+    width: auto;
+}
+.mobile-content label{
+    width: 100%;
+    font-size: 10px;
+    color: #B7B7B7;
+}
+.fieldcontain .fieldButtons{
+    position: absolute;
+    right: 10px;
+    top: 0px;
+}
+
 @media(min-width:768px) {
     #wrapper {
         padding-left: 100px;
