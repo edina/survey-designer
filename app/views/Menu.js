@@ -19,11 +19,12 @@ export class MenuView extends Backbone.View {
             "checkbox",
             "radio",
             "select",
-            "photo",
+            "image",
+            "image-los",
             "audio",
             "warning",
-            "los",
             "gps",
+            "help",
             "dtree"
         ];
         this.$el.append(menuTemplate(options));

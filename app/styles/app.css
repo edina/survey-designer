@@ -43,38 +43,72 @@ body {
 
 /*** menu ***/
 .menu-icon{
-  width: 40px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
+  zoom:0.5;
+  padding: 5px;
+  -moz-transform:scale(0.5);
+  -moz-transform-origin: 0 0;
 }
 
 .icon-text{
   background-image: url("images/menu-icon.png");
-  background-position: -215px 0px;
+  background-position: -235px 15px;
 }
 
-.icon-slider{
+.icon-range{
   background-image: url("images/menu-icon.png");
-  background-position: -215px -85px;
+  background-position: -230px -80px;
 }
 
 .icon-textarea{
   background-image: url("images/menu-icon.png");
-  background-position: -215px -170px;
+  background-position: -235px -185px;
 }
 
 .icon-checkbox{
   background-image: url("images/menu-icon.png");
-  background-position: -215px -255px;
+  background-position: -235px -285px;
 }
 
 .icon-radio{
   background-image: url("images/menu-icon.png");
-  background-position: -215px -350px;
+  background-position: -235px -385px;
 }
 
 .icon-select{
   background-image: url("images/menu-icon.png");
-  background-position: -215px -435px;
+  background-position: -235px -485px;
+}
+
+.icon-image{
+  background-image: url("images/menu-icon.png");
+  background-position: -235px -585px;
+}
+
+.icon-audio{
+  background-image: url("images/menu-icon.png");
+  background-position: -235px -805px;
+}
+
+.icon-image-los{
+  background-image: url("images/menu-icon.png");
+  background-position: -227px -696px;
+}
+
+.icon-warning{
+  background-image: url("images/menu-icon.png");
+  background-position: -235px -905px;
+}
+
+.icon-help{
+  background-image: url("images/menu-icon.png");
+  background-position: -235px -1005px;
+}
+
+.icon-dtree{
+  background-image: url("images/menu-icon.png");
+  background-position: -235px -1105px;
 }
 
 #header{
