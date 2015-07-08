@@ -20,7 +20,6 @@ export class MenuView extends Backbone.View {
             "radio",
             "select",
             "image",
-            "image-los",
             "audio",
             "warning",
             "gps",
