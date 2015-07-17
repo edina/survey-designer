@@ -16,6 +16,7 @@ export class SurveyRouter extends Backbone.Router {
 
   survey () {
     console.log('Route#survey');
+    //document.title = localeGB.PAGE_TITLE;
     new SurveyView();
     new MenuView();
   }
