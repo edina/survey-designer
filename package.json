@@ -41,14 +41,11 @@
       "css": "github:systemjs/plugin-css@^0.1.12",
       "handlebars": "github:components/handlebars.js@^3.0.3",
       "hbs": "github:davis/plugin-hbs@master",
-      "i18next": "npm:i18next@^1.9.0",
+      "i18next-client": "npm:i18next-client@^1.10.2",
       "jquery": "github:components/jquery@^2.1.4",
       "jquery-ui": "github:components/jqueryui@^1.11.4",
       "json": "github:systemjs/plugin-json@^0.1.0",
-      "pcapi": "npm:pcapi@^0.0.7",
-      "polyglot": "npm:polyglot@^0.5.0",
-      "underscore": "npm:underscore@^1.8.3",
-      "x-editable": "npm:x-editable@^1.5.1"
+      "pcapi": "npm:pcapi@^0.0.7"
     },
     "devDependencies": {
       "traceur": "github:jmcriffey/bower-traceur@0.0.88",

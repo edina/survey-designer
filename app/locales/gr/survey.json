@@ -1,0 +1,17 @@
+{
+    "create-survey": "Δημιουργία ερωτηματολογίου",
+    "text": {
+        "name": "κείμενο",
+        "field-title": "Κείμενο",
+        "label-title": "Ετικέτα πεδίου",
+        "label": "Αυτή είναι μια ετικέτα",
+        "prefix-title": "Πρόθεμα",
+        "prefix": "'Ορισε ένα πρόθεμα",
+        "default-text-title": "Προεπιλεγμένο κείμενο",
+        "default-text": "Τοποθέτησε εδώ το προεπιλεγμένο κείμενο",
+        "max-chars-title": "Άνω όριο χαρακτήρων",
+        "max-chars": 256,
+        "required": "Υποχρεωτικό",
+        "persistent": "Persistent"
+    }
+}

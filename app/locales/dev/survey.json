@@ -1,0 +1,17 @@
+{
+    "create-survey": "Create Survey",
+    "text": {
+        "name": "text",
+        "field-title": "Text field",
+        "label-title": "Field label",
+        "label": "This is a label",
+        "prefix-title": "Prefix",
+        "prefix": "Set a prefix",
+        "default-text-title": "Default text",
+        "default-text": "Place default text here (if any)",
+        "max-chars-title": "Max characters",
+        "max-chars": 256,
+        "required": "Required",
+        "persistent": "Persistent"
+    }
+}
