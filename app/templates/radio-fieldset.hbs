@@ -1,13 +1,14 @@
 <fieldset class="fieldcontain fieldcontain-radio">
-  <legend>Radio field</legend>
-  <label for="label">Field label</label>
-  <input type="text" name="label" value="This is a label">
-  <input type="checkbox" name="required" checked="checked">Required
+  <legend>{{t "radio.field-title"}}</legend>
+  <label for="label">{{t "radio.label-title"}}</label>
+  <input type="text" name="label" value='{{t "radio.label"}}'>
+  <input type="checkbox" name="required" checked="checked">{{t "radio.required"}}
   <div class="radios">
     <div class="form-inline">
-      <input type="text" value="radio" name="radio-1-1" id="radio-1-1" class="radio">
-      <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="Remove radio"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+      <input type="text" value="{{t "radio.text"}}" name="radio-1-1" id="radio-1-1" class="radio">
+      <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="{{t "radio.remove"}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+      <button type="file" class="btn btn-default btn-sm upload-radio" aria-label="{{t "radio.upload"}}"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
     </div>
   </div>
-  <button type="button" class="btn btn-default btn-sm add-radio" aria-label="Add checkbox"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+  <button type="button" class="btn btn-default btn-sm add-radio" aria-label="{{t "radio.add-radio"}}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
 </fieldset>

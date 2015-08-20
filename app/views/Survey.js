@@ -1,5 +1,6 @@
 import Backbone from 'backbone';
 import DragDropper from '../dragdrop';
+import FieldGenerator from '../field_generate'
 
 export class SurveyView extends Backbone.View {
 
@@ -14,6 +15,8 @@ export class SurveyView extends Backbone.View {
         let dragdropper = new DragDropper(this.renderEl);
         dragdropper.enableDrop();
         dragdropper.enableSorting();
+        let fieldGenerator = new FieldGenerator("."+this.renderEl);
+        fieldGenerator.render('general');
         return this;
     }
 

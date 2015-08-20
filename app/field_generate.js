@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import generalTemplate from '../templates/general-fieldset.hbs!';
 import textTemplate from '../templates/text-fieldset.hbs!';
 import textareaTemplate from '../templates/textarea-fieldset.hbs!';
 import rangeTemplate from '../templates/range-fieldset.hbs!';
@@ -7,8 +8,11 @@ import radioTemplate from '../templates/radio-fieldset.hbs!';
 import selectTemplate from '../templates/select-fieldset.hbs!';
 import imageTemplate from '../templates/image-fieldset.hbs!';
 import audioTemplate from '../templates/audio-fieldset.hbs!';
+import gpsTemplate from '../templates/gps-fieldset.hbs!';
 import warningTemplate from '../templates/warning-fieldset.hbs!';
+import dtreeTemplate from '../templates/dtree-fieldset.hbs!';
 import * as utils from './utils';
+import * from pcapi;
 
 class FieldGenerator {
     constructor (el){
@@ -29,6 +33,10 @@ class FieldGenerator {
     createField(type) {
         var result;
         switch (type) {
+            case 'general':
+                return generalTemplate();
+                return '';
+                break;
             case 'text':
                 return textTemplate();
                 break;
@@ -47,6 +55,12 @@ class FieldGenerator {
             case 'select':
                 return selectTemplate();
                 break;
+            case 'dtree':
+                if(this.$el.find('.fieldcontain-dtree').length === 0){
+                    return dtreeTemplate();
+                }
+                return '';
+                break;
             case 'image':
                 if(this.$el.find('.fieldcontain-image').length === 0){
                     return imageTemplate();
@@ -56,6 +70,12 @@ class FieldGenerator {
             case 'audio':
                 if(this.$el.find('.fieldcontain-audio').length === 0){
                     return audioTemplate();
+                }
+                return '';
+                break;
+            case 'gps':
+                if(this.$el.find('.fieldcontain-gps').length === 0){
+                    return gpsTemplate();
                 }
                 return '';
                 break;
@@ -70,20 +90,23 @@ class FieldGenerator {
     };
 
     addFieldButtons(type) {
-        var fields = this.$el.find('.fieldcontain-'+type);
-        var id = "fieldcontain-"+type+"-"+(fields.length);
-        $(fields[fields.length - 1]).attr("id", id);
-        var buttons = '<div class="fieldButtons">' +
+        if(type !== "general"){
+            var fields = this.$el.find('.fieldcontain-'+type);
+            var id = "fieldcontain-"+type+"-"+(fields.length);
+            $(fields[fields.length - 1]).attr("id", id);
+            var buttons = '<div class="fieldButtons">' +
                       '<button type="button" class="btn btn-default remove-field" aria-label="Remove field"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'+
                       '<div class="btn btn-default sortit" aria-label="Sort field"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span></div>'+
                       '</div>';
-        $("#"+id).append(buttons);
+            $("#"+id).append(buttons);
+        }
     };
 
     enableActions() {
         this.enableCheckboxEvents();
         this.enableRadioEvents();
         this.enableSelectEvents();
+        this.enabledTreeEvents();
         this.enableRemoveField();
     };
 
@@ -104,9 +127,11 @@ class FieldGenerator {
             var fieldcontainId = utils.numberFromId($(this).closest('.fieldcontain-'+type).prop("id"));
             var finds = $("#fieldcontain-"+type+"-"+fieldcontainId).find('.'+type);
 
+            var value = i18n.t(type+".text");
             var nextElement = '<div class="form-inline">'+
-                               '<input type="text" value="'+type+'" name="'+type+'-'+fieldcontainId+'" id="checkbox-'+fieldcontainId+'" class="'+type+'">'+
+                               '<input type="text" value="'+value+'" name="'+type+'-'+fieldcontainId+'" id="checkbox-'+fieldcontainId+'" class="'+type+'">'+
                                '<button type="button" class="btn btn-default btn-sm remove-'+type+'" aria-label="Remove '+type+'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'+
+                               '<button type="file" class="btn btn-default btn-sm upload-'+type+'" aria-label="Remove '+type+'"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>'+
                                '</div>';
             $(this).prev().append(nextElement);
             var i = 1;
@@ -118,6 +143,24 @@ class FieldGenerator {
         });
         this.$el.off("click", ".remove-"+type);
         this.$el.on("click", ".remove-"+type, function(){
+            $(this).closest('.form-inline').remove();
+        });
+    };
+
+    enabledTreeEvents() {
+        $('.add-dtree').click(function(){
+            $('.btn-file :file').on('fileselect', $.proxy(function(event, numFiles, label) {
+                console.log(numFiles);
+                console.log(label);
+                var nextElement = '<div class="form-inline">'+
+                            '<input type="text" value="'+label+'" name="dtree" class="dtree">'+
+                            '<button type="button" class="btn btn-default btn-sm remove-dtree" aria-label="'+i18n.t("dtree.remove")+'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'+
+                        '</div>';
+                $(this).prev().append(nextElement);
+            }, this));
+        });
+        this.$el.off("click", ".remove-dtree");
+        this.$el.on("click", ".remove-dtree", function(){
             $(this).closest('.form-inline').remove();
         });
     };

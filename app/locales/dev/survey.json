@@ -1,5 +1,20 @@
 {
+    "title": "Survey Designer",
     "create-survey": "Create Survey",
+    "general": {
+        "name": "general",
+        "field-title": "General",
+        "label-title": "Title of the survey",
+        "label": "This is a title",
+        "point-value": "point",
+        "point-label": "point",
+        "line-value": "line",
+        "line-label": "line",
+        "polygon-value": "polygon",
+        "polygon-label": "polygon",
+        "box-value": "box",
+        "box-label": "box"
+    },
     "text": {
         "name": "text",
         "field-title": "Text field",
@@ -13,5 +28,105 @@
         "max-chars": 256,
         "required": "Required",
         "persistent": "Persistent"
+    },
+    "textarea": {
+        "name": "textarea",
+        "field-title": "Textarea field",
+        "label-title": "Field label",
+        "label": "This is a label",
+        "default-text-title": "Default text",
+        "default-text": "Place default text here (if any)",
+        "max-chars-title": "Max characters",
+        "max-chars": 256,
+        "required": "Required"
+    },
+    "range":{
+        "name": "text",
+        "field-title": "Range field",
+        "label-title": "Field label",
+        "label": "This is a label",
+        "default-text-title": "Default text",
+        "default-text": "Place default text here (if any)",
+        "step-label": "Step",
+        "step": 1,
+        "required": "Required",
+        "min-label": "Min value",
+        "min": 1,
+        "max-label": "Max value",
+        "max": 10
+    },
+    "checkbox": {
+        "name": "checkbox",
+        "field-title": "Checkbox field",
+        "label-title": "Field label",
+        "label": "This is a label",
+        "required": "Required",
+        "text": "checkbox",
+        "remove": "Remove",
+        "upload": "Upload image",
+        "add-checkbox": "Add checkbox"
+    },
+    "radio": {
+        "name": "radio",
+        "field-title": "Radio field",
+        "label-title": "Field label",
+        "label": "This is a label",
+        "required": "Required",
+        "text": "Radio",
+        "remove": "Remove",
+        "upload": "Upload image",
+        "add-checkbox": "Add radio"
+    },
+    "select": {
+        "name": "select",
+        "field-title": "Select field",
+        "label-title": "Field label",
+        "label": "This is a label",
+        "required": "Required",
+        "text": "option",
+        "remove": "Remove",
+        "upload": "Upload image",
+        "add-select": "Add option"
+    },
+    "image": {
+        "name": "image",
+        "field-title": "Image field",
+        "label-title": "Field label",
+        "label": "This is a label",
+        "required": "Required",
+        "multiple-images": "Multiple images",
+        "los": "Line of Sight"
+    },
+    "audio": {
+        "name": "audio",
+        "field-title": "Audio field",
+        "label-title": "Field label",
+        "label": "This is a label",
+        "required": "Required"
+    },
+    "gps": {
+        "name": "GPS",
+        "field-title": "GPS field",
+        "label-title": "Field label",
+        "label": "This is a label",
+        "required": "Required",
+        "background": "To be working on the background"
+    },
+    "warning": {
+        "name": "warning",
+        "field-title": "Warning",
+        "label-title": "Field label",
+        "label": "This is a label",
+        "label-message": "Message",
+        "message": "Warning message goes here"
+    },
+    "dtree": {
+        "name": "dtree",
+        "field-title": "Decision tree",
+        "label-title": "Field label",
+        "label": "This is a label",
+        "remove": "Remove",
+        "upload": "Upload decision tree",
+        "add-dtree": "Add option"
     }
 }
