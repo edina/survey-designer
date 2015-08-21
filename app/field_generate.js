@@ -12,7 +12,6 @@ import gpsTemplate from '../templates/gps-fieldset.hbs!';
 import warningTemplate from '../templates/warning-fieldset.hbs!';
 import dtreeTemplate from '../templates/dtree-fieldset.hbs!';
 import * as utils from './utils';
-import * from pcapi;
 
 class FieldGenerator {
     constructor (el){

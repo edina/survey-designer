@@ -23,10 +23,10 @@
     position: fixed;
     left: 100px;
     top: 100px;
-    width: 0;
-    height: 500px;
+    width: 56px;
+    height: 650px;
     margin-left: -100px;
-    overflow-y: auto;
+    overflow-y: hidden;
     background: #ADA1A1;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
@@ -128,9 +128,9 @@
         padding-left: 0;
     }
 
-    #sidebar-wrapper {
+    /*#sidebar-wrapper {
         width: 100px;
-    }
+    }*/
 
     #wrapper.toggled #sidebar-wrapper {
         width: 0;

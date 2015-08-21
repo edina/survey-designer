@@ -1,6 +1,12 @@
 {
     "title": "Survey Designer",
-    "create-survey": "Create Survey",
+    "menu": {
+        "create-survey": "Create Survey",
+        "login": "login",
+        "logout": "logout",
+        "save": "save",
+        "delete": "delete"
+    },
     "general": {
         "name": "general",
         "field-title": "General",

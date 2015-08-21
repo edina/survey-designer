@@ -45,7 +45,7 @@
       "jquery": "github:components/jquery@^2.1.4",
       "jquery-ui": "github:components/jqueryui@^1.11.4",
       "json": "github:systemjs/plugin-json@^0.1.0",
-      "pcapi": "npm:pcapi@^0.0.7"
+      "pcapi": "npm:pcapi@0.0.9"
     },
     "devDependencies": {
       "traceur": "github:jmcriffey/bower-traceur@0.0.88",

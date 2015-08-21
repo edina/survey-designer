@@ -31,4 +31,29 @@ function getParams(){
     return query_string;
 }
 
-export {typeFromId, numberFromId, getParams};
+function makeAlertModal(id, msg){
+    var body = [];
+    body.push('<div class="alert">');
+    body.push(msg);
+    body.push('</div>');
+    return makeModalWindow(id, 'Feedback', body);
+}
+
+function makeModalWindow(id, title, body, footer){
+    var form = new Array();
+    form.push('<div class="modal fade" id="'+id+'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">');
+    form.push('<div class="modal-dialog" role="document">');
+    form.push('<div class="modal-content">');
+    form.push('<div class="modal-header">');
+    form.push('<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+    form.push('<h4 class="modal-title" id="myModalLabel">'+title+'</h4>');
+    form.push('</div>');
+    form.push('<div class="modal-body">')
+    form = form.concat(body);
+    form.push('</div>');
+    form = form.concat(footer);
+    form.push('</div></div></div>');
+    return form;
+}
+
+export {typeFromId, numberFromId, getParams, makeAlertModal, makeModalWindow};
