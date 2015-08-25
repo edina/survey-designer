@@ -46,19 +46,22 @@ class FieldGenerator {
                 return rangeTemplate();
                 break;
             case 'checkbox':
-                return checkboxTemplate();
+                var fieldContainId = this.$el.find('.fieldcontain-checkbox').length+1;
+                return checkboxTemplate({"fieldId": fieldContainId});
                 break;
             case 'radio':
-                return radioTemplate();
+                var fieldContainId = this.$el.find('.fieldcontain-radio').length+1;
+                return radioTemplate({"fieldId": fieldContainId});
                 break;
             case 'select':
-                return selectTemplate();
+                var fieldContainId = this.$el.find('.fieldcontain-select').length+1;
+                return selectTemplate({"fieldId": fieldContainId});
                 break;
             case 'dtree':
-                if(this.$el.find('.fieldcontain-dtree').length === 0){
+                //if(this.$el.find('.fieldcontain-dtree').length === 0){
                     return dtreeTemplate();
-                }
-                return '';
+                //}
+                //return '';
                 break;
             case 'image':
                 if(this.$el.find('.fieldcontain-image').length === 0){
@@ -128,7 +131,7 @@ class FieldGenerator {
 
             var value = i18n.t(type+".text");
             var nextElement = '<div class="form-inline">'+
-                               '<input type="text" value="'+value+'" name="'+type+'-'+fieldcontainId+'" id="checkbox-'+fieldcontainId+'" class="'+type+'">'+
+                               '<input type="text" value="'+value+'" name="fieldcontain-'+type+'-'+fieldcontainId+'" id="checkbox-'+fieldcontainId+'" class="'+type+'">'+
                                '<button type="button" class="btn btn-default btn-sm remove-'+type+'" aria-label="Remove '+type+'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'+
                                '<button type="file" class="btn btn-default btn-sm upload-'+type+'" aria-label="Remove '+type+'"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>'+
                                '</div>';
@@ -136,7 +139,7 @@ class FieldGenerator {
             var i = 1;
             $("#fieldcontain-"+type+"-"+fieldcontainId).find('.'+type).each(function(){
                 $(this).prop("id", 'fieldcontain-'+type+'-'+fieldcontainId+'-'+i);
-                $(this).prop("name", 'fieldcontain-'+type+'-'+fieldcontainId+'-'+i);
+                //$(this).prop("name", 'fieldcontain-'+type+'-'+fieldcontainId+'-'+i);
                 i++;
             })
         });
@@ -147,21 +150,18 @@ class FieldGenerator {
     };
 
     enabledTreeEvents() {
-        $('.add-dtree').click(function(){
-            $('.btn-file :file').on('fileselect', $.proxy(function(event, numFiles, label) {
-                console.log(numFiles);
-                console.log(label);
-                var nextElement = '<div class="form-inline">'+
-                            '<input type="text" value="'+label+'" name="dtree" class="dtree">'+
-                            '<button type="button" class="btn btn-default btn-sm remove-dtree" aria-label="'+i18n.t("dtree.remove")+'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'+
-                        '</div>';
-                $(this).prev().append(nextElement);
-            }, this));
-        });
-        this.$el.off("click", ".remove-dtree");
-        this.$el.on("click", ".remove-dtree", function(){
-            $(this).closest('.form-inline').remove();
-        });
+        this.uploadFile('.add-dtree', '.upload-dtree');
+        //$('.add-dtree').click(function(){
+        //    $('.btn-file :file').on('fileselect', $.proxy(function(event, numFiles, label) {
+        //        console.log(numFiles);
+        //        console.log(label);
+        //        var nextElement = '<div class="form-inline">'+
+        //                    '<input type="text" value="'+label+'" name="dtree" class="dtree">'+
+        //                    '<button type="button" class="btn btn-default btn-sm remove-dtree" aria-label="'+i18n.t("dtree.remove")+'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'+
+        //                '</div>';
+        //        $(this).prev().append(nextElement);
+        //    }, this));
+        //});
     };
 
     enableRemoveField() {
@@ -170,6 +170,63 @@ class FieldGenerator {
             $(this).closest('.fieldcontain').remove();
         });
     };
+
+    uploadFile (browseElement, uploadElement) {
+        var file;
+        $(browseElement).unbind();
+        // Set an event listener on the Choose File field.
+        $(browseElement).bind("change", function(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            // Our file var now holds the selected file
+            file = files[0];
+            $(this).parent().next().append(file.name);
+        });
+
+        $(uploadElement).unbind('click');
+        $(uploadElement).click($.proxy(function(){
+            // TODO: When we migrate to modules get the sid & publicEditor from core
+            var index = this.$el.find('.fieldcontain-dtree').length;
+            var dtreeFname = file.name;
+            if("sid" in utils.getParams()){
+                dtreeFname = utils.getParams().sid + '-' + index + '.json';
+            }
+            var publicEditor = utils.getParams().public === 'true';
+            var options = {
+                "remoteDir": "editors",
+                "path": dtreeFname,
+                "file": file,
+                "contentType": false
+            };
+
+            if(publicEditor){
+                options.urlParams = {
+                    'public': 'true'
+                };
+            }
+
+            pcapi.uploadFile(options).then($.proxy(function(result, data){
+                alert("File was uploaded");
+                console.log(pcapi.buildFSUrl('editors', dtreeFname));
+
+                //$.ajax({
+                //    url: "templates/dtreeTemplate.html",
+                //    dataType: 'html',
+                //    success: function(tmpl){
+                //        var data = {
+                //            "i": index,
+                //            "type": "dtree",
+                //            "title": file.name,
+                //            "dtree": dtreeFname,
+                //            "url": pcapi.buildFSUrl('editors', dtreeFname)
+                //        };
+                //        var template = _.template(tmpl);
+                //        $("#"+target).append(template(data));
+                //    }
+                //});
+                //loading(false);
+            }, this));
+        }, this));
+    }
 
 }
 
