@@ -29,61 +29,59 @@ class FieldGenerator {
         this.enableActions();
     }
 
-    createField(type) {
+    createField(type, data) {
+        data = data || {};
         var result;
         switch (type) {
             case 'general':
-                return generalTemplate();
+                return generalTemplate(data);
                 return '';
                 break;
             case 'text':
-                return textTemplate();
+                return textTemplate(data);
                 break;
             case 'textarea':
-                return textareaTemplate();
+                return textareaTemplate(data);
                 break;
             case 'range':
-                return rangeTemplate();
+                return rangeTemplate(data);
                 break;
             case 'checkbox':
-                var fieldContainId = this.$el.find('.fieldcontain-checkbox').length+1;
-                return checkboxTemplate({"fieldId": fieldContainId});
+                data.fieldId = this.$el.find('.fieldcontain-checkbox').length+1;
+                return checkboxTemplate(data);
                 break;
             case 'radio':
-                var fieldContainId = this.$el.find('.fieldcontain-radio').length+1;
-                return radioTemplate({"fieldId": fieldContainId});
+                data.fieldId = this.$el.find('.fieldcontain-radio').length+1;
+                return radioTemplate(data);
                 break;
             case 'select':
-                var fieldContainId = this.$el.find('.fieldcontain-select').length+1;
-                return selectTemplate({"fieldId": fieldContainId});
+                data.fieldId = this.$el.find('.fieldcontain-select').length+1;
+                return selectTemplate(data);
                 break;
             case 'dtree':
-                //if(this.$el.find('.fieldcontain-dtree').length === 0){
-                    return dtreeTemplate();
-                //}
-                //return '';
+                    return dtreeTemplate(data);
                 break;
             case 'image':
                 if(this.$el.find('.fieldcontain-image').length === 0){
-                    return imageTemplate();
+                    return imageTemplate(data);
                 }
                 return '';
                 break;
             case 'audio':
                 if(this.$el.find('.fieldcontain-audio').length === 0){
-                    return audioTemplate();
+                    return audioTemplate(data);
                 }
                 return '';
                 break;
             case 'gps':
                 if(this.$el.find('.fieldcontain-gps').length === 0){
-                    return gpsTemplate();
+                    return gpsTemplate(data);
                 }
                 return '';
                 break;
             case 'warning':
                 if(this.$el.find('.fieldcontain-warning').length === 0){
-                    return warningTemplate();
+                    return warningTemplate(data);
                 }
                 return '';
                 break;

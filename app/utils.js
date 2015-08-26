@@ -1,14 +1,5 @@
 'use strict';
 
-function typeFromId(id){
-    var s = id.indexOf('-') + 1;
-    return id.substr(s, id.lastIndexOf('-') - s);
-};
-
-function numberFromId(id){
-    return parseInt(id.substring(id.length, id.lastIndexOf('-')+1));
-};
-
 function getParams(){
     var query = window.location.search.substring(1);
     var query_string = {};
@@ -29,6 +20,10 @@ function getParams(){
         }
     }
     return query_string;
+}
+
+function loading(param){
+    $("#loader").toggle(param);
 }
 
 function makeAlertModal(id, msg){
@@ -56,4 +51,13 @@ function makeModalWindow(id, title, body, footer){
     return form;
 }
 
-export {typeFromId, numberFromId, getParams, makeAlertModal, makeModalWindow};
+function numberFromId(id){
+    return parseInt(id.substring(id.length, id.lastIndexOf('-')+1));
+};
+
+function typeFromId(id){
+    var s = id.indexOf('-') + 1;
+    return id.substr(s, id.lastIndexOf('-') - s);
+};
+
+export {getParams, loading, makeAlertModal, makeModalWindow, numberFromId, typeFromId};

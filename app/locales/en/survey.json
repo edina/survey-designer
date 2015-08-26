@@ -5,7 +5,9 @@
         "login": "login",
         "logout": "logout",
         "save": "save",
-        "delete": "delete"
+        "delete": "delete",
+        "editors": "My forms",
+        "editors-btn-msg": "The list of my forms"
     },
     "general": {
         "name": "general",

@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import FieldGenerator from '../field_generate'
 
 class Convertor {
     constructor (myClass){
@@ -40,7 +41,6 @@ class Convertor {
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["placeholder"] = $fieldId.find('input[name="placeholder"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
-                this.form[id]["max-chars"] = $fieldId.find('input[name="max-chars"]').val();
                 break;
             case 'range':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
@@ -71,9 +71,9 @@ class Convertor {
             case 'select':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
-                var options = {};
-                $fieldId.find('input[name="'+id+'"]').each(function(event){
-                    options[$(this).attr("id")] = $(this).val();
+                var options = [];
+                $fieldId.find('option').each(function(event){
+                    options.push($(this).val());
                 });
                 this.form[id]["options"] = options;
                 break;
@@ -105,7 +105,11 @@ class Convertor {
         return '';
     }
 
-    JSONtoHTML () {
+    JSONtoHTML (form) {
+        if(form){
+            this.form = form;
+        }
+        console.log(this.form)
         var html = [];
         //add title
         html.push('<form data-title=\"'+this.form.title+'\" data-ajax=\"false\" novalidate>\n')
@@ -177,7 +181,7 @@ class Convertor {
                     else{
                         html.push('<select id="'+key+'">');
                     }
-                    $.each(value.radios, function(k, v){
+                    $.each(value.options, function(k, v){
                         html.push('<option value="'+v+'">'+v+'</option>');
                     });
                     html.push('</select></fieldset></div>');
@@ -234,6 +238,130 @@ class Convertor {
         html.push('</div>');
         html.push('</form>');
         return html;
+    }
+
+    HTMLtoEDIT (html, title) {
+        var $form = $(html);
+        console.log($form)
+        $form.find(".fieldcontain").each(function(){
+            console.log($(this).attr("id"));
+            var type = $(this).attr("id").split("-")[1];
+            fieldGenerator.render(type);
+        });
+    }
+
+    HTMLtoJSON (html, title) {
+        var $form = $(html);
+        var form = {};
+        form.title = title;
+        form.geoms = ["point"];
+        var geomValues = $form.data("record-geometry");
+        if(geomValues){
+            form.geoms = $form.data("record-geometry").split(",");
+        }
+        $form.find(".fieldcontain").each(function(){
+            var $this = $(this);
+            var id = $this.attr("id");
+            var type = $this.attr("id").split("-")[1];
+            form[id] = {};
+            switch (type) {
+                case 'text':
+                    form[id]["label"] = $this.find('label').text();
+                    var $input = $this.find('input');
+                    form[id]["prefix"] = $input.val();
+                    form[id]["placeholder"] = $input.prop("placeholder");
+                    form[id]["required"] = $input.prop("required");
+                    form[id]["persistent"] = $this.data("persistent-on");
+                    form[id]["max-chars"] = $input.prop("maxlength");
+                    break;
+                case 'textarea':
+                    form[id]["label"] = $this.find('label').text();
+                    var $input = $this.find('textarea');
+                    form[id]["placeholder"] = $input.prop("placeholder");
+                    form[id]["required"] = $input.prop("required");
+                    break;
+                case 'range':
+                    form[id]["label"] = $this.find('label').text();
+                    var $input = $this.find('input');
+                    form[id]["placeholder"] = $input.prop("placeholder");
+                    form[id]["required"] = $input.prop("required");
+                    form[id]["step"] = $input.prop("step");
+                    form[id]["min"] = $input.prop("min");
+                    form[id]["max"] = $input.prop("max");
+                    break;
+                case 'checkbox':
+                    form[id]["label"] = $this.find('legend').text();
+                    var checkboxes = {};
+                    var required;
+                    $this.find('input[type="checkbox"]').each(function(){
+                        checkboxes[$(this).attr("id")] = $(this).val();
+                        required = $(this).attr("required");
+                    });
+                    form[id]["required"] = required;
+                    form[id]["checkboxes"] = checkboxes;
+                    break;
+                case 'radio':
+                    form[id]["label"] = $this.find('legend').text();
+                    var radios = {};
+                    var required;
+                    $this.find('input[name="'+id+'"]').each(function(event){
+                        radios[$(this).attr("id")] = $(this).val();
+                        required = $(this).attr("required");
+                    });
+                    form[id]["required"] = required;
+                    form[id]["radios"] = radios;
+                    break;
+                case 'select':
+                    form[id]["label"] = $this.find('legend').text();
+                    form[id]["required"] = $this.find('select').prop("required");
+                    var options = [];
+                    $this.find('option').each(function(event){
+                        options.push($(this).val());
+                    });
+                    form[id]["options"] = options;
+                    break;
+                case 'dtree':
+                    form[id]["label"] = $this.find('label').text();
+                    break;
+                case 'image':
+                    form[id]["label"] = $this.find('label').text();
+                    var $input = $this.find('input');
+                    form[id]["required"] = $input.prop("required");
+                    form[id]["multi-image"] = false;
+                    form[id]["los"] = ($input.find('.camera-va').length === 1);
+                    break;
+                case 'multiimage':
+                    form[id]["label"] = $this.find('label').text();
+                    var $input = $this.find('input');
+                    form[id]["required"] = $input.prop("required");
+                    form[id]["multi-image"] = true;
+                    form[id]["los"] = ($input.find('.camera-va').length === 1);
+                    break;
+                case 'audio':
+                    form[id]["label"] = $this.find('label').text();
+                    var $input = $this.find('input');
+                    form[id]["required"] = $input.prop("required");
+                    break;
+                case 'gps':
+                    form[id]["label"] = $this.find('label').text();
+                    var $input = $this.find('input');
+                    form[id]["required"] = $input.prop("required");
+                    form[id]["gps-background"] = $fieldId.find('input[name="gps-background"]').is(':checked');
+                    break;
+                case 'warning':
+                    form[id]["label"] = $this.find('label').text();
+                    var $input = $this.find('textarea');
+                    form[id]["placeholder"] = $input.prop("placeholder");
+                    break;
+                case undefined:
+                    break;
+            }
+        });
+        return form;
+    }
+
+    renderExistingForm (html, title) {
+        return this.JSONtoHTML(this.HTMLtoJSON (html, title));
     }
 }
 
