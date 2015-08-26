@@ -19,7 +19,24 @@ export class SurveyView extends Backbone.View {
         let fieldGenerator = new FieldGenerator("."+this.renderEl);
         fieldGenerator.render('general');
         this.enableEvents();
+        this.loadEditors();
         return this;
+    }
+
+    loadEditors () {
+        var userId = pcapi.getUserId();
+        console.log(userId)
+        var options = {
+            "remoteDir": "editors",
+            "userId": userId
+        };
+        pcapi.getItems(options).then(function(data){
+            //var form_links = new Array();
+            //var by_editor = new Array();
+            var editors = data.metadata;
+            console.log(editors);
+            
+        });
     }
 
     enableEvents() {
