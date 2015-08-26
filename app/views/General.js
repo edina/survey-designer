@@ -45,6 +45,7 @@ export class GeneralView extends Backbone.View {
         $(document).on('click', '.provider', function(){
             console.log($(this).attr('data-provider'));
             let provider = $(this).attr('data-provider');
+            pcapi.setProvider(provider);
             if(provider === "dropbox"){
                 pcapi.loginCloud();
             }
