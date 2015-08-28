@@ -34,13 +34,14 @@ class Convertor {
                 this.form[id]["prefix"] = $fieldId.find('input[name="prefix"]').val();
                 this.form[id]["placeholder"] = $fieldId.find('input[name="placeholder"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
-                this.form[id]["persistent"] = $fieldId.find('input[name="persistent"]').is(':checked');
+                this.form[id]["persistentValue"] = $fieldId.find('input[name="persistent"]').is(':checked');
                 this.form[id]["max-chars"] = $fieldId.find('input[name="max-chars"]').val();
                 break;
             case 'textarea':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["placeholder"] = $fieldId.find('input[name="placeholder"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
+                this.form[id]["persistentValue"] = $fieldId.find('input[name="persistent"]').is(':checked');
                 break;
             case 'range':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
@@ -71,6 +72,7 @@ class Convertor {
             case 'select':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
+                this.form[id]["persistentValue"] = $fieldId.find('input[name="persistent"]').is(':checked');
                 var options = [];
                 $fieldId.find('option').each(function(event){
                     options.push($(this).val());
@@ -116,7 +118,7 @@ class Convertor {
 
         //add geometry
         html.push('<div class="fieldcontain fieldcontain-geometryType" id="fieldcontain-geometryType" data-cobweb-type="geometryType">');
-        html.push('<input type="hidden" data-record-geometry="'+this.form.geoms.join(",")+'" value="'+this.form.geoms.join(",")+'"></div>');
+        html.push('<input type="hidden" data-record-geometry="'+this.form.geoms.join(",")+'" value="'+this.form.geoms.join(",")+'">');
         html.push('</div>');
 
         $.each(this.form, function(key, value){
@@ -279,6 +281,7 @@ class Convertor {
                     var $input = $this.find('textarea');
                     form[id]["placeholder"] = $input.prop("placeholder");
                     form[id]["required"] = $input.prop("required");
+                    form[id]["persistent"] = $input.data("persistent-on");
                     break;
                 case 'range':
                     form[id]["label"] = $this.find('label').text();
@@ -291,10 +294,10 @@ class Convertor {
                     break;
                 case 'checkbox':
                     form[id]["label"] = $this.find('legend').text();
-                    var checkboxes = {};
+                    var checkboxes = [];
                     var required;
                     $this.find('input[type="checkbox"]').each(function(){
-                        checkboxes[$(this).attr("id")] = $(this).val();
+                        checkboxes.push($(this).val());
                         required = $(this).attr("required");
                     });
                     form[id]["required"] = required;
@@ -302,10 +305,10 @@ class Convertor {
                     break;
                 case 'radio':
                     form[id]["label"] = $this.find('legend').text();
-                    var radios = {};
+                    var radios = [];
                     var required;
                     $this.find('input[name="'+id+'"]').each(function(event){
-                        radios[$(this).attr("id")] = $(this).val();
+                        radios.push($(this).val());
                         required = $(this).attr("required");
                     });
                     form[id]["required"] = required;
@@ -358,10 +361,6 @@ class Convertor {
             }
         });
         return form;
-    }
-
-    renderExistingForm (html, title) {
-        return this.JSONtoHTML(this.HTMLtoJSON (html, title));
     }
 }
 

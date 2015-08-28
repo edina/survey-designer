@@ -44,9 +44,8 @@
         "label": "This is a label",
         "default-text-title": "Default text",
         "default-text": "Place default text here (if any)",
-        "max-chars-title": "Max characters",
-        "max-chars": 256,
-        "required": "Required"
+        "required": "Required",
+        "persistent": "Persistent"
     },
     "range":{
         "name": "text",

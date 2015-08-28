@@ -46,7 +46,8 @@
         "default-text": "Τοποθέτησε εδώ το προεπιλεγμένο κείμενο",
         "max-chars-title": "Άνω όριο χαρακτήρων",
         "max-chars": 256,
-        "required": "Υποχρεωτικό"
+        "required": "Υποχρεωτικό",
+        "persistent": "Persistent"
     },
     "range":{
         "name": "διακύμανση",
@@ -61,7 +62,8 @@
         "min-label": "Ελάχιστη τιμή",
         "min": 1,
         "max-label": "Μέγιστη τιμή",
-        "max": 10
+        "max": 10,
+        "persistent": "Persistent"
     },
     "checkbox": {
         "name": "πλαίσιο ελέγχου",
@@ -72,7 +74,8 @@
         "text": "επιλογή",
         "remove": "Διαγραφή",
         "upload": "Ανέβασμα",
-        "add-checkbox": "Προσθήκη πλαίσιου ελέγχου"
+        "add-checkbox": "Προσθήκη πλαίσιου ελέγχου",
+        "persistent": "Persistent"
     },
     "radio": {
         "name": "Κουμπί μονής επιλογής",
@@ -83,7 +86,8 @@
         "text": "επιλογή",
         "remove": "Διαγραφή",
         "upload": "Ανέβασμα εικόνας",
-        "add-radio": "Προσθήκη επιλογής"
+        "add-radio": "Προσθήκη επιλογής",
+        "persistent": "Persistent"
     },
     "select": {
         "name": "Λίστα επιλογών",
@@ -94,7 +98,8 @@
         "text": "επιλογή",
         "remove": "Διαγραφή",
         "upload": "Ανέβασμα εικόνας",
-        "add-select": "Προσθήκη επιλογής"
+        "add-select": "Προσθήκη επιλογής",
+        "persistent": "Persistent"
     },
     "image": {
         "name": "εικόνα",
@@ -103,14 +108,16 @@
         "label": "Αυτή είναι μια ετικέτα",
         "required": "Υποχρεωτικό",
         "multiple-images": "Πολλαπλές εικόνες",
-        "los": "Γραμμή της όρασης"
+        "los": "Γραμμή της όρασης",
+        "persistent": "Persistent"
     },
     "audio": {
         "name": "ήχος",
         "field-title": "Πεδίο ήχου",
         "label-title": "Ετικέτα πεδίου ήχου",
         "label": "Αυτή είναι μια ετικέτα",
-        "required": "Υποχρεωτικό"
+        "required": "Υποχρεωτικό",
+        "persistent": "Persistent"
     },
     "gps": {
         "name": "GPS",
@@ -118,7 +125,8 @@
         "label-title": "Ετικέτα πεδίου GPS",
         "label": "Αυτή είναι μια ετικέτα",
         "required": "Υποχρεωτικό",
-        "background": "Για όλο το ταξίδι"
+        "background": "Για όλο το ταξίδι",
+        "persistent": "Persistent"
     },
     "warning": {
         "name": "προειδοποίηση",
@@ -126,7 +134,8 @@
         "label-title": "Ετικέτα προειδοποίησης",
         "label": "Αυτή είναι μια ετικέτα",
         "label-message": "Μήνυμα",
-        "message": "Το μήνυμα πάει εδώ"
+        "message": "Το μήνυμα πάει εδώ",
+        "persistent": "Persistent"
     },
     "dtree": {
         "name": "dtree",
@@ -135,6 +144,7 @@
         "label": "Αυτή είναι μια ετικέτα",
         "remove": "Διαγραφή",
         "upload": "Ανέβασμα δενδροειδών ερωτήσεων",
-        "add-dtree": "Προσθήκη επιλογής"
+        "add-dtree": "Προσθήκη επιλογής",
+        "persistent": "Persistent"
     }
 }

@@ -18,8 +18,8 @@ export class SurveyView extends Backbone.View {
         let dragdropper = new DragDropper(this.renderEl);
         dragdropper.enableDrop();
         dragdropper.enableSorting();
-        var fieldGenerator = new FieldGenerator("."+this.renderEl);
-        fieldGenerator.render('general');
+        this.fieldGenerator = new FieldGenerator("."+this.renderEl);
+        this.fieldGenerator.render('general');
         this.enableEvents();
         return this;
     }
@@ -27,21 +27,58 @@ export class SurveyView extends Backbone.View {
     enableEvents() {
         let convertor = new Convertor();
         $(document).on('click', '#form-save', function(){
-            console.log(convertor.getForm());
+            var formInJSON = convertor.getForm();
+            var options = {
+                remoteDir: "editors",
+                path: encodeURIComponent(formInJSON.title)+".json",
+                data: JSON.stringify(formInJSON)
+            };
+            var options2 = {
+                remoteDir: "editors",
+                path: encodeURIComponent(formInJSON.title)+".edtr",
+                data: convertor.JSONtoHTML(formInJSON).join("")
+            };
+            console.log(convertor.JSONtoHTML(formInJSON))
+
+            if(utils.getParams().public === true){
+                options.urlParams = {
+                    'public': 'true'
+                };
+                options2.urlParams = {
+                    'public': 'true'
+                };
+            }
+
+            pcapi.saveItem(options).then(function(result){
+                utils.giveFeedback("Your form has been uploaded");
+            });
+            pcapi.saveItem(options2).then(function(result){
+                utils.giveFeedback("Your form has been uploaded");
+            });
         });
 
-        $(document).on('click', '.get-form', function(){
-            var title = this.title.split(".")[0];
+        //var fieldGenerator = this.fieldGenerator;
+        $(document).on('click', '.get-form', $.proxy(function(e){
+            var title = e.target.title.split(".")[0];
             var options = {
                 "remoteDir": "editors",
-                "item": this.title
+                "item": e.target.title
             };
 
             utils.loading(true);
-            pcapi.getEditor(options).then(function(data){
+            pcapi.getEditor(options).then($.proxy(function(data){
                 utils.loading(false);
-                $("."+this.renderEl).append(convertor.renderExistingForm(data, title));
-            });
-        });
+
+                var dataObj = convertor.HTMLtoJSON (data, title);
+                $("."+this.renderEl).html("");
+                this.fieldGenerator.render('general', {"title": dataObj.title, "geoms": dataObj.geoms})
+                $.each(dataObj, $.proxy(function(k, v){
+                    var type = k.split("-")[1];
+                    if(type !== undefined){
+                        this.fieldGenerator.render(type, v);
+                    }
+                }, this));
+            }, this));
+        }, this));
     }
 }

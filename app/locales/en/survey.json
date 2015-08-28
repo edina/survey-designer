@@ -46,7 +46,8 @@
         "default-text": "Place default text here (if any)",
         "max-chars-title": "Max characters",
         "max-chars": 256,
-        "required": "Required"
+        "required": "Required",
+        "persistent": "Persistent"
     },
     "range":{
         "name": "text",
@@ -61,7 +62,8 @@
         "min-label": "Min value",
         "min": 1,
         "max-label": "Max value",
-        "max": 10
+        "max": 10,
+        "persistent": "Persistent"
     },
     "checkbox": {
         "name": "checkbox",
@@ -72,7 +74,8 @@
         "text": "checkbox",
         "remove": "Remove",
         "upload": "Upload image",
-        "add-checkbox": "Add checkbox"
+        "add-checkbox": "Add checkbox",
+        "persistent": "Persistent"
     },
     "radio": {
         "name": "radio",
@@ -83,7 +86,8 @@
         "text": "Radio",
         "remove": "Remove",
         "upload": "Upload image",
-        "add-checkbox": "Add radio"
+        "add-checkbox": "Add radio",
+        "persistent": "Persistent"
     },
     "select": {
         "name": "select",
@@ -94,7 +98,8 @@
         "text": "option",
         "remove": "Remove",
         "upload": "Upload image",
-        "add-select": "Add option"
+        "add-select": "Add option",
+        "persistent": "Persistent"
     },
     "image": {
         "name": "image",
@@ -103,14 +108,16 @@
         "label": "This is a label",
         "required": "Required",
         "multiple-images": "Multiple images",
-        "los": "Line of Sight"
+        "los": "Line of Sight",
+        "persistent": "Persistent"
     },
     "audio": {
         "name": "audio",
         "field-title": "Audio field",
         "label-title": "Field label",
         "label": "This is a label",
-        "required": "Required"
+        "required": "Required",
+        "persistent": "Persistent"
     },
     "gps": {
         "name": "GPS",
@@ -118,7 +125,8 @@
         "label-title": "Field label",
         "label": "This is a label",
         "required": "Required",
-        "background": "To be working on the background"
+        "background": "To be working on the background",
+        "persistent": "Persistent"
     },
     "warning": {
         "name": "warning",
@@ -126,7 +134,8 @@
         "label-title": "Field label",
         "label": "This is a label",
         "label-message": "Message",
-        "message": "Warning message goes here"
+        "message": "Warning message goes here",
+        "persistent": "Persistent"
     },
     "dtree": {
         "name": "dtree",
@@ -135,6 +144,7 @@
         "label": "This is a label",
         "remove": "Remove",
         "upload": "Upload decision tree",
-        "add-dtree": "Add option"
+        "add-dtree": "Add option",
+        "persistent": "Persistent"
     }
 }

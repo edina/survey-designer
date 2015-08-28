@@ -22,6 +22,15 @@ function getParams(){
     return query_string;
 }
 
+function giveFeedback(msg){
+    if($("#feedback").length ===0){
+        $("body").append(makeAlertModal("feedback", msg).join(""));
+    }else{
+        $("#feedback").find('.alert').html(msg);
+    }
+    $('#feedback').modal('show');
+}
+
 function loading(param){
     $("#loader").toggle(param);
 }
@@ -60,4 +69,4 @@ function typeFromId(id){
     return id.substr(s, id.lastIndexOf('-') - s);
 };
 
-export {getParams, loading, makeAlertModal, makeModalWindow, numberFromId, typeFromId};
+export {getParams, giveFeedback, loading, makeAlertModal, makeModalWindow, numberFromId, typeFromId};
