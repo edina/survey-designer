@@ -1,8 +1,12 @@
 <fieldset class="fieldcontain fieldcontain-dtree" id="{{fieldId}}">
   <legend>{{t "dtree.field-title"}}</legend>
+  {{#exists filename}}
+    <a href="{{url}}" target="blank">{{filename}}</a>
+  {{else}}
   <span class="btn btn-default btn-file">
     Browse<input type="file" class="add-dtree" aria-label="{{t "dtree.add-option"}}">
   </span>
   <span class="btn-filename"></span>
   <button type="button" class="btn btn-default btn-sm upload-dtree" aria-label="{{t "dtree.upload"}}">{{t "dtree.upload"}}</button>
+  {{/exists}}
 </fieldset>

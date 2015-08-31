@@ -80,7 +80,8 @@ class Convertor {
                 this.form[id]["options"] = options;
                 break;
             case 'dtree':
-                this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
+                var $a =  $fieldId.find('a');
+                this.form[id]["filename"] = $a.text();
                 break;
             case 'image':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
@@ -190,10 +191,10 @@ class Convertor {
                     break;
                 case 'dtree':
                     html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">');
-                    html.push('<fieldset><label for="form-'+type+'-'+n+'">'+value.label+'</label>');
+                    html.push('<fieldset><label for="form-'+type+'-'+n+'">'+value.filename+'</label>');
                     html.push('<div class="button-wrapper button-dtree"></div>');
                     html.push('</fieldset>');
-                    html.push('<input type="hidden" data-dtree="'+value.url+'" value="'+value.url+'">');
+                    html.push('<input type="hidden" data-dtree="'+value.filename+'" value="'+value.filename+'">');
                     html.push('</div>');
                     break;
                 case 'image':
@@ -324,7 +325,7 @@ class Convertor {
                     form[id]["options"] = options;
                     break;
                 case 'dtree':
-                    form[id]["label"] = $this.find('label').text();
+                    form[id]["filename"] = $this.find('input[type="hidden"]').val();
                     break;
                 case 'image':
                     form[id]["label"] = $this.find('label').text();

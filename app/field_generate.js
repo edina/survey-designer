@@ -43,6 +43,14 @@ class FieldGenerator {
         Handlebars.registerHelper('increase', function(v, options) {
             return v+1;
         });
+
+        Handlebars.registerHelper('exists', function(variable, options) {
+            if (typeof variable !== 'undefined') {
+                return options.fn(this);
+            } else {
+                return options.inverse(this);
+            }
+        });
     }
 
     render(type, data) {
@@ -113,12 +121,23 @@ class FieldGenerator {
                 return selectTemplate(data);
                 break;
             case 'dtree':
-                    data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
-                    return dtreeTemplate(data);
+                data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
+                data.url = pcapi.buildFSUrl('editors', data["filename"]);
+                return dtreeTemplate(data);
                 break;
             case 'image':
                 if(this.$el.find('.fieldcontain-image').length === 0){
                     data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
+                    return imageTemplate(data);
+                }
+                return '';
+                break;
+            case 'multiimage':
+                if(this.$el.find('.fieldcontain-image').length === 0){
+                    data.fieldId = "fieldcontain-image-"+this.findHighestElement(type);
+                    data.required = data.required || true;
+                    data["multi-image"] = data["multi-image"] || true;
+                    data.los = data.los || false;
                     return imageTemplate(data);
                 }
                 return '';
@@ -140,6 +159,8 @@ class FieldGenerator {
             case 'warning':
                 if(this.$el.find('.fieldcontain-warning').length === 0){
                     data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
+                    data.label = data.label || i18n.t(type+".label");
+                    data.placeholder = data.label || i18n.t(type+".placeholder");
                     return warningTemplate(data);
                 }
                 return '';
@@ -208,17 +229,6 @@ class FieldGenerator {
 
     enabledTreeEvents() {
         this.uploadFile('.add-dtree', '.upload-dtree');
-        //$('.add-dtree').click(function(){
-        //    $('.btn-file :file').on('fileselect', $.proxy(function(event, numFiles, label) {
-        //        console.log(numFiles);
-        //        console.log(label);
-        //        var nextElement = '<div class="form-inline">'+
-        //                    '<input type="text" value="'+label+'" name="dtree" class="dtree">'+
-        //                    '<button type="button" class="btn btn-default btn-sm remove-dtree" aria-label="'+i18n.t("dtree.remove")+'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'+
-        //                '</div>';
-        //        $(this).prev().append(nextElement);
-        //    }, this));
-        //});
     };
 
     enableRemoveField() {
@@ -255,10 +265,12 @@ class FieldGenerator {
             $(this).parent().next().append(file.name);
         });
 
+        utils.loading(true);
         $(uploadElement).unbind('click');
         $(uploadElement).click($.proxy(function(){
             // TODO: When we migrate to modules get the sid & publicEditor from core
-            var index = this.$el.find('.fieldcontain-dtree').length;
+            var index = this.findHighestElement('dtree') - 1;
+            var id = "fieldcontain-dtree-"+index;
             var dtreeFname = file.name;
             if("sid" in utils.getParams()){
                 dtreeFname = utils.getParams().sid + '-' + index + '.json';
@@ -278,25 +290,11 @@ class FieldGenerator {
             }
 
             pcapi.uploadFile(options).then($.proxy(function(result, data){
-                alert("File was uploaded");
-                console.log(pcapi.buildFSUrl('editors', dtreeFname));
-
-                //$.ajax({
-                //    url: "templates/dtreeTemplate.html",
-                //    dataType: 'html',
-                //    success: function(tmpl){
-                //        var data = {
-                //            "i": index,
-                //            "type": "dtree",
-                //            "title": file.name,
-                //            "dtree": dtreeFname,
-                //            "url": pcapi.buildFSUrl('editors', dtreeFname)
-                //        };
-                //        var template = _.template(tmpl);
-                //        $("#"+target).append(template(data));
-                //    }
-                //});
-                //loading(false);
+                utils.loading(false);
+                utils.giveFeedback("File was uploaded");
+                $("#"+id+" .btn-file").remove();
+                $("#"+id+" button").remove();
+                $("#"+id+" .btn-filename").html('<a href="'+pcapi.buildFSUrl('editors', dtreeFname)+'">'+dtreeFname+'</a>');
             }, this));
         }, this));
     };
