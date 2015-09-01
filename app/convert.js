@@ -1,5 +1,6 @@
 import $ from 'jquery';
-import FieldGenerator from '../field_generate'
+import FieldGenerator from './field_generate';
+import * as utils from './utils';
 
 class Convertor {
     constructor (myClass){
@@ -7,9 +8,13 @@ class Convertor {
         this.form = {};
     }
 
+    getTitle () {
+        return $(".fieldcontain-general").find('input[name="label"]').val();
+    }
+
     getForm () {
         var c = this;
-        this.form.title = $(".fieldcontain-general").find('input[name="label"]').val();
+        this.form.title = this.getTitle();
         var geoms = [];
         $('input[name="geometryType"]:checked').each(function(){
             geoms.push($(this).val());
@@ -55,18 +60,34 @@ class Convertor {
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
                 var checkboxes = {};
-                $fieldId.find('input[name="'+id+'"]').each(function(event){
-                    checkboxes[$(this).attr("id")] = $(this).val();
-                });
+                var finds = $fieldId.find('input[name="'+id+'"]');
+                if(finds.length > 0){
+                    $fieldId.find('input[name="'+id+'"]').each(function(event){
+                        checkboxes[$(this).attr("id")] = $(this).val();
+                    });
+                }
+                else {
+                    $fieldId.find('img').each(function(){
+                        checkboxes[$(this).attr("id")] = utils.getFilenameFromURL($(this).attr("src"));
+                    });
+                }
                 this.form[id]["checkboxes"] = checkboxes;
                 break;
             case 'radio':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
                 var radios = {};
-                $fieldId.find('input[name="'+id+'"]').each(function(event){
-                    radios[$(this).attr("id")] = $(this).val();
-                });
+                var finds = $fieldId.find('input[name="'+id+'"]');
+                if(finds.length > 0){
+                    $fieldId.find('input[name="'+id+'"]').each(function(event){
+                        radios[$(this).attr("id")] = utils.getFilenameFromURL($(this).attr("src"));
+                    });
+                }
+                else {
+                    $fieldId.find('img').each(function(){
+                        radios[$(this).attr("id")] = utils.getFilenameFromURL($(this).attr("src"));
+                    });
+                }
                 this.form[id]["radios"] = radios;
                 break;
             case 'select':

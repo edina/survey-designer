@@ -62,6 +62,7 @@ export class MenuView extends Backbone.View {
             "remoteDir": "editors",
             "userId": userId
         };
+        utils.loading(true);
         pcapi.getItems(options).then(function(data){
             var editors = data.metadata;
             var formList = [];
@@ -84,6 +85,7 @@ export class MenuView extends Backbone.View {
                 }
                 $("#forms").html(formList.join(""));
             }
+            utils.loading(false);
         });
     }
 

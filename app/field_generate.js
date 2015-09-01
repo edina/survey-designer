@@ -211,13 +211,13 @@ class FieldGenerator {
             var nextElement = '<div class="form-inline">'+
                                '<input type="text" value="'+value+'" name="fieldcontain-'+type+'-'+fieldcontainId+'" id="checkbox-'+fieldcontainId+'" class="'+type+'">'+
                                '<button type="button" class="btn btn-default btn-sm remove-'+type+'" aria-label="Remove '+type+'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'+
-                               '<button type="file" class="btn btn-default btn-sm upload-'+type+'" aria-label="Remove '+type+'"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>'+
+                               '<input type="file" class="image-upload" id="upload-'+type+'-'+fieldcontainId+'" style="display: none;">'+
+                               '<button type="file" class="btn btn-default btn-sm upload-image" aria-label="Remove '+type+'"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>'+
                                '</div>';
             $(this).prev().append(nextElement);
             var i = 1;
             $("#fieldcontain-"+type+"-"+fieldcontainId).find('.'+type).each(function(){
                 $(this).prop("id", 'fieldcontain-'+type+'-'+fieldcontainId+'-'+i);
-                //$(this).prop("name", 'fieldcontain-'+type+'-'+fieldcontainId+'-'+i);
                 i++;
             })
         });
@@ -225,6 +225,44 @@ class FieldGenerator {
         this.$el.on("click", ".remove-"+type, function(){
             $(this).closest('.form-inline').remove();
         });
+
+        this.$el.off("click", ".upload-image");
+        this.$el.on("click", ".upload-image", function(){
+            $(this).closest('.form-inline').find('input[type="file"]').trigger('click');
+        });
+
+        this.$el.off("change", ".image-upload");
+        this.$el.on("change", ".image-upload", $.proxy(function(e){
+            var files = e.target.files || e.dataTransfer.files;
+            // Our file var now holds the selected file
+            var file = files[0];
+            ///let convertor = new Convertor();
+            //var title = convertor.getTitle();
+
+            var publicEditor = utils.getParams().public === 'true';
+            var options = {
+                "remoteDir": "editors",
+                "path": file.name,
+                "file": file,
+                "contentType": false
+            };
+
+            if(publicEditor){
+                options.urlParams = {
+                    'public': 'true'
+                };
+            }
+
+            utils.loading(true);
+            pcapi.uploadFile(options).then($.proxy(function(data){
+                utils.loading(false);
+                utils.giveFeedback(data.msg);
+                var name = utils.getFilenameFromURL(data.path);
+                var $inputText = $(e.target).closest('.form-inline').find('input[type="text"]');
+                $inputText.replaceWith('<img src="'+pcapi.buildFSUrl('editors', name)+'" style="width: 50px;" id="'+$inputText.attr("id")+'">');
+                $(e.target).closest('.form-inline').find('button.upload-image').remove();
+            }, this));
+        }, this));
     };
 
     enabledTreeEvents() {
@@ -265,7 +303,6 @@ class FieldGenerator {
             $(this).parent().next().append(file.name);
         });
 
-        utils.loading(true);
         $(uploadElement).unbind('click');
         $(uploadElement).click($.proxy(function(){
             // TODO: When we migrate to modules get the sid & publicEditor from core
@@ -289,6 +326,7 @@ class FieldGenerator {
                 };
             }
 
+            utils.loading(true);
             pcapi.uploadFile(options).then($.proxy(function(result, data){
                 utils.loading(false);
                 utils.giveFeedback("File was uploaded");

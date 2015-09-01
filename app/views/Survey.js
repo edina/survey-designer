@@ -17,7 +17,6 @@ export class SurveyView extends Backbone.View {
         this.$el.html('<div class="mobile"><button type="button" class="btn btn-default" id="form-save">'+i18n.t("menu.save")+'</button>'+
                       '<div class="'+this.renderEl+'"></div></div>'+
                       '<div id="loader"><img src="styles/images/ajax-loader.gif"></div>');
-        $("#loader").hide();
         let dragdropper = new DragDropper(this.renderEl);
         dragdropper.enableDrop();
         dragdropper.enableSorting();

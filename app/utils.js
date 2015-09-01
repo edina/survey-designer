@@ -1,5 +1,17 @@
 'use strict';
 
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+};
+
+function getExtension(path) {
+    return path.substring(path.length, path.lastIndexOf('.')+1);
+};
+
+function getFilenameFromURL(path){
+    return path.substring(path.length, path.lastIndexOf('/')+1);
+};
+
 function getParams(){
     var query = window.location.search.substring(1);
     var query_string = {};
@@ -20,7 +32,7 @@ function getParams(){
         }
     }
     return query_string;
-}
+};
 
 function giveFeedback(msg){
     if($("#feedback").length ===0){
@@ -29,11 +41,15 @@ function giveFeedback(msg){
         $("#feedback").find('.alert').html(msg);
     }
     $('#feedback').modal('show');
-}
+};
 
 function loading(param){
-    $("#loader").toggle(param);
-}
+    if(param === true){
+        $("#loader").css('visibility', 'visible');
+    }else{
+        $("#loader").css('visibility', 'hidden');
+    }
+};
 
 function makeAlertModal(id, msg){
     var body = [];
@@ -41,7 +57,7 @@ function makeAlertModal(id, msg){
     body.push(msg);
     body.push('</div>');
     return makeModalWindow(id, 'Feedback', body);
-}
+};
 
 function makeModalWindow(id, title, body, footer){
     var form = new Array();
@@ -58,7 +74,7 @@ function makeModalWindow(id, title, body, footer){
     form = form.concat(footer);
     form.push('</div></div></div>');
     return form;
-}
+};
 
 function numberFromId(id){
     return parseInt(id.substring(id.length, id.lastIndexOf('-')+1));
@@ -69,4 +85,4 @@ function typeFromId(id){
     return id.substr(s, id.lastIndexOf('-') - s);
 };
 
-export {getParams, giveFeedback, loading, makeAlertModal, makeModalWindow, numberFromId, typeFromId};
+export {endsWith, getExtension, getFilenameFromURL, getParams, giveFeedback, loading, makeAlertModal, makeModalWindow, numberFromId, typeFromId};
