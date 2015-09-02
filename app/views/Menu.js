@@ -39,7 +39,9 @@ export class MenuView extends Backbone.View {
             loginHide = "hide";
             logoutHide = "";
         }else if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
-            
+            loginHide = "hide";
+            logoutHide = "";
+            pcapi.setCloudLogin(utils.getParams().sid);
         }
 
         if(paths.getPaths()["forms-list"] === true){

@@ -236,6 +236,7 @@ class FieldGenerator {
             var files = e.target.files || e.dataTransfer.files;
             // Our file var now holds the selected file
             var file = files[0];
+            type = $(e.target).closest('.fieldcontain').attr("id").split("-")[1];
             ///let convertor = new Convertor();
             //var title = convertor.getTitle();
 
@@ -259,7 +260,7 @@ class FieldGenerator {
                 utils.giveFeedback(data.msg);
                 var name = utils.getFilenameFromURL(data.path);
                 var $inputText = $(e.target).closest('.form-inline').find('input[type="text"]');
-                $inputText.replaceWith('<img src="'+pcapi.buildFSUrl('editors', name)+'" style="width: 50px;" id="'+$inputText.attr("id")+'">');
+                $inputText.replaceWith('<img src="'+pcapi.buildFSUrl('editors', name)+'" style="width: 50px;" id="'+$inputText.attr("id")+'" class="'+type+'">');
                 $(e.target).closest('.form-inline').find('button.upload-image').remove();
             }, this));
         }, this));
