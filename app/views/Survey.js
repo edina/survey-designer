@@ -21,7 +21,20 @@ export class SurveyView extends Backbone.View {
         dragdropper.enableDrop();
         dragdropper.enableSorting();
         this.fieldGenerator = new FieldGenerator("."+this.renderEl);
-        this.fieldGenerator.render('general');
+        if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
+            var title = decodeURIComponent(utils.getParams().survey);
+            var options = {
+                "remoteDir": "editors",
+                "item": utils.getParams().sid+".edtr"
+            };
+
+            this.fieldGenerator.render('general', {"title": title});
+            this.getEditor(title, options);
+        }
+        else {
+            this.fieldGenerator.render('general');
+            this.fieldGenerator.render('text');
+        }
         this.enableEvents();
         return this;
     }
@@ -30,19 +43,22 @@ export class SurveyView extends Backbone.View {
         let convertor = new Convertor();
         $(document).on('click', '#form-save', function(){
             var formInJSON = convertor.getForm();
+            var title = formInJSON.title;
+            if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
+                title = utils.getParams().sid;
+            }
             var options = {
                 remoteDir: "editors",
-                path: encodeURIComponent(formInJSON.title)+".json",
+                path: encodeURIComponent(title)+".json",
                 data: JSON.stringify(formInJSON)
             };
             var options2 = {
                 remoteDir: "editors",
-                path: encodeURIComponent(formInJSON.title)+".edtr",
-                data: convertor.JSONtoHTML(formInJSON).join("")
+                path: encodeURIComponent(title)+".edtr",
+                data: convertor.JSONtoHTML(formInJSON, false).join("")
             };
-            console.log(convertor.JSONtoHTML(formInJSON))
 
-            if(utils.getParams().public === true){
+            if(utils.getParams().public === 'true'){
                 options.urlParams = {
                     'public': 'true'
                 };
@@ -51,15 +67,14 @@ export class SurveyView extends Backbone.View {
                 };
             }
 
-            pcapi.saveItem(options).then(function(result){
+            pcapi.updateItem(options).then(function(result){
                 utils.giveFeedback("Your form has been uploaded");
             });
-            pcapi.saveItem(options2).then(function(result){
+            pcapi.updateItem(options2).then(function(result){
                 utils.giveFeedback("Your form has been uploaded");
             });
         });
 
-        //var fieldGenerator = this.fieldGenerator;
         $(document).on('click', '.get-form', $.proxy(function(e){
             var title = e.target.title.split(".")[0];
             var options = {
@@ -67,10 +82,20 @@ export class SurveyView extends Backbone.View {
                 "item": e.target.title
             };
 
-            utils.loading(true);
-            pcapi.getEditor(options).then($.proxy(function(data){
-                utils.loading(false);
+            this.getEditor(title, options);
+        }, this));
+    }
 
+    getEditor (title, options) {
+        let convertor = new Convertor();
+        utils.loading(true);
+        pcapi.getEditor(options).then($.proxy(function(data){
+            utils.loading(false);
+
+            if(data.error === 1){
+                this.fieldGenerator.render('text');
+            }
+            else {
                 var dataObj = convertor.HTMLtoJSON (data, title);
                 $("."+this.renderEl).html("");
                 this.fieldGenerator.render('general', {"title": dataObj.title, "geoms": dataObj.geoms})
@@ -80,7 +105,7 @@ export class SurveyView extends Backbone.View {
                         this.fieldGenerator.render(type, v);
                     }
                 }, this));
-            }, this));
+            }
         }, this));
     }
 }

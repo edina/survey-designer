@@ -51,6 +51,14 @@ class FieldGenerator {
                 return options.inverse(this);
             }
         });
+
+        Handlebars.registerHelper('ifObject', function(item, options) {
+            if(typeof item === "object") {
+                return options.fn(this);
+            } else {
+                return options.inverse(this);
+            }
+        });
     }
 
     render(type, data) {
@@ -174,11 +182,13 @@ class FieldGenerator {
             var fields = this.$el.find('.fieldcontain-'+type);
             var id = "fieldcontain-"+type+"-"+(fields.length);
             $(fields[fields.length - 1]).attr("id", id);
-            var buttons = '<div class="fieldButtons">' +
+            if(fields.length > 1 || type !== "text"){
+                var buttons = '<div class="fieldButtons">' +
                       '<button type="button" class="btn btn-default remove-field" aria-label="Remove field"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'+
                       '<div class="btn btn-default sortit" aria-label="Sort field"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span></div>'+
                       '</div>';
-            $("#"+id).append(buttons);
+                $("#"+id).append(buttons);
+            }
         }
     };
 
@@ -203,16 +213,17 @@ class FieldGenerator {
     };
 
     enableMultipleOptionsEvents(type) {
-        $('.add-'+type).click(function(){
+        this.$el.off("click", ".add-"+type);
+        this.$el.on("click", ".add-"+type, function(){
             var fieldcontainId = utils.numberFromId($(this).closest('.fieldcontain-'+type).prop("id"));
             var finds = $("#fieldcontain-"+type+"-"+fieldcontainId).find('.'+type);
 
             var value = i18n.t(type+".text");
             var nextElement = '<div class="form-inline">'+
                                '<input type="text" value="'+value+'" name="fieldcontain-'+type+'-'+fieldcontainId+'" id="checkbox-'+fieldcontainId+'" class="'+type+'">'+
+                               '<button type="file" class="btn btn-default btn-sm upload-image" aria-label="Upload '+type+'"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>'+
                                '<button type="button" class="btn btn-default btn-sm remove-'+type+'" aria-label="Remove '+type+'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'+
                                '<input type="file" class="image-upload" id="upload-'+type+'-'+fieldcontainId+'" style="display: none;">'+
-                               '<button type="file" class="btn btn-default btn-sm upload-image" aria-label="Remove '+type+'"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>'+
                                '</div>';
             $(this).prev().append(nextElement);
             var i = 1;
@@ -259,9 +270,10 @@ class FieldGenerator {
                 utils.loading(false);
                 utils.giveFeedback(data.msg);
                 var name = utils.getFilenameFromURL(data.path);
-                var $inputText = $(e.target).closest('.form-inline').find('input[type="text"]');
-                $inputText.replaceWith('<img src="'+pcapi.buildFSUrl('editors', name)+'" style="width: 50px;" id="'+$inputText.attr("id")+'" class="'+type+'">');
-                $(e.target).closest('.form-inline').find('button.upload-image').remove();
+                var $formLine = $(e.target).closest('.form-inline');
+                var $inputText = $formLine.find('input[type="text"]');
+                $inputText.before('<img src="'+pcapi.buildFSUrl('editors', name)+'" style="width: 50px;">');
+                $formLine.find('button.upload-image').remove();
             }, this));
         }, this));
     };
