@@ -55,7 +55,7 @@ export class SurveyView extends Backbone.View {
             var options2 = {
                 remoteDir: "editors",
                 path: encodeURIComponent(title)+".edtr",
-                data: convertor.JSONtoHTML(formInJSON, false).join("")
+                data: convertor.JSONtoHTML(formInJSON).join("")
             };
 
             if(utils.getParams().public === 'true'){

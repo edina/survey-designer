@@ -9,7 +9,7 @@ class Convertor {
     }
 
     getTitle () {
-        return $(".fieldcontain-general").find('input[name="label"]').val();
+        return decodeURIComponent($(".fieldcontain-general").find('input[name="label"]').val());
     }
 
     getForm () {
@@ -59,18 +59,20 @@ class Convertor {
             case 'checkbox':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
-                var checkboxes = {};
-                var finds = $fieldId.find('input[name="'+id+'"]');
-                if(finds.length > 0){
-                    $fieldId.find('input[name="'+id+'"]').each(function(event){
-                        checkboxes[$(this).attr("id")] = $(this).val();
-                    });
-                }
-                else {
-                    $fieldId.find('img').each(function(){
-                        checkboxes[$(this).attr("id")] = utils.getFilenameFromURL($(this).attr("src"));
-                    });
-                }
+                var checkboxes = [];
+
+                $fieldId.find('input[name="'+id+'"]').each(function(event){
+                    var $img = $(this).closest(".form-inline").find("img");
+                    if($img.length > 0){
+                        checkboxes.push([]);
+                        var n = checkboxes.length-1;
+                        checkboxes[n].push($(this).val());
+                        checkboxes[n].push(utils.getFilenameFromURL($img.attr("src")));
+                    }
+                    else {
+                        checkboxes.push($(this).val());
+                    }
+                });
                 this.form[id]["checkboxes"] = checkboxes;
                 break;
             case 'radio':
@@ -133,7 +135,6 @@ class Convertor {
         if(form){
             this.form = form;
         }
-        console.log(this.form)
         var html = [];
         //add title
         html.push('<form data-title=\"'+this.form.title+'\" data-ajax=\"false\" novalidate>\n')
@@ -154,69 +155,76 @@ class Convertor {
             }
             switch (type) {
                 case 'text':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">');
-                    html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>\n');
                     html.push('<input name="form-'+type+'-'+n+'" id="form-'+type+'-'+n+
                               '" type="text" required="'+required+'" placeholder="'+value.placeholder+
-                              '" maxlength="'+value["max-chars"]+'" value="'+value.prefix+'">');
+                              '" maxlength="'+value["max-chars"]+'" value="'+value.prefix+'">\n');
                     html.push('</div>');
                     break;
                 case 'textarea':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">');
-                    html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>\n');
                     html.push('<textarea name="form-'+type+'-'+n+'" id="form-'+type+'-'+n+
                               '" required="'+required+'" placeholder="'+value.placeholder+
-                              '"></textarea>');
+                              '"></textarea>\n');
                     html.push('</div>');
                     break;
                 case 'range':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">');
-                    html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>\n');
                     html.push('<input name="form-'+type+'-'+n+'" id="form-'+type+'-'+n+
                               '" type="range" required="'+required+'" placeholder="'+value.placeholder+
-                              '" step="'+value.step+'" min="'+value.min+'" max="'+value.max+'">');
-                    html.push('</div>');
+                              '" step="'+value.step+'" min="'+value.min+'" max="'+value.max+'">\n');
+                    html.push('</div>\n');
                     break;
                 case 'checkbox':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">');
-                    html.push('<fieldset><legend>'+value.label+'</legend>');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<fieldset><legend>'+value.label+'</legend>\n');
                     $.each(value.checkboxes, function(k, v){
-                        html.push('<label for="'+k+'">'+v+'</label>');
-                        html.push('<input name="form-'+type+'-'+n+'" id="'+k+'" value="'+v+'" type="'+type+'" required="'+required+'">');
+                        if(typeof(v) === "object"){
+                            html.push('<label for="'+k+'">'+v[0]+'</label>\n');
+                            html.push('<img src="'+utils.getFilenameFromURL(v[1])+'" style="width: 50px;">\n');
+                            html.push('<input name="form-'+type+'-'+n+'" id="'+k+'" value="'+v[0]+'" type="'+type+'" required="'+required+'">\n');
+                        }
+                        else {
+                            html.push('<label for="'+k+'">'+v+'</label>\n');
+                            html.push('<input name="form-'+type+'-'+n+'" id="'+k+'" value="'+v+'" type="'+type+'" required="'+required+'">\n');
+                        }
                     });
                     html.push('</fieldset></div>');
                     break;
                 case 'radio':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">');
-                    html.push('<fieldset><legend>'+value.label+'</legend>');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<fieldset><legend>'+value.label+'</legend>\n');
                     $.each(value.radios, function(k, v){
-                        html.push('<label for="'+k+'">'+v+'</label>');
-                        html.push('<input name="form-'+type+'-'+n+'" id="'+k+'" value="'+v+'" type="'+type+'" required="'+required+'">');
+                        html.push('<label for="'+k+'">'+v+'</label>\n');
+                        html.push('<input name="form-'+type+'-'+n+'" id="'+k+'" value="'+v+'" type="'+type+'" required="'+required+'">\n');
                     });
-                    html.push('</fieldset></div>');
+                    html.push('</fieldset></div>\n');
                     break;
                 case 'select':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">');
-                    html.push('<fieldset><legend>'+value.label+'</legend>');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<fieldset><legend>'+value.label+'</legend>\n');
                     if(required !== ""){
-                        html.push('<select id="'+key+'" required="required">');
-                        html.push('<option value=""></option>');
+                        html.push('<select id="'+key+'" required="required">\n');
+                        html.push('<option value=""></option>\n');
                     }
                     else{
-                        html.push('<select id="'+key+'">');
+                        html.push('<select id="'+key+'">\n');
                     }
                     $.each(value.options, function(k, v){
-                        html.push('<option value="'+v+'">'+v+'</option>');
+                        html.push('<option value="'+v+'">'+v+'</option>\n');
                     });
-                    html.push('</select></fieldset></div>');
+                    html.push('</select></fieldset></div>\n');
                     break;
                 case 'dtree':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">');
-                    html.push('<fieldset><label for="form-'+type+'-'+n+'">'+value.filename+'</label>');
-                    html.push('<div class="button-wrapper button-dtree"></div>');
-                    html.push('</fieldset>');
-                    html.push('<input type="hidden" data-dtree="'+value.filename+'" value="'+value.filename+'">');
-                    html.push('</div>');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<fieldset><label for="form-'+type+'-'+n+'">'+value.filename+'</label>\n');
+                    html.push('<div class="button-wrapper button-dtree"></div>\n');
+                    html.push('</fieldset>\n');
+                    html.push('<input type="hidden" data-dtree="'+value.filename+'" value="'+value.filename+'">\n');
+                    html.push('</div>\n');
                     break;
                 case 'image':
                     var cl = "camera";
@@ -226,52 +234,42 @@ class Convertor {
                     if(value.los === true){
                         cl = "camera-va";
                     }
-                    html.push('<div class="fieldcontain" id="fieldcontain-'+type+'-1" data-fieldtrip-type="'+cl+'">');
-                    html.push('<div class="button-wrapper button-'+cl+'">');
-                    html.push('<input name="form-image-1" id="form-image-1" type="file" accept="image/png" capture="'+cl+'" required="'+required+'" class="'+cl+'">')
-                    html.push('<label for="form-image-1">'+value.label+'</label>');
+                    html.push('<div class="fieldcontain" id="fieldcontain-'+type+'-1" data-fieldtrip-type="'+cl+'">\n');
+                    html.push('<div class="button-wrapper button-'+cl+'">\n');
+                    html.push('<input name="form-image-1" id="form-image-1" type="file" accept="image/png" capture="'+cl+'" required="'+required+'" class="'+cl+'">\n')
+                    html.push('<label for="form-image-1">'+value.label+'</label>\n');
                     html.push('</div></div>');
                     break;
                 case 'audio':
-                    html.push('<div class="fieldcontain" id="fieldcontain-audio-1" data-fieldtrip-type="microphone">');
-                    html.push('<div class="button-wrapper button-microphone">');
-                    html.push('<input name="form-audio-1" id="form-audio-1" type="file" accept="audio/*" capture="microphone" required="" class="microphone">');
-                    html.push('<label for="form-audio-1">'+value.label+'</label>');
-                    html.push('</div></div>');
+                    html.push('<div class="fieldcontain" id="fieldcontain-audio-1" data-fieldtrip-type="microphone">\n');
+                    html.push('<div class="button-wrapper button-microphone">\n');
+                    html.push('<input name="form-audio-1" id="form-audio-1" type="file" accept="audio/*" capture="microphone" required="" class="microphone">\n');
+                    html.push('<label for="form-audio-1">'+value.label+'</label>\n');
+                    html.push('</div></div>\n');
                     break;
                 case 'gps':
                     
                     break;
                 case 'warning':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">');
-                    html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>\n');
                     html.push('<textarea name="form-'+type+'-'+n+'" id="form-'+type+'-'+n+
                               '" required="'+required+'" placeholder="'+value.placeholder+
-                              '"></textarea>');
-                    html.push('</div>');
+                              '"></textarea>\n');
+                    html.push('</div>\n');
                     break;
             }
         });
-        html.push('<div id="save-cancel-editor-buttons" class="fieldcontain ui-grid-a">');
-        html.push('<div class="ui-block-a">');
-        html.push('<input type="submit" name="record" value="Save">');
-        html.push('</div>');
-        html.push('<div class="ui-block-b">');
-        html.push('<input type="button" name="cancel" value="Cancel">');
-        html.push('</div>');
-        html.push('</div>');
+        html.push('<div id="save-cancel-editor-buttons" class="fieldcontain ui-grid-a">\n');
+        html.push('<div class="ui-block-a">\n');
+        html.push('<input type="submit" name="record" value="Save">\n');
+        html.push('</div>\n');
+        html.push('<div class="ui-block-b">\n');
+        html.push('<input type="button" name="cancel" value="Cancel">\n');
+        html.push('</div>\n');
+        html.push('</div>\n');
         html.push('</form>');
         return html;
-    }
-
-    HTMLtoEDIT (html, title) {
-        var $form = $(html);
-        console.log($form)
-        $form.find(".fieldcontain").each(function(){
-            console.log($(this).attr("id"));
-            var type = $(this).attr("id").split("-")[1];
-            fieldGenerator.render(type);
-        });
     }
 
     HTMLtoJSON (html, title) {
@@ -319,7 +317,17 @@ class Convertor {
                     var checkboxes = [];
                     var required;
                     $this.find('input[type="checkbox"]').each(function(){
-                        checkboxes.push($(this).val());
+                        var ch;
+                        var $prev = $(this).prev();
+                        if($prev.is('img')){
+                            ch = [];
+                            ch.push($(this).val());
+                            ch.push(pcapi.buildFSUrl('editors', $prev.attr("src")));
+                        }
+                        else {
+                            ch = $(this).val();
+                        }
+                        checkboxes.push(ch);
                         required = $(this).attr("required");
                     });
                     form[id]["required"] = required;
