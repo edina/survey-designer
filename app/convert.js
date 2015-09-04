@@ -78,18 +78,22 @@ class Convertor {
             case 'radio':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
-                var radios = {};
-                var finds = $fieldId.find('input[name="'+id+'"]');
-                if(finds.length > 0){
-                    $fieldId.find('input[name="'+id+'"]').each(function(event){
-                        radios[$(this).attr("id")] = utils.getFilenameFromURL($(this).attr("src"));
-                    });
-                }
-                else {
-                    $fieldId.find('img').each(function(){
-                        radios[$(this).attr("id")] = utils.getFilenameFromURL($(this).attr("src"));
-                    });
-                }
+                var radios = [];
+
+                //go through each radio element
+                $fieldId.find('input[name="'+id+'"]').each(function(event){
+                    var $img = $(this).closest(".form-inline").find("img");
+                    //if it has images next to them then save the image src as well
+                    if($img.length > 0){
+                        radios.push([]);
+                        var n = radios.length-1;
+                        radios[n].push($(this).val());
+                        radios[n].push(utils.getFilenameFromURL($img.attr("src")));
+                    }
+                    else {
+                        radios.push($(this).val());
+                    }
+                });
                 this.form[id]["radios"] = radios;
                 break;
             case 'select':
@@ -183,23 +187,30 @@ class Convertor {
                     html.push('<fieldset><legend>'+value.label+'</legend>\n');
                     $.each(value.checkboxes, function(k, v){
                         if(typeof(v) === "object"){
-                            html.push('<label for="'+k+'">'+v[0]+'</label>\n');
+                            html.push('<label for="'+key+'-'+k+'">'+v[0]+'</label>\n');
                             html.push('<img src="'+utils.getFilenameFromURL(v[1])+'" style="width: 50px;">\n');
-                            html.push('<input name="form-'+type+'-'+n+'" id="'+k+'" value="'+v[0]+'" type="'+type+'" required="'+required+'">\n');
+                            html.push('<input name="'+key+'-'+k+'" id="'+key+'-'+k+'" value="'+v[0]+'" type="'+type+'" required="'+required+'">\n');
                         }
                         else {
-                            html.push('<label for="'+k+'">'+v+'</label>\n');
-                            html.push('<input name="form-'+type+'-'+n+'" id="'+k+'" value="'+v+'" type="'+type+'" required="'+required+'">\n');
+                            html.push('<label for="'+key+'-'+k+'">'+v+'</label>\n');
+                            html.push('<input name="'+key+'-'+k+'" id="'+key+'-'+k+'" value="'+v+'" type="'+type+'" required="'+required+'">\n');
                         }
                     });
-                    html.push('</fieldset></div>');
+                    html.push('</fieldset></div>\n');
                     break;
                 case 'radio':
                     html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
                     html.push('<fieldset><legend>'+value.label+'</legend>\n');
                     $.each(value.radios, function(k, v){
-                        html.push('<label for="'+k+'">'+v+'</label>\n');
-                        html.push('<input name="form-'+type+'-'+n+'" id="'+k+'" value="'+v+'" type="'+type+'" required="'+required+'">\n');
+                        if(typeof(v) === "object"){
+                            html.push('<label for="'+key+'-'+k+'">'+v[0]+'</label>\n');
+                            html.push('<img src="'+utils.getFilenameFromURL(v[1])+'" style="width: 50px;">\n');
+                            html.push('<input name="'+key+'" id="'+key+'-'+k+'" value="'+v[0]+'" type="'+type+'" required="'+required+'">\n');
+                        }
+                        else {
+                            html.push('<label for="'+key+'-'+k+'">'+v+'</label>\n');
+                            html.push('<input name="'+key+'" id="'+key+'-'+k+'" value="'+v+'" type="'+type+'" required="'+required+'">\n');
+                        }
                     });
                     html.push('</fieldset></div>\n');
                     break;
@@ -238,7 +249,7 @@ class Convertor {
                     html.push('<div class="button-wrapper button-'+cl+'">\n');
                     html.push('<input name="form-image-1" id="form-image-1" type="file" accept="image/png" capture="'+cl+'" required="'+required+'" class="'+cl+'">\n')
                     html.push('<label for="form-image-1">'+value.label+'</label>\n');
-                    html.push('</div></div>');
+                    html.push('</div></div>\n');
                     break;
                 case 'audio':
                     html.push('<div class="fieldcontain" id="fieldcontain-audio-1" data-fieldtrip-type="microphone">\n');
@@ -338,7 +349,17 @@ class Convertor {
                     var radios = [];
                     var required;
                     $this.find('input[name="'+id+'"]').each(function(event){
-                        radios.push($(this).val());
+                        var rd;
+                        var $prev = $(this).prev();
+                        if($prev.is('img')){
+                            rd = [];
+                            rd.push($(this).val());
+                            rd.push(pcapi.buildFSUrl('editors', $prev.attr("src")));
+                        }
+                        else {
+                            rd = $(this).val();
+                        }
+                        radios.push(rd);
                         required = $(this).attr("required");
                     });
                     form[id]["required"] = required;

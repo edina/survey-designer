@@ -6,10 +6,15 @@
   <div class="radios">
   {{#each radios}}
     <div class="form-inline">
-      <input type="text" value="{{this}}" name="{{../fieldId}}" id="{{../fieldId}}-{{increase @index}}" class="radio">
+      {{#ifObject this}}
+        <img src="{{this.[1]}}" style="width: 50px;">
+        <input type="text" value="{{this.[0]}}" name="{{../../fieldId}}" id="{{../../fieldId}}-{{increase @index}}" class="radio">
+      {{else}}
+        <input type="text" value="{{this}}" name="{{../../fieldId}}" id="{{../../fieldId}}-{{increase @index}}" class="radio">
+        <button type="file" class="btn btn-default btn-sm upload-image" aria-label="{{t "radio.upload"}}"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
+      {{/ifObject}}
       <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="{{t "radio.remove"}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
       <input type="file" class="image-upload" id="upload-{{../fieldId}}" style="display: none;">
-      <button type="file" class="btn btn-default btn-sm upload-radio" aria-label="{{t "radio.upload"}}"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
     </div>
   {{/each}}
   </div>
