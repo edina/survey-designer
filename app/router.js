@@ -1,5 +1,5 @@
 import Backbone from 'backbone';
-import { GeneralView } from './views/General';
+import { SurveyView } from './surveyView';
 
 
 export class SurveyRouter extends Backbone.Router {
@@ -14,6 +14,6 @@ export class SurveyRouter extends Backbone.Router {
 
   survey () {
     console.log('Route#survey');
-    new GeneralView();
+    new SurveyView();
   }
 }

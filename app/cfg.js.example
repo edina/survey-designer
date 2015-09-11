@@ -1,0 +1,25 @@
+function getConfig(){
+    return {
+        "baseurl": "<pcapi domain>",
+        "pcapianonymous": "<anon user id",
+        "userid": "00000000-0000-0000-0000-000000000000",
+        "version": "<version>",
+        "forms-list": true,
+        "options": [
+            "text",
+            "range",
+            "textarea",
+            "checkbox",
+            "radio",
+            "select",
+            "image",
+            "audio",
+            "warning",
+            "gps",
+            "help",
+            "dtree"
+        ]
+    };
+}
+
+export {getConfig};
