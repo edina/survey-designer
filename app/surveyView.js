@@ -198,9 +198,10 @@ export class SurveyView extends Backbone.View {
             pcapi.setCloudLogin(this.cfg.userid);
         }
 
-        if(this.cfg["forms-list"] === true){
+        if(this.cfg["forms-list"] === true && logoutHide === "" ){
             this.loadEditors();
         }
+
         this.$headerMenu.append('<li><a href="javascript:void(0)" class="login '+loginHide+'" data-target="#myModal">'+i18n.t("menu.login")+'</a></li>'+
                                '<li><a href="javascript:void(0)" class="logout '+logoutHide+'">'+i18n.t("menu.logout")+'</a></li>');
     }
