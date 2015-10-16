@@ -2,8 +2,8 @@
   <legend>{{t "checkbox.field-title"}}</legend>
   <label for="label">{{t "checkbox.label-title"}}</label>
   <input type="text" name="label" value='{{label}}'>
-  <input type="checkbox" name="required" {{check required}}>{{t "checkbox.required"}}
-  <input type="checkbox" name="persistent" {{check persistentValue}}>{{t "checkbox.persistent"}}
+  <input type="checkbox" name="required" {{check required "checked"}}>{{t "checkbox.required"}}<br>
+  <input type="checkbox" name="persistent" {{check persistent "checked"}}>{{t "checkbox.persistent"}}
   <div class="checkboxes">
   {{#each checkboxes}}
     <div class="form-inline">

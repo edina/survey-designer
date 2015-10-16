@@ -2,8 +2,8 @@
   <legend>{{t "textarea.field-title"}}</legend>
   <label for="label">{{t "textarea.label-title"}}</label>
   <input type="text" name="label" value="{{label}}">
-  <input type="checkbox" name="required" {{check required}}>{{t "textarea.required"}}
+  <input type="checkbox" name="required" {{check required "checked"}}>{{t "textarea.required"}}
   <label for="placeholder">{{t "textarea.default-text-title"}}</label>
-  <input type="text" name="placeholder" placeholder="{{default-text}}">
-  <input type="checkbox" name="persistent" {{check persistentValue}}>{{t "textarea.persistent"}}
+  <input type="text" name="placeholder" placeholder="{{t "textarea.default-text"}}" value="{{placeholder}}">
+  <input type="checkbox" name="persistent" {{check persistent "checked"}}>{{t "textarea.persistent"}}
 </fieldset>

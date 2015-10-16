@@ -39,19 +39,20 @@ class Convertor {
                 this.form[id]["prefix"] = $fieldId.find('input[name="prefix"]').val();
                 this.form[id]["placeholder"] = $fieldId.find('input[name="placeholder"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
-                this.form[id]["persistentValue"] = $fieldId.find('input[name="persistent"]').is(':checked');
+                this.form[id]["persistent"] = $fieldId.find('input[name="persistent"]').is(':checked');
                 this.form[id]["max-chars"] = $fieldId.find('input[name="max-chars"]').val();
                 break;
             case 'textarea':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["placeholder"] = $fieldId.find('input[name="placeholder"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
-                this.form[id]["persistentValue"] = $fieldId.find('input[name="persistent"]').is(':checked');
+                this.form[id]["persistent"] = $fieldId.find('input[name="persistent"]').is(':checked');
                 break;
             case 'range':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["placeholder"] = $fieldId.find('input[name="placeholder"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
+                this.form[id]["persistent"] = $fieldId.find('input[name="persistent"]').is(':checked');
                 this.form[id]["step"] = $fieldId.find('input[name="step"]').val();
                 this.form[id]["min"] = $fieldId.find('input[name="min"]').val();
                 this.form[id]["max"] = $fieldId.find('input[name="max"]').val();
@@ -59,6 +60,7 @@ class Convertor {
             case 'checkbox':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
+                this.form[id]["persistent"] = $fieldId.find('input[name="persistent"]').is(':checked');
                 var checkboxes = [];
 
                 $fieldId.find('input[name="'+id+'"]').each(function(event){
@@ -78,6 +80,7 @@ class Convertor {
             case 'radio':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
+                this.form[id]["persistent"] = $fieldId.find('input[name="persistent"]').is(':checked');
                 var radios = [];
 
                 //go through each radio element
@@ -99,10 +102,19 @@ class Convertor {
             case 'select':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
-                this.form[id]["persistentValue"] = $fieldId.find('input[name="persistent"]').is(':checked');
+                this.form[id]["persistent"] = $fieldId.find('input[name="persistent"]').is(':checked');
                 var options = [];
-                $fieldId.find('option').each(function(event){
-                    options.push($(this).val());
+                $fieldId.find('input[name="'+id+'"]').each(function(event){
+                    var $img = $(this).closest(".form-inline").find("img");
+                    //if it has images next to them then save the image src as well
+                    if($img.length > 0) {
+                        options.push([]);
+                        var n = options.length-1;
+                        options[n].push($(this).val());
+                        options[n].push(utils.getFilenameFromURL($img.attr("src")));
+                    } else{
+                        options.push($(this).val());
+                    }
                 });
                 this.form[id]["options"] = options;
                 break;
@@ -128,6 +140,9 @@ class Convertor {
             case 'warning':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["placeholder"] = $fieldId.find('textarea').val();
+                break;
+            case 'section':
+                this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 break;
             case undefined:
                 break;
@@ -155,67 +170,71 @@ class Convertor {
 
             var required = "";
             if(value.required){
-                required = "required";
+                required = 'required="required"';
+            }
+            var persistent = "";
+            if(value.persistent){
+                persistent = 'data-persistent="on"';
             }
             switch (type) {
                 case 'text':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+'>\n');
                     html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>\n');
                     html.push('<input name="form-'+type+'-'+n+'" id="form-'+type+'-'+n+
-                              '" type="text" required="'+required+'" placeholder="'+value.placeholder+
+                              '" type="text" '+required+' placeholder="'+value.placeholder+
                               '" maxlength="'+value["max-chars"]+'" value="'+value.prefix+'">\n');
                     html.push('</div>');
                     break;
                 case 'textarea':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+'>\n');
                     html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>\n');
                     html.push('<textarea name="form-'+type+'-'+n+'" id="form-'+type+'-'+n+
-                              '" required="'+required+'" placeholder="'+value.placeholder+
+                              '" '+required+' placeholder="'+value.placeholder+
                               '"></textarea>\n');
                     html.push('</div>');
                     break;
                 case 'range':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+'>\n');
                     html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>\n');
                     html.push('<input name="form-'+type+'-'+n+'" id="form-'+type+'-'+n+
-                              '" type="range" required="'+required+'" placeholder="'+value.placeholder+
+                              '" type="range" '+required+' placeholder="'+value.placeholder+
                               '" step="'+value.step+'" min="'+value.min+'" max="'+value.max+'">\n');
                     html.push('</div>\n');
                     break;
                 case 'checkbox':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+'>\n');
                     html.push('<fieldset><legend>'+value.label+'</legend>\n');
                     $.each(value.checkboxes, function(k, v){
                         if(typeof(v) === "object"){
                             html.push('<label for="'+key+'-'+k+'">'+v[0]+'</label>\n');
                             html.push('<img src="'+utils.getFilenameFromURL(v[1])+'" style="width: 50px;">\n');
-                            html.push('<input name="'+key+'-'+k+'" id="'+key+'-'+k+'" value="'+v[0]+'" type="'+type+'" required="'+required+'">\n');
+                            html.push('<input name="'+key+'-'+k+'" id="'+key+'-'+k+'" value="'+v[0]+'" type="'+type+'" '+required+'>\n');
                         }
                         else {
                             html.push('<label for="'+key+'-'+k+'">'+v+'</label>\n');
-                            html.push('<input name="'+key+'-'+k+'" id="'+key+'-'+k+'" value="'+v+'" type="'+type+'" required="'+required+'">\n');
+                            html.push('<input name="'+key+'-'+k+'" id="'+key+'-'+k+'" value="'+v+'" type="'+type+'" '+required+'>\n');
                         }
                     });
                     html.push('</fieldset></div>\n');
                     break;
                 case 'radio':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+'>\n');
                     html.push('<fieldset><legend>'+value.label+'</legend>\n');
                     $.each(value.radios, function(k, v){
                         if(typeof(v) === "object"){
                             html.push('<label for="'+key+'-'+k+'">'+v[0]+'</label>\n');
                             html.push('<img src="'+utils.getFilenameFromURL(v[1])+'" style="width: 50px;">\n');
-                            html.push('<input name="'+key+'" id="'+key+'-'+k+'" value="'+v[0]+'" type="'+type+'" required="'+required+'">\n');
+                            html.push('<input name="'+key+'" id="'+key+'-'+k+'" value="'+v[0]+'" type="'+type+'" '+required+'>\n');
                         }
                         else {
                             html.push('<label for="'+key+'-'+k+'">'+v+'</label>\n');
-                            html.push('<input name="'+key+'" id="'+key+'-'+k+'" value="'+v+'" type="'+type+'" required="'+required+'">\n');
+                            html.push('<input name="'+key+'" id="'+key+'-'+k+'" value="'+v+'" type="'+type+'" '+required+'>\n');
                         }
                     });
                     html.push('</fieldset></div>\n');
                     break;
                 case 'select':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+'>\n');
                     html.push('<fieldset><legend>'+value.label+'</legend>\n');
                     if(required !== ""){
                         html.push('<select id="'+key+'" required="required">\n');
@@ -247,14 +266,14 @@ class Convertor {
                     }
                     html.push('<div class="fieldcontain" id="fieldcontain-'+type+'-1" data-fieldtrip-type="'+cl+'">\n');
                     html.push('<div class="button-wrapper button-'+cl+'">\n');
-                    html.push('<input name="form-image-1" id="form-image-1" type="file" accept="image/png" capture="'+cl+'" required="'+required+'" class="'+cl+'">\n')
+                    html.push('<input name="form-image-1" id="form-image-1" type="file" accept="image/png" capture="'+cl+'" '+required+' class="'+cl+'">\n')
                     html.push('<label for="form-image-1">'+value.label+'</label>\n');
                     html.push('</div></div>\n');
                     break;
                 case 'audio':
                     html.push('<div class="fieldcontain" id="fieldcontain-audio-1" data-fieldtrip-type="microphone">\n');
                     html.push('<div class="button-wrapper button-microphone">\n');
-                    html.push('<input name="form-audio-1" id="form-audio-1" type="file" accept="audio/*" capture="microphone" required="" class="microphone">\n');
+                    html.push('<input name="form-audio-1" id="form-audio-1" type="file" accept="audio/*" capture="microphone" '+required+' class="microphone">\n');
                     html.push('<label for="form-audio-1">'+value.label+'</label>\n');
                     html.push('</div></div>\n');
                     break;
@@ -265,8 +284,13 @@ class Convertor {
                     html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
                     html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>\n');
                     html.push('<textarea name="form-'+type+'-'+n+'" id="form-'+type+'-'+n+
-                              '" required="'+required+'" placeholder="'+value.placeholder+
+                              '" '+required+' placeholder="'+value.placeholder+
                               '"></textarea>\n');
+                    html.push('</div>\n');
+                    break;
+                case 'section':
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<h3>'+value.label+'</h3>\n');
                     html.push('</div>\n');
                     break;
             }
@@ -304,7 +328,7 @@ class Convertor {
                     form[id]["prefix"] = $input.val();
                     form[id]["placeholder"] = $input.prop("placeholder");
                     form[id]["required"] = $input.prop("required");
-                    form[id]["persistent"] = $this.data("persistent-on");
+                    form[id]["persistent"] = $this.data("persistent");
                     form[id]["max-chars"] = $input.prop("maxlength");
                     break;
                 case 'textarea':
@@ -312,19 +336,21 @@ class Convertor {
                     var $input = $this.find('textarea');
                     form[id]["placeholder"] = $input.prop("placeholder");
                     form[id]["required"] = $input.prop("required");
-                    form[id]["persistent"] = $input.data("persistent-on");
+                    form[id]["persistent"] = $this.data("persistent");
                     break;
                 case 'range':
                     form[id]["label"] = $this.find('label').text();
                     var $input = $this.find('input');
                     form[id]["placeholder"] = $input.prop("placeholder");
                     form[id]["required"] = $input.prop("required");
+                    form[id]["persistent"] = $this.data("persistent");
                     form[id]["step"] = $input.prop("step");
                     form[id]["min"] = $input.prop("min");
                     form[id]["max"] = $input.prop("max");
                     break;
                 case 'checkbox':
                     form[id]["label"] = $this.find('legend').text();
+                    form[id]["persistent"] = $this.data("persistent");
                     var checkboxes = [];
                     var required;
                     $this.find('input[type="checkbox"]').each(function(){
@@ -346,6 +372,7 @@ class Convertor {
                     break;
                 case 'radio':
                     form[id]["label"] = $this.find('legend').text();
+                    form[id]["persistent"] = $this.data("persistent");
                     var radios = [];
                     var required;
                     $this.find('input[name="'+id+'"]').each(function(event){
@@ -382,14 +409,14 @@ class Convertor {
                     var $input = $this.find('input');
                     form[id]["required"] = $input.prop("required");
                     form[id]["multi-image"] = false;
-                    form[id]["los"] = ($input.find('.camera-va').length === 1);
+                    form[id]["los"] = ($input.attr('class') === 'camera-va');
                     break;
                 case 'multiimage':
                     form[id]["label"] = $this.find('label').text();
                     var $input = $this.find('input');
                     form[id]["required"] = $input.prop("required");
                     form[id]["multi-image"] = true;
-                    form[id]["los"] = ($input.find('.camera-va').length === 1);
+                    form[id]["los"] = ($input.attr('class') === 'camera-va');
                     break;
                 case 'audio':
                     form[id]["label"] = $this.find('label').text();
@@ -406,6 +433,9 @@ class Convertor {
                     form[id]["label"] = $this.find('label').text();
                     var $input = $this.find('textarea');
                     form[id]["placeholder"] = $input.prop("placeholder");
+                    break;
+                case 'section':
+                    form[id]["label"] = $this.find('h3').text();
                     break;
                 case undefined:
                     break;

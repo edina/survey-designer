@@ -1,15 +1,14 @@
 <fieldset class="fieldcontain fieldcontain-select" id="{{fieldId}}">
   <legend>{{t "select.field-title"}}</legend>
   <label for="label">{{t "select.label-title"}}</label>
-  <input type="text" name="label" value="{{label}}">
-  <input type="checkbox" name="required" {{check required}}>{{t "select.required"}}
-  <input type="checkbox" name="persistent" {{check persistentValue}}>{{t "select.persistent"}}
+  <input type="text" name="label" value="{{label}}"> <br>
+  <input type="checkbox" name="required" {{check required "checked"}}>{{t "select.required"}} <br>
+  <input type="checkbox" name="persistent" {{check persistent "checked"}}>{{t "select.persistent"}}
   <div class="options">
     {{#each options}}
     <div class="form-inline">
       <input type="text" value="{{this}}" name="{{../fieldId}}" id="{{../fieldId}}-{{increase @index}}" class="select">
       <button type="button" class="btn btn-default btn-sm remove-select" aria-label="{{t "select.remove"}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-      <button type="file" class="btn btn-default btn-sm upload-select" aria-label="{{t "select.upload"}}"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
     </div>
     {{/each}}
   </div>

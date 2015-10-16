@@ -2,12 +2,12 @@
   <legend>{{t "text.field-title"}}</legend>
   <label for="label">{{t "text.label-title"}}</label>
   <input type="text" name="label" value="{{label}}">
-  <input type="checkbox" name="required" {{check required}}>{{t "text.required"}}
+  <input type="checkbox" name="required" {{check required "checked"}}>{{t "text.required"}}
   <label for="prefix">{{t "text.prefix-title"}}</label>
-  <input type="text" name="prefix" placeholder="{{prefix}}">
-  <input type="checkbox" name="persistent" {{check persistentValue}}>{{t "text.persistent"}}
+  <input type="text" name="prefix" placeholder="{{t "text.prefix"}}" value="{{prefix}}">
+  <input type="checkbox" name="persistent" {{check persistent "checked"}}>{{t "text.persistent"}}
   <label for="placeholder">{{t "text.default-text-title"}}</label>
-  <input type="text" name="placeholder" placeholder="{{default-text}}">
+  <input type="text" name="placeholder" placeholder="{{t "text.default-text"}}" value="{{placeholder}}">
   <label for="max-chars">{{t "text.max-chars-title"}}</label>
   <input type="number" name="max-chars" value="{{max-chars}}">
 </fieldset>

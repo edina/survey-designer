@@ -192,6 +192,7 @@ export class SurveyView extends Backbone.View {
         if ("oauth_token" in utils.getParams() && utils.getParams().oauth_token !== undefined) {
             loginHide = "hide";
             logoutHide = "";
+            pcapi.setCloudLogin(utils.getParams()["oauth_token"]);
         }else if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
             loginHide = "hide";
             logoutHide = "";

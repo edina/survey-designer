@@ -11,6 +11,7 @@ import audioTemplate from '../templates/audio-fieldset.hbs!';
 import gpsTemplate from '../templates/gps-fieldset.hbs!';
 import warningTemplate from '../templates/warning-fieldset.hbs!';
 import dtreeTemplate from '../templates/dtree-fieldset.hbs!';
+import sectionTemplate from '../templates/section-fieldset.hbs!';
 import * as utils from './utils';
 
 class FieldGenerator {
@@ -31,9 +32,9 @@ class FieldGenerator {
             }
         });
 
-        Handlebars.registerHelper('check', function(v, options) {
+        Handlebars.registerHelper('check', function(v, word, options) {
             if(v){
-                return 'checked="checked"';
+                return word+'="'+word+'"';
             }
             else{
                 return '';
@@ -80,52 +81,39 @@ class FieldGenerator {
                 data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
                 data.label = data.label || i18n.t(type+".label");
                 data["max-chars"] = data["max-chars"] || i18n.t(type+".max-chars");
-                data["default-text"] = data["default-text"] || i18n.t(type+".default-text");
                 data["prefix"] = data["prefix"] || i18n.t(type+".prefix");
-                data.required = data.required || true;
-                data.persistentValue = data.persistentValue || false;
                 return textTemplate(data);
                 break;
             case 'textarea':
                 data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
                 data.label = data.label || i18n.t(type+".label");
-                data["default-text"] = data["default-text"] || i18n.t(type+".default-text");
-                data.required = data.required || true;
-                data.persistentValue = data.persistentValue || false;
                 return textareaTemplate(data);
                 break;
             case 'range':
                 data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
                 data.label = data.label || i18n.t(type+".label");
-                data["max-chars"] = data["max-chars"] || i18n.t(type+".max-chars");
-                data["default-text"] = data["default-text"] || i18n.t(type+".default-text");
-                data["prefix"] = data["prefix"] || i18n.t(type+".prefix");
-                data.required = data.required || true;
-                data.persistentValue = data.persistentValue || false;
+                data["min"] = data["min"] || 0;
+                data["max"] = data["max"] || 10;
+                data["step"] = data["step"] || 1;
                 return rangeTemplate(data);
                 break;
             case 'checkbox':
                 data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
                 data.label = data.label || i18n.t(type+".label");
-                data.required = data.required || true;
-                data.persistentValue = data.persistentValue || false;
-                data.checkboxes= data.checkboxes || [i18n.t(type+".text")];
                 return checkboxTemplate(data);
                 break;
             case 'radio':
                 data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
                 data.label = data.label || i18n.t(type+".label");
-                data.required = data.required || true;
-                data.persistentValue = data.persistentValue || false;
-                data.radios= data.radios || [i18n.t(type+".text")];
                 return radioTemplate(data);
                 break;
             case 'select':
                 data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
+                console.log(data.fieldId)
                 data.label = data.label || i18n.t(type+".label");
-                data.required = data.required || true;
-                data.persistentValue = data.persistentValue || false;
-                data.options = data.options || [i18n.t(type+".text")];
+                if(data.options && data.options[0] === ""){
+                    data.options.shift();
+                }
                 return selectTemplate(data);
                 break;
             case 'dtree':
@@ -136,6 +124,9 @@ class FieldGenerator {
             case 'image':
                 if(this.$el.find('.fieldcontain-image').length === 0){
                     data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
+                    data.label = data.label || i18n.t(type+".label");
+                    data["multi-image"] = data["multi-image"] || false;
+                    data.los = data.los || false;
                     return imageTemplate(data);
                 }
                 return '';
@@ -143,6 +134,7 @@ class FieldGenerator {
             case 'multiimage':
                 if(this.$el.find('.fieldcontain-image').length === 0){
                     data.fieldId = "fieldcontain-image-"+this.findHighestElement(type);
+                    data.label = data.label || i18n.t(type+".label");
                     data.required = data.required || true;
                     data["multi-image"] = data["multi-image"] || true;
                     data.los = data.los || false;
@@ -153,6 +145,7 @@ class FieldGenerator {
             case 'audio':
                 if(this.$el.find('.fieldcontain-audio').length === 0){
                     data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
+                    data.label = data.label || i18n.t(type+".label");
                     return audioTemplate(data);
                 }
                 return '';
@@ -168,10 +161,14 @@ class FieldGenerator {
                 if(this.$el.find('.fieldcontain-warning').length === 0){
                     data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
                     data.label = data.label || i18n.t(type+".label");
-                    data.placeholder = data.label || i18n.t(type+".placeholder");
+                    data.textarea = data.placeholder || "";
                     return warningTemplate(data);
                 }
                 return '';
+                break;
+            case 'section':
+                data.label = data.label || i18n.t(type+".label");
+                return sectionTemplate(data);
                 break;
         }
         return result;
@@ -220,11 +217,13 @@ class FieldGenerator {
 
             var value = i18n.t(type+".text");
             var nextElement = '<div class="form-inline">'+
-                               '<input type="text" value="'+value+'" name="fieldcontain-'+type+'-'+fieldcontainId+'" id="checkbox-'+fieldcontainId+'" class="'+type+'">'+
-                               '<button type="file" class="btn btn-default btn-sm upload-image" aria-label="Upload '+type+'"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>'+
-                               '<button type="button" class="btn btn-default btn-sm remove-'+type+'" aria-label="Remove '+type+'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'+
-                               '<input type="file" class="image-upload" id="upload-'+type+'-'+fieldcontainId+'" style="display: none;">'+
-                               '</div>';
+                               '<input type="text" value="'+value+'" name="fieldcontain-'+type+'-'+fieldcontainId+'" id="checkbox-'+fieldcontainId+'" class="'+type+'">';
+            if(type !== "select") {
+                nextElement += '<button type="file" class="btn btn-default btn-sm upload-image" aria-label="Upload '+type+'"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>';
+            }
+            nextElement += '<button type="button" class="btn btn-default btn-sm remove-'+type+'" aria-label="Remove '+type+'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'+
+                           '<input type="file" class="image-upload" id="upload-'+type+'-'+fieldcontainId+'" style="display: none;">'+
+                           '</div>';
             $(this).prev().append(nextElement);
             var i = 1;
             $("#fieldcontain-"+type+"-"+fieldcontainId).find('.'+type).each(function(){
@@ -322,8 +321,9 @@ class FieldGenerator {
             var index = this.findHighestElement('dtree') - 1;
             var id = "fieldcontain-dtree-"+index;
             var dtreeFname = file.name;
+            var ext = utils.getExtension(dtreeFname);
             if("sid" in utils.getParams()){
-                dtreeFname = utils.getParams().sid + '-' + index + '.json';
+                dtreeFname = utils.getParams().sid + '-' + index + '.' + ext;
             }
             var publicEditor = utils.getParams().public === 'true';
             var options = {

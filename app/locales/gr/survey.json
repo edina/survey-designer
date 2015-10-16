@@ -35,7 +35,7 @@
         "max-chars-title": "Άνω όριο χαρακτήρων",
         "max-chars": 256,
         "required": "Υποχρεωτικό",
-        "persistent": "Persistent"
+        "persistent": "Επανάληψη τιμών"
     },
     "textarea": {
         "name": "κείμενο",
@@ -47,7 +47,7 @@
         "max-chars-title": "Άνω όριο χαρακτήρων",
         "max-chars": 256,
         "required": "Υποχρεωτικό",
-        "persistent": "Persistent"
+        "persistent": "Επανάληψη τιμών"
     },
     "range":{
         "name": "διακύμανση",
@@ -57,13 +57,10 @@
         "default-text-title": "Προεπιλεγμένο κείμενο",
         "default-text": "Τοποθέτησε εδώ το προεπιλεγμένο κείμενο",
         "step-label": "Βήμα",
-        "step": 1,
         "required": "Υποχρεωτικό",
         "min-label": "Ελάχιστη τιμή",
-        "min": 1,
         "max-label": "Μέγιστη τιμή",
-        "max": 10,
-        "persistent": "Persistent"
+        "persistent": "Επανάληψη τιμών"
     },
     "checkbox": {
         "name": "πλαίσιο ελέγχου",
@@ -75,7 +72,7 @@
         "remove": "Διαγραφή",
         "upload": "Ανέβασμα",
         "add-checkbox": "Προσθήκη πλαίσιου ελέγχου",
-        "persistent": "Persistent"
+        "persistent": "Επανάληψη τιμών"
     },
     "radio": {
         "name": "Κουμπί μονής επιλογής",
@@ -87,7 +84,7 @@
         "remove": "Διαγραφή",
         "upload": "Ανέβασμα εικόνας",
         "add-radio": "Προσθήκη επιλογής",
-        "persistent": "Persistent"
+        "persistent": "Επανάληψη τιμών"
     },
     "select": {
         "name": "Λίστα επιλογών",
@@ -99,7 +96,7 @@
         "remove": "Διαγραφή",
         "upload": "Ανέβασμα εικόνας",
         "add-select": "Προσθήκη επιλογής",
-        "persistent": "Persistent"
+        "persistent": "Επανάληψη τιμών"
     },
     "image": {
         "name": "εικόνα",
@@ -108,8 +105,7 @@
         "label": "Αυτή είναι μια ετικέτα",
         "required": "Υποχρεωτικό",
         "multiple-images": "Πολλαπλές εικόνες",
-        "los": "Γραμμή της όρασης",
-        "persistent": "Persistent"
+        "los": "Γραμμή της όρασης"
     },
     "audio": {
         "name": "ήχος",
@@ -125,8 +121,7 @@
         "label-title": "Ετικέτα πεδίου GPS",
         "label": "Αυτή είναι μια ετικέτα",
         "required": "Υποχρεωτικό",
-        "background": "Για όλο το ταξίδι",
-        "persistent": "Persistent"
+        "background": "Για όλο το ταξίδι"
     },
     "warning": {
         "name": "προειδοποίηση",
@@ -134,8 +129,7 @@
         "label-title": "Ετικέτα προειδοποίησης",
         "label": "Αυτή είναι μια ετικέτα",
         "label-message": "Μήνυμα",
-        "message": "Το μήνυμα πάει εδώ",
-        "persistent": "Persistent"
+        "message": "Το μήνυμα πάει εδώ"
     },
     "dtree": {
         "name": "dtree",
@@ -144,7 +138,13 @@
         "label": "Αυτή είναι μια ετικέτα",
         "remove": "Διαγραφή",
         "upload": "Ανέβασμα δενδροειδών ερωτήσεων",
-        "add-dtree": "Προσθήκη επιλογής",
-        "persistent": "Persistent"
+        "add-dtree": "Προσθήκη επιλογής"
+    },
+    "section": {
+        "name": "section",
+        "field-title": "Τομέας",
+        "label-title": "Τίτλος τομέα",
+        "label": "Αυτός είναι ένας τίτλος",
+        "placeholder": "Καταχώρησε ένα τίτλο"
     }
 }
