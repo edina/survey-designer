@@ -272,7 +272,7 @@ class FieldGenerator {
             },
             'checkGeometries': function(v, geoms, options) {
                 if($.inArray(v, geoms) > -1){
-                    return 'checked="checked"';
+                    return new Handlebars.SafeString('checked="checked"');
                 }
                 else{
                     return '';
@@ -280,7 +280,7 @@ class FieldGenerator {
             },
             'check': function(v, word, options) {
                 if(v) {
-                    return word+'="'+word+'"';
+                    return new Handlebars.SafeString(word+'="'+word+'"');
                 }
                 else {
                     return '';

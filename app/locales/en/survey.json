@@ -52,8 +52,6 @@
         "field-title": "Range field",
         "label-title": "Field label",
         "label": "This is a label",
-        "default-text-title": "Default text",
-        "default-text": "Place default text here (if any)",
         "step-label": "Step",
         "required": "Required",
         "min-label": "Min value",

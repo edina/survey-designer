@@ -9,9 +9,9 @@
     <div class="form-inline">
       {{#ifObject this}}
         <img src="{{this.[1]}}" style="width: 50px;">
-        <input type="text" value="{{this.[0]}}" name="{{../../fieldId}}" id="{{../../fieldId}}-{{increase @index}}" class="checkbox">
+        <input type="text" value="{{this.[0]}}" name="{{../fieldId}}" id="{{../fieldId}}-{{increase @index}}" class="checkbox">
       {{else}}
-        <input type="text" value="{{this}}" name="{{../../fieldId}}" id="{{../../fieldId}}-{{increase @index}}" class="checkbox">
+        <input type="text" value="{{this}}" name="{{../fieldId}}" id="{{../fieldId}}-{{increase @index}}" class="checkbox">
         <button type="file" class="btn btn-default btn-sm upload-image" aria-label="{{t "checkbox.upload"}}"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
       {{/ifObject}}
       <button type="button" class="btn btn-default btn-sm remove-checkbox" aria-label="{{t "checkbox.remove"}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
