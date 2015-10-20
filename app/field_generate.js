@@ -1,3 +1,4 @@
+//'use strict';
 import $ from 'jquery';
 import generalTemplate from '../templates/general-fieldset.hbs!';
 import textTemplate from '../templates/text-fieldset.hbs!';
@@ -18,48 +19,7 @@ class FieldGenerator {
     constructor (el){
         //super();
         this.$el = $(el);
-        Handlebars.registerHelper('t', function(i18n_key) {
-            var result = i18n.t(i18n_key);
-            return new Handlebars.SafeString(result);
-        });
-
-        Handlebars.registerHelper('checkGeometries', function(v, geoms, options) {
-            if($.inArray(v, geoms) > -1){
-                return 'checked="checked"';
-            }
-            else{
-                return '';
-            }
-        });
-
-        Handlebars.registerHelper('check', function(v, word, options) {
-            if(v){
-                return word+'="'+word+'"';
-            }
-            else{
-                return '';
-            }
-        });
-
-        Handlebars.registerHelper('increase', function(v, options) {
-            return v+1;
-        });
-
-        Handlebars.registerHelper('exists', function(variable, options) {
-            if (typeof variable !== 'undefined') {
-                return options.fn(this);
-            } else {
-                return options.inverse(this);
-            }
-        });
-
-        Handlebars.registerHelper('ifObject', function(item, options) {
-            if(typeof item === "object") {
-                return options.fn(this);
-            } else {
-                return options.inverse(this);
-            }
-        });
+        this.registerHelpers();
     }
 
     render(type, data) {
@@ -302,6 +262,58 @@ class FieldGenerator {
             }
         });
         return j+1;
+    };
+
+    registerHelpers () {
+        var helpers = {
+            't': function(i18nKey) {
+                var result = i18n.t(i18nKey);
+                return new Handlebars.SafeString(result);
+            },
+            'checkGeometries': function(v, geoms, options) {
+                if($.inArray(v, geoms) > -1){
+                    return 'checked="checked"';
+                }
+                else{
+                    return '';
+                }
+            },
+            'check': function(v, word, options) {
+                if(v) {
+                    return word+'="'+word+'"';
+                }
+                else {
+                    return '';
+                }
+            },
+            'increase': function(v, options) {
+                return v+1;
+            },
+            'exists': function(variable, options) {
+                if (typeof variable !== 'undefined') {
+                    return options.fn(this);
+                }
+                else {
+                    return options.inverse(this);
+                }
+            },
+            'ifObject': function(item, options) {
+                if(typeof item === "object") {
+                    return options.fn(this);
+                }
+                else {
+                    return options.inverse(this);
+                }
+            }
+        };
+
+        //var myHandlebars = Handlebars.noConflict();
+        if (Handlebars && typeof Handlebars.registerHelper === "function") {
+            // register helpers
+            for (var prop in helpers) {
+                Handlebars.registerHelper(prop, helpers[prop]);
+            }
+        }
     };
 
     uploadFile (browseElement, uploadElement) {
