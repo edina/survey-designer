@@ -21,7 +21,8 @@
         "polygon-value": "polygon",
         "polygon-label": "πολύγωνο",
         "box-value": "box",
-        "box-label": "κουτί"
+        "box-label": "κουτί",
+        "relate": "Σχέτισε"
     },
     "text": {
         "name": "κείμενο",
@@ -35,7 +36,8 @@
         "max-chars-title": "Άνω όριο χαρακτήρων",
         "max-chars": 256,
         "required": "Υποχρεωτικό",
-        "persistent": "Επανάληψη τιμών"
+        "persistent": "Επανάληψη τιμών",
+        "relate": "Σχέτισε"
     },
     "textarea": {
         "name": "κείμενο",
@@ -47,7 +49,8 @@
         "max-chars-title": "Άνω όριο χαρακτήρων",
         "max-chars": 256,
         "required": "Υποχρεωτικό",
-        "persistent": "Επανάληψη τιμών"
+        "persistent": "Επανάληψη τιμών",
+        "relate": "Σχέτισε"
     },
     "range":{
         "name": "διακύμανση",
@@ -58,7 +61,8 @@
         "required": "Υποχρεωτικό",
         "min-label": "Ελάχιστη τιμή",
         "max-label": "Μέγιστη τιμή",
-        "persistent": "Επανάληψη τιμών"
+        "persistent": "Επανάληψη τιμών",
+        "relate": "Σχέτισε"
     },
     "checkbox": {
         "name": "πλαίσιο ελέγχου",
@@ -70,7 +74,8 @@
         "remove": "Διαγραφή",
         "upload": "Ανέβασμα",
         "add-checkbox": "Προσθήκη πλαίσιου ελέγχου",
-        "persistent": "Επανάληψη τιμών"
+        "persistent": "Επανάληψη τιμών",
+        "relate": "Σχέτισε"
     },
     "radio": {
         "name": "Κουμπί μονής επιλογής",
@@ -82,7 +87,8 @@
         "remove": "Διαγραφή",
         "upload": "Ανέβασμα εικόνας",
         "add-radio": "Προσθήκη επιλογής",
-        "persistent": "Επανάληψη τιμών"
+        "persistent": "Επανάληψη τιμών",
+        "relate": "Σχέτισε"
     },
     "select": {
         "name": "Λίστα επιλογών",
@@ -94,7 +100,8 @@
         "remove": "Διαγραφή",
         "upload": "Ανέβασμα εικόνας",
         "add-select": "Προσθήκη επιλογής",
-        "persistent": "Επανάληψη τιμών"
+        "persistent": "Επανάληψη τιμών",
+        "relate": "Σχέτισε"
     },
     "image": {
         "name": "εικόνα",

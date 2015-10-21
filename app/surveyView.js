@@ -1,3 +1,4 @@
+'use strict';
 import Backbone from 'backbone';
 import DragDropper from './dragdrop';
 import FieldGenerator from './field_generate';
@@ -10,6 +11,7 @@ import './styles/app.css!';
 import pcapi from 'pcapi';
 import './styles/sidebar.css!';
 import menuTemplate from './templates/menu.hbs!';
+import DataStorage from './data';
 
 export class SurveyView extends Backbone.View {
 
@@ -17,8 +19,11 @@ export class SurveyView extends Backbone.View {
         this.$mainBodyEl = $("#content");
         this.renderEl = "mobile-content";
         this.$headerMenu = $("#header-menu");
+        this.dataStorage = new DataStorage();
         this.cfg = cfg.getConfig();
         this.render();
+        this.convertor = new Convertor();
+        this.enableAutoSave();
     }
 
     doLogin () {
@@ -34,11 +39,22 @@ export class SurveyView extends Backbone.View {
                         body.push('</div>');
                     }
                     body.push('</div>');
-                    $("body").append(utils.makeModalWindow("login-modal", "", body).join(""));
+                    $("body").append(utils.makeModalWindow(id, "", body).join(""));
                 }
                 $("#"+id).modal("show");
             });
         });
+    }
+
+    enableAutoSave() {
+        var iFrequency = 60000; // expressed in miliseconds
+        var myInterval = 0;
+
+        // STARTS and Resets the loop if any{
+        if(myInterval > 0) clearInterval(myInterval);  // stop
+        myInterval = setInterval( $.proxy(function(){
+            this.dataStorage.setForm(this.convertor.getForm());
+        }, this), iFrequency );  // run
     }
 
     enableEvents () {
@@ -50,7 +66,7 @@ export class SurveyView extends Backbone.View {
     enableFormEvents() {
         let convertor = new Convertor();
         $(document).on('click', '#form-save', function(){
-            var formInJSON = convertor.getForm();
+            var formInJSON = this.convertor.getForm();
             var title = formInJSON.title;
             if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
                 title = utils.getParams().sid;
@@ -114,7 +130,7 @@ export class SurveyView extends Backbone.View {
                 this.fieldGenerator.render('text');
             }
             else {
-                var dataObj = convertor.HTMLtoJSON (data, title);
+                var dataObj = this.convertor.HTMLtoJSON (data, title);
                 $("."+this.renderEl).html("");
                 this.fieldGenerator.render('general', {"title": dataObj.title, "geoms": dataObj.geoms})
                 $.each(dataObj, $.proxy(function(k, v){

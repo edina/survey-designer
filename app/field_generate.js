@@ -1,4 +1,4 @@
-//'use strict';
+'use strict';
 import $ from 'jquery';
 import generalTemplate from '../templates/general-fieldset.hbs!';
 import textTemplate from '../templates/text-fieldset.hbs!';
@@ -14,6 +14,7 @@ import warningTemplate from '../templates/warning-fieldset.hbs!';
 import dtreeTemplate from '../templates/dtree-fieldset.hbs!';
 import sectionTemplate from '../templates/section-fieldset.hbs!';
 import * as utils from './utils';
+import Visibility from './visibility';
 
 class FieldGenerator {
     constructor (el){
@@ -28,6 +29,12 @@ class FieldGenerator {
         this.enableActions();
     }
 
+    /**
+     * create field by using templates and data
+     * @param {String} type e.g. general, text etc
+     * @param {Object} data of each field
+     * @returns {String} html of each field that is generated on the SD
+     */
     createField(type, data) {
         data = data || {};
         var result;
@@ -134,6 +141,10 @@ class FieldGenerator {
         return result;
     };
 
+    /**
+     * add move and remove buttons for each field that is render on the SD
+     * @param {String} type such as text, textarea etc
+     */
     addFieldButtons(type) {
         if(type !== "general"){
             var fields = this.$el.find('.fieldcontain-'+type);
@@ -149,6 +160,9 @@ class FieldGenerator {
         }
     };
 
+    /**
+     * enable all events
+     */
     enableActions() {
         this.enableCheckboxEvents();
         this.enableRadioEvents();
@@ -157,19 +171,34 @@ class FieldGenerator {
         this.enableRemoveField();
     };
 
+    /**
+     * enable events for checkboxes
+     */
     enableCheckboxEvents() {
         this.enableMultipleOptionsEvents('checkbox');
     };
 
+    /**
+     * enable events for radio
+     */
     enableRadioEvents() {
         this.enableMultipleOptionsEvents('radio');
     };
 
+    /**
+     * enable events select
+     */
     enableSelectEvents() {
         this.enableMultipleOptionsEvents('select');
     };
 
+    /**
+     * enable events such as add, remove element button e.g. radio checkbox
+     * upload image and add rules to fields
+     * @param {String} type (text, textarea etc)
+     */
     enableMultipleOptionsEvents(type) {
+        //add element button
         this.$el.off("click", ".add-"+type);
         this.$el.on("click", ".add-"+type, function(){
             var fieldcontainId = utils.numberFromId($(this).closest('.fieldcontain-'+type).prop("id"));
@@ -191,16 +220,20 @@ class FieldGenerator {
                 i++;
             })
         });
+
+        //remove element button
         this.$el.off("click", ".remove-"+type);
         this.$el.on("click", ".remove-"+type, function(){
             $(this).closest('.form-inline').remove();
         });
 
+        //upload image/file button
         this.$el.off("click", ".upload-image");
         this.$el.on("click", ".upload-image", function(){
             $(this).closest('.form-inline').find('input[type="file"]').trigger('click');
         });
 
+        //when image-uplaod changes upload the actual file to the server
         this.$el.off("change", ".image-upload");
         this.$el.on("change", ".image-upload", $.proxy(function(e){
             var files = e.target.files || e.dataTransfer.files;
@@ -235,6 +268,14 @@ class FieldGenerator {
                 $formLine.find('button.upload-image').remove();
             }, this));
         }, this));
+
+        //add visibility button
+        var visibility = new Visibility();
+        this.$el.off("click", ".relate");
+        this.$el.on("click", ".relate", $.proxy(function(e){
+            visibility.showVisibilityWindow();
+
+        }, this));
     };
 
     enabledTreeEvents() {
@@ -264,6 +305,9 @@ class FieldGenerator {
         return j+1;
     };
 
+    /**
+     * functions that added on the handlebars templates
+     */
     registerHelpers () {
         var helpers = {
             't': function(i18nKey) {
@@ -316,6 +360,11 @@ class FieldGenerator {
         }
     };
 
+    /**
+     * upload file on the server
+     * @param {String} browserElement
+     * @param {String} uploadElement
+     */
     uploadFile (browseElement, uploadElement) {
         var file;
         $(browseElement).unbind();

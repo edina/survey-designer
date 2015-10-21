@@ -35,7 +35,8 @@
         "max-chars-title": "Max characters",
         "max-chars": 256,
         "required": "Required",
-        "persistent": "Persistent"
+        "persistent": "Persistent",
+        "relate": "Visibility"
     },
     "textarea": {
         "name": "textarea",
@@ -45,7 +46,8 @@
         "default-text-title": "Default text",
         "default-text": "Place default text here (if any)",
         "required": "Required",
-        "persistent": "Persistent"
+        "persistent": "Persistent",
+        "relate": "Visibility"
     },
     "range":{
         "name": "text",
@@ -56,7 +58,8 @@
         "required": "Required",
         "min-label": "Min value",
         "max-label": "Max value",
-        "persistent": "Persistent"
+        "persistent": "Persistent",
+        "relate": "Visibility"
     },
     "checkbox": {
         "name": "checkbox",
@@ -68,7 +71,8 @@
         "remove": "Remove",
         "upload": "Upload image",
         "add-checkbox": "Add checkbox",
-        "persistent": "Persistent"
+        "persistent": "Persistent",
+        "relate": "Visibility"
     },
     "radio": {
         "name": "radio",
@@ -82,7 +86,8 @@
         "add-checkbox": "Add radio",
         "persistent": "Persistent",
         "allow-other": "Allow Other",
-        "other": "Other"
+        "other": "Other",
+        "relate": "Visibility"
     },
     "select": {
         "name": "select",
@@ -94,7 +99,8 @@
         "remove": "Remove",
         "upload": "Upload image",
         "add-select": "Add option",
-        "persistent": "Persistent"
+        "persistent": "Persistent",
+        "relate": "Visibility"
     },
     "image": {
         "name": "image",
