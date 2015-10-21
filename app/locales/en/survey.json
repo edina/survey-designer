@@ -80,7 +80,9 @@
         "remove": "Remove",
         "upload": "Upload image",
         "add-checkbox": "Add radio",
-        "persistent": "Persistent"
+        "persistent": "Persistent",
+        "allow-other": "Allow Other",
+        "other": "Other"
     },
     "select": {
         "name": "select",
