@@ -1,5 +1,8 @@
 {
     "title": "Survey Designer",
+    "save": "Save",
+    "add-rule": "Add rule",
+    "cancel": "Cancel",
     "menu": {
         "create-survey": "Create Survey",
         "login": "login",
@@ -85,6 +88,8 @@
         "upload": "Upload image",
         "add-checkbox": "Add radio",
         "persistent": "Persistent",
+        "allow-other": "Allow Other",
+        "other": "Other",
         "relate": "Visibility"
     },
     "select": {

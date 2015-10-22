@@ -154,3 +154,7 @@ body {
     z-index: 999999;
     visibility: hidden;
 }
+
+#relate-modal select{
+    width: 100%;
+}

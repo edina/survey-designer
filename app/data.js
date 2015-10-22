@@ -1,10 +1,13 @@
 'use strict';
 class DataStorage {
-    constructor(){
+    constructor(el){
         this.formKey = "current-form";
+        if(el) {
+            this.formKey = el;
+        }
     }
 
-    setForm(data){
+    setData(data){
         if(localStorage) {
             localStorage.setItem(this.formKey, JSON.stringify(data));
         }
@@ -13,7 +16,7 @@ class DataStorage {
         }
     }
 
-    getForm(){
+    getData(){
         if(localStorage) {
             return JSON.parse(localStorage.getItem(this.formKey));
         }

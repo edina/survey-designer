@@ -1,5 +1,8 @@
 {
     "title": "Survey Designer",
+    "save": "Save",
+    "add-rule": "Add rule",
+    "cancel": "Cancel",
     "menu": {
         "create-survey": "Create Survey",
         "login": "login",

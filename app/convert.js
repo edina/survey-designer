@@ -170,16 +170,20 @@ class Convertor {
             var n = splits[0];
 
             var required = "";
-            if(value.required){
+            if(value.required) {
                 required = 'required="required"';
             }
             var persistent = "";
-            if(value.persistent){
+            if(value.persistent) {
                 persistent = 'data-persistent="on"';
+            }
+            var visibility = "";
+            if(value.visibility) {
+                visibility = 'data-visibility="'+value.visibility.id.replace("fieldcontain-", "")+' '+value.visibility.rule+' '+value.visibility.answer+'"';
             }
             switch (type) {
                 case 'text':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+'>\n');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+' '+visibility+'>\n');
                     html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>\n');
                     html.push('<input name="form-'+type+'-'+n+'" id="form-'+type+'-'+n+
                               '" type="text" '+required+' placeholder="'+value.placeholder+
@@ -187,7 +191,7 @@ class Convertor {
                     html.push('</div>');
                     break;
                 case 'textarea':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+'>\n');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+' '+visibility+'>\n');
                     html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>\n');
                     html.push('<textarea name="form-'+type+'-'+n+'" id="form-'+type+'-'+n+
                               '" '+required+' placeholder="'+value.placeholder+
@@ -195,7 +199,7 @@ class Convertor {
                     html.push('</div>');
                     break;
                 case 'range':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+'>\n');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+' '+visibility+'>\n');
                     html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>\n');
                     html.push('<input name="form-'+type+'-'+n+'" id="form-'+type+'-'+n+
                               '" type="range" '+required+' placeholder="'+value.placeholder+
@@ -203,7 +207,7 @@ class Convertor {
                     html.push('</div>\n');
                     break;
                 case 'checkbox':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+'>\n');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+' '+visibility+'>\n');
                     html.push('<fieldset><legend>'+value.label+'</legend>\n');
                     $.each(value.checkboxes, function(k, v){
                         if(typeof(v) === "object"){
@@ -219,7 +223,7 @@ class Convertor {
                     html.push('</fieldset></div>\n');
                     break;
                 case 'radio':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+'>\n');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+' '+visibility+'>\n');
                     html.push('<fieldset><legend>'+value.label+'</legend>\n');
                     $.each(value.radios, function(k, v){
                         if(typeof(v) === "object"){
@@ -239,7 +243,7 @@ class Convertor {
                     html.push('</fieldset></div>\n');
                     break;
                 case 'select':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+'>\n');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+' '+visibility+'>\n');
                     html.push('<fieldset><legend>'+value.label+'</legend>\n');
                     if(required !== ""){
                         html.push('<select id="'+key+'" required="required">\n');
@@ -254,7 +258,7 @@ class Convertor {
                     html.push('</select></fieldset></div>\n');
                     break;
                 case 'dtree':
-                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'">\n');
+                    html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+visibility+'>\n');
                     html.push('<fieldset><label for="form-'+type+'-'+n+'">'+value.filename+'</label>\n');
                     html.push('<div class="button-wrapper button-dtree"></div>\n');
                     html.push('</fieldset>\n');
@@ -269,14 +273,14 @@ class Convertor {
                     if(value.los === true){
                         cl = "camera-va";
                     }
-                    html.push('<div class="fieldcontain" id="fieldcontain-'+type+'-1" data-fieldtrip-type="'+cl+'">\n');
+                    html.push('<div class="fieldcontain" id="fieldcontain-'+type+'-1" data-fieldtrip-type="'+cl+'" '+visibility+'>\n');
                     html.push('<div class="button-wrapper button-'+cl+'">\n');
                     html.push('<input name="form-image-1" id="form-image-1" type="file" accept="image/png" capture="'+cl+'" '+required+' class="'+cl+'">\n')
                     html.push('<label for="form-image-1">'+value.label+'</label>\n');
                     html.push('</div></div>\n');
                     break;
                 case 'audio':
-                    html.push('<div class="fieldcontain" id="fieldcontain-audio-1" data-fieldtrip-type="microphone">\n');
+                    html.push('<div class="fieldcontain" id="fieldcontain-audio-1" data-fieldtrip-type="microphone" '+visibility+'>\n');
                     html.push('<div class="button-wrapper button-microphone">\n');
                     html.push('<input name="form-audio-1" id="form-audio-1" type="file" accept="audio/*" capture="microphone" '+required+' class="microphone">\n');
                     html.push('<label for="form-audio-1">'+value.label+'</label>\n');

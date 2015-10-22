@@ -53,7 +53,7 @@ export class SurveyView extends Backbone.View {
         // STARTS and Resets the loop if any{
         if(myInterval > 0) clearInterval(myInterval);  // stop
         myInterval = setInterval( $.proxy(function(){
-            this.dataStorage.setForm(this.convertor.getForm());
+            this.dataStorage.setData(this.convertor.getForm());
         }, this), iFrequency );  // run
     }
 
@@ -65,8 +65,18 @@ export class SurveyView extends Backbone.View {
 
     enableFormEvents() {
         let convertor = new Convertor();
-        $(document).on('click', '#form-save', function(){
-            var formInJSON = this.convertor.getForm();
+        $(document).off('click', '#form-save');
+        $(document).on('click', '#form-save', $.proxy(function(){
+            var formInJSON = this.dataStorage.getData();
+            var visData = new DataStorage('visibility');
+            var visibilities = visData.getData();
+            for (var key in formInJSON) {
+                for (var key2 in visibilities) {
+                    if (key === key2) {
+                        formInJSON[key]['visibility'] = visibilities[key2];
+                    }
+                }
+            }
             var title = formInJSON.title;
             if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
                 title = utils.getParams().sid;
@@ -97,8 +107,9 @@ export class SurveyView extends Backbone.View {
             pcapi.updateItem(options2).then(function(result){
                 utils.giveFeedback("Your form has been uploaded");
             });
-        });
+        }, this));
 
+        $(document).off('click', '.get-form');
         $(document).on('click', '.get-form', $.proxy(function(e){
             var title = e.target.title.split(".")[0];
             var options = {

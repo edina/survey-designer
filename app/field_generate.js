@@ -272,10 +272,9 @@ class FieldGenerator {
         //add visibility button
         var visibility = new Visibility();
         this.$el.off("click", ".relate");
-        this.$el.on("click", ".relate", $.proxy(function(e){
-            visibility.showVisibilityWindow();
-
-        }, this));
+        this.$el.on("click", ".relate", function(){
+            visibility.showVisibilityWindow($(this).closest('.fieldcontain').attr("id"));
+        });
     };
 
     enabledTreeEvents() {
