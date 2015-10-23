@@ -61,6 +61,7 @@ class Convertor {
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
                 this.form[id]["persistent"] = $fieldId.find('input[name="persistent"]').is(':checked');
+                this.form[id]["other"] = $fieldId.find('input[name="other"]').is(':checked');
                 var checkboxes = [];
 
                 $fieldId.find('input[name="'+id+'"]').each(function(event){
@@ -220,6 +221,10 @@ class Convertor {
                             html.push('<input name="'+key+'-'+k+'" id="'+key+'-'+k+'" value="'+v+'" type="'+type+'" '+required+'>\n');
                         }
                     });
+                    if (value.other === true) {
+                        html.push('<label for="'+key+'-'+value.checkboxes.length+'" class="other">' + i18n.t('checkbox.other')  + '</label>\n');
+                        html.push('<input name="'+key+'" id="'+key+'-'+value.checkboxes.length+'" value="other" class="other" type="'+type+'" '+required+'>\n');
+                    }
                     html.push('</fieldset></div>\n');
                     break;
                 case 'radio':
