@@ -237,8 +237,8 @@ class Convertor {
                         }
                     });
                     if (value.other === true) {
-                        html.push('<label for="'+key+'-'+value.radios.length+'">' + i18n.t('radio.other')  + '</label>\n');
-                        html.push('<input name="'+key+'" id="'+key+'-'+value.radios.length+'" value="other" type="'+type+'" '+required+'>\n');
+                        html.push('<label for="'+key+'-'+value.radios.length+'" class="other">' + i18n.t('radio.other')  + '</label>\n');
+                        html.push('<input name="'+key+'" id="'+key+'-'+value.radios.length+'" value="other" class="other" type="'+type+'" '+required+'>\n');
                     }
                     html.push('</fieldset></div>\n');
                     break;
