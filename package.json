@@ -29,7 +29,8 @@
     "beefy": "^2.1.5",
     "jshint": "^2.7.0",
     "release-it": "0.0.15",
-    "uglify": "^0.1.3"
+    "uglify": "^0.1.3",
+    "watchify": "^3.5.0"
   },
   "jspm": {
     "directories": {
