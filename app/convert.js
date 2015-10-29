@@ -258,7 +258,7 @@ class Convertor {
                     html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+' '+visibility+'>\n');
                     html.push('<fieldset>\n<legend>'+value.label+'</legend>\n');
                     if(required !== ""){
-                        html.push('<select id="'+key+'" required="required">\n');
+                        html.push('<select name="'+key+'" required="required">\n');
                         html.push('<option value=""></option>\n');
                     }
                     else{
