@@ -143,7 +143,6 @@ export class SurveyView extends Backbone.View {
             }
             else {
                 var dataObj = this.convertor.HTMLtoJSON (data, title);
-                console.log(dataObj)
                 $("."+this.renderEl).html("");
                 this.fieldGenerator.render('general', {"title": dataObj.title, "geoms": dataObj.geoms})
                 $.each(dataObj, $.proxy(function(k, v){
