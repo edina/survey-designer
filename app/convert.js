@@ -161,14 +161,14 @@ class Convertor {
         html.push('<form data-title=\"'+this.form.title+'\" data-ajax=\"false\" novalidate>\n')
 
         //add geometry
-        html.push('<div class="fieldcontain fieldcontain-geometryType" id="fieldcontain-geometryType" data-cobweb-type="geometryType">');
-        html.push('<input type="hidden" data-record-geometry="'+this.form.geoms.join(",")+'" value="'+this.form.geoms.join(",")+'">');
-        html.push('</div>');
+        html.push('<div class="fieldcontain fieldcontain-geometryType" id="fieldcontain-geometryType" data-cobweb-type="geometryType">\n');
+        html.push('<input type="hidden" data-record-geometry="'+this.form.geoms.join(",")+'" value="'+this.form.geoms.join(",")+'">\n');
+        html.push('</div>\n');
 
         $.each(this.form, function(key, value){
             var splits = key.split("-");
             var type = splits[1];
-            var n = splits[0];
+            var n = splits[2];
 
             var required = "";
             if(value.required) {
@@ -180,16 +180,17 @@ class Convertor {
             }
             var visibility = "";
             if(value.visibility) {
-                visibility = 'data-visibility="'+value.visibility.id.replace("fieldcontain-", "")+' '+value.visibility.rule+' '+value.visibility.answer+'"';
+                visibility = 'data-visibility="'+value.visibility.id.replace("fieldcontain-", "")+' '+value.visibility.rule+' \''+value.visibility.answer+'\'"';
             }
             switch (type) {
                 case 'text':
+                    console.log(key)
                     html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+' '+visibility+'>\n');
                     html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>\n');
                     html.push('<input name="form-'+type+'-'+n+'" id="form-'+type+'-'+n+
                               '" type="text" '+required+' placeholder="'+value.placeholder+
                               '" maxlength="'+value["max-chars"]+'" value="'+value.prefix+'">\n');
-                    html.push('</div>');
+                    html.push('</div>\n');
                     break;
                 case 'textarea':
                     html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+' '+visibility+'>\n');
@@ -197,7 +198,7 @@ class Convertor {
                     html.push('<textarea name="form-'+type+'-'+n+'" id="form-'+type+'-'+n+
                               '" '+required+' placeholder="'+value.placeholder+
                               '"></textarea>\n');
-                    html.push('</div>');
+                    html.push('</div>\n');
                     break;
                 case 'range':
                     html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+' '+visibility+'>\n');
@@ -209,11 +210,14 @@ class Convertor {
                     break;
                 case 'checkbox':
                     html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+' '+visibility+'>\n');
-                    html.push('<fieldset><legend>'+value.label+'</legend>\n');
+                    html.push('<fieldset>\n<legend>'+value.label+'</legend>\n');
                     $.each(value.checkboxes, function(k, v){
                         if(typeof(v) === "object"){
-                            html.push('<label for="'+key+'-'+k+'">'+v[0]+'</label>\n');
-                            html.push('<img src="'+utils.getFilenameFromURL(v[1])+'" style="width: 50px;">\n');
+                            html.push('<label for="'+key+'-'+k+'">\n');
+                            html.push('<div class="ui-grid-a grids">\n');
+                            html.push('<div class="ui-block-a"><p>'+v[0]+'</p></div>\n');
+                            html.push('<div class="ui-block-b"><img src="'+utils.getFilenameFromURL(v[1])+'"></div>\n');
+                            html.push('</label>');
                             html.push('<input name="'+key+'-'+k+'" id="'+key+'-'+k+'" value="'+v[0]+'" type="'+type+'" '+required+'>\n');
                         }
                         else {
@@ -225,15 +229,18 @@ class Convertor {
                         html.push('<label for="'+key+'-'+value.checkboxes.length+'" class="other">' + i18n.t('checkbox.other')  + '</label>\n');
                         html.push('<input name="'+key+'" id="'+key+'-'+value.checkboxes.length+'" value="other" class="other" type="'+type+'" '+required+'>\n');
                     }
-                    html.push('</fieldset></div>\n');
+                    html.push('</fieldset>\n</div>\n');
                     break;
                 case 'radio':
                     html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+' '+visibility+'>\n');
-                    html.push('<fieldset><legend>'+value.label+'</legend>\n');
+                    html.push('<fieldset>\n<legend>'+value.label+'</legend>\n');
                     $.each(value.radios, function(k, v){
                         if(typeof(v) === "object"){
-                            html.push('<label for="'+key+'-'+k+'">'+v[0]+'</label>\n');
-                            html.push('<img src="'+utils.getFilenameFromURL(v[1])+'" style="width: 50px;">\n');
+                            html.push('<label for="'+key+'-'+k+'">\n');
+                            html.push('<div class="ui-grid-a grids">\n');
+                            html.push('<div class="ui-block-a"><p>'+v[0]+'</p></div>\n');
+                            html.push('<div class="ui-block-b"><img src="'+utils.getFilenameFromURL(v[1])+'"></div>\n');
+                            html.push('</label>');
                             html.push('<input name="'+key+'" id="'+key+'-'+k+'" value="'+v[0]+'" type="'+type+'" '+required+'>\n');
                         }
                         else {
@@ -245,11 +252,11 @@ class Convertor {
                         html.push('<label for="'+key+'-'+value.radios.length+'" class="other">' + i18n.t('radio.other')  + '</label>\n');
                         html.push('<input name="'+key+'" id="'+key+'-'+value.radios.length+'" value="other" class="other" type="'+type+'" '+required+'>\n');
                     }
-                    html.push('</fieldset></div>\n');
+                    html.push('</fieldset>\n</div>\n');
                     break;
                 case 'select':
                     html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+' '+visibility+'>\n');
-                    html.push('<fieldset><legend>'+value.label+'</legend>\n');
+                    html.push('<fieldset>\n<legend>'+value.label+'</legend>\n');
                     if(required !== ""){
                         html.push('<select id="'+key+'" required="required">\n');
                         html.push('<option value=""></option>\n');
@@ -260,11 +267,11 @@ class Convertor {
                     $.each(value.options, function(k, v){
                         html.push('<option value="'+v+'">'+v+'</option>\n');
                     });
-                    html.push('</select></fieldset></div>\n');
+                    html.push('</select>\n</fieldset>\n</div>\n');
                     break;
                 case 'dtree':
                     html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+visibility+'>\n');
-                    html.push('<fieldset><label for="form-'+type+'-'+n+'">'+value.filename+'</label>\n');
+                    html.push('<fieldset>\n<label for="form-'+type+'-'+n+'">'+value.label+'</label>\n');
                     html.push('<div class="button-wrapper button-dtree"></div>\n');
                     html.push('</fieldset>\n');
                     html.push('<input type="hidden" data-dtree="'+value.filename+'" value="'+value.filename+'">\n');
@@ -282,14 +289,14 @@ class Convertor {
                     html.push('<div class="button-wrapper button-'+cl+'">\n');
                     html.push('<input name="form-image-1" id="form-image-1" type="file" accept="image/png" capture="'+cl+'" '+required+' class="'+cl+'">\n')
                     html.push('<label for="form-image-1">'+value.label+'</label>\n');
-                    html.push('</div></div>\n');
+                    html.push('</div>\n</div>\n');
                     break;
                 case 'audio':
                     html.push('<div class="fieldcontain" id="fieldcontain-audio-1" data-fieldtrip-type="microphone" '+visibility+'>\n');
                     html.push('<div class="button-wrapper button-microphone">\n');
                     html.push('<input name="form-audio-1" id="form-audio-1" type="file" accept="audio/*" capture="microphone" '+required+' class="microphone">\n');
                     html.push('<label for="form-audio-1">'+value.label+'</label>\n');
-                    html.push('</div></div>\n');
+                    html.push('</div>\n</div>\n');
                     break;
                 case 'gps':
 
@@ -369,11 +376,11 @@ class Convertor {
                     var required;
                     $this.find('input[type="checkbox"]').each(function(){
                         var ch;
-                        var $prev = $(this).prev();
-                        if($prev.is('img')){
+                        var $img = $(this).prev().find('img');
+                        if($img.is('img')) {
                             ch = [];
                             ch.push($(this).val());
-                            ch.push(pcapi.buildFSUrl('editors', $prev.attr("src")));
+                            ch.push(pcapi.buildFSUrl('editors', $img.attr("src")));
                         }
                         else {
                             ch = $(this).val();
@@ -391,11 +398,11 @@ class Convertor {
                     var required;
                     $this.find('input[name="'+id+'"]').each(function(event){
                         var rd;
-                        var $prev = $(this).prev();
-                        if($prev.is('img')){
+                        var $img = $(this).prev().find('img');
+                        if($img.is('img')) {
                             rd = [];
                             rd.push($(this).val());
-                            rd.push(pcapi.buildFSUrl('editors', $prev.attr("src")));
+                            rd.push(pcapi.buildFSUrl('editors', $img.attr("src")));
                         }
                         else {
                             rd = $(this).val();
@@ -416,6 +423,7 @@ class Convertor {
                     form[id]["options"] = options;
                     break;
                 case 'dtree':
+                    form[id]["label"] = $this.find('label').text();
                     form[id]["filename"] = $this.find('input[type="hidden"]').val();
                     break;
                 case 'image':

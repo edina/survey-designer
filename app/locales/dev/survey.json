@@ -144,7 +144,8 @@
         "label": "This is a label",
         "remove": "Remove",
         "upload": "Upload decision tree",
-        "add-dtree": "Add option"
+        "add-dtree": "Add option",
+        "relate": "Visibility"
     },
     "section": {
         "name": "section",

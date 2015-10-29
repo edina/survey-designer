@@ -76,7 +76,6 @@ class FieldGenerator {
                 break;
             case 'select':
                 data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
-                console.log(data.fieldId)
                 data.label = data.label || i18n.t(type+".label");
                 if(data.options && data.options[0] === ""){
                     data.options.shift();
@@ -85,6 +84,7 @@ class FieldGenerator {
                 break;
             case 'dtree':
                 data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
+                data.label = data.label || i18n.t(type+".label");
                 data.url = pcapi.buildFSUrl('editors', data["filename"]);
                 return dtreeTemplate(data);
                 break;

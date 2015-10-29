@@ -67,7 +67,8 @@ export class SurveyView extends Backbone.View {
         let convertor = new Convertor();
         $(document).off('click', '#form-save');
         $(document).on('click', '#form-save', $.proxy(function(){
-            var formInJSON = this.dataStorage.getData();
+            var formInJSON = this.convertor.getForm();
+            this.dataStorage.setData(formInJSON);
             var visData = new DataStorage('visibility');
             var visibilities = visData.getData();
             for (var key in formInJSON) {
@@ -142,6 +143,7 @@ export class SurveyView extends Backbone.View {
             }
             else {
                 var dataObj = this.convertor.HTMLtoJSON (data, title);
+                console.log(dataObj)
                 $("."+this.renderEl).html("");
                 this.fieldGenerator.render('general', {"title": dataObj.title, "geoms": dataObj.geoms})
                 $.each(dataObj, $.proxy(function(k, v){

@@ -32,14 +32,15 @@ class Visibility {
         var data = this.dataStorage.getData();
         var divAnswers = [];
         var selectRules = [];
+        var selected = "";
         selectRules.push('<select id="visibility-rules">');
         for (var key in data){
             if(key === value) {
                 var obj = this.getRulesAndAnswersFromJSON(key, data[key]);
                 if(obj.answers.length > 0) {
                     divAnswers.push('<select id="visibility-values">');
-                    var selected = "";
                     for(var i=0; i<obj.answers.length;i++){
+                        selected = "";
                         if(visibility.answer && visibility.answer === obj.answers[i]) {
                             selected = 'selected="selected"';
                         }
@@ -52,8 +53,8 @@ class Visibility {
                     divAnswers.push('<input type="text" value="'+answer+'" id="visibility-values">');
                 }
                 if(obj.rules.length > 0) {
-                    var selected = "";
                     for(var i=0; i<obj.rules.length;i++){
+                        selected = "";
                         if(visibility.rule && visibility.rule === obj.rules[i]) {
                             selected = 'selected="selected"';
                         }
