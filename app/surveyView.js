@@ -5,7 +5,6 @@ import FieldGenerator from './field_generate';
 import Convertor from './convert';
 import i18next from 'i18next-client';
 import * as utils from './utils';
-import * as cfg from './cfg';
 import modal from 'bootstrap';
 import './styles/app.css!';
 import pcapi from 'pcapi';
@@ -20,7 +19,7 @@ export class SurveyView extends Backbone.View {
         this.renderEl = "mobile-content";
         this.$headerMenu = $("#header-menu");
         this.dataStorage = new DataStorage();
-        this.cfg = cfg.getConfig();
+        this.cfg = cfg;
         this.render();
         this.convertor = new Convertor();
         this.enableAutoSave();
