@@ -1,5 +1,4 @@
-function getConfig(){
-    return {
+var cfg = {
         "baseurl": "<pcapi domain>",
         "pcapianonymous": "<anon user id",
         "userid": "00000000-0000-0000-0000-000000000000",
@@ -19,7 +18,4 @@ function getConfig(){
             "help",
             "dtree"
         ]
-    };
-}
-
-export {getConfig};
+};
