@@ -184,7 +184,6 @@ class Convertor {
             }
             switch (type) {
                 case 'text':
-                    console.log(key)
                     html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+persistent+' '+visibility+'>\n');
                     html.push('<label for="form-'+type+'-'+n+'">'+value.label+'</label>\n');
                     html.push('<input name="form-'+type+'-'+n+'" id="form-'+type+'-'+n+
@@ -424,7 +423,7 @@ class Convertor {
                     break;
                 case 'dtree':
                     form[id]["label"] = $this.find('label').text();
-                    form[id]["filename"] = $this.find('input[type="hidden"]').val();
+                    form[id]["filename"] = $this.find('input[type="hidden"]').data('dtree');
                     break;
                 case 'image':
                     form[id]["label"] = $this.find('label').text();

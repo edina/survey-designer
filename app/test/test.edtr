@@ -1,0 +1,451 @@
+<form data-title="OPAL Tree Health" data-ajax="false" novalidate>
+<div class="fieldcontain form-geometryType" id="form-geometryType" data-cobweb-type="geometryType">
+<input type="hidden" data-record-geometry="point" value="point">
+</div>
+<div class="fieldcontain" id="form-section-1" data-fieldtrip-type="section">
+<h3>A. Start surveying</h3>
+</div>
+<div class="fieldcontain" id="form-text-1" data-fieldtrip-type="text" data-persistent="on" >
+<label for="form-text-form">1. Date of survey</label>
+<input name="form-text-form" id="form-text-form" type="text" required="required" placeholder="Place default text here (if any)" maxlength="30" value="record">
+</div>
+<div class="fieldcontain" id="form-radio-1" data-fieldtrip-type="radio" data-persistent="on" >
+<fieldset>
+<legend>2. Who are you doing the Tree Health Survey with today?</legend>
+<label for="form-radio-1-0">Primary school</label>
+<input name="form-radio-1" id="form-radio-1-0" value="Primary school" type="radio" required="required">
+<label for="form-radio-1-1">Secondary school</label>
+<input name="form-radio-1" id="form-radio-1-1" value="Secondary school" type="radio" required="required">
+<label for="form-radio-1-2">Youth group</label>
+<input name="form-radio-1" id="form-radio-1-2" value="Youth group" type="radio" required="required">
+<label for="form-radio-1-3">Adult volunteer group</label>
+<input name="form-radio-1" id="form-radio-1-3" value="Adult volunteer group" type="radio" required="required">
+<label for="form-radio-1-4">Friends or family</label>
+<input name="form-radio-1" id="form-radio-1-4" value="Friends or family" type="radio" required="required">
+<label for="form-radio-1-5">College/university</label>
+<input name="form-radio-1" id="form-radio-1-5" value="College/university" type="radio" required="required">
+<label for="form-radio-1-6">Other</label>
+<input name="form-radio-1" id="form-radio-1-6" value="Other" type="radio" required="required">
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-radio-2" data-fieldtrip-type="radio" data-persistent="on" >
+<fieldset>
+<legend>3. Are you involved in working with trees or forestry?</legend>
+<label for="form-radio-2-0">No</label>
+<input name="form-radio-2" id="form-radio-2-0" value="No" type="radio" required="required">
+<label for="form-radio-2-1">Yes, as part of volunteer group or society</label>
+<input name="form-radio-2" id="form-radio-2-1" value="Yes, as part of volunteer group or society" type="radio" required="required">
+<label for="form-radio-2-2">Yes, I work in the industry</label>
+<input name="form-radio-2" id="form-radio-2-2" value="Yes, I work in the industry" type="radio" required="required">
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-radio-3" data-fieldtrip-type="radio" data-persistent="on" >
+<fieldset>
+<legend>5. Which of these best describes your survey area?</legend>
+<label for="form-radio-3-0">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Street</p></div>
+<div class="ui-block-b"><img src="5a.jpg"></div>
+</label><input name="form-radio-3" id="form-radio-3-0" value="Street" type="radio" required="required">
+<label for="form-radio-3-1">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Garden</p></div>
+<div class="ui-block-b"><img src="5b.jpg"></div>
+</label><input name="form-radio-3" id="form-radio-3-1" value="Garden" type="radio" required="required">
+<label for="form-radio-3-2">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>School</p></div>
+<div class="ui-block-b"><img src="5c.jpg"></div>
+</label><input name="form-radio-3" id="form-radio-3-2" value="School" type="radio" required="required">
+<label for="form-radio-3-3">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Park</p></div>
+<div class="ui-block-b"><img src="5d.jpg"></div>
+</label><input name="form-radio-3" id="form-radio-3-3" value="Park" type="radio" required="required">
+<label for="form-radio-3-4">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Open field</p></div>
+<div class="ui-block-b"><img src="5e.jpg"></div>
+</label><input name="form-radio-3" id="form-radio-3-4" value="Open field" type="radio" required="required">
+<label for="form-radio-3-5">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Hedge</p></div>
+<div class="ui-block-b"><img src="5f.jpg"></div>
+</label><input name="form-radio-3" id="form-radio-3-5" value="Hedge" type="radio" required="required">
+<label for="form-radio-3-6">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Woodland edge</p></div>
+<div class="ui-block-b"><img src="5g.jpg"></div>
+</label><input name="form-radio-3" id="form-radio-3-6" value="Woodland edge" type="radio" required="required">
+<label for="form-radio-3-7">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Inside woodland</p></div>
+<div class="ui-block-b"><img src="5h.jpg"></div>
+</label><input name="form-radio-3" id="form-radio-3-7" value="Inside woodland" type="radio" required="required">
+<label for="form-radio-3-8">other</label>
+<input name="form-radio-3" id="form-radio-3-8" value="other" type="radio" required="required">
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-radio-4" data-fieldtrip-type="radio" data-persistent="on" >
+<fieldset>
+<legend>6. What is the main ground cover at the base of the tree? Choose one option.</legend>
+<label for="form-radio-4-0">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Grass or other plants</p></div>
+<div class="ui-block-b"><img src="6a.jpg"></div>
+</label><input name="form-radio-4" id="form-radio-4-0" value="Grass or other plants" type="radio" required="required">
+<label for="form-radio-4-1">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Bare soil</p></div>
+<div class="ui-block-b"><img src="6b.jpg"></div>
+</label><input name="form-radio-4" id="form-radio-4-1" value="Bare soil" type="radio" required="required">
+<label for="form-radio-4-2">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Hard surface (like pavement)</p></div>
+<div class="ui-block-b"><img src="6c.jpg"></div>
+</label><input name="form-radio-4" id="form-radio-4-2" value="Hard surface (like pavement)" type="radio" required="required">
+<label for="form-radio-4-3">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Fallen leaves</p></div>
+<div class="ui-block-b"><img src="6d.jpg"></div>
+</label><input name="form-radio-4" id="form-radio-4-3" value="Fallen leaves" type="radio" required="required">
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-radio-5" data-fieldtrip-type="radio" data-persistent="on" >
+<fieldset>
+<legend>7. If there are fallen leaves beneath the tree, how many are there?</legend>
+<label for="form-radio-5-0">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>A few</p></div>
+<div class="ui-block-b"><img src="7a.jpg"></div>
+</label><input name="form-radio-5" id="form-radio-5-0" value="A few" type="radio" required="required">
+<label for="form-radio-5-1">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>A lot</p></div>
+<div class="ui-block-b"><img src="7b.jpg"></div>
+</label><input name="form-radio-5" id="form-radio-5-1" value="A lot" type="radio" required="required">
+<label for="form-radio-5-2">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Ground is completely covered</p></div>
+<div class="ui-block-b"><img src="7c.jpg"></div>
+</label><input name="form-radio-5" id="form-radio-5-2" value="Ground is completely covered" type="radio" required="required">
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-section-2" data-fieldtrip-type="section">
+<h3>B. Identification</h3>
+</div>
+<div class="fieldcontain" id="form-select-1" data-fieldtrip-type="select"  >
+<fieldset>
+<legend>8. Tree species</legend>
+<select id="form-select-1">
+<option value="Alder">Alder</option>
+<option value="Ash">Ash</option>
+<option value="Beech">Beech</option>
+<option value="Birch">Birch</option>
+<option value="Cherry">Cherry</option>
+<option value="Conifers">Conifers</option>
+<option value="Crab Apple">Crab Apple</option>
+<option value="Elder">Elder</option>
+<option value="Elm">Elm</option>
+<option value="Hawthorn">Hawthorn</option>
+<option value="Hazel">Hazel</option>
+<option value="Hornbeam">Hornbeam</option>
+<option value="Horse Chestnut">Horse Chestnut</option>
+<option value="Lime">Lime</option>
+<option value="London Plane">London Plane</option>
+<option value="Maple">Maple</option>
+<option value="Oak">Oak</option>
+<option value="Poplar">Poplar</option>
+<option value="Rowan">Rowan</option>
+<option value="Sweet Chestnut">Sweet Chestnut</option>
+<option value="Sycamore">Sycamore</option>
+<option value="Whitebeam">Whitebeam</option>
+<option value="Willow">Willow</option>
+<option value="Other">Other</option>
+</select>
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-dtree-1" data-fieldtrip-type="dtree" >
+<fieldset>
+<label for="form-dtree-form">undefined</label>
+<div class="button-wrapper button-dtree"></div>
+</fieldset>
+<input type="hidden" data-dtree="opal/opal-1.json" value="opal/opal-1.json">
+</div>
+<div class="fieldcontain" id="form-warning-1" data-fieldtrip-type="warning">
+<label for="form-warning-form">Safe fieldwork</label>
+<textarea name="form-warning-form" id="form-warning-form"  placeholder="Trees and woodland in the UK are generally safe places, but you should take care.
+Use your common sense – it is your responsibility to be aware of the potential risks
+when carrying out any kind of fieldwork. Carry out a risk assessment if necessary.
+•    Dress appropriately for the weather and wear appropriate footwear. Check the
+weather forecast before you go outside. Do not do the survey in windy weather.
+•    Do not do the survey on your own. Take at least one other person.
+•    Make sure that you know what to do in an emergency. Carry a fully charged
+mobile phone in case you need to summon help and ensure you have good
+mobile coverage. Take a small first aid kit. Young children must be supervised.
+•    Avoid any trees with broken branches. Before you start the survey, check
+carefully from a safe distance for branches that are hanging off the tree and may
+fall. Check nearby trees too. You can report any dangers to your local council
+using www.fixmystreet.com
+•    You do not need to climb trees for the survey. Do not climb on stacks of logs.
+•    Check the area for any signs of danger. Look out for any warning signs – pay
+attention to these signs and follow instructions where necessary. Look out for
+low hanging twigs and branches, uneven ground, tree stumps, dead wood and
+anything else that may cause trips and injuries. Watch out for prickly plants. Do
+not survey trees that are at the edge of a lake or river.
+•    Be aware of other activities going on around you. Take particular care if any
+forest operations, hedge trimming or tree surgery are taking place – it might be
+better to choose another site.
+•    Wash your hands thoroughly after doing the survey and especially before
+eating. A few plants, mushrooms and insects are poisonous or may cause
+rashes and skin irritation. The caterpillars of some moths can cause unpleasant
+allergic reactions, due to their toxic hairs, so any contact must be avoided.
+If you accidentally touch them, wash the affected area thoroughly, and seek
+medical advice if you experience a reaction.
+It is important to look after the environment while you are out and about.
+•    Clean any mud and leaves off your footwear to avoid spreading pests and
+diseases next time you go out.
+•    Avoid disturbing any wildlife, including birds’ nests.
+•    Leave the area as you find it and do not leave any litter behind.
+More general safety information is available from Royal Society for the Prevention
+of Accidents www.rospa.com/leisuresafety"></textarea>
+</div>
+<div class="fieldcontain" id="form-section-3" data-fieldtrip-type="section">
+<h3>C. Tree characteristics</h3>
+</div>
+<div class="fieldcontain" id="form-range-1" data-fieldtrip-type="range" data-persistent="on" >
+<label for="form-range-form">9. Measure the girth (circumference) of the trunk at 1.3 metres (130cm) above the ground.</label>
+<input name="form-range-form" id="form-range-form" type="range" required="required" placeholder="undefined" step="0.1" min="0" max="10">
+</div>
+<div class="fieldcontain" id="form-range-2" data-fieldtrip-type="range" data-persistent="on" >
+<label for="form-range-form">10. Measure the height of the tree.</label>
+<input name="form-range-form" id="form-range-form" type="range" required="required" placeholder="undefined" step="0.1" min="0" max="50">
+</div>
+<div class="fieldcontain" id="form-radio-6" data-fieldtrip-type="radio" data-persistent="on" >
+<fieldset>
+<legend>11. Is the tree taller or shorter than most of the other trees nearby?</legend>
+<label for="form-radio-6-0">Shorter than most</label>
+<input name="form-radio-6" id="form-radio-6-0" value="Shorter than most" type="radio" required="required">
+<label for="form-radio-6-1">Taller than most</label>
+<input name="form-radio-6" id="form-radio-6-1" value="Taller than most" type="radio" required="required">
+<label for="form-radio-6-2">Same height as most</label>
+<input name="form-radio-6" id="form-radio-6-2" value="Same height as most" type="radio" required="required">
+<label for="form-radio-6-3">No other trees nearby</label>
+<input name="form-radio-6" id="form-radio-6-3" value="No other trees nearby" type="radio" required="required">
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-section-4" data-fieldtrip-type="section">
+<h3>Crown</h3>
+</div>
+<div class="fieldcontain" id="form-radio-7" data-fieldtrip-type="radio" data-persistent="on" >
+<fieldset>
+<legend>12. Which of these best shows the shape of the tree?</legend>
+<label for="form-radio-7-0">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Spreading</p></div>
+<div class="ui-block-b"><img src="12a.png"></div>
+</label><input name="form-radio-7" id="form-radio-7-0" value="Spreading" type="radio" required="required">
+<label for="form-radio-7-1">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Oval</p></div>
+<div class="ui-block-b"><img src="12b.png"></div>
+</label><input name="form-radio-7" id="form-radio-7-1" value="Oval" type="radio" required="required">
+<label for="form-radio-7-2">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Fan</p></div>
+<div class="ui-block-b"><img src="12c.png"></div>
+</label><input name="form-radio-7" id="form-radio-7-2" value="Fan" type="radio" required="required">
+<label for="form-radio-7-3">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Column</p></div>
+<div class="ui-block-b"><img src="12d.png"></div>
+</label><input name="form-radio-7" id="form-radio-7-3" value="Column" type="radio" required="required">
+<label for="form-radio-7-4">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Cone</p></div>
+<div class="ui-block-b"><img src="12e.png"></div>
+</label><input name="form-radio-7" id="form-radio-7-4" value="Cone" type="radio" required="required">
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-radio-8" data-fieldtrip-type="radio" data-persistent="on" >
+<fieldset>
+<legend>13. Stand underneath the tree, next to the trunk and look up. How much of the view is made up of leaves? Choose the closest fit from the five options.</legend>
+<label for="form-radio-8-0">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>No leaves</p></div>
+<div class="ui-block-b"><img src="13a.jpg"></div>
+</label><input name="form-radio-8" id="form-radio-8-0" value="No leaves" type="radio" required="required">
+<label for="form-radio-8-1">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>25%</p></div>
+<div class="ui-block-b"><img src="13b.jpg"></div>
+</label><input name="form-radio-8" id="form-radio-8-1" value="25%" type="radio" required="required">
+<label for="form-radio-8-2">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>50%</p></div>
+<div class="ui-block-b"><img src="13c.jpg"></div>
+</label><input name="form-radio-8" id="form-radio-8-2" value="50%" type="radio" required="required">
+<label for="form-radio-8-3">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>75%</p></div>
+<div class="ui-block-b"><img src="13d.jpg"></div>
+</label><input name="form-radio-8" id="form-radio-8-3" value="75%" type="radio" required="required">
+<label for="form-radio-8-4">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>All leaves</p></div>
+<div class="ui-block-b"><img src="13e.jpg"></div>
+</label><input name="form-radio-8" id="form-radio-8-4" value="All leaves" type="radio" required="required">
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-radio-9" data-fieldtrip-type="radio" data-persistent="on" >
+<fieldset>
+<legend> Can you see any dead wood (branches that have no leaves or twigs on them)?</legend>
+<label for="form-radio-9-0">No</label>
+<input name="form-radio-9" id="form-radio-9-0" value="No" type="radio" required="required">
+<label for="form-radio-9-1">Yes</label>
+<input name="form-radio-9" id="form-radio-9-1" value="Yes" type="radio" required="required">
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-radio-10" data-fieldtrip-type="radio"  >
+<fieldset>
+<legend>14. How much dead wood is there?</legend>
+<label for="form-radio-10-0">Less than a quarter of the tree</label>
+<input name="form-radio-10" id="form-radio-10-0" value="Less than a quarter of the tree" type="radio" >
+<label for="form-radio-10-1">Between one quarter and one half</label>
+<input name="form-radio-10" id="form-radio-10-1" value="Between one quarter and one half" type="radio" >
+<label for="form-radio-10-2">Between one half and three quarters</label>
+<input name="form-radio-10" id="form-radio-10-2" value="Between one half and three quarters" type="radio" >
+<label for="form-radio-10-3">More than three quarters</label>
+<input name="form-radio-10" id="form-radio-10-3" value="More than three quarters" type="radio" >
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-section-5" data-fieldtrip-type="section">
+<h3>Leaves</h3>
+</div>
+<div class="fieldcontain" id="form-checkbox-1" data-fieldtrip-type="checkbox"  >
+<fieldset>
+<legend>15. What types of leaf browning can you see? Tick all that apply</legend>
+<label for="form-checkbox-1-0">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Brown leaf edges</p></div>
+<div class="ui-block-b"><img src="15a.png"></div>
+</label><input name="form-checkbox-1-0" id="form-checkbox-1-0" value="Brown leaf edges" type="checkbox" >
+<label for="form-checkbox-1-1">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Brown spots</p></div>
+<div class="ui-block-b"><img src="15b.png"></div>
+</label><input name="form-checkbox-1-1" id="form-checkbox-1-1" value="Brown spots" type="checkbox" >
+<label for="form-checkbox-1-2">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Leaves all brown</p></div>
+<div class="ui-block-b"><img src="15c.png"></div>
+</label><input name="form-checkbox-1-2" id="form-checkbox-1-2" value="Leaves all brown" type="checkbox" >
+<label for="form-checkbox-1-3">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>None</p></div>
+<div class="ui-block-b"><img src="15d.png"></div>
+</label><input name="form-checkbox-1-3" id="form-checkbox-1-3" value="None" type="checkbox" >
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-radio-11" data-fieldtrip-type="radio"  >
+<fieldset>
+<legend>16. If there is leaf browing, how much can you see on the tree?</legend>
+<label for="form-radio-11-0">Less than a quarter of the tree</label>
+<input name="form-radio-11" id="form-radio-11-0" value="Less than a quarter of the tree" type="radio" >
+<label for="form-radio-11-1">Between one quarter and one half</label>
+<input name="form-radio-11" id="form-radio-11-1" value="Between one quarter and one half" type="radio" >
+<label for="form-radio-11-2">Between one half and three quarters</label>
+<input name="form-radio-11" id="form-radio-11-2" value="Between one half and three quarters" type="radio" >
+<label for="form-radio-11-3">More than three quarters</label>
+<input name="form-radio-11" id="form-radio-11-3" value="More than three quarters" type="radio" >
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-checkbox-2" data-fieldtrip-type="checkbox"  >
+<fieldset>
+<legend>17. What types of leaf yellowing can you see? Tick all that apply.</legend>
+<label for="form-checkbox-2-0">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Yellow leaf edges</p></div>
+<div class="ui-block-b"><img src="17a.png"></div>
+</label><input name="form-checkbox-2-0" id="form-checkbox-2-0" value="Yellow leaf edges" type="checkbox" >
+<label for="form-checkbox-2-1">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Yellow spots</p></div>
+<div class="ui-block-b"><img src="17b.png"></div>
+</label><input name="form-checkbox-2-1" id="form-checkbox-2-1" value="Yellow spots" type="checkbox" >
+<label for="form-checkbox-2-2">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Leaves all yellow</p></div>
+<div class="ui-block-b"><img src="17c.png"></div>
+</label><input name="form-checkbox-2-2" id="form-checkbox-2-2" value="Leaves all yellow" type="checkbox" >
+<label for="form-checkbox-2-3">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>None</p></div>
+<div class="ui-block-b"><img src="17d.png"></div>
+</label><input name="form-checkbox-2-3" id="form-checkbox-2-3" value="None" type="checkbox" >
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-radio-12" data-fieldtrip-type="radio"  >
+<fieldset>
+<legend>18. If there is leaf yellowing, how much can you see on the tree?</legend>
+<label for="form-radio-12-0">Less than a quarter of the tree</label>
+<input name="form-radio-12" id="form-radio-12-0" value="Less than a quarter of the tree" type="radio" >
+<label for="form-radio-12-1">Between one quarter and one half</label>
+<input name="form-radio-12" id="form-radio-12-1" value="Between one quarter and one half" type="radio" >
+<label for="form-radio-12-2">Between one half and three quarters</label>
+<input name="form-radio-12" id="form-radio-12-2" value="Between one half and three quarters" type="radio" >
+<label for="form-radio-12-3">More than three quarters</label>
+<input name="form-radio-12" id="form-radio-12-3" value="More than three quarters" type="radio" >
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-checkbox-3" data-fieldtrip-type="checkbox"  >
+<fieldset>
+<legend>19. Can you see any of the following signs of insect damage on the leaves?</legend>
+<label for="form-checkbox-3-0">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Leaf holes: holes all the way through the leaf</p></div>
+<div class="ui-block-b"><img src="19a.png"></div>
+</label><input name="form-checkbox-3-0" id="form-checkbox-3-0" value="Leaf holes: holes all the way through the leaf" type="checkbox" >
+<label for="form-checkbox-3-1">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Leaf mining: the upper and lower layers of the leaf are intact but the green tissue inside has turned brown or disappeared</p></div>
+<div class="ui-block-b"><img src="19b.png"></div>
+</label><input name="form-checkbox-3-1" id="form-checkbox-3-1" value="Leaf mining: the upper and lower layers of the leaf are intact but the green tissue inside has turned brown or disappeared" type="checkbox" >
+<label for="form-checkbox-3-2">
+<div class="ui-grid-a grids">
+<div class="ui-block-a"><p>Leaf galls: bumps and growths on leaves</p></div>
+<div class="ui-block-b"><img src="19c.png"></div>
+</label><input name="form-checkbox-3-2" id="form-checkbox-3-2" value="Leaf galls: bumps and growths on leaves" type="checkbox" >
+</fieldset>
+</div>
+<div class="fieldcontain" id="form-section-6" data-fieldtrip-type="section">
+<h3>Wildlife</h3>
+</div>
+<div class="fieldcontain" id="form-checkbox-4" data-fieldtrip-type="checkbox"  >
+<fieldset>
+<legend>20. It is useful to know how the tree supports biodiversity. Record any animals, signs of animal activity, plants or fungi.</legend>
+<label for="form-checkbox-4-0">Birds or birds’ nests</label>
+<input name="form-checkbox-4-0" id="form-checkbox-4-0" value="Birds or birds’ nests" type="checkbox" >
+<label for="form-checkbox-4-1">Squirrels</label>
+<input name="form-checkbox-4-1" id="form-checkbox-4-1" value="Squirrels" type="checkbox" >
+<label for="form-checkbox-4-2">A large hollow in the trunk</label>
+<input name="form-checkbox-4-2" id="form-checkbox-4-2" value="A large hollow in the trunk" type="checkbox" >
+<label for="form-checkbox-4-3">Moss / lichens / algae</label>
+<input name="form-checkbox-4-3" id="form-checkbox-4-3" value="Moss / lichens / algae" type="checkbox" >
+<label for="form-checkbox-4-4">Ivy</label>
+<input name="form-checkbox-4-4" id="form-checkbox-4-4" value="Ivy" type="checkbox" >
+<label for="form-checkbox-4-5">Fungi</label>
+<input name="form-checkbox-4-5" id="form-checkbox-4-5" value="Fungi" type="checkbox" >
+<label for="form-checkbox-4-6">Other</label>
+<input name="form-checkbox-4-6" id="form-checkbox-4-6" value="Other" type="checkbox" >
+</fieldset>
+</div>
+<div id="save-cancel-editor-buttons" class="fieldcontain ui-grid-a">
+<div class="ui-block-a">
+<input type="submit" name="record" value="Save">
+</div>
+<div class="ui-block-b">
+<input type="button" name="cancel" value="Cancel">
+</div>
+</div>
+</form>

@@ -49,7 +49,6 @@ class FieldGenerator {
                 data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
                 data.label = data.label || i18n.t(type+".label");
                 data["max-chars"] = data["max-chars"] || i18n.t(type+".max-chars");
-                data["prefix"] = data["prefix"] || i18n.t(type+".prefix");
                 return textTemplate(data);
                 break;
             case 'textarea':

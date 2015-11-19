@@ -26,11 +26,14 @@
   "homepage": "https://github.com/edina/survey-designer",
   "dependencies": {},
   "devDependencies": {
-    "beefy": "^2.1.5",
+    "chai": "^3.4.1",
+    "istanbul": "^0.4.0",
     "jshint": "^2.7.0",
+    "mocha": "^2.3.4",
+    "mocha-traceur": "^2.1.0",
     "release-it": "0.0.15",
-    "uglify": "^0.1.3",
-    "watchify": "^3.5.0"
+    "traceur": "0.0.92",
+    "uglifyjs": "^2.4.10"
   },
   "jspm": {
     "directories": {
@@ -39,6 +42,7 @@
     "dependencies": {
       "backbone": "npm:backbone@^1.2.0",
       "bootstrap": "github:twbs/bootstrap@^3.3.4",
+      "clean-css": "npm:clean-css@~3.1.0",
       "css": "github:systemjs/plugin-css@^0.1.12",
       "handlebars": "github:components/handlebars.js@4.0.3",
       "hbs": "github:davis/plugin-hbs@1.2.0",
