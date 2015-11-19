@@ -158,6 +158,7 @@ class Convertor {
         }
         var html = [];
         //add title
+        this.form.title = this.form.title.replace('"', '&quot;')
         html.push('<form data-title=\"'+this.form.title+'\" data-ajax=\"false\" novalidate>\n')
 
         //add geometry
