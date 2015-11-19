@@ -22,6 +22,7 @@ In case you get a 404 error on jspm packages you need to update the config.js to
 Then for running the app on development server you need either to:
 
 ```
-npm install
-npm run run-server
+npm -g install http-server
+cd app
+http-server
 ```
