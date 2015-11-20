@@ -4,16 +4,23 @@ import * as utils from './utils';
 
 class Convertor {
     constructor (myClass){
-        //super();
         this.form = {};
     }
 
+    /**
+     * get the title of the form
+     */
     getTitle () {
         return decodeURIComponent($(".fieldcontain-general").find('input[name="label"]').val());
     }
 
+    /**
+     * go through the dom and find all the fieldcontains to get the equivalent
+     * html and convert it to a json file
+     */
     getForm () {
         var c = this;
+        this.form = {};
         this.form.title = this.getTitle();
         var geoms = [];
         $('input[name="geometryType"]:checked').each(function(){
@@ -29,6 +36,10 @@ class Convertor {
         return this.form;
     }
 
+    /**
+     * convert one field to a json element
+     * @param id {String} the id of the fieldcontain
+     */
     fieldToJSON (id){
         var type = id.split("-")[1];
         var $fieldId = $("#"+id);
@@ -122,6 +133,7 @@ class Convertor {
                 break;
             case 'dtree':
                 var $a =  $fieldId.find('a');
+                this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
                 this.form[id]["filename"] = $a.text();
                 break;
             case 'image':
@@ -152,6 +164,10 @@ class Convertor {
         return '';
     }
 
+    /**
+     * convert JSON to html
+     * @param form the html content of the form
+     */
     JSONtoHTML (form) {
         if(form){
             this.form = form;
@@ -328,6 +344,11 @@ class Convertor {
         return html;
     }
 
+    /**
+     * convert fetched html to JSON
+     * @param html the html code of the form
+     * @param title the title of the form that comes from the url
+     */
     HTMLtoJSON (html, title) {
         var $form = $(html);
         var form = {};
