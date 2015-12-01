@@ -94,6 +94,7 @@ class FieldGenerator {
                     data.label = data.label || i18n.t(type+".label");
                     data["multi-image"] = data["multi-image"] || false;
                     data.los = data.los || false;
+                    data.blur = data.blur || 0;
                     return imageTemplate(data);
                 }
                 return '';
@@ -105,6 +106,7 @@ class FieldGenerator {
                     data.required = data.required || true;
                     data["multi-image"] = data["multi-image"] || true;
                     data.los = data.los || false;
+                    data.blur = data.blur || 0;
                     return imageTemplate(data);
                 }
                 return '';
