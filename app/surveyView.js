@@ -211,10 +211,6 @@ export class SurveyView extends Backbone.View {
     }
 
     renderMenu () {
-        $('body').append(menuTemplate(this.cfg.options));
-        //var dragdropper = new DragDropper();
-        this.dragdropper.enableDrag();
-
         let loginHide = "", logoutHide = "hide";
         if ("oauth_token" in utils.getParams() && utils.getParams().oauth_token !== undefined) {
             loginHide = "hide";
@@ -239,10 +235,7 @@ export class SurveyView extends Backbone.View {
         this.$mainBodyEl.html('<div class="mobile"><button type="button" class="btn btn-default" id="form-save">'+i18n.t("menu.save")+'</button>'+
                       '<div class="'+this.renderEl+'"></div></div>'+
                       '<div id="loader"><img src="styles/images/ajax-loader.gif"></div>');
-        //let dragdropper = new DragDropper(this.renderEl);
-        this.dragdropper = new DragDropper(this.renderEl);
-        this.dragdropper.enableDrop();
-        this.dragdropper.enableSorting();
+
         this.fieldGenerator = new FieldGenerator("."+this.renderEl);
         if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
             var title = decodeURIComponent(utils.getParams().survey);

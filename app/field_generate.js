@@ -14,6 +14,7 @@ import gpsTemplate from './templates/gps-fieldset.hbs!';
 import warningTemplate from './templates/warning-fieldset.hbs!';
 import dtreeTemplate from './templates/dtree-fieldset.hbs!';
 import sectionTemplate from './templates/section-fieldset.hbs!';
+import addfieldTemplate from './templates/add-button.hbs!';
 import * as utils from './utils';
 import Visibility from './visibility';
 
@@ -24,8 +25,13 @@ class FieldGenerator {
         this.registerHelpers();
     }
 
-    render(type, data) {
-        this.$el.append(this.createField(type, data));
+    render(type, data, element) {
+        if(element) {
+            $(element).append(this.createField(type, data));
+        }
+        else{
+            this.$el.append(this.createField(type, data))
+        }
         this.addFieldButtons(type);
         this.enableActions();
     }
@@ -150,13 +156,16 @@ class FieldGenerator {
             var fields = this.$el.find('.fieldcontain-'+type);
             var id = "fieldcontain-"+type+"-"+(fields.length);
             $(fields[fields.length - 1]).attr("id", id);
+            var $id = $("#"+id);
             if(fields.length > 1 || type !== "text"){
                 var buttons = '<div class="fieldButtons">' +
                       '<button type="button" class="btn btn-default remove-field" aria-label="Remove field"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'+
                       '<div class="btn btn-default sortit" aria-label="Sort field"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span></div>'+
                       '</div>';
-                $("#"+id).append(buttons);
+                $id.append(buttons);
             }
+            console.log(id)
+            $id.after(addfieldTemplate(cfg.options))
         }
     };
 
@@ -169,7 +178,19 @@ class FieldGenerator {
         this.enableSelectEvents();
         this.enabledTreeEvents();
         this.enableRemoveField();
+        this.enableAddField();
     };
+
+    enableAddField() {
+        this.$el.off("click", ".add-field");
+        this.$el.on("click", ".add-field", $.proxy(function(event){
+            var $this = $(event.target);
+            console.log($this.prev().attr("id"))
+            console.log($this.closest(".fieldcontain").attr("id"))
+            console.log($this.text().trim())
+            this.render($this.closest(".fieldcontain").attr("id"), undefined, $this.text().trim());
+        }, this));
+    }
 
     /**
      * enable events for checkboxes

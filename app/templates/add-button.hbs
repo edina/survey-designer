@@ -1,0 +1,15 @@
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Add
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    {{#each this}}
+      <li>
+        <a href="javascript:void(0);" class="add-field" data-toggle="tooltip" data-placement="right" title="{{this}}">
+          <span class="glyphicon icon-{{this}}" aria-hidden="true"></span>{{this}}
+        </a>
+      </li>
+    {{/each}}
+  </ul>
+</div>
