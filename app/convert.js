@@ -141,6 +141,7 @@ class Convertor {
                 this.form[id]["required"] = $fieldId.find('input[name="required"]').is(':checked');
                 this.form[id]["multi-image"] = $fieldId.find('input[name="multi-image"]').is(':checked');
                 this.form[id]["los"] = $fieldId.find('input[name="los"]').is(':checked');
+                this.form[id]["blur"] = $fieldId.find('input[name="blur"]').val();
                 break;
             case 'audio':
                 this.form[id]["label"] = $fieldId.find('input[name="label"]').val();
@@ -305,6 +306,7 @@ class Convertor {
                     html.push('<div class="button-wrapper button-'+cl+'">\n');
                     html.push('<input name="form-image-1" id="form-image-1" type="file" accept="image/png" capture="'+cl+'" '+required+' class="'+cl+'">\n')
                     html.push('<label for="form-image-1">'+value.label+'</label>\n');
+                    html.push('<div style="display:none;" id="blur-threshold" value="' + value.blur + '"></div>');
                     html.push('</div>\n</div>\n');
                     break;
                 case 'audio':
