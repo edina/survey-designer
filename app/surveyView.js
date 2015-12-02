@@ -1,6 +1,5 @@
 'use strict';
 import Backbone from 'backbone';
-import DragDropper from './dragdrop';
 import FieldGenerator from './field_generate';
 import Convertor from './convert';
 import i18next from 'i18next-client';
@@ -8,8 +7,6 @@ import * as utils from './utils';
 import modal from 'bootstrap';
 import './styles/app.css!';
 import pcapi from 'pcapi';
-import './styles/sidebar.css!';
-import menuTemplate from './templates/menu.hbs!';
 import DataStorage from './data';
 
 export class SurveyView extends Backbone.View {

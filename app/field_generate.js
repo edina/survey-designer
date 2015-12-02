@@ -27,7 +27,7 @@ class FieldGenerator {
 
     render(type, data, element) {
         if(element) {
-            $(element).append(this.createField(type, data));
+            $(element).after(this.createField(type, data));
         }
         else{
             this.$el.append(this.createField(type, data))
@@ -166,7 +166,6 @@ class FieldGenerator {
                       '</div>';
                 $id.append(buttons);
             }
-            console.log(id)
             $id.after(addfieldTemplate(cfg.options))
         }
     };
@@ -187,10 +186,8 @@ class FieldGenerator {
         this.$el.off("click", ".add-field");
         this.$el.on("click", ".add-field", $.proxy(function(event){
             var $this = $(event.target);
-            console.log($this.prev().attr("id"))
-            console.log($this.closest(".fieldcontain").attr("id"))
-            console.log($this.text().trim())
-            this.render($this.closest(".fieldcontain").attr("id"), undefined, $this.text().trim());
+            var type = $this.parents().eq(2).prev().attr("id").split("-")[1];
+            this.render($this.text().trim(), undefined, $this.parents().eq(2));
         }, this));
     }
 
