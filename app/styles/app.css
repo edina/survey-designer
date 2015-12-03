@@ -24,13 +24,34 @@ body {
 }
 
 .mobile-content{
-  background-image: url("images/draganddrop.jpg");
-  background-repeat: no-repeat;
   width: 90%;
   padding: 25px;
   margin: auto 10px;
   height: 700px;
   border: 1px solid #a3a3a3;
+}
+
+/** fieldset */
+.mobile-content {overflow-y: scroll;}
+.mobile-content fieldset{
+    border: 2px solid #000000;
+    border-style: solid;
+    padding: 10px;
+    position: relative;
+}
+
+.mobile-content legend{
+    width: auto;
+}
+.mobile-content label{
+    width: 100%;
+    font-size: 10px;
+    color: #B7B7B7;
+}
+.fieldcontain .fieldButtons{
+    position: absolute;
+    right: 10px;
+    top: 0px;
 }
 
 #dragme{
@@ -116,7 +137,7 @@ body {
 }
 
 #content{
-  
+
     /*z-index: 10;
     height: 100%;
     margin: 0 auto;

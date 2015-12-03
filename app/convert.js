@@ -3,31 +3,25 @@ import FieldGenerator from './field_generate';
 import * as utils from './utils';
 
 class Convertor {
-    constructor (myClass){
+    constructor (){
         this.form = {};
-    }
-
-    /**
-     * get the title of the form
-     */
-    getTitle () {
-        return decodeURIComponent($(".fieldcontain-general").find('input[name="label"]').val());
     }
 
     /**
      * go through the dom and find all the fieldcontains to get the equivalent
      * html and convert it to a json file
      */
-    getForm () {
+    getForm (html) {
+        var $html = $(html);
         var c = this;
         this.form = {};
-        this.form.title = this.getTitle();
+        this.form.title = $html.filter(".fieldcontain-general").find('input[name="label"]').val();
         var geoms = [];
-        $('input[name="geometryType"]:checked').each(function(){
+        $html.find('input[name="geometryType"]:checked').each(function(){
             geoms.push($(this).val());
         });
         this.form.geoms = geoms;
-        $(".fieldcontain").each(function(){
+        $html.filter(".fieldcontain").each(function(){
             var id = $(this).attr("id");
             if(id !== undefined){
                 c.fieldToJSON(id);

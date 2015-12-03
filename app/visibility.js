@@ -1,6 +1,7 @@
 'use strict';
 import DataStorage from './data';
 import * as utils from './utils';
+import modal from 'bootstrap';
 
 class Visibility {
     constructor() {

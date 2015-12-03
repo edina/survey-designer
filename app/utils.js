@@ -1,4 +1,5 @@
 'use strict';
+import modal from 'bootstrap';
 
 function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
@@ -43,6 +44,15 @@ function giveFeedback(msg){
     $('#feedback').modal('show');
 };
 
+function isJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 function loading(param){
     if(param === true){
         $("#loader").css('visibility', 'visible');
@@ -85,4 +95,16 @@ function typeFromId(id){
     return id.substr(s, id.lastIndexOf('-') - s);
 };
 
-export {endsWith, getExtension, getFilenameFromURL, getParams, giveFeedback, loading, makeAlertModal, makeModalWindow, numberFromId, typeFromId};
+export {
+    endsWith,
+    getExtension,
+    getFilenameFromURL,
+    getParams,
+    giveFeedback,
+    isJsonString,
+    loading,
+    makeAlertModal,
+    makeModalWindow,
+    numberFromId,
+    typeFromId
+  };

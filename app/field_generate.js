@@ -166,7 +166,7 @@ class FieldGenerator {
                       '</div>';
                 $id.append(buttons);
             }
-            $id.after(addfieldTemplate(cfg.options))
+            $id.append(addfieldTemplate(cfg.options))
         }
     };
 
@@ -182,12 +182,15 @@ class FieldGenerator {
         this.enableAddField();
     };
 
+    /**
+    * add field event for adding an element after clicking
+    */
     enableAddField() {
         this.$el.off("click", ".add-field");
         this.$el.on("click", ".add-field", $.proxy(function(event){
             var $this = $(event.target);
-            var type = $this.parents().eq(2).prev().attr("id").split("-")[1];
-            this.render($this.text().trim(), undefined, $this.parents().eq(2));
+            var $fieldcontain = $this.closest('.fieldcontain');
+            this.render($this.text().trim(), undefined, $fieldcontain);
         }, this));
     }
 
