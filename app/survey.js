@@ -26,19 +26,16 @@ class Survey {
     * initialize the survey rendering
     */
     initialize() {
-        var locale = utils.getParams().lang || 'en';
-        localStorage.setItem('locale', locale);
-        i18n.init({// jshint ignore:line
-            ns: { namespaces: ['survey'], defaultNs: 'survey'},
-            detectLngQS: 'lang'
-        }, $.proxy(function(){
-              $("html").i18n();
-              this.$mainBodyEl.html('<div class="mobile">'+
-                '<button type="button" class="btn btn-default" id="form-save">'+
+        this.$mainBodyEl.html('<div class="mobile">'+
+          '<div class="'+this.renderEl+'">'+
+          '<button type="button" class="btn'+
+                ' btn-default" id="form-save">'+
                 i18n.t("menu.save")+'</button>'+
-                '<div class="'+this.renderEl+'"></div></div>'+
-                '<div id="loader"><img src="styles/images/ajax-loader.gif"></div>');
-        }, this));
+          '</div></div>'+
+          '<div id="loader"><img src="styles/images/ajax-loader.gif"></div>');
+        $("."+this.renderEl).prev().append('<button type="button" class="btn'+
+              ' btn-default" id="form-save">'+
+              i18n.t("menu.save")+'</button>');
     }
 
     /**
@@ -72,13 +69,13 @@ class Survey {
         //initialize fieldGenerator
         var fieldGenerator = new FieldGenerator("."+this.renderEl);
         //generate general settings
-        var titleObj = {};
+        var titleObj;
         if(this.title) {
-            titleObj = {"title": title};
+            titleObj = {"title": this.title};
         }
-        this.fieldGenerator.render("general", titleObj);
+        fieldGenerator.render('general');
         //generate first text field
-        this.fieldGenerator.render('text');
+        fieldGenerator.render('text');
     }
 
     //TO-DO: investigate if title is needed or should be picked up by the HTMLtoJSON function

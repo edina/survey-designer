@@ -8,11 +8,7 @@ export class SurveyView extends Backbone.View {
 
     initialize () {
         this.cfg = cfg;
-        this.survey = new Survey({
-            "element": "content"
-        });
         this.render();
-        this.formSave();
     }
 
     formSave() {
@@ -64,7 +60,20 @@ export class SurveyView extends Backbone.View {
         });
         var user = utils.getParams().group || this.cfg.userid;
         pcapi.setCloudLogin(user);
-        this.renderSurvey();
+        var locale = utils.getParams().lang || 'en';
+        console.log(locale)
+        localStorage.setItem('locale', locale);
+        i18n.init({// jshint ignore:line
+            ns: { namespaces: ['survey'], defaultNs: 'survey'},
+            detectLngQS: 'lang'
+        }, $.proxy(function(){
+              console.log(i18n.t("menu.save"))
+              this.survey = new Survey({
+                  "element": "content"
+              });
+              this.renderSurvey();
+              this.formSave();
+        }, this));
     }
 
     renderSurvey () {

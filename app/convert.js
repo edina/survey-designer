@@ -282,7 +282,7 @@ class Convertor {
                     break;
                 case 'dtree':
                     html.push('<div class="fieldcontain" id="'+key+'" data-fieldtrip-type="'+type+'" '+visibility+'>\n');
-                    html.push('<fieldset>\n<label for="form-'+type+'-'+n+'">'+value.label+'</label>\n');
+                    html.push('<fieldset>\n<label for="fieldcontain-'+type+'-'+n+'">'+value.label+'</label>\n');
                     html.push('<div class="button-wrapper button-dtree"></div>\n');
                     html.push('</fieldset>\n');
                     html.push('<input type="hidden" data-dtree="'+value.filename+'" value="'+value.filename+'">\n');
