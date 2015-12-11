@@ -45,6 +45,7 @@ class FieldGenerator {
     createField(type, data) {
         data = data || {};
         var result;
+        data.type = type;
         switch (type) {
             case 'general':
                 data.title = data.title || i18n.t("general.label");
