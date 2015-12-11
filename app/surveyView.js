@@ -1,8 +1,9 @@
-'use strict';
 import Backbone from 'backbone';
 import * as utils from './utils';
 import pcapi from 'pcapi';
 import Survey from './survey';
+
+/* global cfg, i18n */
 
 export class SurveyView extends Backbone.View {
 
@@ -61,13 +62,11 @@ export class SurveyView extends Backbone.View {
         var user = utils.getParams().group || this.cfg.userid;
         pcapi.setCloudLogin(user);
         var locale = utils.getParams().lang || 'en';
-        console.log(locale)
         localStorage.setItem('locale', locale);
         i18n.init({// jshint ignore:line
             ns: { namespaces: ['survey'], defaultNs: 'survey'},
             detectLngQS: 'lang'
         }, $.proxy(function(){
-              console.log(i18n.t("menu.save"))
               this.survey = new Survey({
                   "element": "content"
               });

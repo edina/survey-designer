@@ -1,4 +1,3 @@
-'use strict';
 import $ from 'jquery';
 //import * from 'handlebars';
 import generalTemplate from './templates/general-fieldset.hbs!';

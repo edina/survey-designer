@@ -1,10 +1,11 @@
-'use strict';
 import FieldGenerator from './field_generate';
-import Convertor from './convert';
+import Convertor from 'survey-convertor';
 import * as utils from './utils';
 import DataStorage from './data';
 import i18next from 'i18next-client';
 import './styles/app.css!';
+
+/* global i18n */
 
 class Survey {
     /**
@@ -116,7 +117,7 @@ class Survey {
         for (var key in formInJSON) {
             for (var key2 in visibilities) {
                 if (key === key2) {
-                    formInJSON[key]['visibility'] = visibilities[key2];
+                    formInJSON[key].visibility = visibilities[key2];
                 }
             }
         }
