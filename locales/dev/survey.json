@@ -75,6 +75,8 @@
         "upload": "Upload image",
         "add-checkbox": "Add checkbox",
         "persistent": "Persistent",
+        "allow-other": "Allow Other",
+        "other": "Other",
         "relate": "Visibility"
     },
     "radio": {

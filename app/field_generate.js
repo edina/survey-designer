@@ -69,7 +69,6 @@ class FieldGenerator {
             case 'checkbox':
                 return checkboxTemplate(data);
             case 'radio':
-              console.log(radioTemplate(data))
                 return radioTemplate(data);
             case 'select':
                 if(data.options && data.options[0] === ""){
@@ -109,7 +108,7 @@ class FieldGenerator {
                 return '';
             case 'warning':
                 if(this.$el.find('.fieldcontain-warning').length === 0){
-                    data.textarea = data.placeholder || "";
+                    data.textarea = data.properties.placeholder || "";
                     return warningTemplate(data);
                 }
                 return '';

@@ -2,9 +2,12 @@
   <legend>{{t "radio.field-title"}}</legend>
   <label for="label">{{t "radio.label-title"}}</label>
   <input type="text" name="label" value='{{label}}'> <br>
-  <input type="checkbox" name="required" {{check required "checked"}}>{{t "radio.required"}} <br>
-  <input type="checkbox" name="persistent" {{check persistent "checked"}}>{{t "radio.persistent"}} <br>
-  <input type="checkbox" name="other" {{check other "checked"}}>{{t "radio.allow-other"}}
+  <label for="required">{{t "radio.required"}}</label>
+  <input type="checkbox" name="required" {{check required "checked"}}><br>
+  <label for="persistent">{{t "radio.persistent"}}</label>
+  <input type="checkbox" name="persistent" {{check persistent "checked"}}><br>
+  <label for="other">{{t "radio.allow-other"}}</label>
+  <input type="checkbox" name="other" {{check other "checked"}}>
   <div class="radios">
   {{#each properties.options}}
     <div class="form-inline">

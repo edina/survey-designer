@@ -9,6 +9,7 @@ import DataStorage from '../app/data';
 
 import Visibility from '../app/visibility';
 import testForm  from './survey.json!';
+import language from '../locales/dev/survey.json!';
 import Convertor from 'survey-convertor';
 import FieldGenerator from '../app/field_generate';
 
@@ -44,222 +45,407 @@ describe('#FieldGenerator', () => {
 
     it('checkTextField', (done) => {
         var field = testForm.fields[0];
-        var html = `
-          <fieldset class="fieldcontain fieldcontain-text" id="form-text-1" data-type="text">
-            <legend>Text field</legend>
-            <label for="label">Field label</label>
-            <input type="text" name="label" value="1. Date of survey">
-            <input type="checkbox" name="required" checked="checked">Required
-            <label for="prefix">Prefix</label>
-            <input type="text" name="prefix" placeholder="Set a prefix" value="">
-            <input type="checkbox" name="persistent" checked="checked">Persistent
-            <label for="placeholder">Default text</label>
-            <input type="text" name="placeholder" placeholder="Place default text here (if any)" value="">
-            <label for="max-chars">Max characters</label>
-            <input type="number" name="max-chars" value="">
-          </fieldset>`;
-
         var result = fieldGenerator.createField(field);
-        var $html = $(html);
         var $result = $(result);
-        assert.equal($html.find("label[for='label']").text(),
-          $result.find("label[for='label']").text());
-        assert.equal($html.find("label[for='prefix']").text(),
-          $result.find("label[for='prefix']").text());
-        assert.equal($html.find('input[name="persistent"]').is(':checked'),
-          $result.find('input[name="persistent"]').is(':checked'));
+
+        //check legend
+        assert.equal($result.find('legend').text(),
+          language.text["field-title"]);
+        //check label from locales
+        assert.equal($result.find('label[for="label"]').text(),
+          language.text["label-title"]);
+        //check value from survey.json for label
+        assert.equal($result.find('input[name="label"]').val(), field.label);
+        //check value of required
+        assert.equal($result.find('input[name="required"]').is(':checked'),
+          field.required);
+        //check label for required
+        assert.equal($result.find('label[for="required"]').text(),
+          language.text.required);
+        //check value of placeholder
+        assert.equal($result.find('input[name="placeholder"]').attr("placeholder"),
+          field.properties.placeholder);
+        //check label for placeholder
+        assert.equal($result.find('label[for="placeholder"]').text(),
+          language.text["default-text-title"]);
+        //check value for persistent
+        assert.equal($result.find('input[name="persistent"]').is(':checked'),
+          field.persistent);
+        //check label for persistent
+        assert.equal($result.find('label[for="persistent"]').text(),
+          language.text.persistent);
+        //check max chars value
+        assert.equal($result.find('input[name="max-chars"]').val(),
+          field.properties["max-chars"]);
+        //check label for max-chars
+        assert.equal($result.find('label[for="max-chars"]').text(),
+          language.text["max-chars-title"]);
+
         done();
       });
 
       it('checkTextareaField', (done) => {
           var field = testForm.fields[1];
-          var html = `
-            <fieldset class="fieldcontain fieldcontain-textarea" id="fieldcontain-textarea-1" data-type="textarea">
-              <legend>Textarea field</legend>
-              <label for="label">Field label</label>
-              <input type="text" name="label" value="2. Write your thoughts">
-              <input type="checkbox" name="required" checked="checked">Required
-              <label for="placeholder">Default text</label>
-              <input type="text" name="placeholder" placeholder="Place default textarea here (if any)" value="">
-              <input type="checkbox" name="persistent" checked="checked">Persistent
-            </fieldset>`;
           var result = fieldGenerator.createField(field);
-          var $html = $(html);
           var $result = $(result);
-          assert.equal($html.find("label[for='label']").text(),
-            $result.find("label[for='label']").text());
-          assert.equal($html.find('input[name="persistent"]').is(':checked'),
-            $result.find('input[name="persistent"]').is(':checked'));
-          assert.equal($html.find('input[name="required"]').is(':checked'),
-            $result.find('input[name="required"]').is(':checked'));
+
+          //check legend
+          assert.equal($result.find('legend').text(),
+            language.textarea["field-title"]);
+          //check label from locales
+          assert.equal($result.find('label[for="label"]').text(),
+            language.textarea["label-title"]);
+          //check value from survey.json for label
+          assert.equal($result.find('input[name="label"]').val(), field.label);
+          //check value of required
+          assert.equal($result.find('input[name="required"]').is(':checked'),
+            field.required);
+          //check label for required
+          assert.equal($result.find('label[for="required"]').text(),
+            language.textarea.required);
+          //check value of placeholder
+          assert.equal($result.find('input[name="placeholder"]').attr("placeholder"),
+            field.properties.placeholder);
+          //check label for placeholder
+          assert.equal($result.find('label[for="placeholder"]').text(),
+            language.textarea["default-text-title"]);
+          //check value for persistent
+          assert.equal($result.find('input[name="persistent"]').is(':checked'),
+            field.persistent);
+          //check label for persistent
+          assert.equal($result.find('label[for="persistent"]').text(),
+            language.textarea.persistent);
+
           done();
       });
 
       it('checkRangeField', (done) => {
-          var field = testForm.fields[10];
-          var html = `
-            <fieldset class="fieldcontain fieldcontain-range" id="form-range-1" data-type="range">
-              <legend>Range field</legend>
-              <label for="label">Field label</label>
-              <input type="text" name="label" value="9. Measure the girth (circumference) of the trunk at 1.3 metres (130cm) above the ground.">
-              <input type="checkbox" name="required" checked="checked">Required <br>
-              <input type="checkbox" name="persistent" checked="checked">Persistent
-              <label for="step">Step</label>
-              <input type="number" name="step" value="0.1">
-              <label for="min">Min value</label>
-              <input type="number" name="min" value="0">
-              <label for="max">Max value</label>
-              <input type="number" name="max" value="10">
-            </fieldset>`;
+          var field = testForm.fields[7];
           var result = fieldGenerator.createField(field);
-          var $html = $(html);
           var $result = $(result);
-          assert.equal($html.find("label[for='label']").text(),
-            $result.find("label[for='label']").text());
-          assert.equal($html.find('input[name="persistent"]').is(':checked'),
-            $result.find('input[name="persistent"]').is(':checked'));
-          assert.equal($html.find('input[name="required"]').is(':checked'),
-            $result.find('input[name="required"]').is(':checked'));
-          assert.equal($html.find('input[name="step"]').val(),
-            $result.find('input[name="step"]').val());
-          assert.equal($html.find('input[name="min"]').val(),
-            $result.find('input[name="min"]').val());
-          assert.equal($html.find('input[name="max"]').val(),
-            $result.find('input[name="max"]').val());
+
+          //check legend
+          assert.equal($result.find('legend').text(),
+            language.range["field-title"]);
+          //check label from locales
+          assert.equal($result.find('label[for="label"]').text(),
+            language.range["label-title"]);
+          //check value from survey.json for label
+          assert.equal($result.find('input[name="label"]').val(), field.label);
+          //check value of required
+          assert.equal($result.find('input[name="required"]').is(':checked'),
+            field.required);
+          //check label for required
+          assert.equal($result.find('label[for="required"]').text(),
+            language.radio.required);
+          //check value for persistent
+          assert.equal($result.find('input[name="persistent"]').is(':checked'),
+            field.persistent);
+          //check label for persistent
+          assert.equal($result.find('label[for="persistent"]').text(),
+            language.radio.persistent);
+          //check step value
+          assert.equal($result.find('input[name="step"]').val(),
+            field.properties.step);
+          //check label for step
+          assert.equal($result.find('label[for="step"]').text(),
+            language.range["step-label"]);
+          //check min value
+          assert.equal($result.find('input[name="min"]').val(),
+            field.properties.min);
+          //check label for min
+          assert.equal($result.find('label[for="min"]').text(),
+            language.range["min-label"]);
+          //check max value
+          assert.equal($result.find('input[name="max"]').val(),
+            field.properties.max);
+          //check label for max
+          assert.equal($result.find('label[for="max"]').text(),
+            language.range["max-label"]);
           done();
       });
 
       it('checkRadioFieldWithImages', (done) => {
-          var field = testForm.fields[4];
-          var html = `
-            <fieldset class="fieldcontain fieldcontain-radio" id="form-radio-3" data-type="radio">
-              <legend>Radio field</legend>
-              <label for="label">Field label</label>
-              <input type="text" name="label" value='5. Which of these best describes your survey area?'> <br>
-              <input type="checkbox" name="required" checked="checked">Required <br>
-              <input type="checkbox" name="persistent" checked="checked">Persistent <br>
-              <input type="checkbox" name="other" >Allow Other
-              <div class="radios">
-                <div class="form-inline">
-                  <img src="5a.jpg" style="width: 50px;">
-                  <input type="text" value="Street" name="form-radio-3" id="form-radio-3-1" class="radio">
-                  <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="Remove"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                  <input type="file" class="image-upload" id="upload-form-radio-3" style="display: none;">
-                </div>
-                <div class="form-inline">
-                  <img src="5b.jpg" style="width: 50px;">
-                  <input type="text" value="Garden" name="form-radio-3" id="form-radio-3-2" class="radio">
-                  <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="Remove"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                  <input type="file" class="image-upload" id="upload-form-radio-3" style="display: none;">
-                </div>
-                <div class="form-inline">
-                  <img src="5c.jpg" style="width: 50px;">
-                  <input type="text" value="School" name="form-radio-3" id="form-radio-3-3" class="radio">
-                  <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="Remove"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                  <input type="file" class="image-upload" id="upload-form-radio-3" style="display: none;">
-                </div>
-                <div class="form-inline">
-                  <img src="5d.jpg" style="width: 50px;">
-                  <input type="text" value="Park" name="form-radio-3" id="form-radio-3-4" class="radio">
-                  <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="Remove"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                  <input type="file" class="image-upload" id="upload-form-radio-3" style="display: none;">
-                </div>
-                <div class="form-inline">
-                  <img src="5e.jpg" style="width: 50px;">
-                  <input type="text" value="Open field" name="form-radio-3" id="form-radio-3-5" class="radio">
-                  <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="Remove"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                  <input type="file" class="image-upload" id="upload-form-radio-3" style="display: none;">
-                </div>
-                <div class="form-inline">
-                  <img src="5f.jpg" style="width: 50px;">
-                  <input type="text" value="Hedge" name="form-radio-3" id="form-radio-3-6" class="radio">
-                  <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="Remove"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                  <input type="file" class="image-upload" id="upload-form-radio-3" style="display: none;">
-                </div>
-                <div class="form-inline">
-                  <img src="5g.jpg" style="width: 50px;">
-                  <input type="text" value="Woodland edge" name="form-radio-3" id="form-radio-3-7" class="radio">
-                  <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="Remove"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                  <input type="file" class="image-upload" id="upload-form-radio-3" style="display: none;">
-                </div>
-                <div class="form-inline">
-                  <img src="5h.jpg" style="width: 50px;">
-                  <input type="text" value="Inside woodland" name="form-radio-3" id="form-radio-3-8" class="radio">
-                  <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="Remove"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                  <input type="file" class="image-upload" id="upload-form-radio-3" style="display: none;">
-                </div>
-                <div class="form-inline">
-                  <input type="text" value="other" name="form-radio-3" id="form-radio-3-9" class="radio">
-                  <button type="file" class="btn btn-default btn-sm upload-image" aria-label="Upload image"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
-                  <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="Remove"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                  <input type="file" class="image-upload" id="upload-form-radio-3" style="display: none;">
-                </div>
-              </div>
-              <button type="button" class="btn btn-default btn-sm add-radio" aria-label="radio.add-radio"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-              <button type="button" class="btn btn-default btn-sm relate" aria-label="Visibility">Visibility</button>
-            </fieldset>`;
+          var field = testForm.fields[3];
           var result = fieldGenerator.createField(field);
-          var $html = $(html);
           var $result = $(result);
-          assert.equal($html.find("label[for='label']").text(),
-            $result.find("label[for='label']").text());
-          assert.equal($html.find('input[name="persistent"]').is(':checked'),
-            $result.find('input[name="persistent"]').is(':checked'));
-          assert.equal($html.find('input[name="required"]').is(':checked'),
-            $result.find('input[name="required"]').is(':checked'));
-          assert.equal($html.find('input[name="'+field.id+'"]').length, field.properties.options.length);
-          $html.find('img').each(function(i){
+
+          //check legend
+          assert.equal($result.find('legend').text(),
+            language.radio["field-title"]);
+          //check label from locales
+          assert.equal($result.find('label[for="label"]').text(),
+            language.radio["label-title"]);
+          //check value from survey.json for label
+          assert.equal($result.find('input[name="label"]').val(), field.label);
+          //check value of required
+          assert.equal($result.find('input[name="required"]').is(':checked'),
+            field.required);
+          //check label for required
+          assert.equal($result.find('label[for="required"]').text(),
+            language.radio.required);
+          //check value for persistent
+          assert.equal($result.find('input[name="persistent"]').is(':checked'),
+            field.persistent);
+          //check label for persistent
+          assert.equal($result.find('label[for="persistent"]').text(),
+            language.radio.persistent);
+          //check if allow other is checked
+          assert.equal($result.find('input[name="other"]').is(':checked'),
+            field.properties.other);
+          //check label for persistent
+          assert.equal($result.find('label[for="other"]').text(),
+            language.radio["allow-other"]);
+          //check length of input values for options
+          assert.equal($result.find('input[name="'+field.id+'"]').length,
+            field.properties.options.length);
+          //check length of upload images
+          assert.equal($result.find('.image-upload').length,
+            field.properties.options.length);
+          //check length of remove checkbox buttons
+          assert.equal($result.find('.remove-radio').length,
+            field.properties.options.length);
+          //check if the values of the options have been printed right
+          $result.find('input[name="'+field.id+'"]').each(function(i){
+              if (field.properties.options[i] instanceof Array){
+                  assert.equal($(this).val(), field.properties.options[i][0]);
+              }
+          });
+          //check if the images haven been printed right
+          $result.find('img').each(function(i){
               assert.equal($(this).attr("src"), field.properties.options[i][1]);
           });
+          //check if add checkbox button exists
+          assert.equal($result.find('.add-radio').length, 1);
+          //check if relate radio button exists
+          assert.equal($result.find('.relate').length, 1);
+          //check relate label
+          assert.equal($result.find('.relate').text().trim(),
+            language.radio.relate);
           done();
       });
 
       it('checkRadioFieldWithoutImages', (done) => {
-          var field = testForm.fields[3];
-          var html = `
-            <fieldset class="fieldcontain fieldcontain-radio" id="form-radio-2" data-type="radio">
-              <legend>Radio field</legend>
-              <label for="label">Field label</label>
-              <input type="text" name="label" value='3. Are you involved in working with trees or forestry?'> <br>
-              <input type="checkbox" name="required" checked="checked">Required <br>
-              <input type="checkbox" name="persistent" checked="checked">Persistent <br>
-              <input type="checkbox" name="other" >Allow Other
-              <div class="radios">
-                <div class="form-inline">
-                  <input type="text" value="No" name="form-radio-2" id="form-radio-2-1" class="radio">
-                  <button type="file" class="btn btn-default btn-sm upload-image" aria-label="Upload image"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
-                  <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="Remove"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                  <input type="file" class="image-upload" id="upload-form-radio-2" style="display: none;">
-                </div>
-                <div class="form-inline">
-                  <input type="text" value="Yes, as part of volunteer group or society" name="form-radio-2" id="form-radio-2-2" class="radio">
-                  <button type="file" class="btn btn-default btn-sm upload-image" aria-label="Upload image"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
-                  <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="Remove"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                  <input type="file" class="image-upload" id="upload-form-radio-2" style="display: none;">
-                </div>
-                <div class="form-inline">
-                  <input type="text" value="Yes, I work in the industry" name="form-radio-2" id="form-radio-2-3" class="radio">
-                  <button type="file" class="btn btn-default btn-sm upload-image" aria-label="Upload image"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
-                  <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="Remove"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                  <input type="file" class="image-upload" id="upload-form-radio-2" style="display: none;">
-                </div>
-              </div>
-              <button type="button" class="btn btn-default btn-sm add-radio" aria-label="radio.add-radio"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-              <button type="button" class="btn btn-default btn-sm relate" aria-label="Visibility">Visibility</button>
-            </fieldset>`;
+          var field = testForm.fields[2];
           var result = fieldGenerator.createField(field);
-          var $html = $(html);
           var $result = $(result);
-          assert.equal($html.find("label[for='label']").text(),
-            $result.find("label[for='label']").text());
-          assert.equal($html.find('input[name="persistent"]').is(':checked'),
-            $result.find('input[name="persistent"]').is(':checked'));
-          assert.equal($html.find('input[name="required"]').is(':checked'),
-            $result.find('input[name="required"]').is(':checked'));
-          assert.equal($html.find('input[name="'+field.id+'"]').length, field.properties.options.length);
-          $html.find('input[name="'+field.id+'"]').each(function(i){
+
+          //check legend
+          assert.equal($result.find('legend').text(),
+            language.radio["field-title"]);
+          //check label from locales
+          assert.equal($result.find('label[for="label"]').text(),
+            language.radio["label-title"]);
+          //check value from survey.json for label
+          assert.equal($result.find('input[name="label"]').val(), field.label);
+          //check value of required
+          assert.equal($result.find('input[name="required"]').is(':checked'),
+            field.required);
+          //check label for required
+          assert.equal($result.find('label[for="required"]').text(),
+            language.radio.required);
+          //check value for persistent
+          assert.equal($result.find('input[name="persistent"]').is(':checked'),
+            field.persistent);
+          //check label for persistent
+          assert.equal($result.find('label[for="persistent"]').text(),
+            language.radio.persistent);
+          //check if allow other is checked
+          assert.equal($result.find('input[name="other"]').is(':checked'),
+            field.properties.other);
+          //check label for persistent
+          assert.equal($result.find('label[for="other"]').text(),
+            language.radio["allow-other"]);
+          //check length of input values for options
+          assert.equal($result.find('input[name="'+field.id+'"]').length,
+            field.properties.options.length);
+          //check length of upload images
+          assert.equal($result.find('.image-upload').length,
+            field.properties.options.length);
+          //check length of remove checkbox buttons
+          assert.equal($result.find('.remove-radio').length,
+            field.properties.options.length);
+          //check if the values of the options have been printed right
+          $result.find('input[name="'+field.id+'"]').each(function(i){
               assert.equal($(this).val(), field.properties.options[i]);
           });
+          //check if add radio button exists
+          assert.equal($result.find('.add-radio').length, 1);
+          //check if relate radio button exists
+          assert.equal($result.find('.relate').length, 1);
+          //check relate label
+          assert.equal($result.find('.relate').text().trim(),
+            language.radio.relate);
+          done();
+      });
+
+      it('checkSelectField', (done) => {
+          var field = testForm.fields[4];
+          var result = fieldGenerator.createField(field);
+          var $result = $(result);
+
+          //check legend
+          assert.equal($result.find('legend').text(),
+            language.select["field-title"]);
+          //check label from locales
+          assert.equal($result.find('label[for="label"]').text(),
+            language.select["label-title"]);
+          //check value from survey.json for label
+          assert.equal($result.find('input[name="label"]').val(), field.label);
+          //check value of required
+          assert.equal($result.find('input[name="required"]').is(':checked'),
+            field.required);
+          //check label for required
+          assert.equal($result.find('label[for="required"]').text(),
+            language.select.required);
+          //check value for persistent
+          assert.equal($result.find('input[name="persistent"]').is(':checked'),
+            field.persistent);
+          //check label for persistent
+          assert.equal($result.find('label[for="persistent"]').text(),
+            language.select.persistent);
+          //check length of input values for options
+          assert.equal($result.find('input[name="'+field.id+'"]').length,
+            field.properties.options.length);
+          //check length of remove checkbox buttons
+          assert.equal($result.find('.remove-select').length,
+            field.properties.options.length);
+          //check if the values of the options have been printed right
+          $result.find('input[name="'+field.id+'"]').each(function(i){
+              assert.equal($(this).val(), field.properties.options[i]);
+          });
+          //check if add checkbox button exists
+          assert.equal($result.find('.add-select').length, 1);
+          done();
+      });
+
+      it('checkCheckboxWithImagesField', (done) => {
+          var field = testForm.fields[8];
+          var result = fieldGenerator.createField(field);
+          var $result = $(result);
+
+          //check legend
+          assert.equal($result.find('legend').text(),
+            language.checkbox["field-title"]);
+          //check label from locales
+          assert.equal($result.find('label[for="label"]').text(),
+            language.checkbox["label-title"]);
+          //check value from survey.json for label
+          assert.equal($result.find('input[name="label"]').val(), field.label);
+          //check value of required
+          assert.equal($result.find('input[name="required"]').is(':checked'),
+            field.required);
+          //check label for required
+          assert.equal($result.find('label[for="required"]').text(),
+            language.checkbox.required);
+          //check value for persistent
+          assert.equal($result.find('input[name="persistent"]').is(':checked'),
+            field.persistent);
+          //check label for persistent
+          assert.equal($result.find('label[for="persistent"]').text(),
+            language.checkbox.persistent);
+          //check if allow other is checked
+          assert.equal($result.find('input[name="other"]').is(':checked'),
+            field.properties.other);
+          //check label for persistent
+          assert.equal($result.find('label[for="other"]').text(),
+            language.checkbox["allow-other"]);
+          //check length of input values for options
+          assert.equal($result.find('input[name="'+field.id+'"]').length,
+            field.properties.options.length);
+          //check length of upload images
+          assert.equal($result.find('.image-upload').length,
+            field.properties.options.length);
+          //check length of remove checkbox buttons
+          assert.equal($result.find('.remove-checkbox').length,
+            field.properties.options.length);
+          //check if the values of the options have been printed right
+          $result.find('input[name="'+field.id+'"]').each(function(i){
+              assert.equal($(this).val(), field.properties.options[i][0]);
+          });
+          //check if the images haven been printed right
+          $result.find('img').each(function(i){
+              assert.equal($(this).attr("src"), field.properties.options[i][1]);
+          });
+          //check if add checkbox button exists
+          assert.equal($result.find('.add-checkbox').length, 1);
+          //check if relate radio button exists
+          assert.equal($result.find('.relate').length, 1);
+          //check relate label
+          assert.equal($result.find('.relate').text().trim(),
+            language.checkbox.relate);
+          done();
+      });
+
+      it('checkCheckboxWithoutImagesField', (done) => {
+          var field = testForm.fields[9];
+          var result = fieldGenerator.createField(field);
+          var $result = $(result);
+          //check legend
+          assert.equal($result.find('legend').text(),
+            language.checkbox["field-title"]);
+          //check label from locales
+          assert.equal($result.find('label[for="label"]').text(),
+            language.checkbox["label-title"]);
+          //check value from survey.json for label
+          assert.equal($result.find('input[name="label"]').val(), field.label);
+          //check value of required
+          assert.equal($result.find('input[name="required"]').is(':checked'),
+            field.required);
+          //check label for required
+          assert.equal($result.find('label[for="required"]').text(),
+            language.checkbox.required);
+          //check value for persistent
+          assert.equal($result.find('input[name="persistent"]').is(':checked'),
+            field.persistent);
+          //check label for persistent
+          assert.equal($result.find('label[for="persistent"]').text(),
+            language.checkbox.persistent);
+          //check if allow other is checked
+          assert.equal($result.find('input[name="other"]').is(':checked'),
+            field.properties.other);
+          //check label for persistent
+          assert.equal($result.find('label[for="other"]').text(),
+            language.checkbox["allow-other"]);
+          //check length of input values for options
+          assert.equal($result.find('input[name="'+field.id+'"]').length,
+            field.properties.options.length);
+          //check length of upload images
+          assert.equal($result.find('.image-upload').length,
+            field.properties.options.length);
+          //check length of remove checkbox buttons
+          assert.equal($result.find('.remove-checkbox').length,
+            field.properties.options.length);
+          //check if the values of the options have been printed right
+          $result.find('input[name="'+field.id+'"]').each(function(i){
+              assert.equal($(this).val(), field.properties.options[i]);
+          });
+          //check if add checkbox button exists
+          assert.equal($result.find('.add-checkbox').length, 1);
+          //check if relate radio button exists
+          assert.equal($result.find('.relate').length, 1);
+          //check relate label
+          assert.equal($result.find('.relate').text().trim(),
+            language.checkbox.relate);
+          done();
+      });
+
+      it('checkWarningField', (done) => {
+          var field = testForm.fields[6];
+          var result = fieldGenerator.createField(field);
+          var $result = $(result);
+          assert.equal($result.find("legend").text(),
+            language.warning["field-title"]);
+          assert.equal($result.find("label[for='label']").text(),
+            language.warning["label-title"]);
+          assert.equal($result.find("input[name='label']").val(),
+            field.label);
+          assert.equal($result.find("label[for='message']").text(),
+            language.warning.label);
+          assert.equal($result.find("textarea").text(),
+            field.properties.placeholder);
+          assert.equal($result.find("textarea").attr("placeholder"),
+            language.warning.message);
           done();
       });
 });
