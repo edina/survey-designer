@@ -1,4 +1,3 @@
-'use strict';
 class DataStorage {
     constructor(el){
         this.formKey = "current-form";
@@ -12,7 +11,7 @@ class DataStorage {
             localStorage.setItem(this.formKey, JSON.stringify(data));
         }
         else {
-            console.log("There is no sessionStorage");
+            console.log("There is no localStorage");
         }
     }
 
@@ -21,7 +20,7 @@ class DataStorage {
             return JSON.parse(localStorage.getItem(this.formKey));
         }
         else {
-            console.log("There is no sessionStorage");
+            console.log("There is no localStorage");
             return '';
         }
     }

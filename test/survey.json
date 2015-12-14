@@ -1,0 +1,549 @@
+{
+    "title": "OPAL Tree Health",
+    "geoms": [
+        "point"
+    ],
+    "layout": {
+        "pages": [
+            {
+                "type": "page",
+                "id": "form-section-1",
+                "title": "A. Start surveying",
+                "fields": [
+                    "form-text-1",
+                    "form-radio-1",
+                    "form-radio-2",
+                    "form-radio-3",
+                    "form-radio-4",
+                    "form-radio-5"
+                ]
+            },
+            {
+                "type": "page",
+                "id": "form-section-2",
+                "title": "B. Identification",
+                "fields": [
+                    "form-select-1",
+                    "form-dtree-1",
+                    "form-warning-1"
+                ]
+            },
+            {
+                "type": "page",
+                "id": "form-section-3",
+                "title": "C. Tree characteristics",
+                "fields": [
+                    "form-range-1",
+                    "form-range-2",
+                    "form-radio-6"
+                ]
+            },
+            {
+                "type": "page",
+                "id": "form-section-4",
+                "title": "Crown",
+                "fields": [
+                    "form-radio-7",
+                    "form-radio-8",
+                    "form-radio-9",
+                    "form-radio-10"
+                ]
+            },
+            {
+                "type": "page",
+                "id": "form-section-5",
+                "title": "Leaves",
+                "fields": [
+                    "form-checkbox-1",
+                    "form-radio-11",
+                    "form-checkbox-2",
+                    "form-radio-12",
+                    "form-checkbox-3"
+                ]
+            },
+            {
+                "type": "page",
+                "id": "form-section-6",
+                "title": "Wildlife",
+                "fields": [
+                    "form-checkbox-4"
+                ]
+            }
+        ]
+    },
+    "fields": [
+        {
+            "id": "form-text-1",
+            "type": "text",
+            "label": "1. Date of survey",
+            "required": true,
+            "persistent": true,
+            "properties": {
+                "prefix": "record",
+                "placeholder": "Place default text here (if any)",
+                "max-chars": "30"
+            }
+        },
+        {
+            "id": "form-textarea-1",
+            "type": "textarea",
+            "label": "2. Write your thoughts.",
+            "required": true,
+            "persistent": true,
+            "properties": {
+                "placeholder": "Place default textarea here (if any)"
+            }
+        },
+        {
+            "id": "form-radio-1",
+            "type": "radio",
+            "label": "2. Who are you doing the Tree Health Survey with today?",
+            "required": true,
+            "persistent": true,
+            "properties": {
+                "other": false,
+                "options": [
+                    "Primary school",
+                    "Secondary school",
+                    "Youth group",
+                    "Adult volunteer group",
+                    "Friends or family",
+                    "College/university",
+                    "Other"
+                ]
+            }
+        },
+        {
+            "id": "form-radio-2",
+            "type": "radio",
+            "label": "3. Are you involved in working with trees or forestry?",
+            "required": true,
+            "persistent": true,
+            "properties": {
+                "other": false,
+                "options": [
+                    "No",
+                    "Yes, as part of volunteer group or society",
+                    "Yes, I work in the industry"
+                ]
+            }
+        },
+        {
+            "id": "form-radio-3",
+            "type": "radio",
+            "label": "5. Which of these best describes your survey area?",
+            "required": true,
+            "persistent": true,
+            "properties": {
+                "other": false,
+                "options": [
+                    [
+                        "Street",
+                        "5a.jpg"
+                    ],
+                    [
+                        "Garden",
+                        "5b.jpg"
+                    ],
+                    [
+                        "School",
+                        "5c.jpg"
+                    ],
+                    [
+                        "Park",
+                        "5d.jpg"
+                    ],
+                    [
+                        "Open field",
+                        "5e.jpg"
+                    ],
+                    [
+                        "Hedge",
+                        "5f.jpg"
+                    ],
+                    [
+                        "Woodland edge",
+                        "5g.jpg"
+                    ],
+                    [
+                        "Inside woodland",
+                        "5h.jpg"
+                    ],
+                    "other"
+                ]
+            }
+        },
+        {
+            "id": "form-radio-4",
+            "type": "radio",
+            "label": "6. What is the main ground cover at the base of the tree? Choose one option.",
+            "required": true,
+            "persistent": true,
+            "properties": {
+                "other": false,
+                "options": [
+                    [
+                        "Grass or other plants",
+                        "6a.jpg"
+                    ],
+                    [
+                        "Bare soil",
+                        "6b.jpg"
+                    ],
+                    [
+                        "Hard surface (like pavement)",
+                        "6c.jpg"
+                    ],
+                    [
+                        "Fallen leaves",
+                        "6d.jpg"
+                    ]
+                ]
+            }
+        },
+        {
+            "id": "form-radio-5",
+            "type": "radio",
+            "label": "7. If there are fallen leaves beneath the tree, how many are there?",
+            "required": true,
+            "persistent": true,
+            "properties": {
+                "other": false,
+                "options": [
+                    [
+                        "A few",
+                        "7a.jpg"
+                    ],
+                    [
+                        "A lot",
+                        "7b.jpg"
+                    ],
+                    [
+                        "Ground is completely covered",
+                        "7c.jpg"
+                    ]
+                ]
+            }
+        },
+        {
+            "id": "form-select-1",
+            "type": "select",
+            "label": "8. Tree species",
+            "required": false,
+            "persistent": false,
+            "properties": {
+                "options": [
+                    "Alder",
+                    "Ash",
+                    "Beech",
+                    "Birch",
+                    "Cherry",
+                    "Conifers",
+                    "Crab Apple",
+                    "Elder",
+                    "Elm",
+                    "Hawthorn",
+                    "Hazel",
+                    "Hornbeam",
+                    "Horse Chestnut",
+                    "Lime",
+                    "London Plane",
+                    "Maple",
+                    "Oak",
+                    "Poplar",
+                    "Rowan",
+                    "Sweet Chestnut",
+                    "Sycamore",
+                    "Whitebeam",
+                    "Willow",
+                    "Other"
+                ]
+            }
+        },
+        {
+            "id": "form-dtree-1",
+            "type": "dtree",
+            "label": "Opal",
+            "required": true,
+            "persistent": false,
+            "properties": {
+                "filename": "opal/opal-1.json"
+            }
+        },
+        {
+            "id": "form-warning-1",
+            "type": "warning",
+            "label": "Safe fieldwork",
+            "required": false,
+            "persistent": false,
+            "properties": {
+                "placeholder": "Trees and woodland in the"
+            }
+        },
+        {
+            "id": "form-range-1",
+            "type": "range",
+            "label": "9. Measure the girth (circumference) of the trunk at 1.3 metres (130cm) above the ground.",
+            "required": true,
+            "persistent": true,
+            "properties": {
+                "step": "0.1",
+                "min": "0",
+                "max": "10"
+            }
+        },
+        {
+            "id": "form-range-2",
+            "type": "range",
+            "label": "10. Measure the height of the tree.",
+            "required": true,
+            "persistent": true,
+            "properties": {
+                "step": "0.1",
+                "min": "0",
+                "max": "50"
+            }
+        },
+        {
+            "id": "form-radio-6",
+            "type": "radio",
+            "label": "11. Is the tree taller or shorter than most of the other trees nearby?",
+            "required": true,
+            "persistent": true,
+            "properties": {
+                "other": false,
+                "options": [
+                    "Shorter than most",
+                    "Taller than most",
+                    "Same height as most",
+                    "No other trees nearby"
+                ]
+            }
+        },
+        {
+            "id": "form-radio-7",
+            "type": "radio",
+            "label": "12. Which of these best shows the shape of the tree?",
+            "required": true,
+            "persistent": true,
+            "properties": {
+                "other": false,
+                "options": [
+                    [
+                        "Spreading",
+                        "12a.png"
+                    ],
+                    [
+                        "Oval",
+                        "12b.png"
+                    ],
+                    [
+                        "Fan",
+                        "12c.png"
+                    ],
+                    [
+                        "Column",
+                        "12d.png"
+                    ],
+                    [
+                        "Cone",
+                        "12e.png"
+                    ]
+                ]
+            }
+        },
+        {
+            "id": "form-radio-8",
+            "type": "radio",
+            "label": "13. Stand underneath the tree, next to the trunk and look up. How much of the view is made up of leaves? Choose the closest fit from the five options.",
+            "required": true,
+            "persistent": true,
+            "properties": {
+                "other": false,
+                "options": [
+                    [
+                        "No leaves",
+                        "13a.jpg"
+                    ],
+                    [
+                        "25%",
+                        "13b.jpg"
+                    ],
+                    [
+                        "50%",
+                        "13c.jpg"
+                    ],
+                    [
+                        "75%",
+                        "13d.jpg"
+                    ],
+                    [
+                        "All leaves",
+                        "13e.jpg"
+                    ]
+                ]
+            }
+        },
+        {
+            "id": "form-radio-9",
+            "type": "radio",
+            "label": " Can you see any dead wood (branches that have no leaves or twigs on them)?",
+            "required": true,
+            "persistent": true,
+            "properties": {
+                "other": false,
+                "radios": [
+                    "No",
+                    "Yes"
+                ]
+            }
+        },
+        {
+            "id": "form-radio-10",
+            "type": "radio",
+            "label": "14. How much dead wood is there?",
+            "required": false,
+            "persistent": false,
+            "properties": {
+                "other": false,
+                "radios": [
+                    "Less than a quarter of the tree",
+                    "Between one quarter and one half",
+                    "Between one half and three quarters",
+                    "More than three quarters"
+                ]
+            }
+        },
+        {
+            "id": "form-checkbox-1",
+            "type": "checkbox",
+            "label": "15. What types of leaf browning can you see? Tick all that apply",
+            "required": false,
+            "persistent": false,
+            "properties": {
+                "other": false,
+                "options": [
+                    [
+                        "Brown leaf edges",
+                        "15a.png"
+                    ],
+                    [
+                        "Brown spots",
+                        "15b.png"
+                    ],
+                    [
+                        "Leaves all brown",
+                        "15c.png"
+                    ],
+                    [
+                        "None",
+                        "15d.png"
+                    ]
+                ]
+            }
+        },
+        {
+            "id": "form-radio-11",
+            "type": "radio",
+            "label": "16. If there is leaf browing, how much can you see on the tree?",
+            "required": false,
+            "persistent": false,
+            "properties": {
+                "other": false,
+                "options": [
+                    "Less than a quarter of the tree",
+                    "Between one quarter and one half",
+                    "Between one half and three quarters",
+                    "More than three quarters"
+                ]
+            }
+        },
+        {
+            "id": "form-checkbox-2",
+            "type": "checkbox",
+            "label": "17. What types of leaf yellowing can you see? Tick all that apply.",
+            "required": false,
+            "persistent": false,
+            "properties": {
+                "other": false,
+                "options": [
+                    [
+                        "Yellow leaf edges",
+                        "17a.png"
+                    ],
+                    [
+                        "Yellow spots",
+                        "17b.png"
+                    ],
+                    [
+                        "Leaves all yellow",
+                        "17c.png"
+                    ],
+                    [
+                        "None",
+                        "17d.png"
+                    ]
+                ]
+            }
+        },
+        {
+            "id": "form-radio-12",
+            "type": "radio",
+            "label": "18. If there is leaf yellowing, how much can you see on the tree?",
+            "required": false,
+            "persistent": false,
+            "properties": {
+                "other": false,
+                "options": [
+                    "Less than a quarter of the tree",
+                    "Between one quarter and one half",
+                    "Between one half and three quarters",
+                    "More than three quarters"
+                ]
+            }
+        },
+        {
+            "id": "form-checkbox-3",
+            "type": "radio",
+            "label": "19. Can you see any of the following signs of insect damage on the leaves?",
+            "required": false,
+            "persistent": false,
+            "properties": {
+                "other": false,
+                "options": [
+                    [
+                        "Leaf holes: holes all the way through the leaf",
+                        "19a.png"
+                    ],
+                    [
+                        "Leaf mining: the upper and lower layers of the leaf are intact but the green tissue inside has turned brown or disappeared",
+                        "19b.png"
+                    ],
+                    [
+                        "Leaf galls: bumps and growths on leaves",
+                        "19c.png"
+                    ]
+                ]
+            }
+        },
+        {
+            "id": "form-checkbox-4",
+            "type": "checkbox",
+            "label": "20. It is useful to know how the tree supports biodiversity. Record any animals, signs of animal activity, plants or fungi.",
+            "required": false,
+            "persistent": false,
+            "properties": {
+                "other": false,
+                "options": [
+                    "Birds or birds’ nests",
+                    "Squirrels",
+                    "A large hollow in the trunk",
+                    "Moss / lichens / algae",
+                    "Ivy",
+                    "Fungi",
+                    "Other"
+                ]
+            }
+        }
+    ]
+}

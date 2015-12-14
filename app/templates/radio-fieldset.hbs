@@ -1,4 +1,4 @@
-<fieldset class="fieldcontain fieldcontain-radio" id="{{fieldId}}" data-type="{{type}}">
+<fieldset class="fieldcontain fieldcontain-radio" id="{{id}}" data-type="{{type}}">
   <legend>{{t "radio.field-title"}}</legend>
   <label for="label">{{t "radio.label-title"}}</label>
   <input type="text" name="label" value='{{label}}'> <br>
@@ -6,17 +6,17 @@
   <input type="checkbox" name="persistent" {{check persistent "checked"}}>{{t "radio.persistent"}} <br>
   <input type="checkbox" name="other" {{check other "checked"}}>{{t "radio.allow-other"}}
   <div class="radios">
-  {{#each radios}}
+  {{#each properties.options}}
     <div class="form-inline">
       {{#ifObject this}}
         <img src="{{this.[1]}}" style="width: 50px;">
-        <input type="text" value="{{this.[0]}}" name="{{../fieldId}}" id="{{../fieldId}}-{{increase @index}}" class="radio">
+        <input type="text" value="{{this.[0]}}" name="{{../id}}" id="{{../id}}-{{increase @index}}" class="radio">
       {{else}}
-        <input type="text" value="{{this}}" name="{{../fieldId}}" id="{{../fieldId}}-{{increase @index}}" class="radio">
+        <input type="text" value="{{this}}" name="{{../id}}" id="{{../id}}-{{increase @index}}" class="radio">
         <button type="file" class="btn btn-default btn-sm upload-image" aria-label="{{t "radio.upload"}}"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
       {{/ifObject}}
       <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="{{t "radio.remove"}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-      <input type="file" class="image-upload" id="upload-{{../fieldId}}" style="display: none;">
+      <input type="file" class="image-upload" id="upload-{{../id}}" style="display: none;">
     </div>
   {{/each}}
   </div>

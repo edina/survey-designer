@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import i18next from 'i18next-client';
 //import * from 'handlebars';
 import generalTemplate from './templates/general-fieldset.hbs!';
 import textTemplate from './templates/text-fieldset.hbs!';
@@ -17,98 +18,78 @@ import addfieldTemplate from './templates/add-button.hbs!';
 import * as utils from './utils';
 import Visibility from './visibility';
 
+/* global i18n */
+
 class FieldGenerator {
     constructor (el){
-        //super();
         this.$el = $(el);
         this.registerHelpers();
     }
 
-    render(type, data, element) {
+    render(data, element) {
         if(element) {
-            $(element).after(this.createField(type, data));
+            $(element).after(this.createField(data));
         }
         else{
-            this.$el.append(this.createField(type, data))
+            this.$el.append(this.createField(data));
         }
-        this.addFieldButtons(type);
+        this.addFieldButtons(data.type);
         this.enableActions();
     }
 
     /**
      * create field by using templates and data
-     * @param {String} type e.g. general, text etc
      * @param {Object} data of each field
      * @returns {String} html of each field that is generated on the SD
      */
-    createField(type, data) {
-        data = data || {};
-        var result;
-        data.type = type;
+    createField(data) {
+        var type = data.type;
+        data.id = data.id || "fieldcontain-"+type+"-"+this.findHighestElement(type);
+        data.label = data.label || i18n.t(type+".label");
         switch (type) {
             case 'general':
                 data.title = data.title || i18n.t("general.label");
                 data.geoms = data.geoms || ["point"];
                 return generalTemplate(data);
-                break;
             case 'text':
-                data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
-                data.label = data.label || i18n.t(type+".label");
-                data["max-chars"] = data["max-chars"] || i18n.t(type+".max-chars");
+                if(data.properties) {
+                    data.properties["max-chars"] = data.properties["max-chars"] ||
+                      i18n.t(type+".max-chars");
+                }
                 return textTemplate(data);
-                break;
             case 'textarea':
-                data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
-                data.label = data.label || i18n.t(type+".label");
                 return textareaTemplate(data);
-                break;
             case 'range':
-                data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
-                data.label = data.label || i18n.t(type+".label");
-                data["min"] = data["min"] || 0;
-                data["max"] = data["max"] || 10;
-                data["step"] = data["step"] || 1;
+                if(data.properties) {
+                    data.properties.min = data.properties.min || 0;
+                    data.properties.max = data.properties.max || 10;
+                    data.properties.step = data.properties.step || 1;
+                }
                 return rangeTemplate(data);
-                break;
             case 'checkbox':
-                data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
-                data.label = data.label || i18n.t(type+".label");
                 return checkboxTemplate(data);
-                break;
             case 'radio':
-                data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
-                data.label = data.label || i18n.t(type+".label");
+              console.log(radioTemplate(data))
                 return radioTemplate(data);
-                break;
             case 'select':
-                data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
-                data.label = data.label || i18n.t(type+".label");
                 if(data.options && data.options[0] === ""){
                     data.options.shift();
                 }
                 return selectTemplate(data);
-                break;
             case 'dtree':
-                data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
-                data.label = data.label || i18n.t(type+".label");
-                data.url = pcapi.buildFSUrl('editors', data["filename"]);
+                data.url = pcapi.buildFSUrl('editors', data.filename);
                 return dtreeTemplate(data);
-                break;
             case 'image':
                 if(this.$el.find('.fieldcontain-image').length === 0){
-                    data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
-                    data.label = data.label || i18n.t(type+".label");
                     data["multi-image"] = data["multi-image"] || false;
                     data.los = data.los || false;
                     data.blur = data.blur || 0;
                     return imageTemplate(data);
                 }
                 return '';
-                break;
             case 'multiimage':
                 if(this.$el.find('.fieldcontain-image').length === 0){
                     data.fieldId = "fieldcontain-image-"+this.findHighestElement(type);
-                    data.label = data.label || i18n.t(type+".label");
                     data.required = data.required || true;
                     data["multi-image"] = data["multi-image"] || true;
                     data.los = data.los || false;
@@ -116,38 +97,27 @@ class FieldGenerator {
                     return imageTemplate(data);
                 }
                 return '';
-                break;
             case 'audio':
                 if(this.$el.find('.fieldcontain-audio').length === 0){
-                    data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
-                    data.label = data.label || i18n.t(type+".label");
                     return audioTemplate(data);
                 }
                 return '';
-                break;
             case 'gps':
                 if(this.$el.find('.fieldcontain-gps').length === 0){
-                    data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
                     return gpsTemplate(data);
                 }
                 return '';
-                break;
             case 'warning':
                 if(this.$el.find('.fieldcontain-warning').length === 0){
-                    data.fieldId = "fieldcontain-"+type+"-"+this.findHighestElement(type);
-                    data.label = data.label || i18n.t(type+".label");
                     data.textarea = data.placeholder || "";
                     return warningTemplate(data);
                 }
                 return '';
-                break;
             case 'section':
-                data.label = data.label || i18n.t(type+".label");
                 return sectionTemplate(data);
-                break;
         }
         return result;
-    };
+    }
 
     /**
      * add move and remove buttons for each field that is render on the SD
@@ -166,9 +136,9 @@ class FieldGenerator {
                       '</div>';
                 $id.append(buttons);
             }
-            $id.append(addfieldTemplate(cfg.options))
+            $id.append(addfieldTemplate(cfg.options));
         }
-    };
+    }
 
     /**
      * enable all events
@@ -180,7 +150,7 @@ class FieldGenerator {
         this.enabledTreeEvents();
         this.enableRemoveField();
         this.enableAddField();
-    };
+    }
 
     /**
     * add field event for adding an element after clicking
@@ -190,7 +160,7 @@ class FieldGenerator {
         this.$el.on("click", ".add-field", $.proxy(function(event){
             var $this = $(event.target);
             var $fieldcontain = $this.closest('.fieldcontain');
-            this.render($this.text().trim(), undefined, $fieldcontain);
+            this.render({type: $this.text().trim()}, $fieldcontain);
         }, this));
     }
 
@@ -199,21 +169,21 @@ class FieldGenerator {
      */
     enableCheckboxEvents() {
         this.enableMultipleOptionsEvents('checkbox');
-    };
+    }
 
     /**
      * enable events for radio
      */
     enableRadioEvents() {
         this.enableMultipleOptionsEvents('radio');
-    };
+    }
 
     /**
      * enable events select
      */
     enableSelectEvents() {
         this.enableMultipleOptionsEvents('select');
-    };
+    }
 
     /**
      * enable events such as add, remove element button e.g. radio checkbox
@@ -241,7 +211,7 @@ class FieldGenerator {
             $("#fieldcontain-"+type+"-"+fieldcontainId).find('.'+type).each(function(){
                 $(this).prop("id", 'fieldcontain-'+type+'-'+fieldcontainId+'-'+i);
                 i++;
-            })
+            });
         });
 
         //remove element button
@@ -298,18 +268,18 @@ class FieldGenerator {
         this.$el.on("click", ".relate", function(){
             visibility.showVisibilityWindow($(this).closest('.fieldcontain').attr("id"));
         });
-    };
+    }
 
     enabledTreeEvents() {
         this.uploadFile('.add-dtree', '.upload-dtree');
-    };
+    }
 
     enableRemoveField() {
         this.$el.off("click", ".remove-field");
         this.$el.on("click", ".remove-field", function(){
             $(this).closest('.fieldcontain').remove();
         });
-    };
+    }
 
     /**
      * find the highest id of the fieldcontain
@@ -325,7 +295,7 @@ class FieldGenerator {
             }
         });
         return j+1;
-    };
+    }
 
     /**
      * functions that added on the handlebars templates
@@ -380,7 +350,7 @@ class FieldGenerator {
                 Handlebars.registerHelper(prop, helpers[prop]);
             }
         }
-    };
+    }
 
     /**
      * upload file on the server
@@ -431,7 +401,7 @@ class FieldGenerator {
                 $("#"+id+" .btn-filename").html('<a href="'+pcapi.buildFSUrl('editors', dtreeFname)+'">'+dtreeFname+'</a>');
             }, this));
         }, this));
-    };
+    }
 
 }
 

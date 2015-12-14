@@ -4,7 +4,17 @@ import modal from 'bootstrap';
 
 class Visibility {
     constructor() {
-        this.ELEMENTS_TO_EXCLUDE = ["dtree", "image", "audio", "general", "geoms", "section", "text", "textarea", "warning"];
+        this.ELEMENTS_TO_EXCLUDE = [
+          "dtree",
+          "image",
+          "audio",
+          "general",
+          "geoms",
+          "section",
+          "text",
+          "textarea",
+          "warning"
+        ];
         this.dataStorage = new DataStorage();
         this.divQuestion = "relate-question";
         this.divRule = "relate-rule";
@@ -12,20 +22,32 @@ class Visibility {
         this.visibilityId = "visibility-question";
     }
 
+    /**
+     * create an array of dropdown menu with all the potential questions
+     * @param question {String} element
+     * @returns array with all the question as select element
+     */
     addQuestions(question) {
         var data = this.dataStorage.getData();
         var body = [];
         body.push('<select id="'+this.visibilityId+'">');
         for (var key in data) {
             var type = key.split("-")[1];
-            if (key.indexOf("fieldcontain") > -1 && $.inArray(type, this.ELEMENTS_TO_EXCLUDE) === -1 && key !== question) {
+            if (key.indexOf("fieldcontain") > -1 &&
+              $.inArray(type, this.ELEMENTS_TO_EXCLUDE) === -1 &&
+              key !== question) {
                 body.push('<option value="'+key+'">'+data[key].label+'</option>');
             }
         }
         body.push('</select>');
-        $("#"+this.divQuestion).html(body.join(""));
+        return body;
     }
 
+    /**
+     * create an array of dropdown menu with all the potential questions
+     * @param question {String} element
+     * @returns object with all the answers, rules and selected rule
+     */
     addRulesAndAnswers(question) {
         var visibility = this.checkForExistingRules(question);
         var value = visibility.id || $('#'+this.visibilityId).val();
@@ -50,26 +72,25 @@ class Visibility {
                 }
                 else {
                     var answer = visibility.answer || "";
-                    divAnswers.push('<input type="text" value="'+answer+'" id="visibility-values">');
+                    divAnswers.push('<input typeaddRulesAndAnswers="text" value="'+answer+'" id="visibility-values">');
                 }
                 if(obj.rules.length > 0) {
-                    for(var i=0; i<obj.rules.length;i++){
+                    for(var j=0; j<obj.rules.length;j++){
                         selected = "";
-                        if(visibility.rule && visibility.rule === obj.rules[i]) {
+                        if(visibility.rule && visibility.rule === obj.rules[j]) {
                             selected = 'selected="selected"';
                         }
-                        selectRules.push('<option value="'+obj.rules[i]+'" '+selected+'>'+obj.rules[i]+'</option>');
+                        selectRules.push('<option value="'+obj.rules[j]+'" '+selected+'>'+obj.rules[j]+'</option>');
                     }
                 }
             }
         }
         selectRules.push('</select>');
-        $("#"+this.divAnswer).html(divAnswers.join(""));
-        $("#"+this.divRule).html(selectRules.join(""));
-
-        if(visibility !== "") {
-            $("#"+this.visibilityId).val(visibility.id);
-        }
+        return {
+            "answers": divAnswers,
+            "rules": selectRules,
+            "visibility": visibility
+        };
     }
 
     checkForExistingRules(id) {
@@ -182,8 +203,17 @@ class Visibility {
             $("body").append(utils.makeModalWindow(id, "Visibility Rules", body, footer).join(""));
         }
         $("#"+id).modal("show");
-        this.addQuestions(el);
-        this.addRulesAndAnswers(el);
+        //append questions
+        var questions = this.addQuestions(el);
+        $("#"+this.divQuestion).html(questions.join(""));
+        //append rules and answers
+        var rulesAndAnswers = this.addRulesAndAnswers(el);
+        $("#"+this.divAnswer).html(rulesAndAnswers.answers.join(""));
+        $("#"+this.divRule).html(rulesAndAnswers.rules.join(""));
+        //if there is visibility dynamically change the value on dom
+        if(rulesAndAnswers.visibility !== "") {
+            $("#"+this.visibilityId).val(rulesAndAnswers.visibility.id);
+        }
         this.enableEvents(el);
     }
 }

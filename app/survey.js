@@ -33,7 +33,7 @@ class Survey {
                 ' btn-default" id="form-save">'+
                 i18n.t("menu.save")+'</button>'+
           '</div></div>'+
-          '<div id="loader"><img src="styles/images/ajax-loader.gif"></div>');
+          '<div id="loader"><img src="app/styles/images/ajax-loader.gif"></div>');
         $("."+this.renderEl).prev().append('<button type="button" class="btn'+
               ' btn-default" id="form-save">'+
               i18n.t("menu.save")+'</button>');
@@ -74,9 +74,9 @@ class Survey {
         if(this.title) {
             titleObj = {"title": this.title};
         }
-        fieldGenerator.render('general');
+        fieldGenerator.render({type: "general"});
         //generate first text field
-        fieldGenerator.render('text');
+        fieldGenerator.render({type: 'text'});
     }
 
     //TO-DO: investigate if title is needed or should be picked up by the HTMLtoJSON function
@@ -92,15 +92,14 @@ class Survey {
         }
         var fieldGenerator = new FieldGenerator("."+this.renderEl);
         //render general settings
-        fieldGenerator.render("general",
-              {"title": title, "geoms": data.geoms}
-        );
+        fieldGenerator.render({
+            "title": title,
+            "geoms": data.geoms,
+            "type": "general"
+        });
         //render each field
-        $.each(data, function(k, v){
-            var type = k.split("-")[1];
-            if(type !== undefined){
-                fieldGenerator.render(type, v);
-            }
+        $.each(data.fields, function(index, field){
+            fieldGenerator.render(field);
         });
     }
 
