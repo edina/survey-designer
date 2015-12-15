@@ -114,7 +114,8 @@
         "label": "This is a label",
         "required": "Required",
         "multiple-images": "Multiple images",
-        "los": "Line of Sight"
+        "los": "Line of Sight",
+        "label-blur": "Blur Threshold"
     },
     "audio": {
         "name": "audio",

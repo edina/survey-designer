@@ -47,55 +47,40 @@ class FieldGenerator {
         var type = data.type;
         data.id = data.id || "fieldcontain-"+type+"-"+this.findHighestElement(type);
         data.label = data.label || i18n.t(type+".label");
+        data.properties = data.properties || {};
         switch (type) {
             case 'general':
                 data.title = data.title || i18n.t("general.label");
                 data.geoms = data.geoms || ["point"];
                 return generalTemplate(data);
             case 'text':
-                if(data.properties) {
-                    data.properties["max-chars"] = data.properties["max-chars"] ||
-                      i18n.t(type+".max-chars");
-                }
+                data.properties["max-chars"] = data.properties["max-chars"] ||
+                  i18n.t(type+".max-chars");
                 return textTemplate(data);
             case 'textarea':
                 return textareaTemplate(data);
             case 'range':
-                if(data.properties) {
-                    data.properties.min = data.properties.min || 0;
-                    data.properties.max = data.properties.max || 10;
-                    data.properties.step = data.properties.step || 1;
-                }
+                data.properties.min = data.properties.min || 0;
+                data.properties.max = data.properties.max || 10;
+                data.properties.step = data.properties.step || 1;
                 return rangeTemplate(data);
             case 'checkbox':
                 return checkboxTemplate(data);
             case 'radio':
                 return radioTemplate(data);
             case 'select':
-                if(data.options && data.options[0] === ""){
+                if(data.properties.options && data.properties.options[0] === ""){
                     data.options.shift();
                 }
                 return selectTemplate(data);
             case 'dtree':
-                if (data.properties) {
-                    data.url = pcapi.buildFSUrl('editors', data.properties.filename);
-                }
+                data.url = pcapi.buildFSUrl('editors', data.properties.filename);
                 return dtreeTemplate(data);
             case 'image':
                 if(this.$el.find('.fieldcontain-image').length === 0){
-                    data["multi-image"] = data["multi-image"] || false;
-                    data.los = data.los || false;
-                    data.blur = data.blur || 0;
-                    return imageTemplate(data);
-                }
-                return '';
-            case 'multiimage':
-                if(this.$el.find('.fieldcontain-image').length === 0){
-                    data.fieldId = "fieldcontain-image-"+this.findHighestElement(type);
-                    data.required = data.required || true;
-                    data["multi-image"] = data["multi-image"] || true;
-                    data.los = data.los || false;
-                    data.blur = data.blur || 0;
+                    data.properties["multi-image"] = data.properties["multi-image"] || false;
+                    data.properties.los = data.properties.los || false;
+                    data.properties.blur = data.properties.blur || 0;
                     return imageTemplate(data);
                 }
                 return '';

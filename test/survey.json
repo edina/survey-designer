@@ -244,6 +244,23 @@
                     "Other"
                 ]
             }
+        },
+        {
+            "id": "form-audio-1",
+            "type": "audio",
+            "label": "Take an audio",
+            "required": false
+        },
+        {
+            "id": "form-image-1",
+            "type": "image",
+            "label": "Take an image",
+            "required": false,
+            "properties": {
+                "los": false,
+                "multi-image": false,
+                "blur": 20
+            }
         }
     ]
 }

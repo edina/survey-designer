@@ -1,16 +1,19 @@
-<fieldset class="fieldcontain fieldcontain-image" id="{{fieldId}}" data-type="{{type}}">
+<fieldset class="fieldcontain fieldcontain-image" id="{{id}}" data-type="{{type}}">
   <legend>{{t "image.field-title"}}</legend>
   <label for="label">{{t "image.label-title"}}</label>
   <input type="text" name="label" value="{{label}}">
-  <input type="checkbox" name="required" {{check required "checked"}}>{{t "image.required"}}
+  <label for="required">{{t "image.required"}}</label>
+  <input type="checkbox" name="required" {{check required "checked"}}>
   <div class="form-inline">
-    <input type="checkbox" name="multi-image" {{check multi-image "checked"}}>{{t "image.multiple-images"}}
+    <label for="multi-image">{{t "image.multiple-images"}}</label>
+    <input type="checkbox" name="multi-image" {{check properties.multi-image "checked"}}>
   </div>
   <div class="form-inline">
-    <input type="checkbox" name="los" {{check los "checked"}}>{{t "image.los"}}
+    <label for="los">{{t "image.los"}}</label>
+    <input type="checkbox" name="los" {{check properties.los "checked"}}>
   </div>
   <div class="form-inline">
     <label for="blur">{{t "image.label-blur"}}</label>
-    <input type="number" name="blur" min="0" max="200" value="0"/>
+    <input type="number" name="blur" min="0" max="200" value="{{properties.blur}}"/>
   </div>
 </fieldset>

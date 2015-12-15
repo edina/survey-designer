@@ -493,6 +493,62 @@ describe('#FieldGenerator', () => {
         done();
     });
 
+    it('checkAudioField', (done) => {
+        var field = testForm.fields[10];
+        var result = fieldGenerator.createField(field);
+        var $result = $(result);
+        //check legend
+        assert.equal($result.find("legend").text(),
+          language.audio["field-title"]);
+        //check label
+        assert.equal($result.find("label[for='label']").text(),
+          language.audio["label-title"]);
+        //check value of required
+        assert.equal($result.find('input[name="required"]').is(':checked'),
+          field.required);
+        //check label for required
+        assert.equal($result.find('label[for="required"]').text(),
+          language.audio.required);
+        done();
+    });
+
+    it('checkImageField', (done) => {
+        var field = testForm.fields[11];
+        var result = fieldGenerator.createField(field);
+        console.log(result)
+        var $result = $(result);
+        //check legend
+        assert.equal($result.find("legend").text(),
+          language.image["field-title"]);
+        //check label
+        assert.equal($result.find("label[for='label']").text(),
+          language.image["label-title"]);
+        //check value of required
+        assert.equal($result.find('input[name="required"]').is(':checked'),
+          field.required);
+        //check label for required
+        assert.equal($result.find('label[for="required"]').text(),
+          language.image.required);
+        //check value of multi image
+        assert.equal($result.find('input[name="multi-image"]').is(':checked'),
+          field.properties["multi-image"]);
+        //check label for required
+        assert.equal($result.find('label[for="multi-image"]').text(),
+          language.image["multiple-images"]);
+        //check value of required
+        assert.equal($result.find('input[name="los"]').is(':checked'),
+          field.properties.los);
+        //check label for required
+        assert.equal($result.find('label[for="los"]').text(),
+          language.image.los);
+        //check value of required
+        assert.equal($result.find('input[name="blur"]').val(),
+          field.properties.blur);
+        //check label for required
+        assert.equal($result.find('label[for="blur"]').text(),
+          language.image["label-blur"]);
+        done();
+    });
 });
 
 
