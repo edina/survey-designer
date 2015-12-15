@@ -3,7 +3,7 @@
 //import sinonChai from 'sinon-chai';
 
 
-import {assert} from 'chai';
+import chai from 'chai';
 import $ from 'jquery';
 import pcapi from 'pcapi';
 import DataStorage from '../app/data';
@@ -13,6 +13,8 @@ import testForm  from './survey.json!';
 import language from '../locales/dev/survey.json!';
 import Convertor from 'survey-convertor';
 import FieldGenerator from '../app/field_generate';
+
+var assert = chai.assert;
 
 pcapi.init({
     "url": cfg.baseurl,
@@ -466,13 +468,31 @@ describe('#FieldGenerator', () => {
           language.dtree["label-title"]);
         assert.equal($result.find("input[name='label']").val(),
           field.label);
+        assert.equal($result.find("a").attr("href"),
+          pcapi.buildFSUrl('editors', field.properties.filename));
+        done();
+    });
+
+    it('checkDtreeFieldNotExists', (done) => {
+        var field = {
+            "id": "form-dtree-1",
+            "type": "dtree"
+        }
+        var result = fieldGenerator.createField(field);
+        var $result = $(result);
+        assert.equal($result.find("legend").text(),
+          language.dtree["field-title"]);
+        assert.equal($result.find("label[for='label']").text(),
+          language.dtree["label-title"]);
         //check if aria-label is right
         assert.equal($result.find('.add-dtree').attr("aria-label"),
           language.dtree["add-dtree"]);
+        //check aria label for upload dtree
         assert.equal($result.find('.upload-dtree').attr("aria-label"),
           language.dtree.upload);
         done();
     });
+
 });
 
 

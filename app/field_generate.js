@@ -77,7 +77,9 @@ class FieldGenerator {
                 }
                 return selectTemplate(data);
             case 'dtree':
-                data.url = pcapi.buildFSUrl('editors', data.filename);
+                if (data.properties) {
+                    data.url = pcapi.buildFSUrl('editors', data.properties.filename);
+                }
                 return dtreeTemplate(data);
             case 'image':
                 if(this.$el.find('.fieldcontain-image').length === 0){

@@ -3,8 +3,8 @@
   <label for="label">{{t "dtree.label-title"}}</label>
   <input type="text" name="label" value="{{label}}">
   <br>
-  {{#exists filename}}
-    <a href="{{url}}" target="blank">{{filename}}</a>
+  {{#exists properties.filename}}
+    <a href="{{url}}" target="blank">{{properties.filename}}</a>
   {{else}}
   <span class="btn btn-default btn-file">
     Browse<input type="file" class="add-dtree" aria-label="{{t "dtree.add-dtree"}}">

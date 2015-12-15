@@ -23,10 +23,9 @@
     </script>
     <script>
         System.import('test/tests').then(function(m){
-            console.log(m);
             if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
             else { mocha.run(); }
-        })
+        });
     </script>
   </body>
 </html>
