@@ -38,11 +38,12 @@ describe('#DataStorage', () => {
 
 
 describe('#FieldGenerator', () => {
-    var fieldGenerator = new FieldGenerator();
     var cl = "mobile-content";
+    var fieldGenerator;
 
     before(function(done){
         $("#content").append('<div class="'+cl+'"></div>');
+        fieldGenerator = new FieldGenerator("."+cl);
 
         i18n.init({// jshint ignore:line
             ns: { namespaces: ['survey'], defaultNs: 'survey'},
@@ -515,7 +516,6 @@ describe('#FieldGenerator', () => {
     it('checkImageField', (done) => {
         var field = testForm.fields[11];
         var result = fieldGenerator.createField(field);
-        console.log(result)
         var $result = $(result);
         //check legend
         assert.equal($result.find("legend").text(),
@@ -547,6 +547,25 @@ describe('#FieldGenerator', () => {
         //check label for required
         assert.equal($result.find('label[for="blur"]').text(),
           language.image["label-blur"]);
+        done();
+    });
+
+    it('checkRender', (done) => {
+        $.each(testForm.fields, function(index, field){
+            fieldGenerator.render(field);
+        });
+        var $cl = $("."+cl);
+        assert.equal($cl.find('.fieldcontain').length,
+          testForm.fields.length);
+        assert.equal($cl.find('.dropdown').length,
+          testForm.fields.length);
+        assert.equal($cl.find('.fieldButtons').length,
+          testForm.fields.length-1);
+        done();
+    });
+
+    after(function(done){
+        //$("#content").remove();
         done();
     });
 });
