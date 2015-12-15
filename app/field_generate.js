@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import i18next from 'i18next-client';
+import pcapi from 'pcapi';
 //import * from 'handlebars';
 import generalTemplate from './templates/general-fieldset.hbs!';
 import textTemplate from './templates/text-fieldset.hbs!';

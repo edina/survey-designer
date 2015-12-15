@@ -67,11 +67,11 @@ export class SurveyView extends Backbone.View {
             ns: { namespaces: ['survey'], defaultNs: 'survey'},
             detectLngQS: 'lang'
         }, $.proxy(function(){
-              this.survey = new Survey({
-                  "element": "content"
-              });
-              this.renderSurvey();
-              this.formSave();
+            this.survey = new Survey({
+                "element": "content"
+            });
+            this.renderSurvey();
+            this.formSave();
         }, this));
     }
 
