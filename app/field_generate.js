@@ -96,7 +96,7 @@ class FieldGenerator {
                 return '';
             case 'warning':
                 if(this.$el.find('.fieldcontain-warning').length === 0){
-                    data.textarea = data.properties.placeholder || "";
+                    data.properties.placeholder = data.properties.placeholder || "";
                     return warningTemplate(data);
                 }
                 return '';

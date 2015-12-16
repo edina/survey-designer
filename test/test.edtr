@@ -1,0 +1,267 @@
+
+<form data-title="5210 ‘’Arborescent matorral with Juniperus spp.’’ – all clusters" data-ajax="false" novalidate="">
+<div class="fieldcontain fieldcontain-geometryType" id="fieldcontain-geometryType" data-cobweb-type="geometryType">
+<input type="hidden" data-record-geometry="point" value="point">
+</div>
+<div class="fieldcontain" id="fieldcontain-text-1" data-fieldtrip-type="text">
+<label for="form-text-1">Plot code</label>
+<input name="form-text-1" id="form-text-1" type="text" required="required" placeholder="" maxlength="10" value="5210">
+</div>
+<div class="fieldcontain" id="fieldcontain-text-2" data-fieldtrip-type="text">
+<label for="form-text-2">Site Code</label>
+<input name="form-text-2" id="form-text-2" type="text" placeholder="" maxlength="10" value="">
+</div>
+<div class="fieldcontain" id="fieldcontain-text-3" data-fieldtrip-type="text" data-persistent="on">
+<label for="form-text-3">Matriculation number</label>
+<input name="form-text-3" id="form-text-3" type="text" required="required" placeholder="Enter your matriculation number" maxlength="524288" value="">
+</div>
+<div class="fieldcontain" id="fieldcontain-text-4" data-fieldtrip-type="text">
+<label for="form-text-4">Existing relevé nr</label>
+<input name="form-text-4" id="form-text-4" type="text" placeholder="" maxlength="10" value="">
+</div>
+<div class="fieldcontain" id="fieldcontain-text-5" data-fieldtrip-type="text">
+<label for="form-text-5">Locality</label>
+<input name="form-text-5" id="form-text-5" type="text" placeholder="" maxlength="10" value="">
+</div>
+<div class="fieldcontain" id="fieldcontain-range-1" data-fieldtrip-type="range">
+<label for="form-range-1">Plot size (m^2)</label>
+<input name="form-range-1" id="form-range-1" type="range" placeholder="undefined" step="1" min="0" max="1000">
+</div>
+<div class="fieldcontain" id="fieldcontain-range-2" data-fieldtrip-type="range">
+<label for="form-range-2">Area assessed (m^2)</label>
+<input name="form-range-2" id="form-range-2" type="range" required="required" placeholder="undefined" step="100" min="0" max="10000">
+</div>
+<div class="fieldcontain" id="fieldcontain-radio-1" data-fieldtrip-type="radio">
+<fieldset>
+<legend>Relief</legend>
+<label for="fieldcontain-radio-1-0">Cliff</label>
+<input name="fieldcontain-radio-1" id="fieldcontain-radio-1-0" value="Cliff" type="radio">
+<label for="fieldcontain-radio-1-1">Slope</label>
+<input name="fieldcontain-radio-1" id="fieldcontain-radio-1-1" value="Slope" type="radio">
+<label for="fieldcontain-radio-1-2">Plain</label>
+<input name="fieldcontain-radio-1" id="fieldcontain-radio-1-2" value="Plain" type="radio">
+<label for="fieldcontain-radio-1-3">Depression</label>
+<input name="fieldcontain-radio-1" id="fieldcontain-radio-1-3" value="Depression" type="radio">
+<label for="fieldcontain-radio-1-4">Ravine</label>
+<input name="fieldcontain-radio-1" id="fieldcontain-radio-1-4" value="Ravine" type="radio">
+</fieldset>
+</div>
+<div class="fieldcontain" id="fieldcontain-text-6" data-fieldtrip-type="text">
+<label for="form-text-6">Geological substratum</label>
+<input name="form-text-6" id="form-text-6" type="text" placeholder="" maxlength="20" value="">
+</div>
+<div class="fieldcontain" id="fieldcontain-radio-2" data-fieldtrip-type="radio">
+<fieldset>
+<legend>Soil type</legend>
+<label for="fieldcontain-radio-2-0">Sandy</label>
+<input name="fieldcontain-radio-2" id="fieldcontain-radio-2-0" value="Sandy" type="radio">
+<label for="fieldcontain-radio-2-1">Silt</label>
+<input name="fieldcontain-radio-2" id="fieldcontain-radio-2-1" value="Silt" type="radio">
+<label for="fieldcontain-radio-2-2">Loam</label>
+<input name="fieldcontain-radio-2" id="fieldcontain-radio-2-2" value="Loam" type="radio">
+</fieldset>
+</div>
+<div class="fieldcontain" id="fieldcontain-text-7" data-fieldtrip-type="text">
+<label for="form-text-7">Adjacent vegetation</label>
+<input name="form-text-7" id="form-text-7" type="text" placeholder="(habitat) type(s)" maxlength="50" value="">
+</div>
+<div class="fieldcontain" id="fieldcontain-radio-3" data-fieldtrip-type="radio">
+<fieldset>
+<legend>Substratum with significant disturbances (e.g. erosion, trampling)</legend>
+<label for="fieldcontain-radio-3-0">Yes</label>
+<input name="fieldcontain-radio-3" id="fieldcontain-radio-3-0" value="Yes" type="radio">
+<label for="fieldcontain-radio-3-1">No</label>
+<input name="fieldcontain-radio-3" id="fieldcontain-radio-3-1" value="No" type="radio">
+</fieldset>
+</div>
+<div class="fieldcontain" id="fieldcontain-text-8" data-fieldtrip-type="text">
+<label for="form-text-8">Invasive/Ruderal spe</label>
+<input name="form-text-8" id="form-text-8" type="text" placeholder="" maxlength="30" value="">
+</div>
+<div class="fieldcontain" id="fieldcontain-text-9" data-fieldtrip-type="text">
+<label for="form-text-9">Other</label>
+<input name="form-text-9" id="form-text-9" type="text" placeholder="" maxlength="10" value="">
+</div>
+<div class="fieldcontain" id="fieldcontain-range-3" data-fieldtrip-type="range">
+<label for="form-range-3">Boulders (&gt;20 cm) - Cover (%)</label>
+<input name="form-range-3" id="form-range-3" type="range" placeholder="undefined" step="5" min="0" max="100">
+</div>
+<div class="fieldcontain" id="fieldcontain-range-4" data-fieldtrip-type="range">
+<label for="form-range-4">Stones (2-20 cm) - Cover (%)</label>
+<input name="form-range-4" id="form-range-4" type="range" placeholder="undefined" step="5" min="0" max="100">
+</div>
+<div class="fieldcontain" id="fieldcontain-range-5" data-fieldtrip-type="range">
+<label for="form-range-5">Gravel (2mm-2 cm) - Cover (%)</label>
+<input name="form-range-5" id="form-range-5" type="range" placeholder="undefined" step="5" min="0" max="100">
+</div>
+<div class="fieldcontain" id="fieldcontain-range-6" data-fieldtrip-type="range">
+<label for="form-range-6">Fine soil - Cover (%)</label>
+<input name="form-range-6" id="form-range-6" type="range" placeholder="undefined" step="5" min="0" max="100">
+</div>
+<div class="fieldcontain" id="fieldcontain-range-7" data-fieldtrip-type="range">
+<label for="form-range-7">Litter - Cover (%)</label>
+<input name="form-range-7" id="form-range-7" type="range" placeholder="undefined" step="5" min="0" max="100">
+</div>
+<div class="fieldcontain" id="fieldcontain-range-8" data-fieldtrip-type="range">
+<label for="form-range-8">Moss - Cover (%)</label>
+<input name="form-range-8" id="form-range-8" type="range" placeholder="undefined" step="5" min="0" max="100">
+</div>
+<div class="fieldcontain" id="fieldcontain-range-9" data-fieldtrip-type="range">
+<label for="form-range-9">Tree (&gt;2m) - Cover (%)</label>
+<input name="form-range-9" id="form-range-9" type="range" placeholder="undefined" step="5" min="0" max="100">
+</div>
+<div class="fieldcontain" id="fieldcontain-range-10" data-fieldtrip-type="range">
+<label for="form-range-10">Tree (&gt;2m) - Height (m)</label>
+<input name="form-range-10" id="form-range-10" type="range" placeholder="undefined" step="1" min="0" max="40">
+</div>
+<div class="fieldcontain" id="fieldcontain-range-11" data-fieldtrip-type="range">
+<label for="form-range-11">Shrub (0.5-2m) - Cover (%)</label>
+<input name="form-range-11" id="form-range-11" type="range" placeholder="undefined" step="5" min="0" max="100">
+</div>
+<div class="fieldcontain" id="fieldcontain-range-12" data-fieldtrip-type="range">
+<label for="form-range-12">Shrub (0.5-2m) - Height (m)</label>
+<input name="form-range-12" id="form-range-12" type="range" placeholder="undefined" step="0.1" min="0.5" max="2">
+</div>
+<div class="fieldcontain" id="fieldcontain-range-13" data-fieldtrip-type="range">
+<label for="form-range-13">Herb (&lt;0.5m) - Cover (%)</label>
+<input name="form-range-13" id="form-range-13" type="range" placeholder="undefined" step="5" min="0" max="100">
+</div>
+<div class="fieldcontain" id="fieldcontain-range-14" data-fieldtrip-type="range">
+<label for="form-range-14">Herb (&lt;0.5m) - Height (m)</label>
+<input name="form-range-14" id="form-range-14" type="range" placeholder="undefined" step="0.1" min="0" max="0.5">
+</div>
+<div class="fieldcontain" id="fieldcontain-checkbox-1" data-fieldtrip-type="checkbox">
+<fieldset>
+<legend>Specific Structure and Functions [with Juniperus macrocarpa (5211)]</legend>
+<label for="fieldcontain-checkbox-1-0">Upper storey dominated by high evergreen shrubs</label>
+<input name="fieldcontain-checkbox-1-0" id="fieldcontain-checkbox-1-0" value="Upper storey dominated by high evergreen shrubs" type="checkbox">
+<label for="fieldcontain-checkbox-1-1">Understory dominated by phrygana</label>
+<input name="fieldcontain-checkbox-1-1" id="fieldcontain-checkbox-1-1" value="Understory dominated by phrygana" type="checkbox">
+<label for="fieldcontain-checkbox-1-2">Absence of illegal logging</label>
+<input name="fieldcontain-checkbox-1-2" id="fieldcontain-checkbox-1-2" value="Absence of illegal logging" type="checkbox">
+<label for="fieldcontain-checkbox-1-3">Presence/practice of normal (regular) grazing</label>
+<input name="fieldcontain-checkbox-1-3" id="fieldcontain-checkbox-1-3" value="Presence/practice of normal (regular) grazing" type="checkbox">
+<label for="fieldcontain-checkbox-1-4">Absence of dense road network or infrastructures</label>
+<input name="fieldcontain-checkbox-1-4" id="fieldcontain-checkbox-1-4" value="Absence of dense road network or infrastructures" type="checkbox">
+<label for="fieldcontain-checkbox-1-5">Absence of evidence(s) of primary or secondary succession</label>
+<input name="fieldcontain-checkbox-1-5" id="fieldcontain-checkbox-1-5" value="Absence of evidence(s) of primary or secondary succession" type="checkbox">
+<label for="fieldcontain-checkbox-1-6">Presence of juniper seedlings</label>
+<input name="fieldcontain-checkbox-1-6" id="fieldcontain-checkbox-1-6" value="Presence of juniper seedlings" type="checkbox">
+</fieldset>
+</div>
+<div class="fieldcontain" id="fieldcontain-checkbox-2" data-fieldtrip-type="checkbox">
+<fieldset>
+<legend>Specific Structure and Functions [with Juniperus phoenicea (5212)]</legend>
+<label for="fieldcontain-checkbox-2-0">Upper storey dominated by  high evergreen shrubs</label>
+<input name="fieldcontain-checkbox-2-0" id="fieldcontain-checkbox-2-0" value="Upper storey dominated by  high evergreen shrubs" type="checkbox">
+<label for="fieldcontain-checkbox-2-1">Understory dominated by phrygana and/or therophytes</label>
+<input name="fieldcontain-checkbox-2-1" id="fieldcontain-checkbox-2-1" value="Understory dominated by phrygana and/or therophytes" type="checkbox">
+<label for="fieldcontain-checkbox-2-2">Absence of illegal logging</label>
+<input name="fieldcontain-checkbox-2-2" id="fieldcontain-checkbox-2-2" value="Absence of illegal logging" type="checkbox">
+<label for="fieldcontain-checkbox-2-3">Presence/practice of normal (regular) grazing</label>
+<input name="fieldcontain-checkbox-2-3" id="fieldcontain-checkbox-2-3" value="Presence/practice of normal (regular) grazing" type="checkbox">
+<label for="fieldcontain-checkbox-2-4">Absence of dense road network or infrastructures</label>
+<input name="fieldcontain-checkbox-2-4" id="fieldcontain-checkbox-2-4" value="Absence of dense road network or infrastructures" type="checkbox">
+<label for="fieldcontain-checkbox-2-5">Absence of evidence(s) of primary or secondary succession</label>
+<input name="fieldcontain-checkbox-2-5" id="fieldcontain-checkbox-2-5" value="Absence of evidence(s) of primary or secondary succession" type="checkbox">
+<label for="fieldcontain-checkbox-2-6">Absence of indications of significant/important erosion (e.g. crevasse-like erosion)</label>
+<input name="fieldcontain-checkbox-2-6" id="fieldcontain-checkbox-2-6" value="Absence of indications of significant/important erosion (e.g. crevasse-like erosion)" type="checkbox">
+<label for="fieldcontain-checkbox-2-7">Rich in important plant species community</label>
+<input name="fieldcontain-checkbox-2-7" id="fieldcontain-checkbox-2-7" value="Rich in important plant species community" type="checkbox">
+<label for="fieldcontain-checkbox-2-8">Presence of juniper seedlings</label>
+<input name="fieldcontain-checkbox-2-8" id="fieldcontain-checkbox-2-8" value="Presence of juniper seedlings" type="checkbox">
+</fieldset>
+</div>
+<div class="fieldcontain" id="fieldcontain-checkbox-3" data-fieldtrip-type="checkbox">
+<fieldset>
+<legend>Specific Structure and Functions [with Juniperus excelsa – J. foetidissima (5213)]</legend>
+<label for="fieldcontain-checkbox-3-0">Upper storey dominated by  high evergreen shrubs</label>
+<input name="fieldcontain-checkbox-3-0" id="fieldcontain-checkbox-3-0" value="Upper storey dominated by  high evergreen shrubs" type="checkbox">
+<label for="fieldcontain-checkbox-3-1">Absence of illegal logging</label>
+<input name="fieldcontain-checkbox-3-1" id="fieldcontain-checkbox-3-1" value="Absence of illegal logging" type="checkbox">
+<label for="fieldcontain-checkbox-3-2">Presence/practice of normal (regular) grazing</label>
+<input name="fieldcontain-checkbox-3-2" id="fieldcontain-checkbox-3-2" value="Presence/practice of normal (regular) grazing" type="checkbox">
+<label for="fieldcontain-checkbox-3-3">Absence of evidence(s) of primary or secondary succession</label>
+<input name="fieldcontain-checkbox-3-3" id="fieldcontain-checkbox-3-3" value="Absence of evidence(s) of primary or secondary succession" type="checkbox">
+<label for="fieldcontain-checkbox-3-4">Presence of juniper seedlings</label>
+<input name="fieldcontain-checkbox-3-4" id="fieldcontain-checkbox-3-4" value="Presence of juniper seedlings" type="checkbox">
+</fieldset>
+</div>
+<div class="fieldcontain" id="fieldcontain-checkbox-4" data-fieldtrip-type="checkbox">
+<fieldset>
+<legend>Specific Structure and Functions [with Juniperus communis (ex 5130)]</legend>
+<label for="fieldcontain-checkbox-4-0">Upper storey dominated by evergreen shrubs</label>
+<input name="fieldcontain-checkbox-4-0" id="fieldcontain-checkbox-4-0" value="Upper storey dominated by evergreen shrubs" type="checkbox">
+<label for="fieldcontain-checkbox-4-1">Abundance of perennial grasses</label>
+<input name="fieldcontain-checkbox-4-1" id="fieldcontain-checkbox-4-1" value="Abundance of perennial grasses" type="checkbox">
+<label for="fieldcontain-checkbox-4-2">Absence of illegal logging</label>
+<input name="fieldcontain-checkbox-4-2" id="fieldcontain-checkbox-4-2" value="Absence of illegal logging" type="checkbox">
+<label for="fieldcontain-checkbox-4-3">Absence of evidence(s) of primary or secondary succession</label>
+<input name="fieldcontain-checkbox-4-3" id="fieldcontain-checkbox-4-3" value="Absence of evidence(s) of primary or secondary succession" type="checkbox">
+<label for="fieldcontain-checkbox-4-4">Rich in plant species community</label>
+<input name="fieldcontain-checkbox-4-4" id="fieldcontain-checkbox-4-4" value="Rich in plant species community" type="checkbox">
+<label for="fieldcontain-checkbox-4-5">Presence of juniper seedlings</label>
+<input name="fieldcontain-checkbox-4-5" id="fieldcontain-checkbox-4-5" value="Presence of juniper seedlings" type="checkbox">
+<label for="fieldcontain-checkbox-4-6">Absence of indications of significant/important erosion (e.g. crevasse-like erosion)</label>
+<input name="fieldcontain-checkbox-4-6" id="fieldcontain-checkbox-4-6" value="Absence of indications of significant/important erosion (e.g. crevasse-like erosion)" type="checkbox">
+</fieldset>
+</div>
+<div class="fieldcontain" id="fieldcontain-radio-5" data-fieldtrip-type="radio">
+<fieldset>
+<legend>Future Status</legend>
+<label for="fieldcontain-radio-5-0">FV Struct. &amp; funct. are expected to be in FV status in more than 75% of the studied locality </label>
+<input name="fieldcontain-radio-5" id="fieldcontain-radio-5-0" value="FV Struct. &amp; funct. are expected to be in FV status in more than 75% of the studied locality " type="radio">
+<label for="fieldcontain-radio-5-1">U1 Struct. &amp; funct. are expected to be in FV stat in 50-75% of the studied locality and not more than 25% in U2 status</label>
+<input name="fieldcontain-radio-5" id="fieldcontain-radio-5-1" value="U1 Struct. &amp; funct. are expected to be in FV stat in 50-75% of the studied locality and not more than 25% in U2 status" type="radio">
+<label for="fieldcontain-radio-5-2">U2 Struct. &amp; funct. are expected to be in FV status in  less than 50% of the studied locality or more than 25% in U2 status</label>
+<input name="fieldcontain-radio-5" id="fieldcontain-radio-5-2" value="U2 Struct. &amp; funct. are expected to be in FV status in  less than 50% of the studied locality or more than 25% in U2 status" type="radio">
+<label for="fieldcontain-radio-5-3">XX: Not able to asses fucheckboxture conservation status in &gt; 50% of the studied locality</label>
+<input name="fieldcontain-radio-5" id="fieldcontain-radio-5-3" value="XX: Not able to asses fucheckboxture conservation status in &gt; 50% of the studied locality" type="radio">
+</fieldset>
+</div>
+<div class="fieldcontain" id="fieldcontain-radio-6" data-fieldtrip-type="radio">
+<fieldset>
+<legend>Restoration possibility</legend>
+<label for="fieldcontain-radio-6-0">easy</label>
+<input name="fieldcontain-radio-6" id="fieldcontain-radio-6-0" value="easy" type="radio">
+<label for="fieldcontain-radio-6-1">possible with an average effort</label>
+<input name="fieldcontain-radio-6" id="fieldcontain-radio-6-1" value="possible with an average effort" type="radio">
+<label for="fieldcontain-radio-6-2">difficult or impossible</label>
+<input name="fieldcontain-radio-6" id="fieldcontain-radio-6-2" value="difficult or impossible" type="radio">
+<label for="fieldcontain-radio-6-3">unable to assess</label>
+<input name="fieldcontain-radio-6" id="fieldcontain-radio-6-3" value="unable to assess" type="radio">
+</fieldset>
+</div>
+<div class="fieldcontain" id="fieldcontain-textarea-1" data-fieldtrip-type="textarea">
+<label for="form-textarea-1">Positive impacts</label>
+<textarea name="form-textarea-1" id="form-textarea-1" placeholder="(management actions, policy changes etc). Description and importance."></textarea>
+</div>
+<div class="fieldcontain" id="fieldcontain-dtree-1" data-fieldtrip-type="dtree">
+<fieldset>
+<label for="fieldcontain-dtree-1">Pressures and threats</label>
+<div class="button-wrapper button-dtree"></div>
+</fieldset>
+<input type="hidden" data-dtree="9de51d0c-4aee-41f3-b555-9bed58a9c4fa-1.json" value="9de51d0c-4aee-41f3-b555-9bed58a9c4fa-1.json">
+</div>
+<div class="fieldcontain" id="fieldcontain-dtree-2" data-fieldtrip-type="dtree">
+<fieldset>
+<label for="fieldcontain-dtree-2">Typical species</label>
+<div class="button-wrapper button-dtree"></div>
+</fieldset>
+<input type="hidden" data-dtree="9de51d0c-4aee-41f3-b555-9bed58a9c4fa-2.json" value="9de51d0c-4aee-41f3-b555-9bed58a9c4fa-2.json">
+</div>
+<div class="fieldcontain" id="fieldcontain-multiimage-1" data-fieldtrip-type="camera">
+<div class="button-wrapper button-camera">
+<input name="form-image-1" id="form-image-1" type="file" accept="image/png" capture="camera" required="required" class="camera">
+<label for="form-image-1">Take a photo</label>
+</div>
+</div>
+<div id="save-cancel-editor-buttons" class="fieldcontain ui-grid-a">
+<div class="ui-block-a">
+<input type="submit" name="record" value="Save">
+</div>
+<div class="ui-block-b">
+<input type="button" name="cancel" value="Cancel">
+</div>
+</div>
+</form>

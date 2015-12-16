@@ -1,5 +1,5 @@
 import FieldGenerator from './field_generate';
-import Convertor from 'survey-convertor';
+import Convertor from './convert';
 import * as utils from './utils';
 import DataStorage from './data';
 import i18next from 'i18next-client';
