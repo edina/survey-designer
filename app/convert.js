@@ -28,7 +28,6 @@ class Convertor {
                 "persistent": false,
                 "properties": {}
             };
-            console.log(field)
             form[id] = c.fieldToJSON(field, $this);
         });
         return form;
@@ -339,7 +338,7 @@ class Convertor {
                     };
                     break;
                 case 'dtree':
-                    $input = $field.find('input[typegetFilenameFromURL="hidden"]');
+                    $input = $field.find('input[type="hidden"]');
 
                     field = {
                         label:      $field.find('label').text(),

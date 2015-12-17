@@ -103,7 +103,7 @@ class FieldGenerator {
             case 'section':
                 return sectionTemplate(data);
         }
-        return result;
+        return '';
     }
 
     /**

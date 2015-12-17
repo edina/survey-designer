@@ -315,7 +315,7 @@ describe('surveyConvertor#HTMLtoJSON', function() {
 
     it('check .edtr to JSON conversion', function(){
         var ed = convertor.HTMLtoJSON(editor);
-        assert.equal(JSON.stringify(testJSON), JSON.stringify(ed));
+        assert.deepEqual(testJSON, ed);
     });
 
 

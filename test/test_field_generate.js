@@ -539,7 +539,7 @@ describe('#FieldGenerator', () => {
     });
 
     after(function(done){
-        $("#content").remove();
+        $("."+cl).remove();
         done();
     });
 });
