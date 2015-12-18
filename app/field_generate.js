@@ -69,7 +69,7 @@ class FieldGenerator {
             case 'radio':
                 return radioTemplate(data);
             case 'select':
-                if(data.properties.options && data.properties.options[0] === ""){
+                if(data.properties.options && data.properties.options[0] === "") {
                     data.options.shift();
                 }
                 return selectTemplate(data);
@@ -77,7 +77,7 @@ class FieldGenerator {
                 data.url = pcapi.buildFSUrl('editors', data.properties.filename);
                 return dtreeTemplate(data);
             case 'image':
-                if(this.$el.find('.fieldcontain-image').length === 0){
+                if(this.$el.find('.fieldcontain-image').length === 0) {
                     data.properties["multi-image"] = data.properties["multi-image"] || false;
                     data.properties.los = data.properties.los || false;
                     data.properties.blur = data.properties.blur || 0;
@@ -85,17 +85,17 @@ class FieldGenerator {
                 }
                 return '';
             case 'audio':
-                if(this.$el.find('.fieldcontain-audio').length === 0){
+                if(this.$el.find('.fieldcontain-audio').length === 0) {
                     return audioTemplate(data);
                 }
                 return '';
             case 'gps':
-                if(this.$el.find('.fieldcontain-gps').length === 0){
+                if(this.$el.find('.fieldcontain-gps').length === 0) {
                     return gpsTemplate(data);
                 }
                 return '';
             case 'warning':
-                if(this.$el.find('.fieldcontain-warning').length === 0){
+                if(this.$el.find('.fieldcontain-warning').length === 0) {
                     data.properties.placeholder = data.properties.placeholder || "";
                     return warningTemplate(data);
                 }
@@ -203,7 +203,7 @@ class FieldGenerator {
 
         //remove element button
         this.$el.off("click", ".remove-"+type);
-        this.$el.on("click", ".remove-"+type, function(){
+        this.$el.on("click", ".remove-"+type, function() {
             $(this).closest('.form-inline').remove();
         });
 
@@ -238,7 +238,7 @@ class FieldGenerator {
             }
 
             utils.loading(true);
-            pcapi.uploadFile(options).then($.proxy(function(data){
+            pcapi.uploadFile(options).then($.proxy(function(data) {
                 utils.loading(false);
                 utils.giveFeedback(data.msg);
                 var name = utils.getFilenameFromURL(data.path);
@@ -252,7 +252,7 @@ class FieldGenerator {
         //add visibility button
         var visibility = new Visibility();
         this.$el.off("click", ".relate");
-        this.$el.on("click", ".relate", function(){
+        this.$el.on("click", ".relate", function() {
             visibility.showVisibilityWindow($(this).closest('.fieldcontain').attr("id"));
         });
     }

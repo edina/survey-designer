@@ -24,19 +24,18 @@ class Visibility {
 
     /**
      * create an array of dropdown menu with all the potential questions
-     * @param question {String} element
+     * @param questionId {String} id of fiedlcontain
      * @returns array with all the question as select element
      */
-    addQuestions(question) {
-        var data = this.dataStorage.getData();
+    addQuestions(questionId) {
+        var data = this.dataStorage.getData().fields;
         var body = [];
         body.push('<select id="'+this.visibilityId+'">');
-        for (var key in data) {
-            var type = key.split("-")[1];
-            if (key.indexOf("fieldcontain") > -1 &&
-              $.inArray(type, this.ELEMENTS_TO_EXCLUDE) === -1 &&
-              key !== question) {
-                body.push('<option value="'+key+'">'+data[key].label+'</option>');
+        for (var i=0; i<data.length; i++) {
+            if ($.inArray(data[i].type, this.ELEMENTS_TO_EXCLUDE) === -1 &&
+                data[i].id !== questionId) {
+                body.push('<option value="'+data[i].id+'">'+
+                  data[i].label+'</option>');
             }
         }
         body.push('</select>');
@@ -45,11 +44,11 @@ class Visibility {
 
     /**
      * create an array of dropdown menu with all the potential questions
-     * @param question {String} element
+     * @param questionId {String} id of element
      * @returns object with all the answers, rules and selected rule
      */
-    addRulesAndAnswers(question) {
-        var visibility = this.checkForExistingRules(question);
+    addRulesAndAnswers(questionId) {
+        var visibility = this.checkForExistingRules(questionId);
         var value = visibility.id || $('#'+this.visibilityId).val();
         var data = this.dataStorage.getData();
         var divAnswers = [];
@@ -63,25 +62,29 @@ class Visibility {
                     divAnswers.push('<select id="visibility-values">');
                     for(var i=0; i<obj.answers.length;i++){
                         selected = "";
-                        if(visibility.answer && visibility.answer === obj.answers[i]) {
+                        if(visibility.answer &&
+                            visibility.answer === obj.answers[i]) {
                             selected = 'selected="selected"';
                         }
-                        divAnswers.push('<option value="'+obj.answers[i]+'" '+selected+'>'+obj.answers[i]+'</option>');
+                        divAnswers.push('<option value="'+obj.answers[i]+'" '+
+                          selected+'>'+obj.answers[i]+'</option>');
                     }
                     divAnswers.push('</select>');
                 }
                 else {
                     var answer = visibility.answer || "";
-                    divAnswers.push('<input typeaddRulesAndAnswers="text" value="'+answer+'" id="visibility-values">');
+                    divAnswers.push('<input typeaddRulesAndAnswers="text" value="'+
+                      answer+'" id="visibility-values">');
                 }
-                if(obj.rules.length > 0) {
-                    for(var j=0; j<obj.rules.length;j++){
+                if(obj.operators.length > 0) {
+                    obj.operators.forEach(element, index) {
                         selected = "";
-                        if(visibility.rule && visibility.rule === obj.rules[j]) {
-                            selected = 'selected="selected"';
-                        }
-                        selectRules.push('<option value="'+obj.rules[j]+'" '+selected+'>'+obj.rules[j]+'</option>');
-                    }
+                        if(visibility.operator && visibility.operator === element) {
+                          selected = 'selected="selected"';
+                      }
+                      selectRules.push('<option value="'+element+'" '+
+                        selected+'>'+element+'</option>');
+                    });
                 }
             }
         }
@@ -106,7 +109,7 @@ class Visibility {
 
     enableEvents(el) {
         $(document).off('click', '#save-rule');
-        $(document).on('click', '#save-rule', $.proxy(function(){
+        $(document).on('click', '#save-rule', $.proxy(function() {
             var dataStorage = new DataStorage("visibility");
             var data = dataStorage.getData() || {};
             data[el] = {
@@ -127,7 +130,7 @@ class Visibility {
         var type = id.split("-")[1];
         var obj = {};
         obj.type = type;
-        obj.rules = [];
+        obj.operators = [];
         obj.answers = [];
 
         switch (type) {
@@ -136,11 +139,11 @@ class Visibility {
             case 'textarea':
                 break;
             case 'range':
-                obj.rules = ['equal', 'notEqual', 'greaterThan', 'smallerThan'];
+                obj.operators = ['equal', 'notEqual', 'greaterThan', 'smallerThan'];
                 break;
             case 'checkbox':
-                obj.rules = ['equal', 'notEqual', 'greaterThan', 'smallerThan'];
-                $.each(field.checkboxes, function(k, v){
+                obj.operators = ['equal', 'notEqual', 'greaterThan', 'smallerThan'];
+                $.each(field.properties.options, function(k, v){
                     if(typeof(v) === "object"){
                         obj.answers.push(v[0]);
                     }
@@ -150,8 +153,8 @@ class Visibility {
                 });
                 break;
             case 'radio':
-                obj.rules = ['equal', 'notEqual', 'greaterThan', 'smallerThan'];
-                $.each(field.radios, function(k, v){
+                obj.operators = ['equal', 'notEqual', 'greaterThan', 'smallerThan'];
+                $.each(field.properties.options, function(k, v){
                     if(typeof(v) === "object"){
                         obj.answers.push(v[0]);
                     }
@@ -161,8 +164,8 @@ class Visibility {
                 });
                 break;
             case 'select':
-                obj.rules = ['equal', 'notEqual', 'greaterThan', 'smallerThan'];
-                obj.answers = field.options;
+                obj.operators = ['equal', 'notEqual', 'greaterThan', 'smallerThan'];
+                obj.answers = field.properties.options;
                 break;
             case 'dtree':
                 break;
@@ -197,8 +200,10 @@ class Visibility {
             body.push('</div><br>');
             //body.push('<button type="button" class="btn btn-primary" id="add-rule">'+i18n.t("add-rule")+'</button>');
             footer.push('<div class="modal-footer">');
-            footer.push('<button type="button" class="btn btn-default" data-dismiss="modal">'+i18n.t("cancel")+'</button>');
-            footer.push('<button type="button" class="btn btn-primary" id="save-rule" data-dismiss="modal">'+i18n.t("save")+'</button>');
+            footer.push('<button type="button" class="btn btn-default"'+
+              ' data-dismiss="modal">'+i18n.t("cancel")+'</button>');
+            footer.push('<button type="button" class="btn btn-primary"'+
+              ' id="save-rule" data-dismiss="modal">'+i18n.t("save")+'</button>');
             footer.push('</div');
             $("body").append(utils.makeModalWindow(id, "Visibility Rules", body, footer).join(""));
         }
@@ -209,7 +214,7 @@ class Visibility {
         //append rules and answers
         var rulesAndAnswers = this.addRulesAndAnswers(el);
         $("#"+this.divAnswer).html(rulesAndAnswers.answers.join(""));
-        $("#"+this.divRule).html(rulesAndAnswers.rules.join(""));
+        $("#"+this.divRule).html(rulesAndAnswers.operators.join(""));
         //if there is visibility dynamically change the value on dom
         if(rulesAndAnswers.visibility !== "") {
             $("#"+this.visibilityId).val(rulesAndAnswers.visibility.id);

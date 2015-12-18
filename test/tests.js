@@ -6,3 +6,4 @@
 import 'test/test_convert';
 import 'test/test_datastorage';
 import 'test/test_field_generate';
+import 'test/test_visibility';
