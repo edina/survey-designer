@@ -47,64 +47,62 @@ class Visibility {
      * @param questionId {String} id of element
      * @returns object with all the answers, rules and selected rule
      */
-    addRulesAndAnswers(questionId) {
+    getRulesAndAnswers(questionId) {
         var visibility = this.checkForExistingRules(questionId);
-        var value = visibility.id || $('#'+this.visibilityId).val();
-        var data = this.dataStorage.getData();
+        var visibilityId = $('#'+this.visibilityId).val();
         var divAnswers = [];
         var selectRules = [];
         var selected = "";
+        var data = this.dataStorage.getData().fields;
         selectRules.push('<select id="visibility-rules">');
-        for (var key in data){
-            if(key === value) {
-                var obj = this.getRulesAndAnswersFromJSON(key, data[key]);
+        if(visibility) {
+            visibilityId = visibility.id;
+        }
+        data.forEach($.proxy(function(element){
+            if(visibilityId === element.id) {
+                var obj = this.getRulesAndAnswersFromJSON(element);
                 if(obj.answers.length > 0) {
                     divAnswers.push('<select id="visibility-values">');
-                    for(var i=0; i<obj.answers.length;i++){
-                        selected = "";
-                        if(visibility.answer &&
-                            visibility.answer === obj.answers[i]) {
+                    obj.answers.forEach(function(element){
+                        if(visibility && visibility.answer) {
                             selected = 'selected="selected"';
                         }
-                        divAnswers.push('<option value="'+obj.answers[i]+'" '+
-                          selected+'>'+obj.answers[i]+'</option>');
-                    }
+                        divAnswers.push('<option value="'+element+'" '+
+                          selected+'>'+element+'</option>');
+                    });
                     divAnswers.push('</select>');
                 }
                 else {
-                    var answer = visibility.answer || "";
-                    divAnswers.push('<input typeaddRulesAndAnswers="text" value="'+
+                    var answer = "";
+                    if(visibility) {
+                        answer = visibility.answer;
+                    }
+                    divAnswers.push('<input type="text" value="'+
                       answer+'" id="visibility-values">');
                 }
                 if(obj.operators.length > 0) {
-                    obj.operators.forEach(element, index) {
+                    obj.operators.forEach(function(element, index) {
                         selected = "";
-                        if(visibility.operator && visibility.operator === element) {
-                          selected = 'selected="selected"';
-                      }
-                      selectRules.push('<option value="'+element+'" '+
-                        selected+'>'+element+'</option>');
+                        if(visibility && visibility.operator === element) {
+                            selected = 'selected="selected"';
+                        }
+                        selectRules.push('<option value="'+element+'" '+
+                          selected+'>'+element+'</option>');
                     });
                 }
             }
-        }
+        }, this));
         selectRules.push('</select>');
         return {
             "answers": divAnswers,
-            "rules": selectRules,
+            "operators": selectRules,
             "visibility": visibility
         };
     }
 
     checkForExistingRules(id) {
-        var dataStorage = new DataStorage('visibility');
-        var data = dataStorage.getData();
-        for (var key in data) {
-            if (key === id) {
-                return data[key];
-            }
-        }
-        return '';
+        var dataStorage = new DataStorage();
+        return dataStorage.searchForFieldId(id).visibility;
     }
 
     enableEvents(el) {
@@ -126,14 +124,13 @@ class Visibility {
         }, this));
     }
 
-    getRulesAndAnswersFromJSON(id, field) {
-        var type = id.split("-")[1];
+    getRulesAndAnswersFromJSON(field) {
         var obj = {};
-        obj.type = type;
+        obj.type = field.type;
         obj.operators = [];
         obj.answers = [];
 
-        switch (type) {
+        switch (field.type) {
             case 'text':
                 break;
             case 'textarea':
@@ -212,11 +209,11 @@ class Visibility {
         var questions = this.addQuestions(el);
         $("#"+this.divQuestion).html(questions.join(""));
         //append rules and answers
-        var rulesAndAnswers = this.addRulesAndAnswers(el);
+        var rulesAndAnswers = this.getRulesAndAnswers(el);
         $("#"+this.divAnswer).html(rulesAndAnswers.answers.join(""));
         $("#"+this.divRule).html(rulesAndAnswers.operators.join(""));
         //if there is visibility dynamically change the value on dom
-        if(rulesAndAnswers.visibility !== "") {
+        if(rulesAndAnswers.visibility && rulesAndAnswers.visibility !== "") {
             $("#"+this.visibilityId).val(rulesAndAnswers.visibility.id);
         }
         this.enableEvents(el);
