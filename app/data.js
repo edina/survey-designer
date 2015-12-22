@@ -40,6 +40,13 @@ class DataStorage {
     searchForFieldProperties(key, value) {
         return this.getData().fields.properties.find(x => x[key] === value);
     }
+
+    updateField(id, key, value) {
+        var data = this.getData();
+        var index = data.fields.findIndex(x => x.id === id);
+        data.fields[index].properties[key] = value;
+        this.setData(data);
+    }
 }
 
 export default DataStorage;

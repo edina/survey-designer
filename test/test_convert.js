@@ -1,4 +1,6 @@
-import {assert} from 'chai';
+//import {assert} from 'chai';
+import chai from 'chai';
+var assert = chai.assert;
 import $ from 'jquery';
 import Convertor from '../app/convert';
 import testJSON  from './test.json!';

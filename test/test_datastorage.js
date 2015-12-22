@@ -1,5 +1,6 @@
 import DataStorage from '../app/data';
-import {assert} from 'chai';
+import chai from 'chai';
+var assert = chai.assert;
 import testJSON  from './test.json!';
 
 describe('#DataStorage', () => {

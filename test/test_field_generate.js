@@ -1,4 +1,5 @@
-import {assert} from 'chai';
+import chai from 'chai';
+var assert = chai.assert;
 import $ from 'jquery';
 import pcapi from 'pcapi';
 import testForm  from './survey.json!';

@@ -17,9 +17,11 @@ class Visibility {
         ];
         this.dataStorage = new DataStorage();
         this.divQuestion = "relate-question";
-        this.divRule = "relate-rule";
+        this.divOperator = "relate-operator";
         this.divAnswer = "relate-answer";
         this.visibilityId = "visibility-question";
+        this.selectOperators = "visibility-operators";
+        this.selectAnswers = "visibility-values";
     }
 
     /**
@@ -51,10 +53,10 @@ class Visibility {
         var visibility = this.checkForExistingRules(questionId);
         var visibilityId = $('#'+this.visibilityId).val();
         var divAnswers = [];
-        var selectRules = [];
+        var selectOperators = [];
         var selected = "";
         var data = this.dataStorage.getData().fields;
-        selectRules.push('<select id="visibility-rules">');
+        selectOperators.push('<select id="'+this.selectOperators+'">');
         if(visibility) {
             visibilityId = visibility.id;
         }
@@ -62,7 +64,7 @@ class Visibility {
             if(visibilityId === element.id) {
                 var obj = this.getRulesAndAnswersFromJSON(element);
                 if(obj.answers.length > 0) {
-                    divAnswers.push('<select id="visibility-values">');
+                    divAnswers.push('<select id="'+this.selectAnswers+'">');
                     obj.answers.forEach(function(element){
                         if(visibility && visibility.answer) {
                             selected = 'selected="selected"';
@@ -78,7 +80,7 @@ class Visibility {
                         answer = visibility.answer;
                     }
                     divAnswers.push('<input type="text" value="'+
-                      answer+'" id="visibility-values">');
+                      answer+'" id="'+this.selectAnswers+'">');
                 }
                 if(obj.operators.length > 0) {
                     obj.operators.forEach(function(element, index) {
@@ -86,42 +88,51 @@ class Visibility {
                         if(visibility && visibility.operator === element) {
                             selected = 'selected="selected"';
                         }
-                        selectRules.push('<option value="'+element+'" '+
+                        selectOperators.push('<option value="'+element+'" '+
                           selected+'>'+element+'</option>');
                     });
                 }
             }
         }, this));
-        selectRules.push('</select>');
+        selectOperators.push('</select>');
         return {
             "answers": divAnswers,
-            "operators": selectRules,
+            "operators": selectOperators,
             "visibility": visibility
         };
     }
 
+    /**
+     * check for existing rules
+     * @param id {String} the id of the field
+     * @returns visibility of the found field
+     */
     checkForExistingRules(id) {
         var dataStorage = new DataStorage();
         return dataStorage.searchForFieldId(id).visibility;
     }
 
     enableEvents(el) {
-        $(document).off('click', '#save-rule');
-        $(document).on('click', '#save-rule', $.proxy(function() {
-            var dataStorage = new DataStorage("visibility");
-            var data = dataStorage.getData() || {};
-            data[el] = {
-                "id": $("#visibility-question").val(),
-                "rule": $("#visibility-rules").val(),
-                "answer": $("#visibility-values").val()
-            };
-            dataStorage.setData(data);
+        $(document).off('click', '#save-operator');
+        $(document).on('click', '#save-operator', $.proxy(function() {
+            var dataStorage = new DataStorage();
+            dataStorage.updateField(el, "visibility", this.getVisibility());
         }, this));
 
         $(document).off('change', '#'+this.visibilityId);
         $(document).on('change', '#'+this.visibilityId, $.proxy(function(e) {
-            this.addRulesAndAnswers($(e.target).val());
+            var questionId = $(e.target).val();
+            this.getRulesAndAnswers(questionId);
+            this.updateHTMLForAnswers(questionId);
         }, this));
+    }
+
+    getVisibility() {
+        return {
+            "id": $("#"+this.visibilityId).val(),
+            "operator": $("#"+this.selectOperators).val(),
+            "answer": $("#"+this.selectAnswers).val()
+        };
     }
 
     getRulesAndAnswersFromJSON(field) {
@@ -188,7 +199,7 @@ class Visibility {
             body.push('<div class="row">');
             body.push('<div class="col-lg-4" id="'+this.divQuestion+'">');
             body.push('</div>');
-            body.push('<div class="col-lg-4" id="'+this.divRule+'">');
+            body.push('<div class="col-lg-4" id="'+this.divOperator+'">');
             body.push('</div>');
             body.push('<div class="col-lg-3" id="'+this.divAnswer+'">');
             body.push('</div>');
@@ -200,7 +211,7 @@ class Visibility {
             footer.push('<button type="button" class="btn btn-default"'+
               ' data-dismiss="modal">'+i18n.t("cancel")+'</button>');
             footer.push('<button type="button" class="btn btn-primary"'+
-              ' id="save-rule" data-dismiss="modal">'+i18n.t("save")+'</button>');
+              ' id="save-operator" data-dismiss="modal">'+i18n.t("save")+'</button>');
             footer.push('</div');
             $("body").append(utils.makeModalWindow(id, "Visibility Rules", body, footer).join(""));
         }
@@ -208,15 +219,19 @@ class Visibility {
         //append questions
         var questions = this.addQuestions(el);
         $("#"+this.divQuestion).html(questions.join(""));
-        //append rules and answers
-        var rulesAndAnswers = this.getRulesAndAnswers(el);
-        $("#"+this.divAnswer).html(rulesAndAnswers.answers.join(""));
-        $("#"+this.divRule).html(rulesAndAnswers.operators.join(""));
-        //if there is visibility dynamically change the value on dom
-        if(rulesAndAnswers.visibility && rulesAndAnswers.visibility !== "") {
-            $("#"+this.visibilityId).val(rulesAndAnswers.visibility.id);
-        }
+        this.updateHTMLForAnswers(el);
         this.enableEvents(el);
+    }
+
+    updateHTMLForAnswers(questionId) {
+        //append operators and answers
+        var operatorsAndAnswers = this.getRulesAndAnswers(questionId);
+        $("#"+this.divAnswer).html(operatorsAndAnswers.answers.join(""));
+        $("#"+this.divOperator).html(operatorsAndAnswers.operators.join(""));
+        //if there is visibility dynamically change the value on dom
+        if(operatorsAndAnswers.visibility && operatorsAndAnswers.visibility !== "") {
+            $("#"+this.visibilityId).val(operatorsAndAnswers.visibility.id);
+        }
     }
 }
 
