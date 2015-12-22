@@ -52,7 +52,22 @@ describe('#Visibility', () => {
     it('check save visibility', (done) => {
         $("#save-operator").trigger('click');
         var visObject = visibility.getVisibility();
-        assert.deepEqual(dataStorage.searchForFieldId(triggeredId).properties.visibility, visObject);
+        assert.deepEqual(dataStorage.searchForFieldId(triggeredId).properties.visibility,
+                         visObject);
+        done();
+    });
+
+    it('update visibility', (done) => {
+        var id = "fieldcontain-radio-2";
+        $("#"+visibility.visibilityId).val(id).trigger('change');
+        $("#"+visibility.selectAnswers).val(dataStorage.searchForFieldId(id).properties.options[2]);
+        assert.equal($("#"+visibility.selectAnswers).val(),
+                     dataStorage.searchForFieldId(id).properties.options[2],
+                     "The change behavior of questions is working");
+        $("#save-operator").trigger('click');
+        var visObject = visibility.getVisibility();
+        assert.deepEqual(dataStorage.searchForFieldId(triggeredId).properties.visibility,
+                         visObject);
         done();
     });
 

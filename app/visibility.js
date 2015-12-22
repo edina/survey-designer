@@ -62,7 +62,7 @@ class Visibility {
         }
         data.forEach($.proxy(function(element){
             if(visibilityId === element.id) {
-                var obj = this.getRulesAndAnswersFromJSON(element);
+                var obj = this.getOperatorsAndAnswersFromJSON(element);
                 if(obj.answers.length > 0) {
                     divAnswers.push('<select id="'+this.selectAnswers+'">');
                     obj.answers.forEach(function(element){
@@ -113,12 +113,15 @@ class Visibility {
     }
 
     enableEvents(el) {
-        $(document).off('click', '#save-operator');
-        $(document).on('click', '#save-operator', $.proxy(function() {
+        //event for saving rule
+        $(document).off('click', '#save-rule');
+        $(document).on('click', '#save-rule', $.proxy(function() {
             var dataStorage = new DataStorage();
             dataStorage.updateField(el, "visibility", this.getVisibility());
         }, this));
 
+        //event for updating rules and answers when the user selects
+        //different question
         $(document).off('change', '#'+this.visibilityId);
         $(document).on('change', '#'+this.visibilityId, $.proxy(function(e) {
             var questionId = $(e.target).val();
@@ -127,6 +130,10 @@ class Visibility {
         }, this));
     }
 
+    /**
+     * get visibility object of the selected question, operator, answer
+     * "returns {Object} visibility with id, operator, answer
+     */
     getVisibility() {
         return {
             "id": $("#"+this.visibilityId).val(),
@@ -135,7 +142,12 @@ class Visibility {
         };
     }
 
-    getRulesAndAnswersFromJSON(field) {
+    /**
+     * get object with operators and answers
+     * @param {Object} field
+     * @returns {Object} with array of answers and operators
+     */
+    getOperatorsAndAnswersFromJSON(field) {
         var obj = {};
         obj.type = field.type;
         obj.operators = [];
@@ -151,7 +163,7 @@ class Visibility {
                 break;
             case 'checkbox':
                 obj.operators = ['equal', 'notEqual', 'greaterThan', 'smallerThan'];
-                $.each(field.properties.options, function(k, v){
+                field.properties.options.forEach(function(v) {
                     if(typeof(v) === "object"){
                         obj.answers.push(v[0]);
                     }
@@ -162,7 +174,7 @@ class Visibility {
                 break;
             case 'radio':
                 obj.operators = ['equal', 'notEqual', 'greaterThan', 'smallerThan'];
-                $.each(field.properties.options, function(k, v){
+                field.properties.options.forEach(function(v) {
                     if(typeof(v) === "object"){
                         obj.answers.push(v[0]);
                     }
@@ -191,6 +203,11 @@ class Visibility {
         return obj;
     }
 
+    /**
+     * create a modal window with all the questions apart from the one that
+     * is selected
+     * @param {String} el is the id of the selected question
+     */
     showVisibilityWindow(el) {
         var body = [];
         var footer = [];
@@ -211,7 +228,7 @@ class Visibility {
             footer.push('<button type="button" class="btn btn-default"'+
               ' data-dismiss="modal">'+i18n.t("cancel")+'</button>');
             footer.push('<button type="button" class="btn btn-primary"'+
-              ' id="save-operator" data-dismiss="modal">'+i18n.t("save")+'</button>');
+              ' id="save-rule" data-dismiss="modal">'+i18n.t("save")+'</button>');
             footer.push('</div');
             $("body").append(utils.makeModalWindow(id, "Visibility Rules", body, footer).join(""));
         }
@@ -223,6 +240,10 @@ class Visibility {
         this.enableEvents(el);
     }
 
+    /**
+     * update html content of operators and answers
+     * @param {String} questionId is the id of the selected question
+     */
     updateHTMLForAnswers(questionId) {
         //append operators and answers
         var operatorsAndAnswers = this.getRulesAndAnswers(questionId);
