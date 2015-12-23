@@ -4,12 +4,12 @@
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    {{#each this}}
+    <% for(var i=0; i<data.length; i++) { %>
       <li>
-        <a href="javascript:void(0);" class="add-field" data-toggle="tooltip" data-placement="right" title="{{this}}">
-          <span class="glyphicon icon-{{this}}" aria-hidden="true"></span>{{this}}
+        <a href="javascript:void(0);" class="add-field" data-toggle="tooltip" data-placement="right" title="<%= data[i] %>">
+          <span class="glyphicon icon-<%= data[i] %>" aria-hidden="true"></span><%= data[i] %>
         </a>
       </li>
-    {{/each}}
+    <% } %>
   </ul>
 </div>

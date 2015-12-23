@@ -1,0 +1,9 @@
+<fieldset class="fieldcontain fieldcontain-gps" id="<%= fieldId %>"  data-type="<%= type %>">
+  <legend><%= translate("gps.field-title") %></legend>
+  <label for="label"><%= translate("gps.label-title") %></label>
+  <input type="text" name="label" value="<%= translate("gps.label") %>">
+  <input type="checkbox" name="required" <% check(required, "checked") %>><%= translate("gps.required") %>
+  <div class="form-inline">
+    <input type="checkbox" name="gps-background" <% check(properties.background, "checked") %>><%= translate("gps.background") %>
+  </div>
+</fieldset>

@@ -2,6 +2,7 @@ import Backbone from 'backbone';
 import * as utils from './utils';
 import pcapi from 'pcapi';
 import Survey from './survey';
+import {Convertor as HTMLConvertor} from 'survey-convertor';
 
 /* global cfg, i18n */
 
@@ -13,30 +14,47 @@ export class SurveyView extends Backbone.View {
     }
 
     formSave() {
-      $(document).off('click', '#form-save');
-      $(document).on('click', '#form-save', $.proxy(function(){
-          var formInJSON = this.survey.saveData();
+        $(document).off('click', '#form-save');
+        $(document).on('click', '#form-save', $.proxy(function(){
+            var formInJSON = this.survey.saveData();
+            var htmlConvertor = new HTMLConvertor();
 
-          var title = formInJSON.title;
-          if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
-              title = utils.getParams().sid;
-          }
-          var options = {
-              remoteDir: "editors",
-              path: encodeURIComponent(title)+".json",
-              data: JSON.stringify(formInJSON)
-          };
+            var title = formInJSON.title;
+            if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
+                title = utils.getParams().sid;
+            }
+            var options = {
+                remoteDir: "editors",
+                path: encodeURIComponent(title)+".json",
+                data: JSON.stringify(formInJSON)
+            };
 
-          if(utils.getParams().public === 'true'){
-              options.urlParams = {
-                  'public': 'true'
-              };
-          }
+            if(utils.getParams().public === 'true'){
+                options.urlParams = {
+                    'public': 'true'
+                };
+            }
 
-          pcapi.updateItem(options).then(function(result){
-              utils.giveFeedback("Your form has been uploaded");
-          });
-      }, this));
+            var optionsForHTML = {
+                remoteDir: "editors",
+                path: encodeURIComponent(title)+".edtr",
+                data: htmlConvertor.JSONToHTML(formInJSON)
+            };
+
+            if(utils.getParams().public === 'true'){
+                optionsForHTML.urlParams = {
+                    'public': 'true'
+                };
+            }
+
+            pcapi.updateItem(options).then(function(result){
+                utils.giveFeedback("Your form has been uploaded");
+            });
+
+            pcapi.updateItem(optionsForHTML).then(function(result){
+                utils.giveFeedback("Your form has been uploaded");
+            });
+        }, this));
     }
 
     getEditor (title, options) {

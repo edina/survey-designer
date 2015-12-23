@@ -1,30 +1,28 @@
 import $ from 'jquery';
 import i18next from 'i18next-client';
 import pcapi from 'pcapi';
-//import * from 'handlebars';
-import generalTemplate from './templates/general-fieldset.hbs!';
-import textTemplate from './templates/text-fieldset.hbs!';
-import textareaTemplate from './templates/textarea-fieldset.hbs!';
-import rangeTemplate from './templates/range-fieldset.hbs!';
-import checkboxTemplate from './templates/checkbox-fieldset.hbs!';
-import radioTemplate from './templates/radio-fieldset.hbs!';
-import selectTemplate from './templates/select-fieldset.hbs!';
-import imageTemplate from './templates/image-fieldset.hbs!';
-import audioTemplate from './templates/audio-fieldset.hbs!';
-import gpsTemplate from './templates/gps-fieldset.hbs!';
-import warningTemplate from './templates/warning-fieldset.hbs!';
-import dtreeTemplate from './templates/dtree-fieldset.hbs!';
-import sectionTemplate from './templates/section-fieldset.hbs!';
-import addfieldTemplate from './templates/add-button.hbs!';
+import _ from "underscore";
+import generalTemplate from './templates/general-fieldset.jst!';
+import textTemplate from './templates/text-fieldset.jst!';
+import textareaTemplate from './templates/textarea-fieldset.jst!';
+import rangeTemplate from './templates/range-fieldset.jst!';
+import checkboxTemplate from './templates/checkbox-fieldset.jst!';
+import radioTemplate from './templates/radio-fieldset.jst!';
+import selectTemplate from './templates/select-fieldset.jst!';
+import imageTemplate from './templates/image-fieldset.jst!';
+import audioTemplate from './templates/audio-fieldset.jst!';
+import gpsTemplate from './templates/gps-fieldset.jst!';
+import warningTemplate from './templates/warning-fieldset.jst!';
+import dtreeTemplate from './templates/dtree-fieldset.jst!';
+import sectionTemplate from './templates/section-fieldset.jst!';
+import addfieldTemplate from './templates/add-button.jst!';
 import * as utils from './utils';
 import Visibility from './visibility';
 
 /* global i18n */
-
 class FieldGenerator {
     constructor (el){
         this.$el = $(el);
-        this.registerHelpers();
     }
 
     render(data, element) {
@@ -45,63 +43,70 @@ class FieldGenerator {
      */
     createField(data) {
         var type = data.type;
-        data.id = data.id || "fieldcontain-"+type+"-"+this.findHighestElement(type);
-        data.label = data.label || i18n.t(type+".label");
-        data.properties = data.properties || {};
+        //in order not to attach all the underscore functions to the data object
+        var templateData = Object.assign({}, data);
+        templateData.id = templateData.id || "fieldcontain-"+type+"-"+this.findHighestElement(type);
+        templateData.label = templateData.label || i18n.t(type+".label");
+        templateData.required = templateData.required || false;
+        templateData.persistent = templateData.persistent || false;
+        templateData.properties = templateData.properties || {};
+        _.extend(templateData, this.viewHelpers());
         switch (type) {
             case 'general':
-                data.title = data.title || i18n.t("general.label");
-                data.geoms = data.geoms || ["point"];
-                return generalTemplate(data);
+                templateData.title = templateData.title || i18n.t("general.label");
+                templateData.geoms = templateData.geoms || ["point"];
+                return generalTemplate(templateData);
             case 'text':
-                data.properties["max-chars"] = data.properties["max-chars"] ||
-                  i18n.t(type+".max-chars");
-                return textTemplate(data);
+                templateData.properties["max-chars"] = templateData.properties["max-chars"] || 10;
+                return textTemplate(templateData);
             case 'textarea':
-                return textareaTemplate(data);
+                return textareaTemplate(templateData);
             case 'range':
-                data.properties.min = data.properties.min || 0;
-                data.properties.max = data.properties.max || 10;
-                data.properties.step = data.properties.step || 1;
-                return rangeTemplate(data);
+                templateData.properties.min = templateData.properties.min || 0;
+                templateData.properties.max = templateData.properties.max || 10;
+                templateData.properties.step = templateData.properties.step || 1;
+                return rangeTemplate(templateData);
             case 'checkbox':
-                return checkboxTemplate(data);
+                templateData.properties.options = templateData.properties.options || [];
+                return checkboxTemplate(templateData);
             case 'radio':
-                return radioTemplate(data);
+                templateData.properties.options = templateData.properties.options || [];
+                return radioTemplate(templateData);
             case 'select':
-                if(data.properties.options && data.properties.options[0] === "") {
-                    data.options.shift();
+                templateData.properties.options = templateData.properties.options || [];
+                if(templateData.properties.options > 0 && templateData.properties.options[0] === "") {
+                    templateData.options.shift();
                 }
-                return selectTemplate(data);
+                return selectTemplate(templateData);
             case 'dtree':
-                data.url = pcapi.buildFSUrl('editors', data.properties.filename);
-                return dtreeTemplate(data);
+                templateData.url = pcapi.buildFSUrl('editors', templateData.properties.filename);
+                return dtreeTemplate(templateData);
             case 'image':
                 if(this.$el.find('.fieldcontain-image').length === 0) {
-                    data.properties["multi-image"] = data.properties["multi-image"] || false;
-                    data.properties.los = data.properties.los || false;
-                    data.properties.blur = data.properties.blur || 0;
-                    return imageTemplate(data);
+                    templateData.properties["multi-image"] = templateData.properties["multi-image"] || false;
+                    templateData.properties.los = templateData.properties.los || false;
+                    templateData.properties.blur = templateData.properties.blur || 0;
+                    return imageTemplate(templateData);
                 }
                 return '';
             case 'audio':
                 if(this.$el.find('.fieldcontain-audio').length === 0) {
-                    return audioTemplate(data);
+                    return audioTemplate(templateData);
                 }
                 return '';
             case 'gps':
                 if(this.$el.find('.fieldcontain-gps').length === 0) {
-                    return gpsTemplate(data);
+                    return gpsTemplate(templateData);
                 }
                 return '';
             case 'warning':
                 if(this.$el.find('.fieldcontain-warning').length === 0) {
-                    data.properties.placeholder = data.properties.placeholder || "";
-                    return warningTemplate(data);
+                    templateData.properties.placeholder = templateData.properties.placeholder || "";
+                    return warningTemplate(templateData);
                 }
                 return '';
             case 'section':
-                return sectionTemplate(data);
+                return sectionTemplate(templateData);
         }
         return '';
     }
@@ -123,7 +128,7 @@ class FieldGenerator {
                       '</div>';
                 $id.append(buttons);
             }
-            $id.append(addfieldTemplate(cfg.options));
+            $id.append(addfieldTemplate({data: cfg.options}));
         }
     }
 
@@ -284,57 +289,29 @@ class FieldGenerator {
         return j+1;
     }
 
-    /**
-     * functions that added on the handlebars templates
-     */
-    registerHelpers () {
-        var helpers = {
-            't': function(i18nKey) {
-                var result = i18n.t(i18nKey);
-                return new Handlebars.SafeString(result);
+    viewHelpers() {
+        return {
+            'translate': function(i18nKey) {
+                return i18n.t(i18nKey);
             },
-            'checkGeometries': function(v, geoms, options) {
+            'checkGeometries': function(v, geoms) {
                 if($.inArray(v, geoms) > -1){
-                    return new Handlebars.SafeString('checked="checked"');
+                    return 'checked="checked"';
                 }
                 else{
                     return '';
                 }
             },
-            'check': function(v, word, options) {
+            'check': function(v, word) {
                 if(v) {
-                    return new Handlebars.SafeString(word+'="'+word+'"');
+                    return word+'="'+word+'"';
                 }
                 else {
                     return '';
                 }
             },
-            'increase': function(v, options) {
+            'increase': function(v) {
                 return v+1;
-            },
-            'exists': function(variable, options) {
-                if (typeof variable !== 'undefined') {
-                    return options.fn(this);
-                }
-                else {
-                    return options.inverse(this);
-                }
-            },
-            'ifObject': function(item, options) {
-                if(typeof item === "object") {
-                    return options.fn(this);
-                }
-                else {
-                    return options.inverse(this);
-                }
-            }
-        };
-
-        //var myHandlebars = Handlebars.noConflict();
-        if (Handlebars && typeof Handlebars.registerHelper === "function") {
-            // register helpers
-            for (var prop in helpers) {
-                Handlebars.registerHelper(prop, helpers[prop]);
             }
         }
     }

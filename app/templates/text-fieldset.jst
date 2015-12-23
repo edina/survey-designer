@@ -1,0 +1,15 @@
+<fieldset class="fieldcontain fieldcontain-text" id="<%= id %>" data-type="<%= type %>">
+  <legend><%= translate("text.field-title") %></legend>
+  <label for="label"><%= translate("text.label-title") %></label>
+  <input type="text" name="label" value="<%= label %>">  
+  <label for="required"><%= translate("text.required") %></label>
+  <input type="checkbox" name="required" <%= check(required, "checked") %>>
+  <label for="prefix"><%= translate("text.prefix-title") %></label>
+  <input type="text" name="prefix" placeholder="<%= translate("text.prefix") %>" value="<%= properties.prefix %>">
+  <label for="persistent"><%= translate("text.persistent") %></label>
+  <input type="checkbox" name="persistent" <%= check(persistent, "checked") %>><%= translate("text.persistent") %>
+  <label for="placeholder"><%= translate("text.default-text-title") %></label>
+  <input type="text" name="placeholder" placeholder="<%= translate("text.default-text") %>" value="<%= properties.placeholder %>">
+  <label for="max-chars"><%= translate("text.max-chars-title") %></label>
+  <input type="number" name="max-chars" value="<%= properties["max-chars"] %>">
+</fieldset>

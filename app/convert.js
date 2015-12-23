@@ -16,6 +16,7 @@ class Convertor {
         var form = {};
         form.title = $html.filter(".fieldcontain-general").find('input[name="label"]').val();
         form.geoms = [];
+        form.fields = [];
         $html.find('input[name="geometryType"]:checked').each(function(){
             form.geoms.push($(this).val());
         });
@@ -28,7 +29,7 @@ class Convertor {
                 "persistent": false,
                 "properties": {}
             };
-            form[id] = c.fieldToJSON(field, $this);
+            form.fields.push(c.fieldToJSON(field, $this));
         });
         return form;
     }

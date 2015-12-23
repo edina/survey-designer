@@ -1,0 +1,11 @@
+<fieldset class="fieldcontain fieldcontain-textarea" id="<%= id %>" data-type="<%= type %>">
+  <legend><%= translate("textarea.field-title") %></legend>
+  <label for="label"><%= translate("textarea.label-title") %></label>
+  <input type="text" name="label" value="<%= label %>">
+  <label for="required"><%= translate("textarea.required") %></label>
+  <input type="checkbox" name="required" <%= check(required, "checked") %>>
+  <label for="placeholder"><%= translate("textarea.default-text-title") %></label>
+  <input type="text" name="placeholder" placeholder="<%= translate("textarea.default-text") %>" value="<%= properties.placeholder %>">
+  <label for="persistent"><%= translate("textarea.persistent") %></label>
+  <input type="checkbox" name="persistent" <%= check(persistent, "checked") %>>
+</fieldset>

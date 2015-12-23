@@ -32,15 +32,17 @@ class Visibility {
     addQuestions(questionId) {
         var data = this.dataStorage.getData().fields;
         var body = [];
-        body.push('<select id="'+this.visibilityId+'">');
-        for (var i=0; i<data.length; i++) {
-            if ($.inArray(data[i].type, this.ELEMENTS_TO_EXCLUDE) === -1 &&
-                data[i].id !== questionId) {
-                body.push('<option value="'+data[i].id+'">'+
-                  data[i].label+'</option>');
+        if (data.length > 0) {
+            body.push('<select id="'+this.visibilityId+'">');
+            for (var i=0; i<data.length; i++) {
+                if ($.inArray(data[i].type, this.ELEMENTS_TO_EXCLUDE) === -1 &&
+                    data[i].id !== questionId) {
+                    body.push('<option value="'+data[i].id+'">'+
+                    data[i].label+'</option>');
+                }
             }
+            body.push('</select>');
         }
-        body.push('</select>');
         return body;
     }
 

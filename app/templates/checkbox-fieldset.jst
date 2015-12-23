@@ -1,0 +1,36 @@
+<fieldset class="fieldcontain fieldcontain-checkbox" id="<%= id %>"  data-type="<%= type %>">
+  <legend><%= translate("checkbox.field-title") %></legend>
+  <label for="label"><%= translate("checkbox.label-title") %></label>
+  <input type="text" name="label" value='<%= label %>'><br>
+  <label for="required"><%= translate("checkbox.required") %></label>
+  <input type="checkbox" name="required" <%= check(required, "checked") %>><br>
+  <label for="persistent"><%= translate("checkbox.persistent") %></label>
+  <input type="checkbox" name="persistent" <%= check(persistent,"checked") %>><br>
+  <label for="other"><%= translate("checkbox.allow-other") %></label>
+  <input type="checkbox" name="other" <%= check(properties.other, "checked") %>>
+  <div class="checkboxes">
+  <% properties.options.forEach(function(item, key){ %>  
+    <div class="form-inline">
+      <% if(typeof item === "object") { %>
+        <img src="<%= item[1] %>" style="width: 50px;">
+        <input type="text" value="<%= item[0] %>" name="<%= id %>" id="<%= id %>-<%= increase(key) %>" class="checkbox">
+      <% } else {%>
+        <input type="text" value="<%= item %>" name="<%= id %>" id="<%= id %>-<%= increase(key) %>" class="checkbox">
+        <button type="file" class="btn btn-default btn-sm upload-image" aria-label="<%= translate("checkbox.upload") %>">
+          <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+        </button>
+      <% } %>
+      <button type="button" class="btn btn-default btn-sm remove-checkbox" aria-label="<%= translate("checkbox.remove") %>">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+      </button>
+      <input type="file" class="image-upload" id="upload-<%= id %>" style="display: none;">
+    </div>
+  <% }); %>
+  </div>
+  <button type="button" class="btn btn-default btn-sm add-checkbox" aria-label="<%= translate("checkbox.add-checkbox") %>">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  </button>
+  <button type="button" class="btn btn-default btn-sm relate" aria-label="<%= translate("checkbox.relate") %>">
+    <%= translate("checkbox.relate") %>
+  </button>
+</fieldset>

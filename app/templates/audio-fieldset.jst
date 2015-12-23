@@ -1,0 +1,7 @@
+<fieldset class="fieldcontain fieldcontain-audio" id="<%= id %>" data-type="<%= type %>">
+  <legend><%= translate("audio.field-title") %></legend>
+  <label for="label"><%= translate("audio.label-title") %></label>
+  <input type="text" name="label" value="<%= label %>">
+  <label for="required"><%= translate("audio.required") %></label>
+  <input type="checkbox" name="required" <%= check(required, "checked") %>>
+</fieldset>

@@ -1,0 +1,15 @@
+<fieldset class="fieldcontain fieldcontain-dtree" id="<%= id %>"  data-type="<%= type %>">
+  <legend><%= translate("dtree.field-title") %></legend>
+  <label for="label"><%= translate("dtree.label-title") %></label>
+  <input type="text" name="label" value="<%= label %>">
+  <br>
+  <% if (typeof properties.filename !== 'undefined') { %>
+    <a href="<%= url %>" target="blank"><%= properties.filename %></a>
+  <% } else { %>
+  <span class="btn btn-default btn-file">
+    Browse<input type="file" class="add-dtree" aria-label="<%= translate("dtree.add-dtree") %>">
+  </span>
+  <span class="btn-filename"></span>
+  <button type="button" class="btn btn-default btn-sm upload-dtree" aria-label="<%= translate("dtree.upload") %>"><%= translate("dtree.upload") %></button>
+  <% } %>
+</fieldset>

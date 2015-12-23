@@ -1,0 +1,19 @@
+<fieldset class="fieldcontain fieldcontain-image" id="<%= id %>" data-type="<%= type %>">
+  <legend><%= translate("image.field-title") %></legend>
+  <label for="label"><%= translate("image.label-title") %></label>
+  <input type="text" name="label" value="<%= label %>">
+  <label for="required"><%= translate("image.required") %></label>
+  <input type="checkbox" name="required" <%= check(required, "checked") %>>
+  <div class="form-inline">
+    <label for="multi-image"><%= translate("image.multiple-images") %></label>
+    <input type="checkbox" name="multi-image" <%= check(properties["multi-image"], "checked") %>>
+  </div>
+  <div class="form-inline">
+    <label for="los"><%= translate("image.los") %></label>
+    <input type="checkbox" name="los" <%= check(properties.los, "checked") %>>
+  </div>
+  <div class="form-inline">
+    <label for="blur"><%= translate("image.label-blur") %></label>
+    <input type="number" name="blur" min="0" max="200" value="<%= properties.blur %>"/>
+  </div>
+</fieldset>

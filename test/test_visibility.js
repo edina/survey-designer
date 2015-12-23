@@ -50,7 +50,7 @@ describe('#Visibility', () => {
     });
 
     it('check save visibility', (done) => {
-        $("#save-operator").trigger('click');
+        $("#save-rule").trigger('click');
         var visObject = visibility.getVisibility();
         assert.deepEqual(dataStorage.searchForFieldId(triggeredId).properties.visibility,
                          visObject);
@@ -64,7 +64,7 @@ describe('#Visibility', () => {
         assert.equal($("#"+visibility.selectAnswers).val(),
                      dataStorage.searchForFieldId(id).properties.options[2],
                      "The change behavior of questions is working");
-        $("#save-operator").trigger('click');
+        $("#save-rule").trigger('click');
         var visObject = visibility.getVisibility();
         assert.deepEqual(dataStorage.searchForFieldId(triggeredId).properties.visibility,
                          visObject);
