@@ -1,6 +1,7 @@
 import FieldGenerator from './field_generate';
 import Convertor from './convert';
 import * as utils from './utils';
+import * as save from './save';
 import DataStorage from './data';
 import i18next from 'i18next-client';
 import './styles/app.css!';
@@ -17,7 +18,6 @@ class Survey {
         this.$mainBodyEl = $("#"+options.element);
         this.title = options.title;
         this.renderEl = "mobile-content";
-        this.dataStorage = new DataStorage();
         this.convertor = new Convertor();
         this.initialize();
         this.enableAutoSave();
@@ -49,18 +49,8 @@ class Survey {
         // STARTS and Resets the loop if any{
         if(myInterval > 0) clearInterval(myInterval);  // stop
         myInterval = setInterval( $.proxy(function(){
-            this.saveData();
+            save.saveData(this.renderEl);
         }, this), iFrequency );  // run
-    }
-
-    /**
-    * save data event on localstorage
-    */
-    enableSave() {
-        $(document).off('click', '#form-save');
-        $(document).on('click', '#form-save', $.proxy(function(){
-            this.survey.saveData();
-        }, this));
     }
 
     /**
@@ -68,7 +58,7 @@ class Survey {
     */
     render() {
         //initialize fieldGenerator
-        var fieldGenerator = new FieldGenerator("."+this.renderEl);
+        var fieldGenerator = new FieldGenerator(this.renderEl);
         //generate general settings
         var titleObj;
         if(this.title) {
@@ -90,7 +80,9 @@ class Survey {
         if (!utils.isJsonString(data)) {
             data = this.convertor.HTMLtoJSON (data, title);
         }
-        var fieldGenerator = new FieldGenerator("."+this.renderEl);
+        var dataStorage = new DataStorage();
+        dataStorage.setData(data);
+        var fieldGenerator = new FieldGenerator(this.renderEl);
         //render general settings
         fieldGenerator.render({
             "title": title,
@@ -101,26 +93,6 @@ class Survey {
         $.each(data.fields, function(index, field){
             fieldGenerator.render(field);
         });
-    }
-
-    /**
-    * save data on localstorage by getting them from dom and converting to JSON
-    * @returns {Object} form data in JSON format
-    */
-    saveData() {
-        var formData = $("."+this.renderEl).html();
-        var formInJSON = this.convertor.getForm(formData);
-        this.dataStorage.setData(formInJSON);
-        var visData = new DataStorage('visibility');
-        var visibilities = visData.getData();
-        for (var key in formInJSON) {
-            for (var key2 in visibilities) {
-                if (key === key2) {
-                    formInJSON[key].visibility = visibilities[key2];
-                }
-            }
-        }
-        return formInJSON;
     }
 }
 

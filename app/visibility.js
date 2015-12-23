@@ -127,7 +127,6 @@ class Visibility {
         $(document).off('change', '#'+this.visibilityId);
         $(document).on('change', '#'+this.visibilityId, $.proxy(function(e) {
             var questionId = $(e.target).val();
-            this.getRulesAndAnswers(questionId);
             this.updateHTMLForAnswers(questionId);
         }, this));
     }

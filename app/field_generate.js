@@ -17,12 +17,15 @@ import dtreeTemplate from './templates/dtree-fieldset.jst!';
 import sectionTemplate from './templates/section-fieldset.jst!';
 import addfieldTemplate from './templates/add-button.jst!';
 import * as utils from './utils';
+import * as save from './save';
+import DataStorage from './data';
 import Visibility from './visibility';
 
 /* global i18n */
 class FieldGenerator {
     constructor (el){
-        this.$el = $(el);
+        this.el = el;
+        this.$el = $("."+el);
     }
 
     render(data, element) {
@@ -256,8 +259,13 @@ class FieldGenerator {
 
         //add visibility button
         var visibility = new Visibility();
+        var element = this.el;
         this.$el.off("click", ".relate");
         this.$el.on("click", ".relate", function() {
+            var dataStorage = new DataStorage();
+            if (dataStorage.getData() === null) {
+                save.saveData(element);
+            }
             visibility.showVisibilityWindow($(this).closest('.fieldcontain').attr("id"));
         });
     }

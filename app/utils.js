@@ -1,4 +1,3 @@
-'use strict';
 import modal from 'bootstrap';
 
 function endsWith(str, suffix) {

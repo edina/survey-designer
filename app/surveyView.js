@@ -1,8 +1,9 @@
 import Backbone from 'backbone';
 import * as utils from './utils';
+import * as save from './save';
 import pcapi from 'pcapi';
 import Survey from './survey';
-import {Convertor as HTMLConvertor} from 'survey-convertor';
+import Convertor from 'survey-convertor';
 
 /* global cfg, i18n */
 
@@ -10,14 +11,15 @@ export class SurveyView extends Backbone.View {
 
     initialize () {
         this.cfg = cfg;
+        this.element = "content";
         this.render();
     }
 
     formSave() {
         $(document).off('click', '#form-save');
         $(document).on('click', '#form-save', $.proxy(function(){
-            var formInJSON = this.survey.saveData();
-            var htmlConvertor = new HTMLConvertor();
+            var formInJSON = save.saveData(this.element);
+            var htmlConvertor = new Convertor();
 
             var title = formInJSON.title;
             if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
@@ -86,7 +88,7 @@ export class SurveyView extends Backbone.View {
             detectLngQS: 'lang'
         }, $.proxy(function(){
             this.survey = new Survey({
-                "element": "content"
+                "element": this.element
             });
             this.renderSurvey();
             this.formSave();

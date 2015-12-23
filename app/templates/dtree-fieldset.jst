@@ -4,7 +4,7 @@
   <input type="text" name="label" value="<%= label %>">
   <br>
   <% if (typeof properties.filename !== 'undefined') { %>
-    <a href="<%= url %>" target="blank"><%= properties.filename %></a>
+    <a href="<%= url %>" target="blank" class="dtree-url"><%= properties.filename %></a>
   <% } else { %>
   <span class="btn btn-default btn-file">
     Browse<input type="file" class="add-dtree" aria-label="<%= translate("dtree.add-dtree") %>">
