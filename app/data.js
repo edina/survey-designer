@@ -8,7 +8,7 @@ class DataStorage {
 
     /**
     * save data on localStorage
-    *
+    * @param {Object} data a json object of the data
     */
     setData(data) {
         if(localStorage) {
@@ -19,6 +19,9 @@ class DataStorage {
         }
     }
 
+    /**
+    * get data from local storage
+    */
     getData() {
         if(localStorage) {
             return JSON.parse(localStorage.getItem(this.formKey));
@@ -29,10 +32,21 @@ class DataStorage {
         }
     }
 
+    /**
+    * search for field in data
+    * @param {String} id of the field
+    * @return {Object} field that was found
+    */
     searchForFieldId(id) {
         return this.searchForFieldProperty("id", id);
     }
 
+    /**
+    * search for field in data
+    * @param {String} key of the field
+    * @param {String} value to search for in the fields
+    * @return {Object} field that was found
+    */
     searchForFieldProperty(key, value) {
         return this.getData().fields.find(x => x[key] === value);
     }
@@ -41,6 +55,12 @@ class DataStorage {
         return this.getData().fields.properties.find(x => x[key] === value);
     }
 
+    /**
+    * update field in the data of localStorage
+    * @param {String} id of the field
+    * @param {String} key to update
+    * @param {String} value to update
+    */
     updateField(id, key, value) {
         var data = this.getData();
         var index = data.fields.findIndex(x => x.id === id);

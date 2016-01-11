@@ -4273,6 +4273,7 @@ $__System.register("2", ["3"], function($__export) {
         return ($traceurRuntime.createClass)(Convertor, {
           getForm: function(html) {
             var $html = $(html);
+            console.log($html);
             var c = this;
             var form = {};
             form.title = $html.filter(".fieldcontain-general").find('input[name="label"]').val();
@@ -4286,6 +4287,7 @@ $__System.register("2", ["3"], function($__export) {
               var type = $this.data("type");
               if (id !== undefined) {
                 form[id] = c.fieldToJSON(id, type, $this);
+                console.log(form[id]);
               }
             });
             return form;
@@ -4731,450 +4733,9 @@ $__System.register("4", ["2"], function($__export) {
 
 $__System.register("5", [], function() { return { setters: [], execute: function() {} } });
 
-$__System.register("6", ["3", "7"], function($__export) {
+$__System.register("6", ["7", "8", "9"], function($__export) {
   "use strict";
   var __moduleName = "6";
-  var $,
-      utils,
-      Convertor;
-  return {
-    setters: [function($__m) {
-      $ = $__m.default;
-    }, function($__m) {
-      utils = $__m;
-    }],
-    execute: function() {
-      Convertor = function() {
-        function Convertor() {
-          this.form = {};
-        }
-        return ($traceurRuntime.createClass)(Convertor, {
-          getForm: function(html) {
-            var $html = $(html);
-            var c = this;
-            var form = {};
-            form.title = $html.filter(".fieldcontain-general").find('input[name="label"]').val();
-            form.geoms = [];
-            form.fields = [];
-            $html.find('input[name="geometryType"]:checked').each(function() {
-              form.geoms.push($(this).val());
-            });
-            $html.filter(".fieldcontain").each(function() {
-              var $this = $(this);
-              var field = {
-                "id": $this.attr("id"),
-                "type": $this.data("type"),
-                "required": false,
-                "persistent": false,
-                "properties": {}
-              };
-              form.fields.push(c.fieldToJSON(field, $this));
-            });
-            return form;
-          },
-          fieldToJSON: function(field, html) {
-            field.label = html.find('input[name="label"]').val();
-            switch (field.type) {
-              case 'text':
-                field.required = html.find('input[name="required"]').is(':checked');
-                field.persistent = html.find('input[name="persistent"]').is(':checked');
-                field.properties.prefix = html.find('input[name="prefix"]').val();
-                field.properties.placeholder = html.find('input[name="placeholder"]').val();
-                field.properties["max-chars"] = html.find('input[name="max-chars"]').val();
-                break;
-              case 'textarea':
-                field.required = html.find('input[name="required"]').is(':checked');
-                field.persistent = html.find('input[name="persistent"]').is(':checked');
-                field.properties.placeholder = html.find('input[name="placeholder"]').val();
-                break;
-              case 'range':
-                field.required = html.find('input[name="required"]').is(':checked');
-                field.persistent = html.find('input[name="persistent"]').is(':checked');
-                field.properties.step = html.find('input[name="step"]').val();
-                field.properties.min = html.find('input[name="min"]').val();
-                field.properties.max = html.find('input[name="max"]').val();
-                break;
-              case 'checkbox':
-                field.required = html.find('input[name="required"]').is(':checked');
-                field.persistent = html.find('input[name="persistent"]').is(':checked');
-                field.properties.other = html.find('input[name="other"]').is(':checked');
-                var checkboxes = [];
-                html.find('input[name="' + field.id + '"]').each(function(event) {
-                  var $img = $(this).closest(".form-inline").find("img");
-                  if ($img.length > 0) {
-                    checkboxes.push([]);
-                    var n = checkboxes.length - 1;
-                    checkboxes[n].push($(this).val());
-                    checkboxes[n].push(utils.getFilenameFromURL($img.attr("src")));
-                  } else {
-                    checkboxes.push($(this).val());
-                  }
-                });
-                field.properties.options = checkboxes;
-                break;
-              case 'radio':
-                field.required = html.find('input[name="required"]').is(':checked');
-                field.persistent = html.find('input[name="persistent"]').is(':checked');
-                field.properties.other = html.find('input[name="other"]').is(':checked');
-                var radios = [];
-                html.find('input[name="' + field.id + '"]').each(function(event) {
-                  var $img = $(this).closest(".form-inline").find("img");
-                  if ($img.length > 0) {
-                    radios.push([]);
-                    var n = radios.length - 1;
-                    radios[n].push($(this).val());
-                    radios[n].push(utils.getFilenameFromURL($img.attr("src")));
-                  } else {
-                    radios.push($(this).val());
-                  }
-                });
-                field.properties.options = radios;
-                break;
-              case 'select':
-                field.required = html.find('input[name="required"]').is(':checked');
-                field.persistent = html.find('input[name="persistent"]').is(':checked');
-                var options = [];
-                html.find('input[name="' + field.id + '"]').each(function(event) {
-                  var $img = $(this).closest(".form-inline").find("img");
-                  if ($img.length > 0) {
-                    options.push([]);
-                    var n = options.length - 1;
-                    options[n].push($(this).val());
-                    options[n].push(utils.getFilenameFromURL($img.attr("src")));
-                  } else {
-                    options.push($(this).val());
-                  }
-                });
-                field.properties.options = options;
-                break;
-              case 'dtree':
-                var $a = html.find('a');
-                field.properties.filename = $a.text();
-                break;
-              case 'image':
-                field.required = html.find('input[name="required"]').is(':checked');
-                field.properties["multi-image"] = html.find('input[name="multi-image"]').is(':checked');
-                field.properties.los = html.find('input[name="los"]').is(':checked');
-                field.properties.blur = html.find('input[name="blur"]').val();
-                break;
-              case 'audio':
-                field.required = html.find('input[name="required"]').is(':checked');
-                break;
-              case 'gps':
-                field.required = html.find('input[name="required"]').is(':checked');
-                field.properties["gps-background"] = html.find('input[name="gps-background"]').is(':checked');
-                break;
-              case 'warning':
-                field.properties.placeholder = html.find('textarea').val();
-                break;
-              case 'section':
-                break;
-              case undefined:
-                break;
-            }
-            return field;
-          },
-          HTMLtoJSON: function(html, title) {
-            var $form = $(html);
-            var form = {};
-            var layout = null;
-            var section = null;
-            var fieldsSelector;
-            var ignoreFields;
-            if (title) {
-              form.title = title;
-            } else {
-              form.title = $form.data('title') || '';
-            }
-            form.geoms = ["point"];
-            var geomValues = $form.data("record-geometry");
-            if (geomValues) {
-              form.geoms = $form.data("record-geometry").split(",");
-            }
-            form.fields = [];
-            ignoreFields = ['.fieldcontain-geometryType', '#save-cancel-editor-buttons'];
-            fieldsSelector = '.fieldcontain' + ignoreFields.map(function(v) {
-              return ':not(' + v + ')';
-            }).join('');
-            $form.find(fieldsSelector).each(function(i, element) {
-              var $field = $(element);
-              var $input;
-              var required;
-              var options;
-              var fieldId;
-              var type;
-              var field = null;
-              var matched = /fieldcontain-(.*?)-[0-9]+$/.exec($field.attr("id"));
-              if (matched === null) {
-                console.log('warning: ' + $field.attr('id') + ' not supported');
-                return;
-              }
-              fieldId = matched[0];
-              type = matched[1];
-              switch (type) {
-                case 'text':
-                  $input = $field.find('input');
-                  field = {
-                    label: $field.find('label').text(),
-                    type: type,
-                    required: $input.attr('required') !== undefined,
-                    persistent: $field.data('persistent') === 'on',
-                    properties: {
-                      prefix: $input.val(),
-                      placeholder: $input.attr("placeholder"),
-                      'max-chars': $input.attr("maxlength")
-                    }
-                  };
-                  break;
-                case 'textarea':
-                  $input = $field.find('textarea');
-                  field = {
-                    label: $field.find('label').text(),
-                    type: type,
-                    required: $input.attr('required') !== undefined,
-                    persistent: $field.data('persistent') === 'on',
-                    properties: {placeholder: $input.attr("placeholder")}
-                  };
-                  break;
-                case 'range':
-                  $input = $field.find('input');
-                  field = {
-                    label: $field.find('label').text(),
-                    type: type,
-                    required: $input.attr('required') !== undefined,
-                    persistent: $field.data('persistent') === 'on',
-                    properties: {
-                      step: $input.attr('step'),
-                      min: $input.attr('min'),
-                      max: $input.attr('max')
-                    }
-                  };
-                  break;
-                case 'checkbox':
-                  $input = $field.find('input[type="checkbox"]');
-                  options = $input.map(function(i, element) {
-                    var $checkbox = $(element);
-                    var checkbox;
-                    var $img = $checkbox.prev().find('img');
-                    if ($img.is('img')) {
-                      checkbox = [];
-                      checkbox.push($checkbox.val());
-                      checkbox.push(pcapi.buildFSUrl('editors', $img.attr("src")));
-                    } else {
-                      checkbox = $checkbox.val();
-                    }
-                    return checkbox;
-                  });
-                  required = $input.is(function() {
-                    return $(this).attr('required') !== undefined;
-                  });
-                  field = {
-                    label: $field.find('legend').text(),
-                    type: type,
-                    required: required,
-                    persistent: $field.data('persistent') === 'on',
-                    properties: {options: Array.prototype.slice.apply(options)}
-                  };
-                  break;
-                case 'radio':
-                  $input = $field.find('input[name="' + fieldId + '"]');
-                  options = $input.map(function(i, element) {
-                    var $radio = $(element);
-                    var radio;
-                    var $img = $radio.prev().find('img');
-                    if ($img.is('img')) {
-                      radio = [];
-                      radio.push($radio.val());
-                      radio.push(pcapi.buildFSUrl('editors', $img.attr('src')));
-                    } else {
-                      radio = $radio.val();
-                    }
-                    return radio;
-                  });
-                  required = $input.is(function() {
-                    return $(this).attr('required') !== undefined;
-                  });
-                  field = {
-                    label: $field.find('legend').text(),
-                    type: type,
-                    required: required,
-                    persistent: $field.data('persistent') === 'on',
-                    properties: {options: Array.prototype.slice.apply(options)}
-                  };
-                  break;
-                case 'select':
-                  $input = $field.find('select');
-                  options = $input.find('option').map(function(i, element) {
-                    return $(element).val();
-                  });
-                  field = {
-                    label: $field.find('legend').text(),
-                    type: type,
-                    required: $input.attr('required') !== undefined,
-                    persistent: $field.data('persistent') === 'on',
-                    properties: {options: Array.prototype.slice.apply(options)}
-                  };
-                  break;
-                case 'dtree':
-                  $input = $field.find('input[type="hidden"]');
-                  field = {
-                    label: $field.find('label').text(),
-                    type: type,
-                    required: false,
-                    persistent: $field.data('persistent') === 'on',
-                    properties: {filename: $input.data('dtree')}
-                  };
-                  break;
-                case 'image':
-                  $input = $field.find('input');
-                  field = {
-                    label: $field.find('label').text(),
-                    type: type,
-                    required: $input.attr("required") !== undefined,
-                    persistent: false,
-                    properties: {
-                      los: $input.attr('class') === 'camera-va',
-                      'multi-image': false
-                    }
-                  };
-                  break;
-                case 'multiimage':
-                  $input = $field.find('input');
-                  field = {
-                    label: $field.find('label').text(),
-                    type: type,
-                    required: $input.attr('required') !== undefined,
-                    persistent: false,
-                    properties: {
-                      los: $input.attr('class') === 'camera-va',
-                      'multi-image': true
-                    }
-                  };
-                  break;
-                case 'audio':
-                  $input = $field.find('input');
-                  field = {
-                    label: $field.find('label').text(),
-                    type: type,
-                    required: $input.attr('required') !== undefined,
-                    persistent: false,
-                    properties: {}
-                  };
-                  break;
-                case 'gps':
-                  $input = $field.find('input');
-                  field = {
-                    label: $field.find('label').text(),
-                    type: type,
-                    required: $input.attr('required') !== undefined,
-                    persistent: false,
-                    properties: {'gps-background': $input.find('input[name="gps-background"]').is(':checked')}
-                  };
-                  break;
-                case 'warning':
-                  $input = $field.find('textarea');
-                  field = {
-                    label: $field.find('label').text(),
-                    type: type,
-                    required: $input.attr('required') !== undefined,
-                    persistent: false,
-                    properties: {placeholder: $input.attr("placeholder")}
-                  };
-                  break;
-                case 'section':
-                  layout = layout || {elements: []};
-                  if (section !== null) {
-                    layout.elements.push(section);
-                  }
-                  section = {
-                    id: fieldId,
-                    type: type,
-                    title: $field.find('h3').text(),
-                    fields: []
-                  };
-                  break;
-              }
-              if (field !== null) {
-                field.id = fieldId;
-                form.fields.push(field);
-                if (section !== null) {
-                  section.fields.push(fieldId);
-                }
-              }
-            });
-            if (layout !== null) {
-              form.layout = layout;
-            }
-            return form;
-          }
-        }, {});
-      }();
-      $__export('default', Convertor);
-    }
-  };
-});
-
-$__System.register("8", [], function($__export) {
-  "use strict";
-  var __moduleName = "8";
-  var DataStorage;
-  return {
-    setters: [],
-    execute: function() {
-      DataStorage = function() {
-        function DataStorage(el) {
-          this.formKey = "current-form";
-          if (el) {
-            this.formKey = el;
-          }
-        }
-        return ($traceurRuntime.createClass)(DataStorage, {
-          setData: function(data) {
-            if (localStorage) {
-              localStorage.setItem(this.formKey, JSON.stringify(data));
-            } else {
-              console.log("There is no localStorage");
-            }
-          },
-          getData: function() {
-            if (localStorage) {
-              return JSON.parse(localStorage.getItem(this.formKey));
-            } else {
-              console.log("There is no localStorage");
-              return '';
-            }
-          },
-          searchForFieldId: function(id) {
-            return this.searchForFieldProperty("id", id);
-          },
-          searchForFieldProperty: function(key, value) {
-            return this.getData().fields.find(function(x) {
-              return x[key] === value;
-            });
-          },
-          searchForFieldProperties: function(key, value) {
-            return this.getData().fields.properties.find(function(x) {
-              return x[key] === value;
-            });
-          },
-          updateField: function(id, key, value) {
-            var data = this.getData();
-            var index = data.fields.findIndex(function(x) {
-              return x.id === id;
-            });
-            data.fields[index].properties[key] = value;
-            this.setData(data);
-          }
-        }, {});
-      }();
-      $__export('default', DataStorage);
-    }
-  };
-});
-
-$__System.register("9", ["8", "7", "a"], function($__export) {
-  "use strict";
-  var __moduleName = "9";
   var DataStorage,
       utils,
       modal,
@@ -5275,7 +4836,6 @@ $__System.register("9", ["8", "7", "a"], function($__export) {
             $(document).off('change', '#' + this.visibilityId);
             $(document).on('change', '#' + this.visibilityId, $.proxy(function(e) {
               var questionId = $(e.target).val();
-              this.getRulesAndAnswers(questionId);
               this.updateHTMLForAnswers(questionId);
             }, this));
           },
@@ -5380,7 +4940,7 @@ $__System.register("9", ["8", "7", "a"], function($__export) {
   };
 });
 
-$__System.registerDynamic("b", [], true, function($__require, exports, module) {
+$__System.registerDynamic("a", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -5405,7 +4965,7 @@ $__System.registerDynamic("b", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("c", [], true, function($__require, exports, module) {
+$__System.registerDynamic("b", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -5426,7 +4986,7 @@ $__System.registerDynamic("c", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("d", [], true, function($__require, exports, module) {
+$__System.registerDynamic("c", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -5441,7 +5001,7 @@ $__System.registerDynamic("d", [], true, function($__require, exports, module) {
     with (obj || {}) {
       __p += '<fieldset class="fieldcontain fieldcontain-dtree" id="' + ((__t = (id)) == null ? '' : __t) + '"  data-type="' + ((__t = (type)) == null ? '' : __t) + '">\n  <legend>' + ((__t = (translate("dtree.field-title"))) == null ? '' : __t) + '</legend>\n  <label for="label">' + ((__t = (translate("dtree.label-title"))) == null ? '' : __t) + '</label>\n  <input type="text" name="label" value="' + ((__t = (label)) == null ? '' : __t) + '">\n  <br>\n  ';
       if (typeof properties.filename !== 'undefined') {
-        __p += '\n    <a href="' + ((__t = (url)) == null ? '' : __t) + '" target="blank">' + ((__t = (properties.filename)) == null ? '' : __t) + '</a>\n  ';
+        __p += '\n    <a href="' + ((__t = (url)) == null ? '' : __t) + '" target="blank" class="dtree-url">' + ((__t = (properties.filename)) == null ? '' : __t) + '</a>\n  ';
       } else {
         __p += '\n  <span class="btn btn-default btn-file">\n    Browse<input type="file" class="add-dtree" aria-label="' + ((__t = (translate("dtree.add-dtree"))) == null ? '' : __t) + '">\n  </span>\n  <span class="btn-filename"></span>\n  <button type="button" class="btn btn-default btn-sm upload-dtree" aria-label="' + ((__t = (translate("dtree.upload"))) == null ? '' : __t) + '">' + ((__t = (translate("dtree.upload"))) == null ? '' : __t) + '</button>\n  ';
       }
@@ -5453,7 +5013,7 @@ $__System.registerDynamic("d", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("e", [], true, function($__require, exports, module) {
+$__System.registerDynamic("d", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -5474,7 +5034,7 @@ $__System.registerDynamic("e", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("f", [], true, function($__require, exports, module) {
+$__System.registerDynamic("e", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -5499,7 +5059,7 @@ $__System.registerDynamic("f", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("10", [], true, function($__require, exports, module) {
+$__System.registerDynamic("f", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -5520,7 +5080,7 @@ $__System.registerDynamic("10", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("11", [], true, function($__require, exports, module) {
+$__System.registerDynamic("10", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -5541,7 +5101,7 @@ $__System.registerDynamic("11", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("12", [], true, function($__require, exports, module) {
+$__System.registerDynamic("11", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -5566,7 +5126,7 @@ $__System.registerDynamic("12", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("13", [], true, function($__require, exports, module) {
+$__System.registerDynamic("12", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -5597,7 +5157,7 @@ $__System.registerDynamic("13", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("14", [], true, function($__require, exports, module) {
+$__System.registerDynamic("13", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -5628,7 +5188,7 @@ $__System.registerDynamic("14", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("15", [], true, function($__require, exports, module) {
+$__System.registerDynamic("14", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -5649,7 +5209,7 @@ $__System.registerDynamic("15", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("16", [], true, function($__require, exports, module) {
+$__System.registerDynamic("15", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -5670,7 +5230,7 @@ $__System.registerDynamic("16", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("17", [], true, function($__require, exports, module) {
+$__System.registerDynamic("16", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -5691,7 +5251,7 @@ $__System.registerDynamic("17", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("18", [], true, function($__require, exports, module) {
+$__System.registerDynamic("17", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -5712,7 +5272,7 @@ $__System.registerDynamic("18", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("19", [], false, function(__require, __exports, __module) {
+$__System.registerDynamic("18", [], false, function(__require, __exports, __module) {
   var _retrieveGlobal = $__System.get("@@global-helpers").prepareGlobal(__module.id, null, null);
   (function() {
     "format global";
@@ -7680,19 +7240,19 @@ $__System.registerDynamic("19", [], false, function(__require, __exports, __modu
   return _retrieveGlobal();
 });
 
-$__System.registerDynamic("1a", ["19"], true, function($__require, exports, module) {
+$__System.registerDynamic("19", ["18"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('19');
+  module.exports = $__require('18');
   global.define = __define;
   return module.exports;
 });
 
-$__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "13", "12", "11", "10", "f", "e", "d", "c", "b", "7", "9"], function($__export) {
+$__System.register("1a", ["3", "19", "1b", "1c", "17", "16", "15", "14", "13", "12", "11", "10", "f", "e", "d", "c", "b", "a", "8", "1d", "7", "6"], function($__export) {
   "use strict";
-  var __moduleName = "1b";
+  var __moduleName = "1a";
   var $,
       i18next,
       pcapi,
@@ -7712,6 +7272,8 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
       sectionTemplate,
       addfieldTemplate,
       utils,
+      save,
+      DataStorage,
       Visibility,
       FieldGenerator;
   return {
@@ -7754,12 +7316,17 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
     }, function($__m) {
       utils = $__m;
     }, function($__m) {
+      save = $__m;
+    }, function($__m) {
+      DataStorage = $__m.default;
+    }, function($__m) {
       Visibility = $__m.default;
     }],
     execute: function() {
       FieldGenerator = function() {
         function FieldGenerator(el) {
-          this.$el = $(el);
+          this.el = el;
+          this.$el = $("." + el);
         }
         return ($traceurRuntime.createClass)(FieldGenerator, {
           render: function(data, element) {
@@ -7930,8 +7497,13 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
               }, this));
             }, this));
             var visibility = new Visibility();
+            var element = this.el;
             this.$el.off("click", ".relate");
             this.$el.on("click", ".relate", function() {
+              var dataStorage = new DataStorage();
+              if (dataStorage.getData() === null) {
+                save.saveData(element);
+              }
               visibility.showVisibilityWindow($(this).closest('.fieldcontain').attr("id"));
             });
           },
@@ -8022,12 +7594,13 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
   };
 });
 
-$__System.register("1e", ["1b", "6", "7", "8", "1a", "5"], function($__export) {
+$__System.register("1e", ["1a", "1f", "8", "1d", "7", "19", "5"], function($__export) {
   "use strict";
   var __moduleName = "1e";
   var FieldGenerator,
       Convertor,
       utils,
+      save,
       DataStorage,
       i18next,
       Survey;
@@ -8039,6 +7612,8 @@ $__System.register("1e", ["1b", "6", "7", "8", "1a", "5"], function($__export) {
     }, function($__m) {
       utils = $__m;
     }, function($__m) {
+      save = $__m;
+    }, function($__m) {
       DataStorage = $__m.default;
     }, function($__m) {
       i18next = $__m.default;
@@ -8049,7 +7624,6 @@ $__System.register("1e", ["1b", "6", "7", "8", "1a", "5"], function($__export) {
           this.$mainBodyEl = $("#" + options.element);
           this.title = options.title;
           this.renderEl = "mobile-content";
-          this.dataStorage = new DataStorage();
           this.convertor = new Convertor();
           this.initialize();
           this.enableAutoSave();
@@ -8065,17 +7639,11 @@ $__System.register("1e", ["1b", "6", "7", "8", "1a", "5"], function($__export) {
             if (myInterval > 0)
               clearInterval(myInterval);
             myInterval = setInterval($.proxy(function() {
-              this.saveData();
+              save.saveData(this.renderEl);
             }, this), iFrequency);
           },
-          enableSave: function() {
-            $(document).off('click', '#form-save');
-            $(document).on('click', '#form-save', $.proxy(function() {
-              this.survey.saveData();
-            }, this));
-          },
           render: function() {
-            var fieldGenerator = new FieldGenerator("." + this.renderEl);
+            var fieldGenerator = new FieldGenerator(this.renderEl);
             var titleObj;
             if (this.title) {
               titleObj = {"title": this.title};
@@ -8087,7 +7655,9 @@ $__System.register("1e", ["1b", "6", "7", "8", "1a", "5"], function($__export) {
             if (!utils.isJsonString(data)) {
               data = this.convertor.HTMLtoJSON(data, title);
             }
-            var fieldGenerator = new FieldGenerator("." + this.renderEl);
+            var dataStorage = new DataStorage();
+            dataStorage.setData(data);
+            var fieldGenerator = new FieldGenerator(this.renderEl);
             fieldGenerator.render({
               "title": title,
               "geoms": data.geoms,
@@ -8096,21 +7666,6 @@ $__System.register("1e", ["1b", "6", "7", "8", "1a", "5"], function($__export) {
             $.each(data.fields, function(index, field) {
               fieldGenerator.render(field);
             });
-          },
-          saveData: function() {
-            var formData = $("." + this.renderEl).html();
-            var formInJSON = this.convertor.getForm(formData);
-            this.dataStorage.setData(formInJSON);
-            var visData = new DataStorage('visibility');
-            var visibilities = visData.getData();
-            for (var key in formInJSON) {
-              for (var key2 in visibilities) {
-                if (key === key2) {
-                  formInJSON[key].visibility = visibilities[key2];
-                }
-              }
-            }
-            return formInJSON;
           }
         }, {});
       }();
@@ -8119,7 +7674,7 @@ $__System.register("1e", ["1b", "6", "7", "8", "1a", "5"], function($__export) {
   };
 });
 
-$__System.registerDynamic("1f", [], true, function($__require, exports, module) {
+$__System.registerDynamic("20", [], true, function($__require, exports, module) {
   "use strict";
   ;
   var global = this,
@@ -8578,17 +8133,485 @@ $__System.registerDynamic("1f", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("1c", ["1f"], true, function($__require, exports, module) {
+$__System.registerDynamic("1b", ["20"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('1f');
+  module.exports = $__require('20');
   global.define = __define;
   return module.exports;
 });
 
-$__System.registerDynamic("20", ["3"], false, function(__require, __exports, __module) {
+$__System.register("7", [], function($__export) {
+  "use strict";
+  var __moduleName = "7";
+  var DataStorage;
+  return {
+    setters: [],
+    execute: function() {
+      DataStorage = function() {
+        function DataStorage(el) {
+          this.formKey = "current-form";
+          if (el) {
+            this.formKey = el;
+          }
+        }
+        return ($traceurRuntime.createClass)(DataStorage, {
+          setData: function(data) {
+            if (localStorage) {
+              localStorage.setItem(this.formKey, JSON.stringify(data));
+            } else {
+              console.log("There is no localStorage");
+            }
+          },
+          getData: function() {
+            if (localStorage) {
+              return JSON.parse(localStorage.getItem(this.formKey));
+            } else {
+              console.log("There is no localStorage");
+              return '';
+            }
+          },
+          searchForFieldId: function(id) {
+            return this.searchForFieldProperty("id", id);
+          },
+          searchForFieldProperty: function(key, value) {
+            return this.getData().fields.find(function(x) {
+              return x[key] === value;
+            });
+          },
+          searchForFieldProperties: function(key, value) {
+            return this.getData().fields.properties.find(function(x) {
+              return x[key] === value;
+            });
+          },
+          updateField: function(id, key, value) {
+            var data = this.getData();
+            var index = data.fields.findIndex(function(x) {
+              return x.id === id;
+            });
+            data.fields[index].properties[key] = value;
+            this.setData(data);
+          }
+        }, {});
+      }();
+      $__export('default', DataStorage);
+    }
+  };
+});
+
+$__System.register("1f", ["3", "8"], function($__export) {
+  "use strict";
+  var __moduleName = "1f";
+  var $,
+      utils,
+      Convertor;
+  return {
+    setters: [function($__m) {
+      $ = $__m.default;
+    }, function($__m) {
+      utils = $__m;
+    }],
+    execute: function() {
+      Convertor = function() {
+        function Convertor() {
+          this.form = {};
+        }
+        return ($traceurRuntime.createClass)(Convertor, {
+          getForm: function(html) {
+            var $html = $(html);
+            var c = this;
+            var form = {};
+            form.title = $html.filter(".fieldcontain-general").find('input[name="label"]').val();
+            form.geoms = [];
+            form.fields = [];
+            $html.find('input[name="geometryType"]:checked').each(function() {
+              form.geoms.push($(this).val());
+            });
+            $html.filter(".fieldcontain").each(function() {
+              var $this = $(this);
+              var field = {
+                "id": $this.attr("id"),
+                "type": $this.data("type"),
+                "required": false,
+                "persistent": false,
+                "properties": {}
+              };
+              form.fields.push(c.fieldToJSON(field, $this));
+            });
+            return form;
+          },
+          fieldToJSON: function(field, html) {
+            field.label = html.find('input[name="label"]').val();
+            switch (field.type) {
+              case 'text':
+                field.required = html.find('input[name="required"]').is(':checked');
+                field.persistent = html.find('input[name="persistent"]').is(':checked');
+                field.properties.prefix = html.find('input[name="prefix"]').val();
+                field.properties.placeholder = html.find('input[name="placeholder"]').val();
+                field.properties["max-chars"] = html.find('input[name="max-chars"]').val();
+                break;
+              case 'textarea':
+                field.required = html.find('input[name="required"]').is(':checked');
+                field.persistent = html.find('input[name="persistent"]').is(':checked');
+                field.properties.placeholder = html.find('input[name="placeholder"]').val();
+                break;
+              case 'range':
+                field.required = html.find('input[name="required"]').is(':checked');
+                field.persistent = html.find('input[name="persistent"]').is(':checked');
+                field.properties.step = html.find('input[name="step"]').val();
+                field.properties.min = html.find('input[name="min"]').val();
+                field.properties.max = html.find('input[name="max"]').val();
+                break;
+              case 'checkbox':
+                field.required = html.find('input[name="required"]').is(':checked');
+                field.persistent = html.find('input[name="persistent"]').is(':checked');
+                field.properties.other = html.find('input[name="other"]').is(':checked');
+                var checkboxes = [];
+                html.find('input[name="' + field.id + '"]').each(function(event) {
+                  var $img = $(this).closest(".form-inline").find("img");
+                  if ($img.length > 0) {
+                    checkboxes.push([]);
+                    var n = checkboxes.length - 1;
+                    checkboxes[n].push($(this).val());
+                    checkboxes[n].push(utils.getFilenameFromURL($img.attr("src")));
+                  } else {
+                    checkboxes.push($(this).val());
+                  }
+                });
+                field.properties.options = checkboxes;
+                break;
+              case 'radio':
+                field.required = html.find('input[name="required"]').is(':checked');
+                field.persistent = html.find('input[name="persistent"]').is(':checked');
+                field.properties.other = html.find('input[name="other"]').is(':checked');
+                var radios = [];
+                html.find('input[name="' + field.id + '"]').each(function(event) {
+                  var $img = $(this).closest(".form-inline").find("img");
+                  if ($img.length > 0) {
+                    radios.push([]);
+                    var n = radios.length - 1;
+                    radios[n].push($(this).val());
+                    radios[n].push(utils.getFilenameFromURL($img.attr("src")));
+                  } else {
+                    radios.push($(this).val());
+                  }
+                });
+                field.properties.options = radios;
+                break;
+              case 'select':
+                field.required = html.find('input[name="required"]').is(':checked');
+                field.persistent = html.find('input[name="persistent"]').is(':checked');
+                var options = [];
+                html.find('input[name="' + field.id + '"]').each(function(event) {
+                  var $img = $(this).closest(".form-inline").find("img");
+                  if ($img.length > 0) {
+                    options.push([]);
+                    var n = options.length - 1;
+                    options[n].push($(this).val());
+                    options[n].push(utils.getFilenameFromURL($img.attr("src")));
+                  } else {
+                    options.push($(this).val());
+                  }
+                });
+                field.properties.options = options;
+                break;
+              case 'dtree':
+                var $a = html.find('.dtree-url');
+                field.properties.filename = $a.text();
+                break;
+              case 'image':
+                field.required = html.find('input[name="required"]').is(':checked');
+                field.properties["multi-image"] = html.find('input[name="multi-image"]').is(':checked');
+                field.properties.los = html.find('input[name="los"]').is(':checked');
+                field.properties.blur = html.find('input[name="blur"]').val();
+                break;
+              case 'audio':
+                field.required = html.find('input[name="required"]').is(':checked');
+                break;
+              case 'gps':
+                field.required = html.find('input[name="required"]').is(':checked');
+                field.properties["gps-background"] = html.find('input[name="gps-background"]').is(':checked');
+                break;
+              case 'warning':
+                field.properties.placeholder = html.find('textarea').val();
+                break;
+              case 'section':
+                break;
+              case undefined:
+                break;
+            }
+            return field;
+          },
+          HTMLtoJSON: function(html, title) {
+            var $form = $(html);
+            var form = {};
+            var layout = null;
+            var section = null;
+            var fieldsSelector;
+            var ignoreFields;
+            if (title) {
+              form.title = title;
+            } else {
+              form.title = $form.data('title') || '';
+            }
+            form.geoms = ["point"];
+            var geomValues = $form.data("record-geometry");
+            if (geomValues) {
+              form.geoms = $form.data("record-geometry").split(",");
+            }
+            form.fields = [];
+            ignoreFields = ['.fieldcontain-geometryType', '#save-cancel-editor-buttons'];
+            fieldsSelector = '.fieldcontain' + ignoreFields.map(function(v) {
+              return ':not(' + v + ')';
+            }).join('');
+            $form.find(fieldsSelector).each(function(i, element) {
+              var $field = $(element);
+              var $input;
+              var required;
+              var options;
+              var fieldId;
+              var type;
+              var field = null;
+              var matched = /fieldcontain-(.*?)-[0-9]+$/.exec($field.attr("id"));
+              if (matched === null) {
+                console.log('warning: ' + $field.attr('id') + ' not supported');
+                return;
+              }
+              fieldId = matched[0];
+              type = matched[1];
+              switch (type) {
+                case 'text':
+                  $input = $field.find('input');
+                  field = {
+                    label: $field.find('label').text(),
+                    type: type,
+                    required: $input.attr('required') !== undefined,
+                    persistent: $field.data('persistent') === 'on',
+                    properties: {
+                      prefix: $input.val(),
+                      placeholder: $input.attr("placeholder"),
+                      'max-chars': $input.attr("maxlength")
+                    }
+                  };
+                  break;
+                case 'textarea':
+                  $input = $field.find('textarea');
+                  field = {
+                    label: $field.find('label').text(),
+                    type: type,
+                    required: $input.attr('required') !== undefined,
+                    persistent: $field.data('persistent') === 'on',
+                    properties: {placeholder: $input.attr("placeholder")}
+                  };
+                  break;
+                case 'range':
+                  $input = $field.find('input');
+                  field = {
+                    label: $field.find('label').text(),
+                    type: type,
+                    required: $input.attr('required') !== undefined,
+                    persistent: $field.data('persistent') === 'on',
+                    properties: {
+                      step: $input.attr('step'),
+                      min: $input.attr('min'),
+                      max: $input.attr('max')
+                    }
+                  };
+                  break;
+                case 'checkbox':
+                  $input = $field.find('input[type="checkbox"]');
+                  options = $input.map(function(i, element) {
+                    var $checkbox = $(element);
+                    var checkbox;
+                    var $img = $checkbox.prev().find('img');
+                    if ($img.is('img')) {
+                      checkbox = [];
+                      checkbox.push($checkbox.val());
+                      checkbox.push(pcapi.buildFSUrl('editors', $img.attr("src")));
+                    } else {
+                      checkbox = $checkbox.val();
+                    }
+                    return checkbox;
+                  });
+                  required = $input.is(function() {
+                    return $(this).attr('required') !== undefined;
+                  });
+                  field = {
+                    label: $field.find('legend').text(),
+                    type: type,
+                    required: required,
+                    persistent: $field.data('persistent') === 'on',
+                    properties: {options: Array.prototype.slice.apply(options)}
+                  };
+                  break;
+                case 'radio':
+                  $input = $field.find('input[name="' + fieldId + '"]');
+                  options = $input.map(function(i, element) {
+                    var $radio = $(element);
+                    var radio;
+                    var $img = $radio.prev().find('img');
+                    if ($img.is('img')) {
+                      radio = [];
+                      radio.push($radio.val());
+                      radio.push(pcapi.buildFSUrl('editors', $img.attr('src')));
+                    } else {
+                      radio = $radio.val();
+                    }
+                    return radio;
+                  });
+                  required = $input.is(function() {
+                    return $(this).attr('required') !== undefined;
+                  });
+                  field = {
+                    label: $field.find('legend').text(),
+                    type: type,
+                    required: required,
+                    persistent: $field.data('persistent') === 'on',
+                    properties: {options: Array.prototype.slice.apply(options)}
+                  };
+                  break;
+                case 'select':
+                  $input = $field.find('select');
+                  options = $input.find('option').map(function(i, element) {
+                    return $(element).val();
+                  });
+                  field = {
+                    label: $field.find('legend').text(),
+                    type: type,
+                    required: $input.attr('required') !== undefined,
+                    persistent: $field.data('persistent') === 'on',
+                    properties: {options: Array.prototype.slice.apply(options)}
+                  };
+                  break;
+                case 'dtree':
+                  $input = $field.find('input[type="hidden"]');
+                  field = {
+                    label: $field.find('label').text(),
+                    type: type,
+                    required: false,
+                    persistent: $field.data('persistent') === 'on',
+                    properties: {filename: $input.data('dtree')}
+                  };
+                  break;
+                case 'image':
+                  $input = $field.find('input');
+                  field = {
+                    label: $field.find('label').text(),
+                    type: type,
+                    required: $input.attr("required") !== undefined,
+                    persistent: false,
+                    properties: {
+                      los: $input.attr('class') === 'camera-va',
+                      'multi-image': false
+                    }
+                  };
+                  break;
+                case 'multiimage':
+                  $input = $field.find('input');
+                  field = {
+                    label: $field.find('label').text(),
+                    type: type,
+                    required: $input.attr('required') !== undefined,
+                    persistent: false,
+                    properties: {
+                      los: $input.attr('class') === 'camera-va',
+                      'multi-image': true
+                    }
+                  };
+                  break;
+                case 'audio':
+                  $input = $field.find('input');
+                  field = {
+                    label: $field.find('label').text(),
+                    type: type,
+                    required: $input.attr('required') !== undefined,
+                    persistent: false,
+                    properties: {}
+                  };
+                  break;
+                case 'gps':
+                  $input = $field.find('input');
+                  field = {
+                    label: $field.find('label').text(),
+                    type: type,
+                    required: $input.attr('required') !== undefined,
+                    persistent: false,
+                    properties: {'gps-background': $input.find('input[name="gps-background"]').is(':checked')}
+                  };
+                  break;
+                case 'warning':
+                  $input = $field.find('textarea');
+                  field = {
+                    label: $field.find('label').text(),
+                    type: type,
+                    required: $input.attr('required') !== undefined,
+                    persistent: false,
+                    properties: {placeholder: $input.attr("placeholder")}
+                  };
+                  break;
+                case 'section':
+                  layout = layout || {elements: []};
+                  if (section !== null) {
+                    layout.elements.push(section);
+                  }
+                  section = {
+                    id: fieldId,
+                    type: type,
+                    title: $field.find('h3').text(),
+                    fields: []
+                  };
+                  break;
+              }
+              if (field !== null) {
+                field.id = fieldId;
+                form.fields.push(field);
+                if (section !== null) {
+                  section.fields.push(fieldId);
+                }
+              }
+            });
+            if (layout !== null) {
+              form.layout = layout;
+            }
+            return form;
+          }
+        }, {});
+      }();
+      $__export('default', Convertor);
+    }
+  };
+});
+
+$__System.register("1d", ["1f", "7"], function($__export) {
+  "use strict";
+  var __moduleName = "1d";
+  var Convertor,
+      DataStorage;
+  function saveData(element) {
+    var formData = $("." + element).html();
+    var convertor = new Convertor();
+    var formInJSON = convertor.getForm(formData);
+    var dataStorage = new DataStorage();
+    var data = dataStorage.getData();
+    if (data !== null) {}
+    dataStorage.setData(formInJSON);
+    return formInJSON;
+  }
+  return {
+    setters: [function($__m) {
+      Convertor = $__m.default;
+    }, function($__m) {
+      DataStorage = $__m.default;
+    }],
+    execute: function() {
+      $__export("saveData", saveData);
+    }
+  };
+});
+
+$__System.registerDynamic("21", ["3"], false, function(__require, __exports, __module) {
   var _retrieveGlobal = $__System.get("@@global-helpers").prepareGlobal(__module.id, "$", null);
   (function() {
     "format global";
@@ -10180,19 +10203,19 @@ $__System.registerDynamic("20", ["3"], false, function(__require, __exports, __m
   return _retrieveGlobal();
 });
 
-$__System.registerDynamic("a", ["20"], true, function($__require, exports, module) {
+$__System.registerDynamic("9", ["21"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('20');
+  module.exports = $__require('21');
   global.define = __define;
   return module.exports;
 });
 
-$__System.register("7", ["a"], function($__export) {
+$__System.register("8", ["9"], function($__export) {
   "use strict";
-  var __moduleName = "7";
+  var __moduleName = "8";
   var modal;
   function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
@@ -10293,14 +10316,15 @@ $__System.register("7", ["a"], function($__export) {
   };
 });
 
-$__System.register("21", ["22", "7", "1c", "1e", "4"], function($__export) {
+$__System.register("22", ["23", "8", "1d", "1b", "1e", "4"], function($__export) {
   "use strict";
-  var __moduleName = "21";
+  var __moduleName = "22";
   var Backbone,
       utils,
+      save,
       pcapi,
       Survey,
-      HTMLConvertor,
+      Convertor,
       SurveyView;
   return {
     setters: [function($__m) {
@@ -10308,11 +10332,13 @@ $__System.register("21", ["22", "7", "1c", "1e", "4"], function($__export) {
     }, function($__m) {
       utils = $__m;
     }, function($__m) {
+      save = $__m;
+    }, function($__m) {
       pcapi = $__m.default;
     }, function($__m) {
       Survey = $__m.default;
     }, function($__m) {
-      HTMLConvertor = $__m.Convertor;
+      Convertor = $__m.default;
     }],
     execute: function() {
       SurveyView = function($__super) {
@@ -10322,13 +10348,14 @@ $__System.register("21", ["22", "7", "1c", "1e", "4"], function($__export) {
         return ($traceurRuntime.createClass)(SurveyView, {
           initialize: function() {
             this.cfg = cfg;
+            this.element = "content";
             this.render();
           },
           formSave: function() {
             $(document).off('click', '#form-save');
             $(document).on('click', '#form-save', $.proxy(function() {
-              var formInJSON = this.survey.saveData();
-              var htmlConvertor = new HTMLConvertor();
+              var formInJSON = save.saveData(this.element);
+              var htmlConvertor = new Convertor();
               var title = formInJSON.title;
               if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
                 title = utils.getParams().sid;
@@ -10385,7 +10412,7 @@ $__System.register("21", ["22", "7", "1c", "1e", "4"], function($__export) {
               },
               detectLngQS: 'lang'
             }, $.proxy(function() {
-              this.survey = new Survey({"element": "content"});
+              this.survey = new Survey({"element": this.element});
               this.renderSurvey();
               this.formSave();
             }, this));
@@ -10410,9 +10437,9 @@ $__System.register("21", ["22", "7", "1c", "1e", "4"], function($__export) {
   };
 });
 
-$__System.register("23", ["22", "21"], function($__export) {
+$__System.register("24", ["23", "22"], function($__export) {
   "use strict";
-  var __moduleName = "23";
+  var __moduleName = "24";
   var Backbone,
       SurveyView,
       SurveyRouter;
@@ -10439,7 +10466,7 @@ $__System.register("23", ["22", "21"], function($__export) {
   };
 });
 
-$__System.registerDynamic("24", [], true, function($__require, exports, module) {
+$__System.registerDynamic("25", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -10531,22 +10558,12 @@ $__System.registerDynamic("24", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("25", ["24"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = $__require('24');
-  global.define = __define;
-  return module.exports;
-});
-
 $__System.registerDynamic("26", ["25"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__System._nodeRequire ? process : $__require('25');
+  module.exports = $__require('25');
   global.define = __define;
   return module.exports;
 });
@@ -10556,7 +10573,17 @@ $__System.registerDynamic("27", ["26"], true, function($__require, exports, modu
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('26');
+  module.exports = $__System._nodeRequire ? process : $__require('26');
+  global.define = __define;
+  return module.exports;
+});
+
+$__System.registerDynamic("28", ["27"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = $__require('27');
   global.define = __define;
   return module.exports;
 });
@@ -16462,7 +16489,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   };
   jQuery.fn.andSelf = jQuery.fn.addBack;
   if (typeof define === "function" && define.amd) {
-    define("28", [], function() {
+    define("29", [], function() {
       return jQuery;
     });
   }
@@ -16487,13 +16514,13 @@ _removeDefine();
 })();
 (function() {
 var _removeDefine = $__System.get("@@amd-helpers").createDefine();
-define("3", ["28"], function(main) {
+define("3", ["29"], function(main) {
   return main;
 });
 
 _removeDefine();
 })();
-$__System.registerDynamic("29", [], true, function($__require, exports, module) {
+$__System.registerDynamic("2a", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -17702,17 +17729,17 @@ $__System.registerDynamic("29", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("1d", ["29"], true, function($__require, exports, module) {
+$__System.registerDynamic("1c", ["2a"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('29');
+  module.exports = $__require('2a');
   global.define = __define;
   return module.exports;
 });
 
-$__System.registerDynamic("2a", ["1d", "3", "27"], true, function($__require, exports, module) {
+$__System.registerDynamic("2b", ["1c", "3", "28"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -17726,7 +17753,7 @@ $__System.registerDynamic("2a", ["1d", "3", "27"], true, function($__require, ex
           root.Backbone = factory(root, exports, _, $);
         });
       } else if (typeof exports !== 'undefined') {
-        var _ = $__require('1d'),
+        var _ = $__require('1c'),
             $;
         try {
           $ = $__require('3');
@@ -19070,22 +19097,22 @@ $__System.registerDynamic("2a", ["1d", "3", "27"], true, function($__require, ex
       };
       return Backbone;
     }));
-  })($__require('27'));
+  })($__require('28'));
   global.define = __define;
   return module.exports;
 });
 
-$__System.registerDynamic("22", ["2a"], true, function($__require, exports, module) {
+$__System.registerDynamic("23", ["2b"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('2a');
+  module.exports = $__require('2b');
   global.define = __define;
   return module.exports;
 });
 
-$__System.register("1", ["22", "23"], function($__export) {
+$__System.register("1", ["23", "24"], function($__export) {
   "use strict";
   var __moduleName = "1";
   var Backbone,
