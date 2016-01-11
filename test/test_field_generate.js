@@ -13,11 +13,11 @@ pcapi.init({
 pcapi.setCloudLogin(cfg.userid);
 
 describe('#FieldGenerator', () => {
-    var cl = "mobile-content";
+    var cl = ".mobile-content";
     var fieldGenerator;
 
     before(function(done){
-        $("#content").append('<div class="'+cl+'"></div>');
+        $("#content").append('<div class="'+cl.substring(1)+'"></div>');
         fieldGenerator = new FieldGenerator(cl);
 
         i18n.init({// jshint ignore:line
@@ -529,7 +529,7 @@ describe('#FieldGenerator', () => {
         $.each(testForm.fields, function(index, field){
             fieldGenerator.render(field);
         });
-        var $cl = $("."+cl);
+        var $cl = $(cl);
         assert.equal($cl.find('.fieldcontain').length,
           testForm.fields.length);
         assert.equal($cl.find('.dropdown').length,
@@ -540,7 +540,7 @@ describe('#FieldGenerator', () => {
     });
 
     after(function(done){
-        $("."+cl).remove();
+        $(cl).remove();
         done();
     });
 });

@@ -10,12 +10,12 @@ import DataStorage from '../app/data';
 describe('#Visibility', () => {
     var visibility = new Visibility();
     var dataStorage = new DataStorage();
-    var cl = "mobile-content";
+    var cl = ".mobile-content";
     var fieldGenerator;
     var triggeredId = "fieldcontain-checkbox-3";
 
     before((done) => {
-        $("#content").append('<div class="'+cl+'"></div>');
+        $("#content").append('<div class="'+cl.substring(1)+'"></div>');
         fieldGenerator = new FieldGenerator(cl);
         $.each(testJSON.fields, function(index, field){
             fieldGenerator.render(field);
@@ -72,7 +72,7 @@ describe('#Visibility', () => {
     });
 
     after((done) => {
-        $("."+cl).remove();
+        $(cl).remove();
         done();
     });
 });
