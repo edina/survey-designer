@@ -6,7 +6,7 @@ import DataStorage from './data';
  * @returns {Object} form data in JSON format
 */
 function saveData(element) {
-    var formData = $("."+element).html();
+    var formData = $(element).html();
     var convertor = new Convertor();
     var formInJSON = convertor.getForm(formData);
     var dataStorage = new DataStorage();

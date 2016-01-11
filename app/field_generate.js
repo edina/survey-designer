@@ -25,7 +25,7 @@ import Visibility from './visibility';
 class FieldGenerator {
     constructor (el){
         this.el = el;
-        this.$el = $("."+el);
+        this.$el = $(el);
     }
 
     render(data, element) {
@@ -321,7 +321,7 @@ class FieldGenerator {
             'increase': function(v) {
                 return v+1;
             }
-        }
+        };
     }
 
     /**

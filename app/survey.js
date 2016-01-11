@@ -15,9 +15,9 @@ class Survey {
     * @param options.title {String} the title of the Survey
     */
     constructor(options) {
-        this.$mainBodyEl = $("#"+options.element);
+        this.$mainBodyEl = $(options.element);
         this.title = options.title;
-        this.renderEl = "mobile-content";
+        this.renderEl = options.subElement;
         this.convertor = new Convertor();
         this.initialize();
         this.enableAutoSave();
@@ -28,13 +28,13 @@ class Survey {
     */
     initialize() {
         this.$mainBodyEl.html('<div class="mobile">'+
-          '<div class="'+this.renderEl+'">'+
+          '<div class="'+this.renderEl.substring(1)+'">'+
           '<button type="button" class="btn'+
                 ' btn-default" id="form-save">'+
                 i18n.t("menu.save")+'</button>'+
           '</div></div>'+
           '<div id="loader"><img src="app/styles/images/ajax-loader.gif"></div>');
-        $("."+this.renderEl).prev().append('<button type="button" class="btn'+
+        $(this.renderEl).prev().append('<button type="button" class="btn'+
               ' btn-default" id="form-save">'+
               i18n.t("menu.save")+'</button>');
     }
@@ -49,7 +49,7 @@ class Survey {
         // STARTS and Resets the loop if any{
         if(myInterval > 0) clearInterval(myInterval);  // stop
         myInterval = setInterval( $.proxy(function(){
-            save.saveData(this.renderEl);
+            save.saveData(this.classEl);
         }, this), iFrequency );  // run
     }
 
