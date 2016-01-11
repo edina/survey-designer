@@ -18,7 +18,7 @@ describe('#FieldGenerator', () => {
 
     before(function(done){
         $("#content").append('<div class="'+cl+'"></div>');
-        fieldGenerator = new FieldGenerator("."+cl);
+        fieldGenerator = new FieldGenerator(cl);
 
         i18n.init({// jshint ignore:line
             ns: { namespaces: ['survey'], defaultNs: 'survey'},

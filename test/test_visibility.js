@@ -16,7 +16,7 @@ describe('#Visibility', () => {
 
     before((done) => {
         $("#content").append('<div class="'+cl+'"></div>');
-        fieldGenerator = new FieldGenerator("."+cl);
+        fieldGenerator = new FieldGenerator(cl);
         $.each(testJSON.fields, function(index, field){
             fieldGenerator.render(field);
         });
