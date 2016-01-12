@@ -44,4 +44,4 @@ http-server
 ```
 
 and then open the link:
-http://129.215.169.95:8080/test.html
+http://localhost:8080/test.html
