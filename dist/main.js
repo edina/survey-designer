@@ -4271,144 +4271,11 @@ $__System.register("2", ["3"], function($__export) {
           this.form = {};
         }
         return ($traceurRuntime.createClass)(Convertor, {
-          getForm: function(html) {
-            var $html = $(html);
-            console.log($html);
-            var c = this;
-            var form = {};
-            form.title = $html.filter(".fieldcontain-general").find('input[name="label"]').val();
-            form.geoms = [];
-            $html.find('input[name="geometryType"]:checked').each(function() {
-              form.geoms.push($(this).val());
-            });
-            $html.filter(".fieldcontain").each(function() {
-              var $this = $(this);
-              var id = $this.attr("id");
-              var type = $this.data("type");
-              if (id !== undefined) {
-                form[id] = c.fieldToJSON(id, type, $this);
-                console.log(form[id]);
-              }
-            });
-            return form;
-          },
-          fieldToJSON: function(id, type, html) {
-            var field = {};
-            var c = this;
-            switch (type) {
-              case 'text':
-                field.label = html.find('input[name="label"]').val();
-                field.prefix = html.find('input[name="prefix"]').val();
-                field.placeholder = html.find('input[name="placeholder"]').val();
-                field.required = html.find('input[name="required"]').is(':checked');
-                field.persistent = html.find('input[name="persistent"]').is(':checked');
-                field["max-chars"] = html.find('input[name="max-chars"]').val();
-                break;
-              case 'textarea':
-                field.label = html.find('input[name="label"]').val();
-                field.placeholder = html.find('input[name="placeholder"]').val();
-                field.required = html.find('input[name="required"]').is(':checked');
-                field.persistent = html.find('input[name="persistent"]').is(':checked');
-                break;
-              case 'range':
-                field.label = html.find('input[name="label"]').val();
-                field.placeholder = html.find('input[name="placeholder"]').val();
-                field.required = html.find('input[name="required"]').is(':checked');
-                field.persistent = html.find('input[name="persistent"]').is(':checked');
-                field.step = html.find('input[name="step"]').val();
-                field.min = html.find('input[name="min"]').val();
-                field.max = html.find('input[name="max"]').val();
-                break;
-              case 'checkbox':
-                field.label = html.find('input[name="label"]').val();
-                field.required = html.find('input[name="required"]').is(':checked');
-                field.persistent = html.find('input[name="persistent"]').is(':checked');
-                field.other = html.find('input[name="other"]').is(':checked');
-                var checkboxes = [];
-                html.find('input[name="' + id + '"]').each(function(event) {
-                  var $img = $(this).closest(".form-inline").find("img");
-                  if ($img.length > 0) {
-                    checkboxes.push([]);
-                    var n = checkboxes.length - 1;
-                    checkboxes[n].push($(this).val());
-                    checkboxes[n].push(c.getFilenameFromURL($img.attr("src")));
-                  } else {
-                    checkboxes.push($(this).val());
-                  }
-                });
-                field.checkboxes = checkboxes;
-                break;
-              case 'radio':
-                field.label = html.find('input[name="label"]').val();
-                field.required = html.find('input[name="required"]').is(':checked');
-                field.persistent = html.find('input[name="persistent"]').is(':checked');
-                field.other = html.find('input[name="other"]').is(':checked');
-                var radios = [];
-                html.find('input[name="' + id + '"]').each(function(event) {
-                  var $img = $(this).closest(".form-inline").find("img");
-                  if ($img.length > 0) {
-                    radios.push([]);
-                    var n = radios.length - 1;
-                    radios[n].push($(this).val());
-                    radios[n].push(c.getFilenameFromURL($img.attr("src")));
-                  } else {
-                    radios.push($(this).val());
-                  }
-                });
-                field.radios = radios;
-                break;
-              case 'select':
-                field.label = html.find('input[name="label"]').val();
-                field.required = html.find('input[name="required"]').is(':checked');
-                field.persistent = html.find('input[name="persistent"]').is(':checked');
-                var options = [];
-                html.find('input[name="' + id + '"]').each(function(event) {
-                  var $img = $(this).closest(".form-inline").find("img");
-                  if ($img.length > 0) {
-                    options.push([]);
-                    var n = options.length - 1;
-                    options[n].push($(this).val());
-                    options[n].push(c.getFilenameFromURL($img.attr("src")));
-                  } else {
-                    options.push($(this).val());
-                  }
-                });
-                field.options = options;
-                break;
-              case 'dtree':
-                var $a = html.find('a');
-                field.label = html.find('input[name="label"]').val();
-                field.filename = $a.text();
-                break;
-              case 'image':
-                field.label = html.find('input[name="label"]').val();
-                field.required = html.find('input[name="required"]').is(':checked');
-                field["multi-image"] = html.find('input[name="multi-image"]').is(':checked');
-                field.los = html.find('input[name="los"]').is(':checked');
-                field.blur = html.find('input[name="blur"]').val();
-                break;
-              case 'audio':
-                field.label = html.find('input[name="label"]').val();
-                field.required = html.find('input[name="required"]').is(':checked');
-                break;
-              case 'gps':
-                field.label = html.find('input[name="label"]').val();
-                field.required = html.find('input[name="required"]').is(':checked');
-                field["gps-background"] = html.find('input[name="gps-background"]').is(':checked');
-                break;
-              case 'warning':
-                field.label = html.find('input[name="label"]').val();
-                field.placeholder = html.find('textarea').val();
-                break;
-              case 'section':
-                field.label = html.find('input[name="label"]').val();
-                break;
-              case undefined:
-                break;
-            }
-            return field;
+          encodeEntities: function(text) {
+            return $('<div />').text(text).html();
           },
           JSONtoHTML: function(form) {
+            var self = this;
             if (form) {
               this.form = form;
             }
@@ -4418,7 +4285,10 @@ $__System.register("2", ["3"], function($__export) {
             html.push('<div class="fieldcontain fieldcontain-geometryType"' + ' id="fieldcontain-geometryType" data-cobweb-type="geometryType">\n');
             html.push('<input type="hidden" data-record-geometry="' + this.form.geoms.join(",") + '" value="' + this.form.geoms.join(",") + '">\n');
             html.push('</div>\n');
-            $.each(this.form, function(key, value) {
+            this.form = this.form || [];
+            this.form.fields.forEach(function(value) {
+              var key = value.id;
+              var properties = value.properties;
               var splits = key.split("-");
               var type = splits[1];
               var n = splits[2];
@@ -4434,29 +4304,30 @@ $__System.register("2", ["3"], function($__export) {
               if (value.visibility) {
                 visibility = 'data-visibility="' + value.visibility.id.replace("fieldcontain-", "") + ' ' + value.visibility.rule + ' \'' + value.visibility.answer + '\'"';
               }
+              value.label = self.encodeEntities(value.label);
               switch (type) {
                 case 'text':
                   html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
                   html.push('<label for="form-' + type + '-' + n + '">' + value.label + '</label>\n');
-                  html.push('<input name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" type="text" ' + required + ' placeholder="' + value.placeholder + '" maxlength="' + value["max-chars"] + '" value="' + value.prefix + '">\n');
+                  html.push('<input name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" type="text" ' + required + ' placeholder="' + properties.placeholder + '" maxlength="' + properties["max-chars"] + '" value="' + properties.prefix + '">\n');
                   html.push('</div>\n');
                   break;
                 case 'textarea':
                   html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
                   html.push('<label for="form-' + type + '-' + n + '">' + value.label + '</label>\n');
-                  html.push('<textarea name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" ' + required + ' placeholder="' + value.placeholder + '"></textarea>\n');
+                  html.push('<textarea name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" ' + required + ' placeholder="' + properties.placeholder + '"></textarea>\n');
                   html.push('</div>\n');
                   break;
                 case 'range':
                   html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
-                  html.push('<label for="form-' + type + '-' + n + '">' + value.label + '</label>\n');
-                  html.push('<input name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" type="range" ' + required + ' placeholder="' + value.placeholder + '" step="' + value.step + '" min="' + value.min + '" max="' + value.max + '">\n');
+                  html.push('<label for="form-' + type + '-' + n + '">' + (value.label) + '</label>\n');
+                  html.push('<input name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" type="range" ' + required + ' placeholder="' + properties.placeholder + '" step="' + properties.step + '" min="' + properties.min + '" max="' + properties.max + '">\n');
                   html.push('</div>\n');
                   break;
                 case 'checkbox':
                   html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
                   html.push('<fieldset>\n<legend>' + value.label + '</legend>\n');
-                  $.each(value.checkboxes, function(k, v) {
+                  properties.options.forEach(function(v, k) {
                     if ($traceurRuntime.typeof((v)) === "object") {
                       html.push('<label for="' + key + '-' + k + '">\n');
                       html.push('<div class="ui-grid-a grids">\n');
@@ -4470,15 +4341,15 @@ $__System.register("2", ["3"], function($__export) {
                     }
                   });
                   if (value.other === true) {
-                    html.push('<label for="' + key + '-' + value.checkboxes.length + '" class="other">' + i18n.t('checkbox.other') + '</label>\n');
-                    html.push('<input name="' + key + '" id="' + key + '-' + value.checkboxes.length + '" value="other"' + ' class="other" type="' + type + '" ' + required + '>\n');
+                    html.push('<label for="' + key + '-' + properties.options.length + '" class="other">' + i18n.t('checkbox.other') + '</label>\n');
+                    html.push('<input name="' + key + '" id="' + key + '-' + properties.options.length + '" value="other"' + ' class="other" type="' + type + '" ' + required + '>\n');
                   }
                   html.push('</fieldset>\n</div>\n');
                   break;
                 case 'radio':
                   html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
                   html.push('<fieldset>\n<legend>' + value.label + '</legend>\n');
-                  $.each(value.radios, function(k, v) {
+                  properties.options.forEach(function(v, k) {
                     if ($traceurRuntime.typeof((v)) === "object") {
                       html.push('<label for="' + key + '-' + k + '">\n');
                       html.push('<div class="ui-grid-a grids">\n');
@@ -4492,8 +4363,8 @@ $__System.register("2", ["3"], function($__export) {
                     }
                   });
                   if (value.other === true) {
-                    html.push('<label for="' + key + '-' + value.radios.length + '" class="other">' + i18n.t('radio.other') + '</label>\n');
-                    html.push('<input name="' + key + '" id="' + key + '-' + value.radios.length + '" value="other" class="other" type="' + type + '" ' + required + '>\n');
+                    html.push('<label for="' + key + '-' + properties.options.length + '" class="other">' + i18n.t('radio.other') + '</label>\n');
+                    html.push('<input name="' + key + '" id="' + key + '-' + properties.options.length + '" value="other" class="other" type="' + type + '" ' + required + '>\n');
                   }
                   html.push('</fieldset>\n</div>\n');
                   break;
@@ -4506,7 +4377,7 @@ $__System.register("2", ["3"], function($__export) {
                   } else {
                     html.push('<select id="' + key + '">\n');
                   }
-                  $.each(value.options, function(k, v) {
+                  properties.options.forEach(function(v, k) {
                     html.push('<option value="' + v + '">' + v + '</option>\n');
                   });
                   html.push('</select>\n</fieldset>\n</div>\n');
@@ -4516,22 +4387,25 @@ $__System.register("2", ["3"], function($__export) {
                   html.push('<fieldset>\n<label for="fieldcontain-' + type + '-' + n + '">' + value.label + '</label>\n');
                   html.push('<div class="button-wrapper button-dtree"></div>\n');
                   html.push('</fieldset>\n');
-                  html.push('<input type="hidden" data-dtree="' + value.filename + '" value="' + value.filename + '">\n');
+                  html.push('<input type="hidden" data-dtree="' + properties.filename + '" value="' + properties.filename + '">\n');
                   html.push('</div>\n');
                   break;
+                case 'multiimage':
                 case 'image':
                   var cl = "camera";
-                  if (value["multi-image"] === true) {
+                  if (properties["multi-image"] === true) {
                     type = 'multiimage';
                   }
-                  if (value.los === true) {
+                  if (properties.los === true) {
                     cl = "camera-va";
                   }
                   html.push('<div class="fieldcontain" id="fieldcontain-' + type + '-1" data-fieldtrip-type="' + cl + '" ' + visibility + '>\n');
                   html.push('<div class="button-wrapper button-' + cl + '">\n');
                   html.push('<input name="form-image-1" id="form-image-1"' + ' type="file" accept="image/png" capture="' + cl + '" ' + required + ' class="' + cl + '">\n');
                   html.push('<label for="form-image-1">' + value.label + '</label>\n');
-                  html.push('<div style="display:none;" id="blur-threshold" value="' + value.blur + '"></div>');
+                  if (properties.blur) {
+                    html.push('<div style="display:none;" id="blur-threshold" value="' + properties.blur + '"></div>');
+                  }
                   html.push('</div>\n</div>\n');
                   break;
                 case 'audio':
@@ -4546,7 +4420,7 @@ $__System.register("2", ["3"], function($__export) {
                 case 'warning':
                   html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '">\n');
                   html.push('<label for="form-' + type + '-' + n + '">' + value.label + '</label>\n');
-                  html.push('<textarea name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" ' + required + ' placeholder="' + value.placeholder + '"></textarea>\n');
+                  html.push('<textarea name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" ' + required + ' placeholder="' + properties.placeholder + '"></textarea>\n');
                   html.push('</div>\n');
                   break;
                 case 'section':
@@ -4566,145 +4440,6 @@ $__System.register("2", ["3"], function($__export) {
             html.push('</div>\n');
             html.push('</form>');
             return html;
-          },
-          HTMLtoJSON: function(html, title) {
-            var $form = $(html);
-            var form = {};
-            form.title = title;
-            form.geoms = ["point"];
-            var geomValues = $form.data("record-geometry");
-            if (geomValues) {
-              form.geoms = $form.data("record-geometry").split(",");
-            }
-            $form.find(".fieldcontain").each(function() {
-              var $this = $(this);
-              var id = $this.attr("id");
-              var type = $this.attr("id").split("-")[1];
-              var $input;
-              form[id] = {};
-              switch (type) {
-                case 'text':
-                  form[id].label = $this.find('label').text();
-                  $input = $this.find('input');
-                  form[id].prefix = $input.val();
-                  form[id].placeholder = $input.prop("placeholder");
-                  form[id].required = $input.prop("required");
-                  form[id].persistent = $this.data("persistent");
-                  form[id]["max-chars"] = $input.prop("maxlength");
-                  break;
-                case 'textarea':
-                  form[id].label = $this.find('label').text();
-                  $input = $this.find('textarea');
-                  form[id].placeholder = $input.prop("placeholder");
-                  form[id].required = $input.prop("required");
-                  form[id].persistent = $this.data("persistent");
-                  break;
-                case 'range':
-                  form[id].label = $this.find('label').text();
-                  $input = $this.find('input');
-                  form[id].placeholder = $input.prop("placeholder");
-                  form[id].required = $input.prop("required");
-                  form[id].persistent = $this.data("persistent");
-                  form[id].step = $input.prop("step");
-                  form[id].min = $input.prop("min");
-                  form[id].max = $input.prop("max");
-                  break;
-                case 'checkbox':
-                  form[id].label = $this.find('legend').text();
-                  form[id].persistent = $this.data("persistent");
-                  var checkboxes = [];
-                  var required;
-                  $this.find('input[type="checkbox"]').each(function() {
-                    var ch;
-                    var $img = $(this).prev().find('img');
-                    if ($img.is('img')) {
-                      ch = [];
-                      ch.push($(this).val());
-                      ch.push(pcapi.buildFSUrl('editors', $img.attr("src")));
-                    } else {
-                      ch = $(this).val();
-                    }
-                    checkboxes.push(ch);
-                    required = $(this).attr("required");
-                  });
-                  form[id].required = required;
-                  form[id].checkboxes = checkboxes;
-                  break;
-                case 'radio':
-                  form[id].label = $this.find('legend').text();
-                  form[id].persistent = $this.data("persistent");
-                  var radios = [];
-                  required = undefined;
-                  $this.find('input[name="' + id + '"]').each(function(event) {
-                    var rd;
-                    var $img = $(this).prev().find('img');
-                    if ($img.is('img')) {
-                      rd = [];
-                      rd.push($(this).val());
-                      rd.push(pcapi.buildFSUrl('editors', $img.attr("src")));
-                    } else {
-                      rd = $(this).val();
-                    }
-                    radios.push(rd);
-                    required = $(this).attr("required");
-                  });
-                  form[id].required = required;
-                  form[id].radios = radios;
-                  break;
-                case 'select':
-                  form[id].label = $this.find('legend').text();
-                  form[id].required = $this.find('select').prop("required");
-                  var options = [];
-                  $this.find('option').each(function(event) {
-                    options.push($(this).val());
-                  });
-                  form[id].options = options;
-                  break;
-                case 'dtree':
-                  form[id].label = $this.find('label').text();
-                  form[id].filename = $this.find('input[type="hidden"]').data('dtree');
-                  break;
-                case 'image':
-                  form[id].label = $this.find('label').text();
-                  $input = $this.find('input');
-                  form[id].required = $input.prop("required");
-                  form[id]["multi-image"] = false;
-                  form[id].los = ($input.attr('class') === 'camera-va');
-                  break;
-                case 'multiimage':
-                  form[id].label = $this.find('label').text();
-                  $input = $this.find('input');
-                  form[id].required = $input.prop("required");
-                  form[id]["multi-image"] = true;
-                  form[id].los = ($input.attr('class') === 'camera-va');
-                  break;
-                case 'audio':
-                  form[id].label = $this.find('label').text();
-                  $input = $this.find('input');
-                  form[id].required = $input.prop("required");
-                  break;
-                case 'gps':
-                  form[id].label = $this.find('label').text();
-                  $input = $this.find('input');
-                  form[id].required = $input.prop("required");
-                  form[id]["gps-background"] = html.find('input[name="gps-background"]').is(':checked');
-                  break;
-                case 'warning':
-                  form[id].label = $this.find('label').text();
-                  $input = $this.find('textarea');
-                  form[id].placeholder = $input.prop("placeholder");
-                  break;
-                case 'section':
-                  form[id].label = $this.find('h3').text();
-                  break;
-                case undefined:
-                  break;
-              }
-            });
-            return form;
-          },
-          getFilenameFromURL: function(path) {
-            return path.substring(path.length, path.lastIndexOf('/') + 1);
           }
         }, {});
       }();
@@ -5264,7 +4999,7 @@ $__System.registerDynamic("17", [], true, function($__require, exports, module) 
           __p += __j.call(arguments, '');
         };
     with (obj || {}) {
-      __p += '<fieldset class="fieldcontain fieldcontain-general"  data-type="' + ((__t = (type)) == null ? '' : __t) + '">\n  <legend>' + ((__t = (translate("general.field-title"))) == null ? '' : __t) + '</legend>\n  <label for="label">' + ((__t = (translate("general.label-title"))) == null ? '' : __t) + '</label>\n  <input type="text" name="label" value="' + ((__t = (title)) == null ? '' : __t) + '">\n  <div class="control-group">\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("point", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.point-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.point-label"))) == null ? '' : __t) + '</label>\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("line", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.line-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.line-label"))) == null ? '' : __t) + '</label>\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("polygon", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.polygon-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.polygon-label"))) == null ? '' : __t) + '</label>\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("box", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.box-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.box-label"))) == null ? '' : __t) + '</label>\n  </div>\n</fieldset>\n';
+      __p += '<fieldset class="fieldcontain-general"  data-type="' + ((__t = (type)) == null ? '' : __t) + '">\n  <legend>' + ((__t = (translate("general.field-title"))) == null ? '' : __t) + '</legend>\n  <label for="label">' + ((__t = (translate("general.label-title"))) == null ? '' : __t) + '</label>\n  <input type="text" name="label" value="' + ((__t = (title)) == null ? '' : __t) + '">\n  <div class="control-group">\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("point", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.point-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.point-label"))) == null ? '' : __t) + '</label>\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("line", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.line-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.line-label"))) == null ? '' : __t) + '</label>\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("polygon", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.polygon-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.polygon-label"))) == null ? '' : __t) + '</label>\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("box", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.box-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.box-label"))) == null ? '' : __t) + '</label>\n  </div>\n</fieldset>\n';
     }
     return __p;
   };
@@ -7326,7 +7061,7 @@ $__System.register("1a", ["3", "19", "1b", "1c", "17", "16", "15", "14", "13", "
       FieldGenerator = function() {
         function FieldGenerator(el) {
           this.el = el;
-          this.$el = $("." + el);
+          this.$el = $(el);
         }
         return ($traceurRuntime.createClass)(FieldGenerator, {
           render: function(data, element) {
@@ -7621,17 +7356,17 @@ $__System.register("1e", ["1a", "1f", "8", "1d", "7", "19", "5"], function($__ex
     execute: function() {
       Survey = function() {
         function Survey(options) {
-          this.$mainBodyEl = $("#" + options.element);
+          this.$mainBodyEl = $(options.element);
           this.title = options.title;
-          this.renderEl = "mobile-content";
+          this.renderEl = options.subElement;
           this.convertor = new Convertor();
           this.initialize();
           this.enableAutoSave();
         }
         return ($traceurRuntime.createClass)(Survey, {
           initialize: function() {
-            this.$mainBodyEl.html('<div class="mobile">' + '<div class="' + this.renderEl + '">' + '<button type="button" class="btn' + ' btn-default" id="form-save">' + i18n.t("menu.save") + '</button>' + '</div></div>' + '<div id="loader"><img src="app/styles/images/ajax-loader.gif"></div>');
-            $("." + this.renderEl).prev().append('<button type="button" class="btn' + ' btn-default" id="form-save">' + i18n.t("menu.save") + '</button>');
+            this.$mainBodyEl.html('<div class="mobile">' + '<div class="' + this.renderEl.substring(1) + '">' + '<button type="button" class="btn' + ' btn-default" id="form-save">' + i18n.t("menu.save") + '</button>' + '</div></div>' + '<div id="loader"><img src="app/styles/images/ajax-loader.gif"></div>');
+            $(this.renderEl).prev().append('<button type="button" class="btn' + ' btn-default" id="form-save">' + i18n.t("menu.save") + '</button>');
           },
           enableAutoSave: function() {
             var iFrequency = 60000;
@@ -8219,17 +7954,16 @@ $__System.register("1f", ["3", "8"], function($__export) {
           this.form = {};
         }
         return ($traceurRuntime.createClass)(Convertor, {
-          getForm: function(html) {
-            var $html = $(html);
+          getForm: function($html) {
             var c = this;
             var form = {};
-            form.title = $html.filter(".fieldcontain-general").find('input[name="label"]').val();
+            form.title = $html.find(".fieldcontain-general").find('input[name="label"]').val();
             form.geoms = [];
             form.fields = [];
             $html.find('input[name="geometryType"]:checked').each(function() {
               form.geoms.push($(this).val());
             });
-            $html.filter(".fieldcontain").each(function() {
+            $html.find(".fieldcontain").each(function() {
               var $this = $(this);
               var field = {
                 "id": $this.attr("id"),
@@ -8512,7 +8246,7 @@ $__System.register("1f", ["3", "8"], function($__export) {
                   $input = $field.find('input');
                   field = {
                     label: $field.find('label').text(),
-                    type: type,
+                    type: "image",
                     required: $input.attr('required') !== undefined,
                     persistent: false,
                     properties: {
@@ -8590,9 +8324,8 @@ $__System.register("1d", ["1f", "7"], function($__export) {
   var Convertor,
       DataStorage;
   function saveData(element) {
-    var formData = $("." + element).html();
     var convertor = new Convertor();
-    var formInJSON = convertor.getForm(formData);
+    var formInJSON = convertor.getForm($(element));
     var dataStorage = new DataStorage();
     var data = dataStorage.getData();
     if (data !== null) {}
@@ -10348,13 +10081,14 @@ $__System.register("22", ["23", "8", "1d", "1b", "1e", "4"], function($__export)
         return ($traceurRuntime.createClass)(SurveyView, {
           initialize: function() {
             this.cfg = cfg;
-            this.element = "content";
+            this.element = "#content";
+            this.subElement = ".mobile-content";
             this.render();
           },
           formSave: function() {
             $(document).off('click', '#form-save');
             $(document).on('click', '#form-save', $.proxy(function() {
-              var formInJSON = save.saveData(this.element);
+              var formInJSON = save.saveData(this.subElement);
               var htmlConvertor = new Convertor();
               var title = formInJSON.title;
               if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
@@ -10371,7 +10105,7 @@ $__System.register("22", ["23", "8", "1d", "1b", "1e", "4"], function($__export)
               var optionsForHTML = {
                 remoteDir: "editors",
                 path: encodeURIComponent(title) + ".edtr",
-                data: htmlConvertor.JSONToHTML(formInJSON)
+                data: htmlConvertor.JSONtoHTML(formInJSON).join("")
               };
               if (utils.getParams().public === 'true') {
                 optionsForHTML.urlParams = {'public': 'true'};
@@ -10412,7 +10146,10 @@ $__System.register("22", ["23", "8", "1d", "1b", "1e", "4"], function($__export)
               },
               detectLngQS: 'lang'
             }, $.proxy(function() {
-              this.survey = new Survey({"element": this.element});
+              this.survey = new Survey({
+                "element": this.element,
+                "subElement": this.subElement
+              });
               this.renderSurvey();
               this.formSave();
             }, this));
@@ -10603,6 +10340,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   }
 }(typeof window !== "undefined" ? window : this, function(window, noGlobal) {
   var arr = [];
+  var document = window.document;
   var slice = arr.slice;
   var concat = arr.concat;
   var push = arr.push;
@@ -10611,8 +10349,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   var toString = class2type.toString;
   var hasOwn = class2type.hasOwnProperty;
   var support = {};
-  var document = window.document,
-      version = "2.1.4",
+  var version = "2.2.0",
       jQuery = function(selector, context) {
         return new jQuery.fn.init(selector, context);
       },
@@ -10639,8 +10376,8 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       ret.context = this.context;
       return ret;
     },
-    each: function(callback, args) {
-      return jQuery.each(this, callback, args);
+    each: function(callback) {
+      return jQuery.each(this, callback);
     },
     map: function(callback) {
       return this.pushStack(jQuery.map(this, function(elem, i) {
@@ -10662,7 +10399,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       return this.pushStack(j >= 0 && j < len ? [this[j]] : []);
     },
     end: function() {
-      return this.prevObject || this.constructor(null);
+      return this.prevObject || this.constructor();
     },
     push: push,
     sort: arr.sort,
@@ -10730,7 +10467,8 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       return obj != null && obj === obj.window;
     },
     isNumeric: function(obj) {
-      return !jQuery.isArray(obj) && (obj - parseFloat(obj) + 1) >= 0;
+      var realStringObj = obj && obj.toString();
+      return !jQuery.isArray(obj) && (realStringObj - parseFloat(realStringObj) + 1) >= 0;
     },
     isPlainObject: function(obj) {
       if (jQuery.type(obj) !== "object" || obj.nodeType || jQuery.isWindow(obj)) {
@@ -10774,41 +10512,20 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     nodeName: function(elem, name) {
       return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
     },
-    each: function(obj, callback, args) {
-      var value,
-          i = 0,
-          length = obj.length,
-          isArray = isArraylike(obj);
-      if (args) {
-        if (isArray) {
-          for (; i < length; i++) {
-            value = callback.apply(obj[i], args);
-            if (value === false) {
-              break;
-            }
-          }
-        } else {
-          for (i in obj) {
-            value = callback.apply(obj[i], args);
-            if (value === false) {
-              break;
-            }
+    each: function(obj, callback) {
+      var length,
+          i = 0;
+      if (isArrayLike(obj)) {
+        length = obj.length;
+        for (; i < length; i++) {
+          if (callback.call(obj[i], i, obj[i]) === false) {
+            break;
           }
         }
       } else {
-        if (isArray) {
-          for (; i < length; i++) {
-            value = callback.call(obj[i], i, obj[i]);
-            if (value === false) {
-              break;
-            }
-          }
-        } else {
-          for (i in obj) {
-            value = callback.call(obj[i], i, obj[i]);
-            if (value === false) {
-              break;
-            }
+        for (i in obj) {
+          if (callback.call(obj[i], i, obj[i]) === false) {
+            break;
           }
         }
       }
@@ -10820,7 +10537,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     makeArray: function(arr, results) {
       var ret = results || [];
       if (arr != null) {
-        if (isArraylike(Object(arr))) {
+        if (isArrayLike(Object(arr))) {
           jQuery.merge(ret, typeof arr === "string" ? [arr] : arr);
         } else {
           push.call(ret, arr);
@@ -10856,12 +10573,12 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       return matches;
     },
     map: function(elems, callback, arg) {
-      var value,
+      var length,
+          value,
           i = 0,
-          length = elems.length,
-          isArray = isArraylike(elems),
           ret = [];
-      if (isArray) {
+      if (isArrayLike(elems)) {
+        length = elems.length;
         for (; i < length; i++) {
           value = callback(elems[i], i, arg);
           if (value != null) {
@@ -10901,17 +10618,17 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     now: Date.now,
     support: support
   });
-  jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name) {
+  if (typeof Symbol === "function") {
+    jQuery.fn[Symbol.iterator] = arr[Symbol.iterator];
+  }
+  jQuery.each("Boolean Number String Function Array Date RegExp Object Error Symbol".split(" "), function(i, name) {
     class2type["[object " + name + "]"] = name.toLowerCase();
   });
-  function isArraylike(obj) {
-    var length = "length" in obj && obj.length,
+  function isArrayLike(obj) {
+    var length = !!obj && "length" in obj && obj.length,
         type = jQuery.type(obj);
     if (type === "function" || jQuery.isWindow(obj)) {
       return false;
-    }
-    if (obj.nodeType === 1 && length) {
-      return true;
     }
     return type === "array" || length === 0 || typeof length === "number" && length > 0 && (length - 1) in obj;
   }
@@ -10967,10 +10684,9 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         },
         booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped",
         whitespace = "[\\x20\\t\\r\\n\\f]",
-        characterEncoding = "(?:\\\\.|[\\w-]|[^\\x00-\\xa0])+",
-        identifier = characterEncoding.replace("w", "w#"),
-        attributes = "\\[" + whitespace + "*(" + characterEncoding + ")(?:" + whitespace + "*([*^$|!~]?=)" + whitespace + "*(?:'((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\"|(" + identifier + "))|)" + whitespace + "*\\]",
-        pseudos = ":(" + characterEncoding + ")(?:\\((" + "('((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\")|" + "((?:\\\\.|[^\\\\()[\\]]|" + attributes + ")*)|" + ".*" + ")\\)|)",
+        identifier = "(?:\\\\.|[\\w-]|[^\\x00-\\xa0])+",
+        attributes = "\\[" + whitespace + "*(" + identifier + ")(?:" + whitespace + "*([*^$|!~]?=)" + whitespace + "*(?:'((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\"|(" + identifier + "))|)" + whitespace + "*\\]",
+        pseudos = ":(" + identifier + ")(?:\\((" + "('((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\")|" + "((?:\\\\.|[^\\\\()[\\]]|" + attributes + ")*)|" + ".*" + ")\\)|)",
         rwhitespace = new RegExp(whitespace + "+", "g"),
         rtrim = new RegExp("^" + whitespace + "+|((?:^|[^\\\\])(?:\\\\.)*)" + whitespace + "+$", "g"),
         rcomma = new RegExp("^" + whitespace + "*," + whitespace + "*"),
@@ -10979,9 +10695,9 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         rpseudo = new RegExp(pseudos),
         ridentifier = new RegExp("^" + identifier + "$"),
         matchExpr = {
-          "ID": new RegExp("^#(" + characterEncoding + ")"),
-          "CLASS": new RegExp("^\\.(" + characterEncoding + ")"),
-          "TAG": new RegExp("^(" + characterEncoding.replace("w", "w*") + ")"),
+          "ID": new RegExp("^#(" + identifier + ")"),
+          "CLASS": new RegExp("^\\.(" + identifier + ")"),
+          "TAG": new RegExp("^(" + identifier + "|[*])"),
           "ATTR": new RegExp("^" + attributes),
           "PSEUDO": new RegExp("^" + pseudos),
           "CHILD": new RegExp("^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\(" + whitespace + "*(even|odd|(([+-]|)(\\d*)n|)" + whitespace + "*(?:([+-]|)" + whitespace + "*(\\d+)|))" + whitespace + "*\\)|)", "i"),
@@ -11016,78 +10732,78 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         }};
     }
     function Sizzle(selector, context, results, seed) {
-      var match,
-          elem,
-          m,
-          nodeType,
+      var m,
           i,
-          groups,
-          old,
+          elem,
           nid,
-          newContext,
-          newSelector;
-      if ((context ? context.ownerDocument || context : preferredDoc) !== document) {
-        setDocument(context);
-      }
-      context = context || document;
+          nidselect,
+          match,
+          groups,
+          newSelector,
+          newContext = context && context.ownerDocument,
+          nodeType = context ? context.nodeType : 9;
       results = results || [];
-      nodeType = context.nodeType;
       if (typeof selector !== "string" || !selector || nodeType !== 1 && nodeType !== 9 && nodeType !== 11) {
         return results;
       }
-      if (!seed && documentIsHTML) {
-        if (nodeType !== 11 && (match = rquickExpr.exec(selector))) {
-          if ((m = match[1])) {
-            if (nodeType === 9) {
-              elem = context.getElementById(m);
-              if (elem && elem.parentNode) {
-                if (elem.id === m) {
-                  results.push(elem);
+      if (!seed) {
+        if ((context ? context.ownerDocument || context : preferredDoc) !== document) {
+          setDocument(context);
+        }
+        context = context || document;
+        if (documentIsHTML) {
+          if (nodeType !== 11 && (match = rquickExpr.exec(selector))) {
+            if ((m = match[1])) {
+              if (nodeType === 9) {
+                if ((elem = context.getElementById(m))) {
+                  if (elem.id === m) {
+                    results.push(elem);
+                    return results;
+                  }
+                } else {
                   return results;
                 }
               } else {
-                return results;
+                if (newContext && (elem = newContext.getElementById(m)) && contains(context, elem) && elem.id === m) {
+                  results.push(elem);
+                  return results;
+                }
               }
-            } else {
-              if (context.ownerDocument && (elem = context.ownerDocument.getElementById(m)) && contains(context, elem) && elem.id === m) {
-                results.push(elem);
-                return results;
-              }
-            }
-          } else if (match[2]) {
-            push.apply(results, context.getElementsByTagName(selector));
-            return results;
-          } else if ((m = match[3]) && support.getElementsByClassName) {
-            push.apply(results, context.getElementsByClassName(m));
-            return results;
-          }
-        }
-        if (support.qsa && (!rbuggyQSA || !rbuggyQSA.test(selector))) {
-          nid = old = expando;
-          newContext = context;
-          newSelector = nodeType !== 1 && selector;
-          if (nodeType === 1 && context.nodeName.toLowerCase() !== "object") {
-            groups = tokenize(selector);
-            if ((old = context.getAttribute("id"))) {
-              nid = old.replace(rescape, "\\$&");
-            } else {
-              context.setAttribute("id", nid);
-            }
-            nid = "[id='" + nid + "'] ";
-            i = groups.length;
-            while (i--) {
-              groups[i] = nid + toSelector(groups[i]);
-            }
-            newContext = rsibling.test(selector) && testContext(context.parentNode) || context;
-            newSelector = groups.join(",");
-          }
-          if (newSelector) {
-            try {
-              push.apply(results, newContext.querySelectorAll(newSelector));
+            } else if (match[2]) {
+              push.apply(results, context.getElementsByTagName(selector));
               return results;
-            } catch (qsaError) {} finally {
-              if (!old) {
-                context.removeAttribute("id");
+            } else if ((m = match[3]) && support.getElementsByClassName && context.getElementsByClassName) {
+              push.apply(results, context.getElementsByClassName(m));
+              return results;
+            }
+          }
+          if (support.qsa && !compilerCache[selector + " "] && (!rbuggyQSA || !rbuggyQSA.test(selector))) {
+            if (nodeType !== 1) {
+              newContext = context;
+              newSelector = selector;
+            } else if (context.nodeName.toLowerCase() !== "object") {
+              if ((nid = context.getAttribute("id"))) {
+                nid = nid.replace(rescape, "\\$&");
+              } else {
+                context.setAttribute("id", (nid = expando));
+              }
+              groups = tokenize(selector);
+              i = groups.length;
+              nidselect = ridentifier.test(nid) ? "#" + nid : "[id='" + nid + "']";
+              while (i--) {
+                groups[i] = nidselect + " " + toSelector(groups[i]);
+              }
+              newSelector = groups.join(",");
+              newContext = rsibling.test(selector) && testContext(context.parentNode) || context;
+            }
+            if (newSelector) {
+              try {
+                push.apply(results, newContext.querySelectorAll(newSelector));
+                return results;
+              } catch (qsaError) {} finally {
+                if (nid === expando) {
+                  context.removeAttribute("id");
+                }
               }
             }
           }
@@ -11124,7 +10840,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     }
     function addHandle(attrs, handler) {
       var arr = attrs.split("|"),
-          i = attrs.length;
+          i = arr.length;
       while (i--) {
         Expr.attrHandle[arr[i]] = handler;
       }
@@ -11187,34 +10903,33 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         return document;
       }
       document = doc;
-      docElem = doc.documentElement;
-      parent = doc.defaultView;
-      if (parent && parent !== parent.top) {
+      docElem = document.documentElement;
+      documentIsHTML = !isXML(document);
+      if ((parent = document.defaultView) && parent.top !== parent) {
         if (parent.addEventListener) {
           parent.addEventListener("unload", unloadHandler, false);
         } else if (parent.attachEvent) {
           parent.attachEvent("onunload", unloadHandler);
         }
       }
-      documentIsHTML = !isXML(doc);
       support.attributes = assert(function(div) {
         div.className = "i";
         return !div.getAttribute("className");
       });
       support.getElementsByTagName = assert(function(div) {
-        div.appendChild(doc.createComment(""));
+        div.appendChild(document.createComment(""));
         return !div.getElementsByTagName("*").length;
       });
-      support.getElementsByClassName = rnative.test(doc.getElementsByClassName);
+      support.getElementsByClassName = rnative.test(document.getElementsByClassName);
       support.getById = assert(function(div) {
         docElem.appendChild(div).id = expando;
-        return !doc.getElementsByName || !doc.getElementsByName(expando).length;
+        return !document.getElementsByName || !document.getElementsByName(expando).length;
       });
       if (support.getById) {
         Expr.find["ID"] = function(id, context) {
           if (typeof context.getElementById !== "undefined" && documentIsHTML) {
             var m = context.getElementById(id);
-            return m && m.parentNode ? [m] : [];
+            return m ? [m] : [];
           }
         };
         Expr.filter["ID"] = function(id) {
@@ -11255,15 +10970,15 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         return results;
       };
       Expr.find["CLASS"] = support.getElementsByClassName && function(className, context) {
-        if (documentIsHTML) {
+        if (typeof context.getElementsByClassName !== "undefined" && documentIsHTML) {
           return context.getElementsByClassName(className);
         }
       };
       rbuggyMatches = [];
       rbuggyQSA = [];
-      if ((support.qsa = rnative.test(doc.querySelectorAll))) {
+      if ((support.qsa = rnative.test(document.querySelectorAll))) {
         assert(function(div) {
-          docElem.appendChild(div).innerHTML = "<a id='" + expando + "'></a>" + "<select id='" + expando + "-\f]' msallowcapture=''>" + "<option selected=''></option></select>";
+          docElem.appendChild(div).innerHTML = "<a id='" + expando + "'></a>" + "<select id='" + expando + "-\r\\' msallowcapture=''>" + "<option selected=''></option></select>";
           if (div.querySelectorAll("[msallowcapture^='']").length) {
             rbuggyQSA.push("[*^$]=" + whitespace + "*(?:''|\"\")");
           }
@@ -11281,7 +10996,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           }
         });
         assert(function(div) {
-          var input = doc.createElement("input");
+          var input = document.createElement("input");
           input.setAttribute("type", "hidden");
           div.appendChild(input).setAttribute("name", "D");
           if (div.querySelectorAll("[name=d]").length) {
@@ -11329,10 +11044,10 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         }
         compare = (a.ownerDocument || a) === (b.ownerDocument || b) ? a.compareDocumentPosition(b) : 1;
         if (compare & 1 || (!support.sortDetached && b.compareDocumentPosition(a) === compare)) {
-          if (a === doc || a.ownerDocument === preferredDoc && contains(preferredDoc, a)) {
+          if (a === document || a.ownerDocument === preferredDoc && contains(preferredDoc, a)) {
             return -1;
           }
-          if (b === doc || b.ownerDocument === preferredDoc && contains(preferredDoc, b)) {
+          if (b === document || b.ownerDocument === preferredDoc && contains(preferredDoc, b)) {
             return 1;
           }
           return sortInput ? (indexOf(sortInput, a) - indexOf(sortInput, b)) : 0;
@@ -11350,7 +11065,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
             ap = [a],
             bp = [b];
         if (!aup || !bup) {
-          return a === doc ? -1 : b === doc ? 1 : aup ? -1 : bup ? 1 : sortInput ? (indexOf(sortInput, a) - indexOf(sortInput, b)) : 0;
+          return a === document ? -1 : b === document ? 1 : aup ? -1 : bup ? 1 : sortInput ? (indexOf(sortInput, a) - indexOf(sortInput, b)) : 0;
         } else if (aup === bup) {
           return siblingCheck(a, b);
         }
@@ -11367,7 +11082,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         }
         return i ? siblingCheck(ap[i], bp[i]) : ap[i] === preferredDoc ? -1 : bp[i] === preferredDoc ? 1 : 0;
       };
-      return doc;
+      return document;
     };
     Sizzle.matches = function(expr, elements) {
       return Sizzle(expr, null, null, elements);
@@ -11377,7 +11092,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         setDocument(elem);
       }
       expr = expr.replace(rattributeQuotes, "='$1']");
-      if (support.matchesSelector && documentIsHTML && (!rbuggyMatches || !rbuggyMatches.test(expr)) && (!rbuggyQSA || !rbuggyQSA.test(expr))) {
+      if (support.matchesSelector && documentIsHTML && !compilerCache[expr + " "] && (!rbuggyMatches || !rbuggyMatches.test(expr)) && (!rbuggyQSA || !rbuggyQSA.test(expr))) {
         try {
           var ret = matches.call(elem, expr);
           if (ret || support.disconnectedMatch || elem.document && elem.document.nodeType !== 11) {
@@ -11538,15 +11253,16 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
             return !!elem.parentNode;
           } : function(elem, context, xml) {
             var cache,
+                uniqueCache,
                 outerCache,
                 node,
-                diff,
                 nodeIndex,
                 start,
                 dir = simple !== forward ? "nextSibling" : "previousSibling",
                 parent = elem.parentNode,
                 name = ofType && elem.nodeName.toLowerCase(),
-                useCache = !xml && !ofType;
+                useCache = !xml && !ofType,
+                diff = false;
             if (parent) {
               if (simple) {
                 while (dir) {
@@ -11562,27 +11278,39 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
               }
               start = [forward ? parent.firstChild : parent.lastChild];
               if (forward && useCache) {
-                outerCache = parent[expando] || (parent[expando] = {});
-                cache = outerCache[type] || [];
+                node = parent;
+                outerCache = node[expando] || (node[expando] = {});
+                uniqueCache = outerCache[node.uniqueID] || (outerCache[node.uniqueID] = {});
+                cache = uniqueCache[type] || [];
                 nodeIndex = cache[0] === dirruns && cache[1];
-                diff = cache[0] === dirruns && cache[2];
+                diff = nodeIndex && cache[2];
                 node = nodeIndex && parent.childNodes[nodeIndex];
                 while ((node = ++nodeIndex && node && node[dir] || (diff = nodeIndex = 0) || start.pop())) {
                   if (node.nodeType === 1 && ++diff && node === elem) {
-                    outerCache[type] = [dirruns, nodeIndex, diff];
+                    uniqueCache[type] = [dirruns, nodeIndex, diff];
                     break;
                   }
                 }
-              } else if (useCache && (cache = (elem[expando] || (elem[expando] = {}))[type]) && cache[0] === dirruns) {
-                diff = cache[1];
               } else {
-                while ((node = ++nodeIndex && node && node[dir] || (diff = nodeIndex = 0) || start.pop())) {
-                  if ((ofType ? node.nodeName.toLowerCase() === name : node.nodeType === 1) && ++diff) {
-                    if (useCache) {
-                      (node[expando] || (node[expando] = {}))[type] = [dirruns, diff];
-                    }
-                    if (node === elem) {
-                      break;
+                if (useCache) {
+                  node = elem;
+                  outerCache = node[expando] || (node[expando] = {});
+                  uniqueCache = outerCache[node.uniqueID] || (outerCache[node.uniqueID] = {});
+                  cache = uniqueCache[type] || [];
+                  nodeIndex = cache[0] === dirruns && cache[1];
+                  diff = nodeIndex;
+                }
+                if (diff === false) {
+                  while ((node = ++nodeIndex && node && node[dir] || (diff = nodeIndex = 0) || start.pop())) {
+                    if ((ofType ? node.nodeName.toLowerCase() === name : node.nodeType === 1) && ++diff) {
+                      if (useCache) {
+                        outerCache = node[expando] || (node[expando] = {});
+                        uniqueCache = outerCache[node.uniqueID] || (outerCache[node.uniqueID] = {});
+                        uniqueCache[type] = [dirruns, diff];
+                      }
+                      if (node === elem) {
+                        break;
+                      }
                     }
                   }
                 }
@@ -11841,6 +11569,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         }
       } : function(elem, context, xml) {
         var oldCache,
+            uniqueCache,
             outerCache,
             newCache = [dirruns, doneName];
         if (xml) {
@@ -11855,10 +11584,11 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           while ((elem = elem[dir])) {
             if (elem.nodeType === 1 || checkNonElements) {
               outerCache = elem[expando] || (elem[expando] = {});
-              if ((oldCache = outerCache[dir]) && oldCache[0] === dirruns && oldCache[1] === doneName) {
+              uniqueCache = outerCache[elem.uniqueID] || (outerCache[elem.uniqueID] = {});
+              if ((oldCache = uniqueCache[dir]) && oldCache[0] === dirruns && oldCache[1] === doneName) {
                 return (newCache[2] = oldCache[2]);
               } else {
-                outerCache[dir] = newCache;
+                uniqueCache[dir] = newCache;
                 if ((newCache[2] = matcher(elem, context, xml))) {
                   return true;
                 }
@@ -12018,13 +11748,17 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
                 dirrunsUnique = (dirruns += contextBackup == null ? 1 : Math.random() || 0.1),
                 len = elems.length;
             if (outermost) {
-              outermostContext = context !== document && context;
+              outermostContext = context === document || context || outermost;
             }
             for (; i !== len && (elem = elems[i]) != null; i++) {
               if (byElement && elem) {
                 j = 0;
+                if (!context && elem.ownerDocument !== document) {
+                  setDocument(elem);
+                  xml = !documentIsHTML;
+                }
                 while ((matcher = elementMatchers[j++])) {
-                  if (matcher(elem, context, xml)) {
+                  if (matcher(elem, context || document, xml)) {
                     results.push(elem);
                     break;
                   }
@@ -12133,7 +11867,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           }
         }
       }
-      (compiled || compile(selector, match))(seed, context, !documentIsHTML, results, rsibling.test(selector) && testContext(context.parentNode) || context);
+      (compiled || compile(selector, match))(seed, context, !documentIsHTML, results, !context || rsibling.test(selector) && testContext(context.parentNode) || context);
       return results;
     };
     support.sortStable = expando.split("").sort(sortOrder).join("") === expando;
@@ -12178,12 +11912,34 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   jQuery.find = Sizzle;
   jQuery.expr = Sizzle.selectors;
   jQuery.expr[":"] = jQuery.expr.pseudos;
-  jQuery.unique = Sizzle.uniqueSort;
+  jQuery.uniqueSort = jQuery.unique = Sizzle.uniqueSort;
   jQuery.text = Sizzle.getText;
   jQuery.isXMLDoc = Sizzle.isXML;
   jQuery.contains = Sizzle.contains;
+  var dir = function(elem, dir, until) {
+    var matched = [],
+        truncate = until !== undefined;
+    while ((elem = elem[dir]) && elem.nodeType !== 9) {
+      if (elem.nodeType === 1) {
+        if (truncate && jQuery(elem).is(until)) {
+          break;
+        }
+        matched.push(elem);
+      }
+    }
+    return matched;
+  };
+  var siblings = function(n, elem) {
+    var matched = [];
+    for (; n; n = n.nextSibling) {
+      if (n.nodeType === 1 && n !== elem) {
+        matched.push(n);
+      }
+    }
+    return matched;
+  };
   var rneedsContext = jQuery.expr.match.needsContext;
-  var rsingleTag = (/^<(\w+)\s*\/?>(?:<\/\1>|)$/);
+  var rsingleTag = (/^<([\w-]+)\s*\/?>(?:<\/\1>|)$/);
   var risSimple = /^.[^:#\[\.,]*$/;
   function winnow(elements, qualifier, not) {
     if (jQuery.isFunction(qualifier)) {
@@ -12203,7 +11959,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       qualifier = jQuery.filter(qualifier, elements);
     }
     return jQuery.grep(elements, function(elem) {
-      return (indexOf.call(qualifier, elem) >= 0) !== not;
+      return (indexOf.call(qualifier, elem) > -1) !== not;
     });
   }
   jQuery.filter = function(expr, elems, not) {
@@ -12249,12 +12005,13 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   });
   var rootjQuery,
       rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/,
-      init = jQuery.fn.init = function(selector, context) {
+      init = jQuery.fn.init = function(selector, context, root) {
         var match,
             elem;
         if (!selector) {
           return this;
         }
+        root = root || rootjQuery;
         if (typeof selector === "string") {
           if (selector[0] === "<" && selector[selector.length - 1] === ">" && selector.length >= 3) {
             match = [null, selector, null];
@@ -12286,7 +12043,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
               return this;
             }
           } else if (!context || context.jquery) {
-            return (context || rootjQuery).find(selector);
+            return (context || root).find(selector);
           } else {
             return this.constructor(context).find(selector);
           }
@@ -12295,7 +12052,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           this.length = 1;
           return this;
         } else if (jQuery.isFunction(selector)) {
-          return typeof rootjQuery.ready !== "undefined" ? rootjQuery.ready(selector) : selector(jQuery);
+          return root.ready !== undefined ? root.ready(selector) : selector(jQuery);
         }
         if (selector.selector !== undefined) {
           this.selector = selector.selector;
@@ -12312,30 +12069,6 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         next: true,
         prev: true
       };
-  jQuery.extend({
-    dir: function(elem, dir, until) {
-      var matched = [],
-          truncate = until !== undefined;
-      while ((elem = elem[dir]) && elem.nodeType !== 9) {
-        if (elem.nodeType === 1) {
-          if (truncate && jQuery(elem).is(until)) {
-            break;
-          }
-          matched.push(elem);
-        }
-      }
-      return matched;
-    },
-    sibling: function(n, elem) {
-      var matched = [];
-      for (; n; n = n.nextSibling) {
-        if (n.nodeType === 1 && n !== elem) {
-          matched.push(n);
-        }
-      }
-      return matched;
-    }
-  });
   jQuery.fn.extend({
     has: function(target) {
       var targets = jQuery(target, this),
@@ -12363,7 +12096,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           }
         }
       }
-      return this.pushStack(matched.length > 1 ? jQuery.unique(matched) : matched);
+      return this.pushStack(matched.length > 1 ? jQuery.uniqueSort(matched) : matched);
     },
     index: function(elem) {
       if (!elem) {
@@ -12375,7 +12108,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       return indexOf.call(this, elem.jquery ? elem[0] : elem);
     },
     add: function(selector, context) {
-      return this.pushStack(jQuery.unique(jQuery.merge(this.get(), jQuery(selector, context))));
+      return this.pushStack(jQuery.uniqueSort(jQuery.merge(this.get(), jQuery(selector, context))));
     },
     addBack: function(selector) {
       return this.add(selector == null ? this.prevObject : this.prevObject.filter(selector));
@@ -12391,10 +12124,10 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       return parent && parent.nodeType !== 11 ? parent : null;
     },
     parents: function(elem) {
-      return jQuery.dir(elem, "parentNode");
+      return dir(elem, "parentNode");
     },
     parentsUntil: function(elem, i, until) {
-      return jQuery.dir(elem, "parentNode", until);
+      return dir(elem, "parentNode", until);
     },
     next: function(elem) {
       return sibling(elem, "nextSibling");
@@ -12403,22 +12136,22 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       return sibling(elem, "previousSibling");
     },
     nextAll: function(elem) {
-      return jQuery.dir(elem, "nextSibling");
+      return dir(elem, "nextSibling");
     },
     prevAll: function(elem) {
-      return jQuery.dir(elem, "previousSibling");
+      return dir(elem, "previousSibling");
     },
     nextUntil: function(elem, i, until) {
-      return jQuery.dir(elem, "nextSibling", until);
+      return dir(elem, "nextSibling", until);
     },
     prevUntil: function(elem, i, until) {
-      return jQuery.dir(elem, "previousSibling", until);
+      return dir(elem, "previousSibling", until);
     },
     siblings: function(elem) {
-      return jQuery.sibling((elem.parentNode || {}).firstChild, elem);
+      return siblings((elem.parentNode || {}).firstChild, elem);
     },
     children: function(elem) {
-      return jQuery.sibling(elem.firstChild);
+      return siblings(elem.firstChild);
     },
     contents: function(elem) {
       return elem.contentDocument || jQuery.merge([], elem.childNodes);
@@ -12434,7 +12167,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       }
       if (this.length > 1) {
         if (!guaranteedUnique[name]) {
-          jQuery.unique(matched);
+          jQuery.uniqueSort(matched);
         }
         if (rparentsprev.test(name)) {
           matched.reverse();
@@ -12444,127 +12177,116 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     };
   });
   var rnotwhite = (/\S+/g);
-  var optionsCache = {};
   function createOptions(options) {
-    var object = optionsCache[options] = {};
+    var object = {};
     jQuery.each(options.match(rnotwhite) || [], function(_, flag) {
       object[flag] = true;
     });
     return object;
   }
   jQuery.Callbacks = function(options) {
-    options = typeof options === "string" ? (optionsCache[options] || createOptions(options)) : jQuery.extend({}, options);
-    var memory,
+    options = typeof options === "string" ? createOptions(options) : jQuery.extend({}, options);
+    var firing,
+        memory,
         fired,
-        firing,
-        firingStart,
-        firingLength,
-        firingIndex,
+        locked,
         list = [],
-        stack = !options.once && [],
-        fire = function(data) {
-          memory = options.memory && data;
-          fired = true;
-          firingIndex = firingStart || 0;
-          firingStart = 0;
-          firingLength = list.length;
-          firing = true;
-          for (; list && firingIndex < firingLength; firingIndex++) {
-            if (list[firingIndex].apply(data[0], data[1]) === false && options.stopOnFalse) {
-              memory = false;
-              break;
+        queue = [],
+        firingIndex = -1,
+        fire = function() {
+          locked = options.once;
+          fired = firing = true;
+          for (; queue.length; firingIndex = -1) {
+            memory = queue.shift();
+            while (++firingIndex < list.length) {
+              if (list[firingIndex].apply(memory[0], memory[1]) === false && options.stopOnFalse) {
+                firingIndex = list.length;
+                memory = false;
+              }
             }
           }
+          if (!options.memory) {
+            memory = false;
+          }
           firing = false;
-          if (list) {
-            if (stack) {
-              if (stack.length) {
-                fire(stack.shift());
-              }
-            } else if (memory) {
+          if (locked) {
+            if (memory) {
               list = [];
             } else {
-              self.disable();
+              list = "";
             }
           }
         },
         self = {
           add: function() {
             if (list) {
-              var start = list.length;
+              if (memory && !firing) {
+                firingIndex = list.length - 1;
+                queue.push(memory);
+              }
               (function add(args) {
                 jQuery.each(args, function(_, arg) {
-                  var type = jQuery.type(arg);
-                  if (type === "function") {
+                  if (jQuery.isFunction(arg)) {
                     if (!options.unique || !self.has(arg)) {
                       list.push(arg);
                     }
-                  } else if (arg && arg.length && type !== "string") {
+                  } else if (arg && arg.length && jQuery.type(arg) !== "string") {
                     add(arg);
                   }
                 });
               })(arguments);
-              if (firing) {
-                firingLength = list.length;
-              } else if (memory) {
-                firingStart = start;
-                fire(memory);
+              if (memory && !firing) {
+                fire();
               }
             }
             return this;
           },
           remove: function() {
-            if (list) {
-              jQuery.each(arguments, function(_, arg) {
-                var index;
-                while ((index = jQuery.inArray(arg, list, index)) > -1) {
-                  list.splice(index, 1);
-                  if (firing) {
-                    if (index <= firingLength) {
-                      firingLength--;
-                    }
-                    if (index <= firingIndex) {
-                      firingIndex--;
-                    }
-                  }
+            jQuery.each(arguments, function(_, arg) {
+              var index;
+              while ((index = jQuery.inArray(arg, list, index)) > -1) {
+                list.splice(index, 1);
+                if (index <= firingIndex) {
+                  firingIndex--;
                 }
-              });
-            }
+              }
+            });
             return this;
           },
           has: function(fn) {
-            return fn ? jQuery.inArray(fn, list) > -1 : !!(list && list.length);
+            return fn ? jQuery.inArray(fn, list) > -1 : list.length > 0;
           },
           empty: function() {
-            list = [];
-            firingLength = 0;
+            if (list) {
+              list = [];
+            }
             return this;
           },
           disable: function() {
-            list = stack = memory = undefined;
+            locked = queue = [];
+            list = memory = "";
             return this;
           },
           disabled: function() {
             return !list;
           },
           lock: function() {
-            stack = undefined;
+            locked = queue = [];
             if (!memory) {
-              self.disable();
+              list = memory = "";
             }
             return this;
           },
           locked: function() {
-            return !stack;
+            return !!locked;
           },
           fireWith: function(context, args) {
-            if (list && (!fired || stack)) {
+            if (!locked) {
               args = args || [];
               args = [context, args.slice ? args.slice() : args];
-              if (firing) {
-                stack.push(args);
-              } else {
-                fire(args);
+              queue.push(args);
+              if (!firing) {
+                fire();
               }
             }
             return this;
@@ -12599,7 +12321,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
                   deferred[tuple[1]](function() {
                     var returned = fn && fn.apply(this, arguments);
                     if (returned && jQuery.isFunction(returned.promise)) {
-                      returned.promise().done(newDefer.resolve).fail(newDefer.reject).progress(newDefer.notify);
+                      returned.promise().progress(newDefer.notify).done(newDefer.resolve).fail(newDefer.reject);
                     } else {
                       newDefer[tuple[0] + "With"](this === promise ? newDefer.promise() : this, fn ? [returned] : arguments);
                     }
@@ -12661,7 +12383,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         resolveContexts = new Array(length);
         for (; i < length; i++) {
           if (resolveValues[i] && jQuery.isFunction(resolveValues[i].promise)) {
-            resolveValues[i].promise().done(updateFunc(i, resolveContexts, resolveValues)).fail(deferred.reject).progress(updateFunc(i, progressContexts, progressValues));
+            resolveValues[i].promise().progress(updateFunc(i, progressContexts, progressValues)).done(updateFunc(i, resolveContexts, resolveValues)).fail(deferred.reject);
           } else {
             --remaining;
           }
@@ -12704,31 +12426,31 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     }
   });
   function completed() {
-    document.removeEventListener("DOMContentLoaded", completed, false);
-    window.removeEventListener("load", completed, false);
+    document.removeEventListener("DOMContentLoaded", completed);
+    window.removeEventListener("load", completed);
     jQuery.ready();
   }
   jQuery.ready.promise = function(obj) {
     if (!readyList) {
       readyList = jQuery.Deferred();
-      if (document.readyState === "complete") {
-        setTimeout(jQuery.ready);
+      if (document.readyState === "complete" || (document.readyState !== "loading" && !document.documentElement.doScroll)) {
+        window.setTimeout(jQuery.ready);
       } else {
-        document.addEventListener("DOMContentLoaded", completed, false);
-        window.addEventListener("load", completed, false);
+        document.addEventListener("DOMContentLoaded", completed);
+        window.addEventListener("load", completed);
       }
     }
     return readyList.promise(obj);
   };
   jQuery.ready.promise();
-  var access = jQuery.access = function(elems, fn, key, value, chainable, emptyGet, raw) {
+  var access = function(elems, fn, key, value, chainable, emptyGet, raw) {
     var i = 0,
         len = elems.length,
         bulk = key == null;
     if (jQuery.type(key) === "object") {
       chainable = true;
       for (i in key) {
-        jQuery.access(elems, fn, i, key[i], true, emptyGet, raw);
+        access(elems, fn, i, key[i], true, emptyGet, raw);
       }
     } else if (value !== undefined) {
       chainable = true;
@@ -12754,59 +12476,61 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     }
     return chainable ? elems : bulk ? fn.call(elems) : len ? fn(elems[0], key) : emptyGet;
   };
-  jQuery.acceptData = function(owner) {
+  var acceptData = function(owner) {
     return owner.nodeType === 1 || owner.nodeType === 9 || !(+owner.nodeType);
   };
   function Data() {
-    Object.defineProperty(this.cache = {}, 0, {get: function() {
-        return {};
-      }});
     this.expando = jQuery.expando + Data.uid++;
   }
   Data.uid = 1;
-  Data.accepts = jQuery.acceptData;
   Data.prototype = {
-    key: function(owner) {
-      if (!Data.accepts(owner)) {
-        return 0;
+    register: function(owner, initial) {
+      var value = initial || {};
+      if (owner.nodeType) {
+        owner[this.expando] = value;
+      } else {
+        Object.defineProperty(owner, this.expando, {
+          value: value,
+          writable: true,
+          configurable: true
+        });
       }
-      var descriptor = {},
-          unlock = owner[this.expando];
-      if (!unlock) {
-        unlock = Data.uid++;
-        try {
-          descriptor[this.expando] = {value: unlock};
-          Object.defineProperties(owner, descriptor);
-        } catch (e) {
-          descriptor[this.expando] = unlock;
-          jQuery.extend(owner, descriptor);
+      return owner[this.expando];
+    },
+    cache: function(owner) {
+      if (!acceptData(owner)) {
+        return {};
+      }
+      var value = owner[this.expando];
+      if (!value) {
+        value = {};
+        if (acceptData(owner)) {
+          if (owner.nodeType) {
+            owner[this.expando] = value;
+          } else {
+            Object.defineProperty(owner, this.expando, {
+              value: value,
+              configurable: true
+            });
+          }
         }
       }
-      if (!this.cache[unlock]) {
-        this.cache[unlock] = {};
-      }
-      return unlock;
+      return value;
     },
     set: function(owner, data, value) {
       var prop,
-          unlock = this.key(owner),
-          cache = this.cache[unlock];
+          cache = this.cache(owner);
       if (typeof data === "string") {
         cache[data] = value;
       } else {
-        if (jQuery.isEmptyObject(cache)) {
-          jQuery.extend(this.cache[unlock], data);
-        } else {
-          for (prop in data) {
-            cache[prop] = data[prop];
-          }
+        for (prop in data) {
+          cache[prop] = data[prop];
         }
       }
       return cache;
     },
     get: function(owner, key) {
-      var cache = this.cache[this.key(owner)];
-      return key === undefined ? cache : cache[key];
+      return key === undefined ? this.cache(owner) : owner[this.expando] && owner[this.expando][key];
     },
     access: function(owner, key, value) {
       var stored;
@@ -12821,10 +12545,12 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       var i,
           name,
           camel,
-          unlock = this.key(owner),
-          cache = this.cache[unlock];
+          cache = owner[this.expando];
+      if (cache === undefined) {
+        return;
+      }
       if (key === undefined) {
-        this.cache[unlock] = {};
+        this.register(owner);
       } else {
         if (jQuery.isArray(key)) {
           name = key.concat(key.map(jQuery.camelCase));
@@ -12842,30 +12568,33 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           delete cache[name[i]];
         }
       }
+      if (key === undefined || jQuery.isEmptyObject(cache)) {
+        if (owner.nodeType) {
+          owner[this.expando] = undefined;
+        } else {
+          delete owner[this.expando];
+        }
+      }
     },
     hasData: function(owner) {
-      return !jQuery.isEmptyObject(this.cache[owner[this.expando]] || {});
-    },
-    discard: function(owner) {
-      if (owner[this.expando]) {
-        delete this.cache[owner[this.expando]];
-      }
+      var cache = owner[this.expando];
+      return cache !== undefined && !jQuery.isEmptyObject(cache);
     }
   };
-  var data_priv = new Data();
-  var data_user = new Data();
+  var dataPriv = new Data();
+  var dataUser = new Data();
   var rbrace = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,
-      rmultiDash = /([A-Z])/g;
+      rmultiDash = /[A-Z]/g;
   function dataAttr(elem, key, data) {
     var name;
     if (data === undefined && elem.nodeType === 1) {
-      name = "data-" + key.replace(rmultiDash, "-$1").toLowerCase();
+      name = "data-" + key.replace(rmultiDash, "-$&").toLowerCase();
       data = elem.getAttribute(name);
       if (typeof data === "string") {
         try {
           data = data === "true" ? true : data === "false" ? false : data === "null" ? null : +data + "" === data ? +data : rbrace.test(data) ? jQuery.parseJSON(data) : data;
         } catch (e) {}
-        data_user.set(elem, key, data);
+        dataUser.set(elem, key, data);
       } else {
         data = undefined;
       }
@@ -12874,19 +12603,19 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   }
   jQuery.extend({
     hasData: function(elem) {
-      return data_user.hasData(elem) || data_priv.hasData(elem);
+      return dataUser.hasData(elem) || dataPriv.hasData(elem);
     },
     data: function(elem, name, data) {
-      return data_user.access(elem, name, data);
+      return dataUser.access(elem, name, data);
     },
     removeData: function(elem, name) {
-      data_user.remove(elem, name);
+      dataUser.remove(elem, name);
     },
     _data: function(elem, name, data) {
-      return data_priv.access(elem, name, data);
+      return dataPriv.access(elem, name, data);
     },
     _removeData: function(elem, name) {
-      data_priv.remove(elem, name);
+      dataPriv.remove(elem, name);
     }
   });
   jQuery.fn.extend({
@@ -12898,8 +12627,8 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           attrs = elem && elem.attributes;
       if (key === undefined) {
         if (this.length) {
-          data = data_user.get(elem);
-          if (elem.nodeType === 1 && !data_priv.get(elem, "hasDataAttrs")) {
+          data = dataUser.get(elem);
+          if (elem.nodeType === 1 && !dataPriv.get(elem, "hasDataAttrs")) {
             i = attrs.length;
             while (i--) {
               if (attrs[i]) {
@@ -12910,25 +12639,26 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
                 }
               }
             }
-            data_priv.set(elem, "hasDataAttrs", true);
+            dataPriv.set(elem, "hasDataAttrs", true);
           }
         }
         return data;
       }
       if (typeof key === "object") {
         return this.each(function() {
-          data_user.set(this, key);
+          dataUser.set(this, key);
         });
       }
       return access(this, function(value) {
         var data,
-            camelKey = jQuery.camelCase(key);
+            camelKey;
         if (elem && value === undefined) {
-          data = data_user.get(elem, key);
+          data = dataUser.get(elem, key) || dataUser.get(elem, key.replace(rmultiDash, "-$&").toLowerCase());
           if (data !== undefined) {
             return data;
           }
-          data = data_user.get(elem, camelKey);
+          camelKey = jQuery.camelCase(key);
+          data = dataUser.get(elem, camelKey);
           if (data !== undefined) {
             return data;
           }
@@ -12938,18 +12668,19 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           }
           return;
         }
+        camelKey = jQuery.camelCase(key);
         this.each(function() {
-          var data = data_user.get(this, camelKey);
-          data_user.set(this, camelKey, value);
-          if (key.indexOf("-") !== -1 && data !== undefined) {
-            data_user.set(this, key, value);
+          var data = dataUser.get(this, camelKey);
+          dataUser.set(this, camelKey, value);
+          if (key.indexOf("-") > -1 && data !== undefined) {
+            dataUser.set(this, key, value);
           }
         });
       }, null, value, arguments.length > 1, null, true);
     },
     removeData: function(key) {
       return this.each(function() {
-        data_user.remove(this, key);
+        dataUser.remove(this, key);
       });
     }
   });
@@ -12958,10 +12689,10 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       var queue;
       if (elem) {
         type = (type || "fx") + "queue";
-        queue = data_priv.get(elem, type);
+        queue = dataPriv.get(elem, type);
         if (data) {
           if (!queue || jQuery.isArray(data)) {
-            queue = data_priv.access(elem, type, jQuery.makeArray(data));
+            queue = dataPriv.access(elem, type, jQuery.makeArray(data));
           } else {
             queue.push(data);
           }
@@ -12995,8 +12726,8 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     },
     _queueHooks: function(elem, type) {
       var key = type + "queueHooks";
-      return data_priv.get(elem, key) || data_priv.access(elem, key, {empty: jQuery.Callbacks("once memory").add(function() {
-          data_priv.remove(elem, [type + "queue", key]);
+      return dataPriv.get(elem, key) || dataPriv.access(elem, key, {empty: jQuery.Callbacks("once memory").add(function() {
+          dataPriv.remove(elem, [type + "queue", key]);
         })});
     }
   });
@@ -13044,7 +12775,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       }
       type = type || "fx";
       while (i--) {
-        tmp = data_priv.get(elements[i], type + "queueHooks");
+        tmp = dataPriv.get(elements[i], type + "queueHooks");
         if (tmp && tmp.empty) {
           count++;
           tmp.empty.add(resolve);
@@ -13055,12 +12786,129 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     }
   });
   var pnum = (/[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/).source;
+  var rcssNum = new RegExp("^(?:([+-])=|)(" + pnum + ")([a-z%]*)$", "i");
   var cssExpand = ["Top", "Right", "Bottom", "Left"];
   var isHidden = function(elem, el) {
     elem = el || elem;
     return jQuery.css(elem, "display") === "none" || !jQuery.contains(elem.ownerDocument, elem);
   };
+  function adjustCSS(elem, prop, valueParts, tween) {
+    var adjusted,
+        scale = 1,
+        maxIterations = 20,
+        currentValue = tween ? function() {
+          return tween.cur();
+        } : function() {
+          return jQuery.css(elem, prop, "");
+        },
+        initial = currentValue(),
+        unit = valueParts && valueParts[3] || (jQuery.cssNumber[prop] ? "" : "px"),
+        initialInUnit = (jQuery.cssNumber[prop] || unit !== "px" && +initial) && rcssNum.exec(jQuery.css(elem, prop));
+    if (initialInUnit && initialInUnit[3] !== unit) {
+      unit = unit || initialInUnit[3];
+      valueParts = valueParts || [];
+      initialInUnit = +initial || 1;
+      do {
+        scale = scale || ".5";
+        initialInUnit = initialInUnit / scale;
+        jQuery.style(elem, prop, initialInUnit + unit);
+      } while (scale !== (scale = currentValue() / initial) && scale !== 1 && --maxIterations);
+    }
+    if (valueParts) {
+      initialInUnit = +initialInUnit || +initial || 0;
+      adjusted = valueParts[1] ? initialInUnit + (valueParts[1] + 1) * valueParts[2] : +valueParts[2];
+      if (tween) {
+        tween.unit = unit;
+        tween.start = initialInUnit;
+        tween.end = adjusted;
+      }
+    }
+    return adjusted;
+  }
   var rcheckableType = (/^(?:checkbox|radio)$/i);
+  var rtagName = (/<([\w:-]+)/);
+  var rscriptType = (/^$|\/(?:java|ecma)script/i);
+  var wrapMap = {
+    option: [1, "<select multiple='multiple'>", "</select>"],
+    thead: [1, "<table>", "</table>"],
+    col: [2, "<table><colgroup>", "</colgroup></table>"],
+    tr: [2, "<table><tbody>", "</tbody></table>"],
+    td: [3, "<table><tbody><tr>", "</tr></tbody></table>"],
+    _default: [0, "", ""]
+  };
+  wrapMap.optgroup = wrapMap.option;
+  wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
+  wrapMap.th = wrapMap.td;
+  function getAll(context, tag) {
+    var ret = typeof context.getElementsByTagName !== "undefined" ? context.getElementsByTagName(tag || "*") : typeof context.querySelectorAll !== "undefined" ? context.querySelectorAll(tag || "*") : [];
+    return tag === undefined || tag && jQuery.nodeName(context, tag) ? jQuery.merge([context], ret) : ret;
+  }
+  function setGlobalEval(elems, refElements) {
+    var i = 0,
+        l = elems.length;
+    for (; i < l; i++) {
+      dataPriv.set(elems[i], "globalEval", !refElements || dataPriv.get(refElements[i], "globalEval"));
+    }
+  }
+  var rhtml = /<|&#?\w+;/;
+  function buildFragment(elems, context, scripts, selection, ignored) {
+    var elem,
+        tmp,
+        tag,
+        wrap,
+        contains,
+        j,
+        fragment = context.createDocumentFragment(),
+        nodes = [],
+        i = 0,
+        l = elems.length;
+    for (; i < l; i++) {
+      elem = elems[i];
+      if (elem || elem === 0) {
+        if (jQuery.type(elem) === "object") {
+          jQuery.merge(nodes, elem.nodeType ? [elem] : elem);
+        } else if (!rhtml.test(elem)) {
+          nodes.push(context.createTextNode(elem));
+        } else {
+          tmp = tmp || fragment.appendChild(context.createElement("div"));
+          tag = (rtagName.exec(elem) || ["", ""])[1].toLowerCase();
+          wrap = wrapMap[tag] || wrapMap._default;
+          tmp.innerHTML = wrap[1] + jQuery.htmlPrefilter(elem) + wrap[2];
+          j = wrap[0];
+          while (j--) {
+            tmp = tmp.lastChild;
+          }
+          jQuery.merge(nodes, tmp.childNodes);
+          tmp = fragment.firstChild;
+          tmp.textContent = "";
+        }
+      }
+    }
+    fragment.textContent = "";
+    i = 0;
+    while ((elem = nodes[i++])) {
+      if (selection && jQuery.inArray(elem, selection) > -1) {
+        if (ignored) {
+          ignored.push(elem);
+        }
+        continue;
+      }
+      contains = jQuery.contains(elem.ownerDocument, elem);
+      tmp = getAll(fragment.appendChild(elem), "script");
+      if (contains) {
+        setGlobalEval(tmp);
+      }
+      if (scripts) {
+        j = 0;
+        while ((elem = tmp[j++])) {
+          if (rscriptType.test(elem.type || "")) {
+            scripts.push(elem);
+          }
+        }
+      }
+    }
+    return fragment;
+  }
   (function() {
     var fragment = document.createDocumentFragment(),
         div = fragment.appendChild(document.createElement("div")),
@@ -13073,12 +12921,9 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     div.innerHTML = "<textarea>x</textarea>";
     support.noCloneChecked = !!div.cloneNode(true).lastChild.defaultValue;
   })();
-  var strundefined = typeof undefined;
-  support.focusinBubbles = "onfocusin" in window;
   var rkeyEvent = /^key/,
-      rmouseEvent = /^(?:mouse|pointer|contextmenu)|click/,
-      rfocusMorph = /^(?:focusinfocus|focusoutblur)$/,
-      rtypenamespace = /^([^.]*)(?:\.(.+)|)$/;
+      rmouseEvent = /^(?:mouse|pointer|contextmenu|drag|drop)|click/,
+      rtypenamespace = /^([^.]*)(?:\.(.+)|)/;
   function returnTrue() {
     return true;
   }
@@ -13089,6 +12934,49 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     try {
       return document.activeElement;
     } catch (err) {}
+  }
+  function on(elem, types, selector, data, fn, one) {
+    var origFn,
+        type;
+    if (typeof types === "object") {
+      if (typeof selector !== "string") {
+        data = data || selector;
+        selector = undefined;
+      }
+      for (type in types) {
+        on(elem, type, selector, data, types[type], one);
+      }
+      return elem;
+    }
+    if (data == null && fn == null) {
+      fn = selector;
+      data = selector = undefined;
+    } else if (fn == null) {
+      if (typeof selector === "string") {
+        fn = data;
+        data = undefined;
+      } else {
+        fn = data;
+        data = selector;
+        selector = undefined;
+      }
+    }
+    if (fn === false) {
+      fn = returnFalse;
+    } else if (!fn) {
+      return this;
+    }
+    if (one === 1) {
+      origFn = fn;
+      fn = function(event) {
+        jQuery().off(event);
+        return origFn.apply(this, arguments);
+      };
+      fn.guid = origFn.guid || (origFn.guid = jQuery.guid++);
+    }
+    return elem.each(function() {
+      jQuery.event.add(this, types, fn, data, selector);
+    });
   }
   jQuery.event = {
     global: {},
@@ -13104,7 +12992,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           type,
           namespaces,
           origType,
-          elemData = data_priv.get(elem);
+          elemData = dataPriv.get(elem);
       if (!elemData) {
         return;
       }
@@ -13121,7 +13009,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       }
       if (!(eventHandle = elemData.handle)) {
         eventHandle = elemData.handle = function(e) {
-          return typeof jQuery !== strundefined && jQuery.event.triggered !== e.type ? jQuery.event.dispatch.apply(elem, arguments) : undefined;
+          return typeof jQuery !== "undefined" && jQuery.event.triggered !== e.type ? jQuery.event.dispatch.apply(elem, arguments) : undefined;
         };
       }
       types = (types || "").match(rnotwhite) || [""];
@@ -13151,7 +13039,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           handlers.delegateCount = 0;
           if (!special.setup || special.setup.call(elem, data, namespaces, eventHandle) === false) {
             if (elem.addEventListener) {
-              elem.addEventListener(type, eventHandle, false);
+              elem.addEventListener(type, eventHandle);
             }
           }
         }
@@ -13181,7 +13069,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           type,
           namespaces,
           origType,
-          elemData = data_priv.hasData(elem) && data_priv.get(elem);
+          elemData = dataPriv.hasData(elem) && dataPriv.get(elem);
       if (!elemData || !(events = elemData.events)) {
         return;
       }
@@ -13222,93 +13110,8 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         }
       }
       if (jQuery.isEmptyObject(events)) {
-        delete elemData.handle;
-        data_priv.remove(elem, "events");
+        dataPriv.remove(elem, "handle events");
       }
-    },
-    trigger: function(event, data, elem, onlyHandlers) {
-      var i,
-          cur,
-          tmp,
-          bubbleType,
-          ontype,
-          handle,
-          special,
-          eventPath = [elem || document],
-          type = hasOwn.call(event, "type") ? event.type : event,
-          namespaces = hasOwn.call(event, "namespace") ? event.namespace.split(".") : [];
-      cur = tmp = elem = elem || document;
-      if (elem.nodeType === 3 || elem.nodeType === 8) {
-        return;
-      }
-      if (rfocusMorph.test(type + jQuery.event.triggered)) {
-        return;
-      }
-      if (type.indexOf(".") >= 0) {
-        namespaces = type.split(".");
-        type = namespaces.shift();
-        namespaces.sort();
-      }
-      ontype = type.indexOf(":") < 0 && "on" + type;
-      event = event[jQuery.expando] ? event : new jQuery.Event(type, typeof event === "object" && event);
-      event.isTrigger = onlyHandlers ? 2 : 3;
-      event.namespace = namespaces.join(".");
-      event.namespace_re = event.namespace ? new RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)") : null;
-      event.result = undefined;
-      if (!event.target) {
-        event.target = elem;
-      }
-      data = data == null ? [event] : jQuery.makeArray(data, [event]);
-      special = jQuery.event.special[type] || {};
-      if (!onlyHandlers && special.trigger && special.trigger.apply(elem, data) === false) {
-        return;
-      }
-      if (!onlyHandlers && !special.noBubble && !jQuery.isWindow(elem)) {
-        bubbleType = special.delegateType || type;
-        if (!rfocusMorph.test(bubbleType + type)) {
-          cur = cur.parentNode;
-        }
-        for (; cur; cur = cur.parentNode) {
-          eventPath.push(cur);
-          tmp = cur;
-        }
-        if (tmp === (elem.ownerDocument || document)) {
-          eventPath.push(tmp.defaultView || tmp.parentWindow || window);
-        }
-      }
-      i = 0;
-      while ((cur = eventPath[i++]) && !event.isPropagationStopped()) {
-        event.type = i > 1 ? bubbleType : special.bindType || type;
-        handle = (data_priv.get(cur, "events") || {})[event.type] && data_priv.get(cur, "handle");
-        if (handle) {
-          handle.apply(cur, data);
-        }
-        handle = ontype && cur[ontype];
-        if (handle && handle.apply && jQuery.acceptData(cur)) {
-          event.result = handle.apply(cur, data);
-          if (event.result === false) {
-            event.preventDefault();
-          }
-        }
-      }
-      event.type = type;
-      if (!onlyHandlers && !event.isDefaultPrevented()) {
-        if ((!special._default || special._default.apply(eventPath.pop(), data) === false) && jQuery.acceptData(elem)) {
-          if (ontype && jQuery.isFunction(elem[type]) && !jQuery.isWindow(elem)) {
-            tmp = elem[ontype];
-            if (tmp) {
-              elem[ontype] = null;
-            }
-            jQuery.event.triggered = type;
-            elem[type]();
-            jQuery.event.triggered = undefined;
-            if (tmp) {
-              elem[ontype] = tmp;
-            }
-          }
-        }
-      }
-      return event.result;
     },
     dispatch: function(event) {
       event = jQuery.event.fix(event);
@@ -13319,7 +13122,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           handleObj,
           handlerQueue = [],
           args = slice.call(arguments),
-          handlers = (data_priv.get(this, "events") || {})[event.type] || [],
+          handlers = (dataPriv.get(this, "events") || {})[event.type] || [],
           special = jQuery.event.special[event.type] || {};
       args[0] = event;
       event.delegateTarget = this;
@@ -13332,7 +13135,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         event.currentTarget = matched.elem;
         j = 0;
         while ((handleObj = matched.handlers[j++]) && !event.isImmediatePropagationStopped()) {
-          if (!event.namespace_re || event.namespace_re.test(handleObj.namespace)) {
+          if (!event.rnamespace || event.rnamespace.test(handleObj.namespace)) {
             event.handleObj = handleObj;
             event.data = handleObj.data;
             ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
@@ -13358,15 +13161,15 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           handlerQueue = [],
           delegateCount = handlers.delegateCount,
           cur = event.target;
-      if (delegateCount && cur.nodeType && (!event.button || event.type !== "click")) {
+      if (delegateCount && cur.nodeType && (event.type !== "click" || isNaN(event.button) || event.button < 1)) {
         for (; cur !== this; cur = cur.parentNode || this) {
-          if (cur.disabled !== true || event.type !== "click") {
+          if (cur.nodeType === 1 && (cur.disabled !== true || event.type !== "click")) {
             matches = [];
             for (i = 0; i < delegateCount; i++) {
               handleObj = handlers[i];
               sel = handleObj.selector + " ";
               if (matches[sel] === undefined) {
-                matches[sel] = handleObj.needsContext ? jQuery(sel, this).index(cur) >= 0 : jQuery.find(sel, this, null, [cur]).length;
+                matches[sel] = handleObj.needsContext ? jQuery(sel, this).index(cur) > -1 : jQuery.find(sel, this, null, [cur]).length;
               }
               if (matches[sel]) {
                 matches.push(handleObj);
@@ -13389,7 +13192,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       }
       return handlerQueue;
     },
-    props: "altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which".split(" "),
+    props: ("altKey bubbles cancelable ctrlKey currentTarget detail eventPhase " + "metaKey relatedTarget shiftKey target timeStamp view which").split(" "),
     fixHooks: {},
     keyHooks: {
       props: "char charCode key keyCode".split(" "),
@@ -13401,7 +13204,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       }
     },
     mouseHooks: {
-      props: "button buttons clientX clientY offsetX offsetY pageX pageY screenX screenY toElement".split(" "),
+      props: ("button buttons clientX clientY offsetX offsetY pageX pageY " + "screenX screenY toElement").split(" "),
       filter: function(event, original) {
         var eventDoc,
             doc,
@@ -13484,26 +13287,11 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
             event.originalEvent.returnValue = event.result;
           }
         }}
-    },
-    simulate: function(type, elem, event, bubble) {
-      var e = jQuery.extend(new jQuery.Event(), event, {
-        type: type,
-        isSimulated: true,
-        originalEvent: {}
-      });
-      if (bubble) {
-        jQuery.event.trigger(e, null, elem);
-      } else {
-        jQuery.event.dispatch.call(elem, e);
-      }
-      if (e.isDefaultPrevented()) {
-        event.preventDefault();
-      }
     }
   };
   jQuery.removeEvent = function(elem, type, handle) {
     if (elem.removeEventListener) {
-      elem.removeEventListener(type, handle, false);
+      elem.removeEventListener(type, handle);
     }
   };
   jQuery.Event = function(src, props) {
@@ -13524,27 +13312,28 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     this[jQuery.expando] = true;
   };
   jQuery.Event.prototype = {
+    constructor: jQuery.Event,
     isDefaultPrevented: returnFalse,
     isPropagationStopped: returnFalse,
     isImmediatePropagationStopped: returnFalse,
     preventDefault: function() {
       var e = this.originalEvent;
       this.isDefaultPrevented = returnTrue;
-      if (e && e.preventDefault) {
+      if (e) {
         e.preventDefault();
       }
     },
     stopPropagation: function() {
       var e = this.originalEvent;
       this.isPropagationStopped = returnTrue;
-      if (e && e.stopPropagation) {
+      if (e) {
         e.stopPropagation();
       }
     },
     stopImmediatePropagation: function() {
       var e = this.originalEvent;
       this.isImmediatePropagationStopped = returnTrue;
-      if (e && e.stopImmediatePropagation) {
+      if (e) {
         e.stopImmediatePropagation();
       }
       this.stopPropagation();
@@ -13573,82 +13362,12 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       }
     };
   });
-  if (!support.focusinBubbles) {
-    jQuery.each({
-      focus: "focusin",
-      blur: "focusout"
-    }, function(orig, fix) {
-      var handler = function(event) {
-        jQuery.event.simulate(fix, event.target, jQuery.event.fix(event), true);
-      };
-      jQuery.event.special[fix] = {
-        setup: function() {
-          var doc = this.ownerDocument || this,
-              attaches = data_priv.access(doc, fix);
-          if (!attaches) {
-            doc.addEventListener(orig, handler, true);
-          }
-          data_priv.access(doc, fix, (attaches || 0) + 1);
-        },
-        teardown: function() {
-          var doc = this.ownerDocument || this,
-              attaches = data_priv.access(doc, fix) - 1;
-          if (!attaches) {
-            doc.removeEventListener(orig, handler, true);
-            data_priv.remove(doc, fix);
-          } else {
-            data_priv.access(doc, fix, attaches);
-          }
-        }
-      };
-    });
-  }
   jQuery.fn.extend({
-    on: function(types, selector, data, fn, one) {
-      var origFn,
-          type;
-      if (typeof types === "object") {
-        if (typeof selector !== "string") {
-          data = data || selector;
-          selector = undefined;
-        }
-        for (type in types) {
-          this.on(type, selector, data, types[type], one);
-        }
-        return this;
-      }
-      if (data == null && fn == null) {
-        fn = selector;
-        data = selector = undefined;
-      } else if (fn == null) {
-        if (typeof selector === "string") {
-          fn = data;
-          data = undefined;
-        } else {
-          fn = data;
-          data = selector;
-          selector = undefined;
-        }
-      }
-      if (fn === false) {
-        fn = returnFalse;
-      } else if (!fn) {
-        return this;
-      }
-      if (one === 1) {
-        origFn = fn;
-        fn = function(event) {
-          jQuery().off(event);
-          return origFn.apply(this, arguments);
-        };
-        fn.guid = origFn.guid || (origFn.guid = jQuery.guid++);
-      }
-      return this.each(function() {
-        jQuery.event.add(this, types, fn, data, selector);
-      });
+    on: function(types, selector, data, fn) {
+      return on(this, types, selector, data, fn);
     },
     one: function(types, selector, data, fn) {
-      return this.on(types, selector, data, fn, 1);
+      return on(this, types, selector, data, fn, 1);
     },
     off: function(types, selector, fn) {
       var handleObj,
@@ -13674,40 +13393,18 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       return this.each(function() {
         jQuery.event.remove(this, types, fn, selector);
       });
-    },
-    trigger: function(type, data) {
-      return this.each(function() {
-        jQuery.event.trigger(type, data, this);
-      });
-    },
-    triggerHandler: function(type, data) {
-      var elem = this[0];
-      if (elem) {
-        return jQuery.event.trigger(type, data, elem, true);
-      }
     }
   });
-  var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi,
-      rtagName = /<([\w:]+)/,
-      rhtml = /<|&#?\w+;/,
-      rnoInnerhtml = /<(?:script|style|link)/i,
+  var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:-]+)[^>]*)\/>/gi,
+      rnoInnerhtml = /<script|<style|<link/i,
       rchecked = /checked\s*(?:[^=]|=\s*.checked.)/i,
-      rscriptType = /^$|\/(?:java|ecma)script/i,
       rscriptTypeMasked = /^true\/(.*)/,
-      rcleanScript = /^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g,
-      wrapMap = {
-        option: [1, "<select multiple='multiple'>", "</select>"],
-        thead: [1, "<table>", "</table>"],
-        col: [2, "<table><colgroup>", "</colgroup></table>"],
-        tr: [2, "<table><tbody>", "</tbody></table>"],
-        td: [3, "<table><tbody><tr>", "</tr></tbody></table>"],
-        _default: [0, "", ""]
-      };
-  wrapMap.optgroup = wrapMap.option;
-  wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
-  wrapMap.th = wrapMap.td;
+      rcleanScript = /^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g;
   function manipulationTarget(elem, content) {
-    return jQuery.nodeName(elem, "table") && jQuery.nodeName(content.nodeType !== 11 ? content : content.firstChild, "tr") ? elem.getElementsByTagName("tbody")[0] || elem.appendChild(elem.ownerDocument.createElement("tbody")) : elem;
+    if (jQuery.nodeName(elem, "table") && jQuery.nodeName(content.nodeType !== 11 ? content : content.firstChild, "tr")) {
+      return elem.getElementsByTagName("tbody")[0] || elem;
+    }
+    return elem;
   }
   function disableScript(elem) {
     elem.type = (elem.getAttribute("type") !== null) + "/" + elem.type;
@@ -13722,13 +13419,6 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     }
     return elem;
   }
-  function setGlobalEval(elems, refElements) {
-    var i = 0,
-        l = elems.length;
-    for (; i < l; i++) {
-      data_priv.set(elems[i], "globalEval", !refElements || data_priv.get(refElements[i], "globalEval"));
-    }
-  }
   function cloneCopyEvent(src, dest) {
     var i,
         l,
@@ -13741,9 +13431,9 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     if (dest.nodeType !== 1) {
       return;
     }
-    if (data_priv.hasData(src)) {
-      pdataOld = data_priv.access(src);
-      pdataCur = data_priv.set(dest, pdataOld);
+    if (dataPriv.hasData(src)) {
+      pdataOld = dataPriv.access(src);
+      pdataCur = dataPriv.set(dest, pdataOld);
       events = pdataOld.events;
       if (events) {
         delete pdataCur.handle;
@@ -13755,15 +13445,11 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         }
       }
     }
-    if (data_user.hasData(src)) {
-      udataOld = data_user.access(src);
+    if (dataUser.hasData(src)) {
+      udataOld = dataUser.access(src);
       udataCur = jQuery.extend({}, udataOld);
-      data_user.set(dest, udataCur);
+      dataUser.set(dest, udataCur);
     }
-  }
-  function getAll(context, tag) {
-    var ret = context.getElementsByTagName ? context.getElementsByTagName(tag || "*") : context.querySelectorAll ? context.querySelectorAll(tag || "*") : [];
-    return tag === undefined || tag && jQuery.nodeName(context, tag) ? jQuery.merge([context], ret) : ret;
   }
   function fixInput(src, dest) {
     var nodeName = dest.nodeName.toLowerCase();
@@ -13773,7 +13459,88 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       dest.defaultValue = src.defaultValue;
     }
   }
+  function domManip(collection, args, callback, ignored) {
+    args = concat.apply([], args);
+    var fragment,
+        first,
+        scripts,
+        hasScripts,
+        node,
+        doc,
+        i = 0,
+        l = collection.length,
+        iNoClone = l - 1,
+        value = args[0],
+        isFunction = jQuery.isFunction(value);
+    if (isFunction || (l > 1 && typeof value === "string" && !support.checkClone && rchecked.test(value))) {
+      return collection.each(function(index) {
+        var self = collection.eq(index);
+        if (isFunction) {
+          args[0] = value.call(this, index, self.html());
+        }
+        domManip(self, args, callback, ignored);
+      });
+    }
+    if (l) {
+      fragment = buildFragment(args, collection[0].ownerDocument, false, collection, ignored);
+      first = fragment.firstChild;
+      if (fragment.childNodes.length === 1) {
+        fragment = first;
+      }
+      if (first || ignored) {
+        scripts = jQuery.map(getAll(fragment, "script"), disableScript);
+        hasScripts = scripts.length;
+        for (; i < l; i++) {
+          node = fragment;
+          if (i !== iNoClone) {
+            node = jQuery.clone(node, true, true);
+            if (hasScripts) {
+              jQuery.merge(scripts, getAll(node, "script"));
+            }
+          }
+          callback.call(collection[i], node, i);
+        }
+        if (hasScripts) {
+          doc = scripts[scripts.length - 1].ownerDocument;
+          jQuery.map(scripts, restoreScript);
+          for (i = 0; i < hasScripts; i++) {
+            node = scripts[i];
+            if (rscriptType.test(node.type || "") && !dataPriv.access(node, "globalEval") && jQuery.contains(doc, node)) {
+              if (node.src) {
+                if (jQuery._evalUrl) {
+                  jQuery._evalUrl(node.src);
+                }
+              } else {
+                jQuery.globalEval(node.textContent.replace(rcleanScript, ""));
+              }
+            }
+          }
+        }
+      }
+    }
+    return collection;
+  }
+  function remove(elem, selector, keepData) {
+    var node,
+        nodes = selector ? jQuery.filter(selector, elem) : elem,
+        i = 0;
+    for (; (node = nodes[i]) != null; i++) {
+      if (!keepData && node.nodeType === 1) {
+        jQuery.cleanData(getAll(node));
+      }
+      if (node.parentNode) {
+        if (keepData && jQuery.contains(node.ownerDocument, node)) {
+          setGlobalEval(getAll(node, "script"));
+        }
+        node.parentNode.removeChild(node);
+      }
+    }
+    return elem;
+  }
   jQuery.extend({
+    htmlPrefilter: function(html) {
+      return html.replace(rxhtmlTag, "<$1></$2>");
+    },
     clone: function(elem, dataAndEvents, deepDataAndEvents) {
       var i,
           l,
@@ -13805,72 +13572,15 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       }
       return clone;
     },
-    buildFragment: function(elems, context, scripts, selection) {
-      var elem,
-          tmp,
-          tag,
-          wrap,
-          contains,
-          j,
-          fragment = context.createDocumentFragment(),
-          nodes = [],
-          i = 0,
-          l = elems.length;
-      for (; i < l; i++) {
-        elem = elems[i];
-        if (elem || elem === 0) {
-          if (jQuery.type(elem) === "object") {
-            jQuery.merge(nodes, elem.nodeType ? [elem] : elem);
-          } else if (!rhtml.test(elem)) {
-            nodes.push(context.createTextNode(elem));
-          } else {
-            tmp = tmp || fragment.appendChild(context.createElement("div"));
-            tag = (rtagName.exec(elem) || ["", ""])[1].toLowerCase();
-            wrap = wrapMap[tag] || wrapMap._default;
-            tmp.innerHTML = wrap[1] + elem.replace(rxhtmlTag, "<$1></$2>") + wrap[2];
-            j = wrap[0];
-            while (j--) {
-              tmp = tmp.lastChild;
-            }
-            jQuery.merge(nodes, tmp.childNodes);
-            tmp = fragment.firstChild;
-            tmp.textContent = "";
-          }
-        }
-      }
-      fragment.textContent = "";
-      i = 0;
-      while ((elem = nodes[i++])) {
-        if (selection && jQuery.inArray(elem, selection) !== -1) {
-          continue;
-        }
-        contains = jQuery.contains(elem.ownerDocument, elem);
-        tmp = getAll(fragment.appendChild(elem), "script");
-        if (contains) {
-          setGlobalEval(tmp);
-        }
-        if (scripts) {
-          j = 0;
-          while ((elem = tmp[j++])) {
-            if (rscriptType.test(elem.type || "")) {
-              scripts.push(elem);
-            }
-          }
-        }
-      }
-      return fragment;
-    },
     cleanData: function(elems) {
       var data,
           elem,
           type,
-          key,
           special = jQuery.event.special,
           i = 0;
       for (; (elem = elems[i]) !== undefined; i++) {
-        if (jQuery.acceptData(elem)) {
-          key = elem[data_priv.expando];
-          if (key && (data = data_priv.cache[key])) {
+        if (acceptData(elem)) {
+          if ((data = elem[dataPriv.expando])) {
             if (data.events) {
               for (type in data.events) {
                 if (special[type]) {
@@ -13880,16 +13590,23 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
                 }
               }
             }
-            if (data_priv.cache[key]) {
-              delete data_priv.cache[key];
-            }
+            elem[dataPriv.expando] = undefined;
+          }
+          if (elem[dataUser.expando]) {
+            elem[dataUser.expando] = undefined;
           }
         }
-        delete data_user.cache[elem[data_user.expando]];
       }
     }
   });
   jQuery.fn.extend({
+    domManip: domManip,
+    detach: function(selector) {
+      return remove(this, selector, true);
+    },
+    remove: function(selector) {
+      return remove(this, selector);
+    },
     text: function(value) {
       return access(this, function(value) {
         return value === undefined ? jQuery.text(this) : this.empty().each(function() {
@@ -13900,7 +13617,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       }, null, value, arguments.length);
     },
     append: function() {
-      return this.domManip(arguments, function(elem) {
+      return domManip(this, arguments, function(elem) {
         if (this.nodeType === 1 || this.nodeType === 11 || this.nodeType === 9) {
           var target = manipulationTarget(this, elem);
           target.appendChild(elem);
@@ -13908,7 +13625,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       });
     },
     prepend: function() {
-      return this.domManip(arguments, function(elem) {
+      return domManip(this, arguments, function(elem) {
         if (this.nodeType === 1 || this.nodeType === 11 || this.nodeType === 9) {
           var target = manipulationTarget(this, elem);
           target.insertBefore(elem, target.firstChild);
@@ -13916,35 +13633,18 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       });
     },
     before: function() {
-      return this.domManip(arguments, function(elem) {
+      return domManip(this, arguments, function(elem) {
         if (this.parentNode) {
           this.parentNode.insertBefore(elem, this);
         }
       });
     },
     after: function() {
-      return this.domManip(arguments, function(elem) {
+      return domManip(this, arguments, function(elem) {
         if (this.parentNode) {
           this.parentNode.insertBefore(elem, this.nextSibling);
         }
       });
-    },
-    remove: function(selector, keepData) {
-      var elem,
-          elems = selector ? jQuery.filter(selector, this) : this,
-          i = 0;
-      for (; (elem = elems[i]) != null; i++) {
-        if (!keepData && elem.nodeType === 1) {
-          jQuery.cleanData(getAll(elem));
-        }
-        if (elem.parentNode) {
-          if (keepData && jQuery.contains(elem.ownerDocument, elem)) {
-            setGlobalEval(getAll(elem, "script"));
-          }
-          elem.parentNode.removeChild(elem);
-        }
-      }
-      return this;
     },
     empty: function() {
       var elem,
@@ -13973,7 +13673,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           return elem.innerHTML;
         }
         if (typeof value === "string" && !rnoInnerhtml.test(value) && !wrapMap[(rtagName.exec(value) || ["", ""])[1].toLowerCase()]) {
-          value = value.replace(rxhtmlTag, "<$1></$2>");
+          value = jQuery.htmlPrefilter(value);
           try {
             for (; i < l; i++) {
               elem = this[i] || {};
@@ -13991,80 +13691,16 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       }, null, value, arguments.length);
     },
     replaceWith: function() {
-      var arg = arguments[0];
-      this.domManip(arguments, function(elem) {
-        arg = this.parentNode;
-        jQuery.cleanData(getAll(this));
-        if (arg) {
-          arg.replaceChild(elem, this);
-        }
-      });
-      return arg && (arg.length || arg.nodeType) ? this : this.remove();
-    },
-    detach: function(selector) {
-      return this.remove(selector, true);
-    },
-    domManip: function(args, callback) {
-      args = concat.apply([], args);
-      var fragment,
-          first,
-          scripts,
-          hasScripts,
-          node,
-          doc,
-          i = 0,
-          l = this.length,
-          set = this,
-          iNoClone = l - 1,
-          value = args[0],
-          isFunction = jQuery.isFunction(value);
-      if (isFunction || (l > 1 && typeof value === "string" && !support.checkClone && rchecked.test(value))) {
-        return this.each(function(index) {
-          var self = set.eq(index);
-          if (isFunction) {
-            args[0] = value.call(this, index, self.html());
-          }
-          self.domManip(args, callback);
-        });
-      }
-      if (l) {
-        fragment = jQuery.buildFragment(args, this[0].ownerDocument, false, this);
-        first = fragment.firstChild;
-        if (fragment.childNodes.length === 1) {
-          fragment = first;
-        }
-        if (first) {
-          scripts = jQuery.map(getAll(fragment, "script"), disableScript);
-          hasScripts = scripts.length;
-          for (; i < l; i++) {
-            node = fragment;
-            if (i !== iNoClone) {
-              node = jQuery.clone(node, true, true);
-              if (hasScripts) {
-                jQuery.merge(scripts, getAll(node, "script"));
-              }
-            }
-            callback.call(this[i], node, i);
-          }
-          if (hasScripts) {
-            doc = scripts[scripts.length - 1].ownerDocument;
-            jQuery.map(scripts, restoreScript);
-            for (i = 0; i < hasScripts; i++) {
-              node = scripts[i];
-              if (rscriptType.test(node.type || "") && !data_priv.access(node, "globalEval") && jQuery.contains(doc, node)) {
-                if (node.src) {
-                  if (jQuery._evalUrl) {
-                    jQuery._evalUrl(node.src);
-                  }
-                } else {
-                  jQuery.globalEval(node.textContent.replace(rcleanScript, ""));
-                }
-              }
-            }
+      var ignored = [];
+      return domManip(this, arguments, function(elem) {
+        var parent = this.parentNode;
+        if (jQuery.inArray(this, ignored) < 0) {
+          jQuery.cleanData(getAll(this));
+          if (parent) {
+            parent.replaceChild(elem, this);
           }
         }
-      }
-      return this;
+      }, ignored);
     }
   });
   jQuery.each({
@@ -14089,11 +13725,13 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     };
   });
   var iframe,
-      elemdisplay = {};
+      elemdisplay = {
+        HTML: "block",
+        BODY: "block"
+      };
   function actualDisplay(name, doc) {
-    var style,
-        elem = jQuery(doc.createElement(name)).appendTo(doc.body),
-        display = window.getDefaultComputedStyle && (style = window.getDefaultComputedStyle(elem[0])) ? style.display : jQuery.css(elem[0], "display");
+    var elem = jQuery(doc.createElement(name)).appendTo(doc.body),
+        display = jQuery.css(elem[0], "display");
     elem.detach();
     return display;
   }
@@ -14117,11 +13755,91 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   var rmargin = (/^margin/);
   var rnumnonpx = new RegExp("^(" + pnum + ")(?!px)[a-z%]+$", "i");
   var getStyles = function(elem) {
-    if (elem.ownerDocument.defaultView.opener) {
-      return elem.ownerDocument.defaultView.getComputedStyle(elem, null);
+    var view = elem.ownerDocument.defaultView;
+    if (!view.opener) {
+      view = window;
     }
-    return window.getComputedStyle(elem, null);
+    return view.getComputedStyle(elem);
   };
+  var swap = function(elem, options, callback, args) {
+    var ret,
+        name,
+        old = {};
+    for (name in options) {
+      old[name] = elem.style[name];
+      elem.style[name] = options[name];
+    }
+    ret = callback.apply(elem, args || []);
+    for (name in options) {
+      elem.style[name] = old[name];
+    }
+    return ret;
+  };
+  var documentElement = document.documentElement;
+  (function() {
+    var pixelPositionVal,
+        boxSizingReliableVal,
+        pixelMarginRightVal,
+        reliableMarginLeftVal,
+        container = document.createElement("div"),
+        div = document.createElement("div");
+    if (!div.style) {
+      return;
+    }
+    div.style.backgroundClip = "content-box";
+    div.cloneNode(true).style.backgroundClip = "";
+    support.clearCloneStyle = div.style.backgroundClip === "content-box";
+    container.style.cssText = "border:0;width:8px;height:0;top:0;left:-9999px;" + "padding:0;margin-top:1px;position:absolute";
+    container.appendChild(div);
+    function computeStyleTests() {
+      div.style.cssText = "-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;" + "position:relative;display:block;" + "margin:auto;border:1px;padding:1px;" + "top:1%;width:50%";
+      div.innerHTML = "";
+      documentElement.appendChild(container);
+      var divStyle = window.getComputedStyle(div);
+      pixelPositionVal = divStyle.top !== "1%";
+      reliableMarginLeftVal = divStyle.marginLeft === "2px";
+      boxSizingReliableVal = divStyle.width === "4px";
+      div.style.marginRight = "50%";
+      pixelMarginRightVal = divStyle.marginRight === "4px";
+      documentElement.removeChild(container);
+    }
+    jQuery.extend(support, {
+      pixelPosition: function() {
+        computeStyleTests();
+        return pixelPositionVal;
+      },
+      boxSizingReliable: function() {
+        if (boxSizingReliableVal == null) {
+          computeStyleTests();
+        }
+        return boxSizingReliableVal;
+      },
+      pixelMarginRight: function() {
+        if (boxSizingReliableVal == null) {
+          computeStyleTests();
+        }
+        return pixelMarginRightVal;
+      },
+      reliableMarginLeft: function() {
+        if (boxSizingReliableVal == null) {
+          computeStyleTests();
+        }
+        return reliableMarginLeftVal;
+      },
+      reliableMarginRight: function() {
+        var ret,
+            marginDiv = div.appendChild(document.createElement("div"));
+        marginDiv.style.cssText = div.style.cssText = "-webkit-box-sizing:content-box;box-sizing:content-box;" + "display:block;margin:0;border:0;padding:0";
+        marginDiv.style.marginRight = marginDiv.style.width = "0";
+        div.style.width = "1px";
+        documentElement.appendChild(container);
+        ret = !parseFloat(window.getComputedStyle(marginDiv).marginRight);
+        documentElement.removeChild(container);
+        div.removeChild(marginDiv);
+        return ret;
+      }
+    });
+  })();
   function curCSS(elem, name, computed) {
     var width,
         minWidth,
@@ -14131,12 +13849,10 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     computed = computed || getStyles(elem);
     if (computed) {
       ret = computed.getPropertyValue(name) || computed[name];
-    }
-    if (computed) {
       if (ret === "" && !jQuery.contains(elem.ownerDocument, elem)) {
         ret = jQuery.style(elem, name);
       }
-      if (rnumnonpx.test(ret) && rmargin.test(name)) {
+      if (!support.pixelMarginRight() && rnumnonpx.test(ret) && rmargin.test(name)) {
         width = style.width;
         minWidth = style.minWidth;
         maxWidth = style.maxWidth;
@@ -14158,73 +13874,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         return (this.get = hookFn).apply(this, arguments);
       }};
   }
-  (function() {
-    var pixelPositionVal,
-        boxSizingReliableVal,
-        docElem = document.documentElement,
-        container = document.createElement("div"),
-        div = document.createElement("div");
-    if (!div.style) {
-      return;
-    }
-    div.style.backgroundClip = "content-box";
-    div.cloneNode(true).style.backgroundClip = "";
-    support.clearCloneStyle = div.style.backgroundClip === "content-box";
-    container.style.cssText = "border:0;width:0;height:0;top:0;left:-9999px;margin-top:1px;" + "position:absolute";
-    container.appendChild(div);
-    function computePixelPositionAndBoxSizingReliable() {
-      div.style.cssText = "-webkit-box-sizing:border-box;-moz-box-sizing:border-box;" + "box-sizing:border-box;display:block;margin-top:1%;top:1%;" + "border:1px;padding:1px;width:4px;position:absolute";
-      div.innerHTML = "";
-      docElem.appendChild(container);
-      var divStyle = window.getComputedStyle(div, null);
-      pixelPositionVal = divStyle.top !== "1%";
-      boxSizingReliableVal = divStyle.width === "4px";
-      docElem.removeChild(container);
-    }
-    if (window.getComputedStyle) {
-      jQuery.extend(support, {
-        pixelPosition: function() {
-          computePixelPositionAndBoxSizingReliable();
-          return pixelPositionVal;
-        },
-        boxSizingReliable: function() {
-          if (boxSizingReliableVal == null) {
-            computePixelPositionAndBoxSizingReliable();
-          }
-          return boxSizingReliableVal;
-        },
-        reliableMarginRight: function() {
-          var ret,
-              marginDiv = div.appendChild(document.createElement("div"));
-          marginDiv.style.cssText = div.style.cssText = "-webkit-box-sizing:content-box;-moz-box-sizing:content-box;" + "box-sizing:content-box;display:block;margin:0;border:0;padding:0";
-          marginDiv.style.marginRight = marginDiv.style.width = "0";
-          div.style.width = "1px";
-          docElem.appendChild(container);
-          ret = !parseFloat(window.getComputedStyle(marginDiv, null).marginRight);
-          docElem.removeChild(container);
-          div.removeChild(marginDiv);
-          return ret;
-        }
-      });
-    }
-  })();
-  jQuery.swap = function(elem, options, callback, args) {
-    var ret,
-        name,
-        old = {};
-    for (name in options) {
-      old[name] = elem.style[name];
-      elem.style[name] = options[name];
-    }
-    ret = callback.apply(elem, args || []);
-    for (name in options) {
-      elem.style[name] = old[name];
-    }
-    return ret;
-  };
   var rdisplayswap = /^(none|table(?!-c[ea]).+)/,
-      rnumsplit = new RegExp("^(" + pnum + ")(.*)$", "i"),
-      rrelNum = new RegExp("^([+-])=(" + pnum + ")", "i"),
       cssShow = {
         position: "absolute",
         visibility: "hidden",
@@ -14234,25 +13884,24 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         letterSpacing: "0",
         fontWeight: "400"
       },
-      cssPrefixes = ["Webkit", "O", "Moz", "ms"];
-  function vendorPropName(style, name) {
-    if (name in style) {
+      cssPrefixes = ["Webkit", "O", "Moz", "ms"],
+      emptyStyle = document.createElement("div").style;
+  function vendorPropName(name) {
+    if (name in emptyStyle) {
       return name;
     }
     var capName = name[0].toUpperCase() + name.slice(1),
-        origName = name,
         i = cssPrefixes.length;
     while (i--) {
       name = cssPrefixes[i] + capName;
-      if (name in style) {
+      if (name in emptyStyle) {
         return name;
       }
     }
-    return origName;
   }
   function setPositiveNumber(elem, value, subtract) {
-    var matches = rnumsplit.exec(value);
-    return matches ? Math.max(0, matches[1] - (subtract || 0)) + (matches[2] || "px") : value;
+    var matches = rcssNum.exec(value);
+    return matches ? Math.max(0, matches[2] - (subtract || 0)) + (matches[3] || "px") : value;
   }
   function augmentWidthOrHeight(elem, name, extra, isBorderBox, styles) {
     var i = extra === (isBorderBox ? "border" : "content") ? 4 : name === "width" ? 1 : 0,
@@ -14282,6 +13931,11 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         val = name === "width" ? elem.offsetWidth : elem.offsetHeight,
         styles = getStyles(elem),
         isBorderBox = jQuery.css(elem, "boxSizing", false, styles) === "border-box";
+    if (document.msFullscreenElement && window.top !== window) {
+      if (elem.getClientRects().length) {
+        val = Math.round(elem.getBoundingClientRect()[name] * 100);
+      }
+    }
     if (val <= 0 || val == null) {
       val = curCSS(elem, name, styles);
       if (val < 0 || val == null) {
@@ -14307,19 +13961,19 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       if (!elem.style) {
         continue;
       }
-      values[index] = data_priv.get(elem, "olddisplay");
+      values[index] = dataPriv.get(elem, "olddisplay");
       display = elem.style.display;
       if (show) {
         if (!values[index] && display === "none") {
           elem.style.display = "";
         }
         if (elem.style.display === "" && isHidden(elem)) {
-          values[index] = data_priv.access(elem, "olddisplay", defaultDisplay(elem.nodeName));
+          values[index] = dataPriv.access(elem, "olddisplay", defaultDisplay(elem.nodeName));
         }
       } else {
         hidden = isHidden(elem);
         if (display !== "none" || !hidden) {
-          data_priv.set(elem, "olddisplay", hidden ? display : jQuery.css(elem, "display"));
+          dataPriv.set(elem, "olddisplay", hidden ? display : jQuery.css(elem, "display"));
         }
       }
     }
@@ -14342,6 +13996,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           }
         }}},
     cssNumber: {
+      "animationIterationCount": true,
       "columnCount": true,
       "fillOpacity": true,
       "flexGrow": true,
@@ -14365,19 +14020,19 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           hooks,
           origName = jQuery.camelCase(name),
           style = elem.style;
-      name = jQuery.cssProps[origName] || (jQuery.cssProps[origName] = vendorPropName(style, origName));
+      name = jQuery.cssProps[origName] || (jQuery.cssProps[origName] = vendorPropName(origName) || origName);
       hooks = jQuery.cssHooks[name] || jQuery.cssHooks[origName];
       if (value !== undefined) {
         type = typeof value;
-        if (type === "string" && (ret = rrelNum.exec(value))) {
-          value = (ret[1] + 1) * ret[2] + parseFloat(jQuery.css(elem, name));
+        if (type === "string" && (ret = rcssNum.exec(value)) && ret[1]) {
+          value = adjustCSS(elem, name, ret);
           type = "number";
         }
         if (value == null || value !== value) {
           return;
         }
-        if (type === "number" && !jQuery.cssNumber[origName]) {
-          value += "px";
+        if (type === "number") {
+          value += ret && ret[3] || (jQuery.cssNumber[origName] ? "" : "px");
         }
         if (!support.clearCloneStyle && value === "" && name.indexOf("background") === 0) {
           style[name] = "inherit";
@@ -14397,7 +14052,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           num,
           hooks,
           origName = jQuery.camelCase(name);
-      name = jQuery.cssProps[origName] || (jQuery.cssProps[origName] = vendorPropName(elem.style, origName));
+      name = jQuery.cssProps[origName] || (jQuery.cssProps[origName] = vendorPropName(origName) || origName);
       hooks = jQuery.cssHooks[name] || jQuery.cssHooks[origName];
       if (hooks && "get" in hooks) {
         val = hooks.get(elem, true, extra);
@@ -14410,7 +14065,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       }
       if (extra === "" || extra) {
         num = parseFloat(val);
-        return extra === true || jQuery.isNumeric(num) ? num || 0 : val;
+        return extra === true || isFinite(num) ? num || 0 : val;
       }
       return val;
     }
@@ -14419,20 +14074,33 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     jQuery.cssHooks[name] = {
       get: function(elem, computed, extra) {
         if (computed) {
-          return rdisplayswap.test(jQuery.css(elem, "display")) && elem.offsetWidth === 0 ? jQuery.swap(elem, cssShow, function() {
+          return rdisplayswap.test(jQuery.css(elem, "display")) && elem.offsetWidth === 0 ? swap(elem, cssShow, function() {
             return getWidthOrHeight(elem, name, extra);
           }) : getWidthOrHeight(elem, name, extra);
         }
       },
       set: function(elem, value, extra) {
-        var styles = extra && getStyles(elem);
-        return setPositiveNumber(elem, value, extra ? augmentWidthOrHeight(elem, name, extra, jQuery.css(elem, "boxSizing", false, styles) === "border-box", styles) : 0);
+        var matches,
+            styles = extra && getStyles(elem),
+            subtract = extra && augmentWidthOrHeight(elem, name, extra, jQuery.css(elem, "boxSizing", false, styles) === "border-box", styles);
+        if (subtract && (matches = rcssNum.exec(value)) && (matches[3] || "px") !== "px") {
+          elem.style[name] = value;
+          value = jQuery.css(elem, name);
+        }
+        return setPositiveNumber(elem, value, subtract);
       }
     };
   });
+  jQuery.cssHooks.marginLeft = addGetHookIf(support.reliableMarginLeft, function(elem, computed) {
+    if (computed) {
+      return (parseFloat(curCSS(elem, "marginLeft")) || elem.getBoundingClientRect().left - swap(elem, {marginLeft: 0}, function() {
+        return elem.getBoundingClientRect().left;
+      })) + "px";
+    }
+  });
   jQuery.cssHooks.marginRight = addGetHookIf(support.reliableMarginRight, function(elem, computed) {
     if (computed) {
-      return jQuery.swap(elem, {"display": "inline-block"}, curCSS, [elem, "marginRight"]);
+      return swap(elem, {"display": "inline-block"}, curCSS, [elem, "marginRight"]);
     }
   });
   jQuery.each({
@@ -14499,7 +14167,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     init: function(elem, options, prop, end, easing, unit) {
       this.elem = elem;
       this.prop = prop;
-      this.easing = easing || "swing";
+      this.easing = easing || jQuery.easing._default;
       this.options = options;
       this.start = this.now = this.cur();
       this.end = end;
@@ -14533,7 +14201,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   Tween.propHooks = {_default: {
       get: function(tween) {
         var result;
-        if (tween.elem[tween.prop] != null && (!tween.elem.style || tween.elem.style[tween.prop] == null)) {
+        if (tween.elem.nodeType !== 1 || tween.elem[tween.prop] != null && tween.elem.style[tween.prop] == null) {
           return tween.elem[tween.prop];
         }
         result = jQuery.css(tween.elem, tween.prop, "");
@@ -14542,7 +14210,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       set: function(tween) {
         if (jQuery.fx.step[tween.prop]) {
           jQuery.fx.step[tween.prop](tween);
-        } else if (tween.elem.style && (tween.elem.style[jQuery.cssProps[tween.prop]] != null || jQuery.cssHooks[tween.prop])) {
+        } else if (tween.elem.nodeType === 1 && (tween.elem.style[jQuery.cssProps[tween.prop]] != null || jQuery.cssHooks[tween.prop])) {
           jQuery.style(tween.elem, tween.prop, tween.now + tween.unit);
         } else {
           tween.elem[tween.prop] = tween.now;
@@ -14560,43 +14228,17 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     },
     swing: function(p) {
       return 0.5 - Math.cos(p * Math.PI) / 2;
-    }
+    },
+    _default: "swing"
   };
   jQuery.fx = Tween.prototype.init;
   jQuery.fx.step = {};
   var fxNow,
       timerId,
       rfxtypes = /^(?:toggle|show|hide)$/,
-      rfxnum = new RegExp("^(?:([+-])=|)(" + pnum + ")([a-z%]*)$", "i"),
-      rrun = /queueHooks$/,
-      animationPrefilters = [defaultPrefilter],
-      tweeners = {"*": [function(prop, value) {
-          var tween = this.createTween(prop, value),
-              target = tween.cur(),
-              parts = rfxnum.exec(value),
-              unit = parts && parts[3] || (jQuery.cssNumber[prop] ? "" : "px"),
-              start = (jQuery.cssNumber[prop] || unit !== "px" && +target) && rfxnum.exec(jQuery.css(tween.elem, prop)),
-              scale = 1,
-              maxIterations = 20;
-          if (start && start[3] !== unit) {
-            unit = unit || start[3];
-            parts = parts || [];
-            start = +target || 1;
-            do {
-              scale = scale || ".5";
-              start = start / scale;
-              jQuery.style(tween.elem, prop, start + unit);
-            } while (scale !== (scale = tween.cur() / target) && scale !== 1 && --maxIterations);
-          }
-          if (parts) {
-            start = tween.start = +start || +target || 0;
-            tween.unit = unit;
-            tween.end = parts[1] ? start + (parts[1] + 1) * parts[2] : +parts[2];
-          }
-          return tween;
-        }]};
+      rrun = /queueHooks$/;
   function createFxNow() {
-    setTimeout(function() {
+    window.setTimeout(function() {
       fxNow = undefined;
     });
     return (fxNow = jQuery.now());
@@ -14617,7 +14259,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   }
   function createTween(value, prop, animation) {
     var tween,
-        collection = (tweeners[prop] || []).concat(tweeners["*"]),
+        collection = (Animation.tweeners[prop] || []).concat(Animation.tweeners["*"]),
         index = 0,
         length = collection.length;
     for (; index < length; index++) {
@@ -14639,7 +14281,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         orig = {},
         style = elem.style,
         hidden = elem.nodeType && isHidden(elem),
-        dataShow = data_priv.get(elem, "fxshow");
+        dataShow = dataPriv.get(elem, "fxshow");
     if (!opts.queue) {
       hooks = jQuery._queueHooks(elem, "fx");
       if (hooks.unqueued == null) {
@@ -14664,7 +14306,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     if (elem.nodeType === 1 && ("height" in props || "width" in props)) {
       opts.overflow = [style.overflow, style.overflowX, style.overflowY];
       display = jQuery.css(elem, "display");
-      checkDisplay = display === "none" ? data_priv.get(elem, "olddisplay") || defaultDisplay(elem.nodeName) : display;
+      checkDisplay = display === "none" ? dataPriv.get(elem, "olddisplay") || defaultDisplay(elem.nodeName) : display;
       if (checkDisplay === "inline" && jQuery.css(elem, "float") === "none") {
         style.display = "inline-block";
       }
@@ -14700,7 +14342,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           hidden = dataShow.hidden;
         }
       } else {
-        dataShow = data_priv.access(elem, "fxshow", {});
+        dataShow = dataPriv.access(elem, "fxshow", {});
       }
       if (toggle) {
         dataShow.hidden = !hidden;
@@ -14714,7 +14356,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       }
       anim.done(function() {
         var prop;
-        data_priv.remove(elem, "fxshow");
+        dataPriv.remove(elem, "fxshow");
         for (prop in orig) {
           jQuery.style(elem, prop, orig[prop]);
         }
@@ -14770,7 +14412,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     var result,
         stopped,
         index = 0,
-        length = animationPrefilters.length,
+        length = Animation.prefilters.length,
         deferred = jQuery.Deferred().always(function() {
           delete tick.elem;
         }),
@@ -14798,7 +14440,10 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         animation = deferred.promise({
           elem: elem,
           props: jQuery.extend({}, properties),
-          opts: jQuery.extend(true, {specialEasing: {}}, options),
+          opts: jQuery.extend(true, {
+            specialEasing: {},
+            easing: jQuery.easing._default
+          }, options),
           originalProperties: properties,
           originalOptions: options,
           startTime: fxNow || createFxNow(),
@@ -14820,6 +14465,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
               animation.tweens[index].run(1);
             }
             if (gotoEnd) {
+              deferred.notifyWith(elem, [animation, 1, 0]);
               deferred.resolveWith(elem, [animation, gotoEnd]);
             } else {
               deferred.rejectWith(elem, [animation, gotoEnd]);
@@ -14830,8 +14476,11 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         props = animation.props;
     propFilter(props, animation.opts.specialEasing);
     for (; index < length; index++) {
-      result = animationPrefilters[index].call(animation, elem, props, animation.opts);
+      result = Animation.prefilters[index].call(animation, elem, props, animation.opts);
       if (result) {
+        if (jQuery.isFunction(result.stop)) {
+          jQuery._queueHooks(animation.elem, animation.opts.queue).stop = jQuery.proxy(result.stop, result);
+        }
         return result;
       }
     }
@@ -14847,27 +14496,33 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     return animation.progress(animation.opts.progress).done(animation.opts.done, animation.opts.complete).fail(animation.opts.fail).always(animation.opts.always);
   }
   jQuery.Animation = jQuery.extend(Animation, {
+    tweeners: {"*": [function(prop, value) {
+        var tween = this.createTween(prop, value);
+        adjustCSS(tween.elem, prop, rcssNum.exec(value), tween);
+        return tween;
+      }]},
     tweener: function(props, callback) {
       if (jQuery.isFunction(props)) {
         callback = props;
         props = ["*"];
       } else {
-        props = props.split(" ");
+        props = props.match(rnotwhite);
       }
       var prop,
           index = 0,
           length = props.length;
       for (; index < length; index++) {
         prop = props[index];
-        tweeners[prop] = tweeners[prop] || [];
-        tweeners[prop].unshift(callback);
+        Animation.tweeners[prop] = Animation.tweeners[prop] || [];
+        Animation.tweeners[prop].unshift(callback);
       }
     },
+    prefilters: [defaultPrefilter],
     prefilter: function(callback, prepend) {
       if (prepend) {
-        animationPrefilters.unshift(callback);
+        Animation.prefilters.unshift(callback);
       } else {
-        animationPrefilters.push(callback);
+        Animation.prefilters.push(callback);
       }
     }
   });
@@ -14901,7 +14556,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           optall = jQuery.speed(speed, easing, callback),
           doAnimation = function() {
             var anim = Animation(this, jQuery.extend({}, prop), optall);
-            if (empty || data_priv.get(this, "finish")) {
+            if (empty || dataPriv.get(this, "finish")) {
               anim.stop(true);
             }
           };
@@ -14926,7 +14581,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         var dequeue = true,
             index = type != null && type + "queueHooks",
             timers = jQuery.timers,
-            data = data_priv.get(this);
+            data = dataPriv.get(this);
         if (index) {
           if (data[index] && data[index].stop) {
             stopQueue(data[index]);
@@ -14956,7 +14611,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       }
       return this.each(function() {
         var index,
-            data = data_priv.get(this),
+            data = dataPriv.get(this),
             queue = data[type + "queue"],
             hooks = data[type + "queueHooks"],
             timers = jQuery.timers,
@@ -15027,11 +14682,11 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   jQuery.fx.interval = 13;
   jQuery.fx.start = function() {
     if (!timerId) {
-      timerId = setInterval(jQuery.fx.tick, jQuery.fx.interval);
+      timerId = window.setInterval(jQuery.fx.tick, jQuery.fx.interval);
     }
   };
   jQuery.fx.stop = function() {
-    clearInterval(timerId);
+    window.clearInterval(timerId);
     timerId = null;
   };
   jQuery.fx.speeds = {
@@ -15043,9 +14698,9 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     time = jQuery.fx ? jQuery.fx.speeds[time] || time : time;
     type = type || "fx";
     return this.queue(type, function(next, hooks) {
-      var timeout = setTimeout(next, time);
+      var timeout = window.setTimeout(next, time);
       hooks.stop = function() {
-        clearTimeout(timeout);
+        window.clearTimeout(timeout);
       };
     });
   };
@@ -15063,8 +14718,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     input.type = "radio";
     support.radioValue = input.value === "t";
   })();
-  var nodeHook,
-      boolHook,
+  var boolHook,
       attrHandle = jQuery.expr.attrHandle;
   jQuery.fn.extend({
     attr: function(name, value) {
@@ -15078,35 +14732,46 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   });
   jQuery.extend({
     attr: function(elem, name, value) {
-      var hooks,
-          ret,
+      var ret,
+          hooks,
           nType = elem.nodeType;
-      if (!elem || nType === 3 || nType === 8 || nType === 2) {
+      if (nType === 3 || nType === 8 || nType === 2) {
         return;
       }
-      if (typeof elem.getAttribute === strundefined) {
+      if (typeof elem.getAttribute === "undefined") {
         return jQuery.prop(elem, name, value);
       }
       if (nType !== 1 || !jQuery.isXMLDoc(elem)) {
         name = name.toLowerCase();
-        hooks = jQuery.attrHooks[name] || (jQuery.expr.match.bool.test(name) ? boolHook : nodeHook);
+        hooks = jQuery.attrHooks[name] || (jQuery.expr.match.bool.test(name) ? boolHook : undefined);
       }
       if (value !== undefined) {
         if (value === null) {
           jQuery.removeAttr(elem, name);
-        } else if (hooks && "set" in hooks && (ret = hooks.set(elem, value, name)) !== undefined) {
-          return ret;
-        } else {
-          elem.setAttribute(name, value + "");
-          return value;
+          return;
         }
-      } else if (hooks && "get" in hooks && (ret = hooks.get(elem, name)) !== null) {
-        return ret;
-      } else {
-        ret = jQuery.find.attr(elem, name);
-        return ret == null ? undefined : ret;
+        if (hooks && "set" in hooks && (ret = hooks.set(elem, value, name)) !== undefined) {
+          return ret;
+        }
+        elem.setAttribute(name, value + "");
+        return value;
       }
+      if (hooks && "get" in hooks && (ret = hooks.get(elem, name)) !== null) {
+        return ret;
+      }
+      ret = jQuery.find.attr(elem, name);
+      return ret == null ? undefined : ret;
     },
+    attrHooks: {type: {set: function(elem, value) {
+          if (!support.radioValue && value === "radio" && jQuery.nodeName(elem, "input")) {
+            var val = elem.value;
+            elem.setAttribute("type", value);
+            if (val) {
+              elem.value = val;
+            }
+            return value;
+          }
+        }}},
     removeAttr: function(elem, value) {
       var name,
           propName,
@@ -15121,17 +14786,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           elem.removeAttribute(name);
         }
       }
-    },
-    attrHooks: {type: {set: function(elem, value) {
-          if (!support.radioValue && value === "radio" && jQuery.nodeName(elem, "input")) {
-            var val = elem.value;
-            elem.setAttribute("type", value);
-            if (val) {
-              elem.value = val;
-            }
-            return value;
-          }
-        }}}
+    }
   });
   boolHook = {set: function(elem, value, name) {
       if (value === false) {
@@ -15155,7 +14810,8 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       return ret;
     };
   });
-  var rfocusable = /^(?:input|select|textarea|button)$/i;
+  var rfocusable = /^(?:input|select|textarea|button)$/i,
+      rclickable = /^(?:a|area)$/i;
   jQuery.fn.extend({
     prop: function(name, value) {
       return access(this, jQuery.prop, name, value, arguments.length > 1);
@@ -15167,32 +14823,36 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     }
   });
   jQuery.extend({
-    propFix: {
-      "for": "htmlFor",
-      "class": "className"
-    },
     prop: function(elem, name, value) {
       var ret,
           hooks,
-          notxml,
           nType = elem.nodeType;
-      if (!elem || nType === 3 || nType === 8 || nType === 2) {
+      if (nType === 3 || nType === 8 || nType === 2) {
         return;
       }
-      notxml = nType !== 1 || !jQuery.isXMLDoc(elem);
-      if (notxml) {
+      if (nType !== 1 || !jQuery.isXMLDoc(elem)) {
         name = jQuery.propFix[name] || name;
         hooks = jQuery.propHooks[name];
       }
       if (value !== undefined) {
-        return hooks && "set" in hooks && (ret = hooks.set(elem, value, name)) !== undefined ? ret : (elem[name] = value);
-      } else {
-        return hooks && "get" in hooks && (ret = hooks.get(elem, name)) !== null ? ret : elem[name];
+        if (hooks && "set" in hooks && (ret = hooks.set(elem, value, name)) !== undefined) {
+          return ret;
+        }
+        return (elem[name] = value);
       }
+      if (hooks && "get" in hooks && (ret = hooks.get(elem, name)) !== null) {
+        return ret;
+      }
+      return elem[name];
     },
     propHooks: {tabIndex: {get: function(elem) {
-          return elem.hasAttribute("tabindex") || rfocusable.test(elem.nodeName) || elem.href ? elem.tabIndex : -1;
-        }}}
+          var tabindex = jQuery.find.attr(elem, "tabindex");
+          return tabindex ? parseInt(tabindex, 10) : rfocusable.test(elem.nodeName) || rclickable.test(elem.nodeName) && elem.href ? 0 : -1;
+        }}},
+    propFix: {
+      "for": "htmlFor",
+      "class": "className"
+    }
   });
   if (!support.optSelected) {
     jQuery.propHooks.selected = {get: function(elem) {
@@ -15207,27 +14867,29 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     jQuery.propFix[this.toLowerCase()] = this;
   });
   var rclass = /[\t\r\n\f]/g;
+  function getClass(elem) {
+    return elem.getAttribute && elem.getAttribute("class") || "";
+  }
   jQuery.fn.extend({
     addClass: function(value) {
       var classes,
           elem,
           cur,
+          curValue,
           clazz,
           j,
           finalValue,
-          proceed = typeof value === "string" && value,
-          i = 0,
-          len = this.length;
+          i = 0;
       if (jQuery.isFunction(value)) {
         return this.each(function(j) {
-          jQuery(this).addClass(value.call(this, j, this.className));
+          jQuery(this).addClass(value.call(this, j, getClass(this)));
         });
       }
-      if (proceed) {
-        classes = (value || "").match(rnotwhite) || [];
-        for (; i < len; i++) {
-          elem = this[i];
-          cur = elem.nodeType === 1 && (elem.className ? (" " + elem.className + " ").replace(rclass, " ") : " ");
+      if (typeof value === "string" && value) {
+        classes = value.match(rnotwhite) || [];
+        while ((elem = this[i++])) {
+          curValue = getClass(elem);
+          cur = elem.nodeType === 1 && (" " + curValue + " ").replace(rclass, " ");
           if (cur) {
             j = 0;
             while ((clazz = classes[j++])) {
@@ -15236,8 +14898,8 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
               }
             }
             finalValue = jQuery.trim(cur);
-            if (elem.className !== finalValue) {
-              elem.className = finalValue;
+            if (curValue !== finalValue) {
+              elem.setAttribute("class", finalValue);
             }
           }
         }
@@ -15248,32 +14910,34 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       var classes,
           elem,
           cur,
+          curValue,
           clazz,
           j,
           finalValue,
-          proceed = arguments.length === 0 || typeof value === "string" && value,
-          i = 0,
-          len = this.length;
+          i = 0;
       if (jQuery.isFunction(value)) {
         return this.each(function(j) {
-          jQuery(this).removeClass(value.call(this, j, this.className));
+          jQuery(this).removeClass(value.call(this, j, getClass(this)));
         });
       }
-      if (proceed) {
-        classes = (value || "").match(rnotwhite) || [];
-        for (; i < len; i++) {
-          elem = this[i];
-          cur = elem.nodeType === 1 && (elem.className ? (" " + elem.className + " ").replace(rclass, " ") : "");
+      if (!arguments.length) {
+        return this.attr("class", "");
+      }
+      if (typeof value === "string" && value) {
+        classes = value.match(rnotwhite) || [];
+        while ((elem = this[i++])) {
+          curValue = getClass(elem);
+          cur = elem.nodeType === 1 && (" " + curValue + " ").replace(rclass, " ");
           if (cur) {
             j = 0;
             while ((clazz = classes[j++])) {
-              while (cur.indexOf(" " + clazz + " ") >= 0) {
+              while (cur.indexOf(" " + clazz + " ") > -1) {
                 cur = cur.replace(" " + clazz + " ", " ");
               }
             }
-            finalValue = value ? jQuery.trim(cur) : "";
-            if (elem.className !== finalValue) {
-              elem.className = finalValue;
+            finalValue = jQuery.trim(cur);
+            if (curValue !== finalValue) {
+              elem.setAttribute("class", finalValue);
             }
           }
         }
@@ -15287,15 +14951,18 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       }
       if (jQuery.isFunction(value)) {
         return this.each(function(i) {
-          jQuery(this).toggleClass(value.call(this, i, this.className, stateVal), stateVal);
+          jQuery(this).toggleClass(value.call(this, i, getClass(this), stateVal), stateVal);
         });
       }
       return this.each(function() {
+        var className,
+            i,
+            self,
+            classNames;
         if (type === "string") {
-          var className,
-              i = 0,
-              self = jQuery(this),
-              classNames = value.match(rnotwhite) || [];
+          i = 0;
+          self = jQuery(this);
+          classNames = value.match(rnotwhite) || [];
           while ((className = classNames[i++])) {
             if (self.hasClass(className)) {
               self.removeClass(className);
@@ -15303,20 +14970,24 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
               self.addClass(className);
             }
           }
-        } else if (type === strundefined || type === "boolean") {
-          if (this.className) {
-            data_priv.set(this, "__className__", this.className);
+        } else if (value === undefined || type === "boolean") {
+          className = getClass(this);
+          if (className) {
+            dataPriv.set(this, "__className__", className);
           }
-          this.className = this.className || value === false ? "" : data_priv.get(this, "__className__") || "";
+          if (this.setAttribute) {
+            this.setAttribute("class", className || value === false ? "" : dataPriv.get(this, "__className__") || "");
+          }
         }
       });
     },
     hasClass: function(selector) {
-      var className = " " + selector + " ",
-          i = 0,
-          l = this.length;
-      for (; i < l; i++) {
-        if (this[i].nodeType === 1 && (" " + this[i].className + " ").replace(rclass, " ").indexOf(className) >= 0) {
+      var className,
+          elem,
+          i = 0;
+      className = " " + selector + " ";
+      while ((elem = this[i++])) {
+        if (elem.nodeType === 1 && (" " + getClass(elem) + " ").replace(rclass, " ").indexOf(className) > -1) {
           return true;
         }
       }
@@ -15368,8 +15039,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     }});
   jQuery.extend({valHooks: {
       option: {get: function(elem) {
-          var val = jQuery.find.attr(elem, "value");
-          return val != null ? val : jQuery.trim(jQuery.text(elem));
+          return jQuery.trim(elem.value);
         }},
       select: {
         get: function(elem) {
@@ -15401,7 +15071,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
               i = options.length;
           while (i--) {
             option = options[i];
-            if ((option.selected = jQuery.inArray(option.value, values) >= 0)) {
+            if (option.selected = jQuery.inArray(jQuery.valHooks.option.get(option), values) > -1) {
               optionSet = true;
             }
           }
@@ -15415,7 +15085,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   jQuery.each(["radio", "checkbox"], function() {
     jQuery.valHooks[this] = {set: function(elem, value) {
         if (jQuery.isArray(value)) {
-          return (elem.checked = jQuery.inArray(jQuery(elem).val(), value) >= 0);
+          return (elem.checked = jQuery.inArray(jQuery(elem).val(), value) > -1);
         }
       }};
     if (!support.checkOn) {
@@ -15424,42 +15094,168 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       };
     }
   });
+  var rfocusMorph = /^(?:focusinfocus|focusoutblur)$/;
+  jQuery.extend(jQuery.event, {
+    trigger: function(event, data, elem, onlyHandlers) {
+      var i,
+          cur,
+          tmp,
+          bubbleType,
+          ontype,
+          handle,
+          special,
+          eventPath = [elem || document],
+          type = hasOwn.call(event, "type") ? event.type : event,
+          namespaces = hasOwn.call(event, "namespace") ? event.namespace.split(".") : [];
+      cur = tmp = elem = elem || document;
+      if (elem.nodeType === 3 || elem.nodeType === 8) {
+        return;
+      }
+      if (rfocusMorph.test(type + jQuery.event.triggered)) {
+        return;
+      }
+      if (type.indexOf(".") > -1) {
+        namespaces = type.split(".");
+        type = namespaces.shift();
+        namespaces.sort();
+      }
+      ontype = type.indexOf(":") < 0 && "on" + type;
+      event = event[jQuery.expando] ? event : new jQuery.Event(type, typeof event === "object" && event);
+      event.isTrigger = onlyHandlers ? 2 : 3;
+      event.namespace = namespaces.join(".");
+      event.rnamespace = event.namespace ? new RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)") : null;
+      event.result = undefined;
+      if (!event.target) {
+        event.target = elem;
+      }
+      data = data == null ? [event] : jQuery.makeArray(data, [event]);
+      special = jQuery.event.special[type] || {};
+      if (!onlyHandlers && special.trigger && special.trigger.apply(elem, data) === false) {
+        return;
+      }
+      if (!onlyHandlers && !special.noBubble && !jQuery.isWindow(elem)) {
+        bubbleType = special.delegateType || type;
+        if (!rfocusMorph.test(bubbleType + type)) {
+          cur = cur.parentNode;
+        }
+        for (; cur; cur = cur.parentNode) {
+          eventPath.push(cur);
+          tmp = cur;
+        }
+        if (tmp === (elem.ownerDocument || document)) {
+          eventPath.push(tmp.defaultView || tmp.parentWindow || window);
+        }
+      }
+      i = 0;
+      while ((cur = eventPath[i++]) && !event.isPropagationStopped()) {
+        event.type = i > 1 ? bubbleType : special.bindType || type;
+        handle = (dataPriv.get(cur, "events") || {})[event.type] && dataPriv.get(cur, "handle");
+        if (handle) {
+          handle.apply(cur, data);
+        }
+        handle = ontype && cur[ontype];
+        if (handle && handle.apply && acceptData(cur)) {
+          event.result = handle.apply(cur, data);
+          if (event.result === false) {
+            event.preventDefault();
+          }
+        }
+      }
+      event.type = type;
+      if (!onlyHandlers && !event.isDefaultPrevented()) {
+        if ((!special._default || special._default.apply(eventPath.pop(), data) === false) && acceptData(elem)) {
+          if (ontype && jQuery.isFunction(elem[type]) && !jQuery.isWindow(elem)) {
+            tmp = elem[ontype];
+            if (tmp) {
+              elem[ontype] = null;
+            }
+            jQuery.event.triggered = type;
+            elem[type]();
+            jQuery.event.triggered = undefined;
+            if (tmp) {
+              elem[ontype] = tmp;
+            }
+          }
+        }
+      }
+      return event.result;
+    },
+    simulate: function(type, elem, event) {
+      var e = jQuery.extend(new jQuery.Event(), event, {
+        type: type,
+        isSimulated: true
+      });
+      jQuery.event.trigger(e, null, elem);
+      if (e.isDefaultPrevented()) {
+        event.preventDefault();
+      }
+    }
+  });
+  jQuery.fn.extend({
+    trigger: function(type, data) {
+      return this.each(function() {
+        jQuery.event.trigger(type, data, this);
+      });
+    },
+    triggerHandler: function(type, data) {
+      var elem = this[0];
+      if (elem) {
+        return jQuery.event.trigger(type, data, elem, true);
+      }
+    }
+  });
   jQuery.each(("blur focus focusin focusout load resize scroll unload click dblclick " + "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " + "change select submit keydown keypress keyup error contextmenu").split(" "), function(i, name) {
     jQuery.fn[name] = function(data, fn) {
       return arguments.length > 0 ? this.on(name, null, data, fn) : this.trigger(name);
     };
   });
-  jQuery.fn.extend({
-    hover: function(fnOver, fnOut) {
+  jQuery.fn.extend({hover: function(fnOver, fnOut) {
       return this.mouseenter(fnOver).mouseleave(fnOut || fnOver);
-    },
-    bind: function(types, data, fn) {
-      return this.on(types, null, data, fn);
-    },
-    unbind: function(types, fn) {
-      return this.off(types, null, fn);
-    },
-    delegate: function(selector, types, data, fn) {
-      return this.on(types, selector, data, fn);
-    },
-    undelegate: function(selector, types, fn) {
-      return arguments.length === 1 ? this.off(selector, "**") : this.off(types, selector || "**", fn);
-    }
-  });
+    }});
+  support.focusin = "onfocusin" in window;
+  if (!support.focusin) {
+    jQuery.each({
+      focus: "focusin",
+      blur: "focusout"
+    }, function(orig, fix) {
+      var handler = function(event) {
+        jQuery.event.simulate(fix, event.target, jQuery.event.fix(event));
+      };
+      jQuery.event.special[fix] = {
+        setup: function() {
+          var doc = this.ownerDocument || this,
+              attaches = dataPriv.access(doc, fix);
+          if (!attaches) {
+            doc.addEventListener(orig, handler, true);
+          }
+          dataPriv.access(doc, fix, (attaches || 0) + 1);
+        },
+        teardown: function() {
+          var doc = this.ownerDocument || this,
+              attaches = dataPriv.access(doc, fix) - 1;
+          if (!attaches) {
+            doc.removeEventListener(orig, handler, true);
+            dataPriv.remove(doc, fix);
+          } else {
+            dataPriv.access(doc, fix, attaches);
+          }
+        }
+      };
+    });
+  }
+  var location = window.location;
   var nonce = jQuery.now();
   var rquery = (/\?/);
   jQuery.parseJSON = function(data) {
     return JSON.parse(data + "");
   };
   jQuery.parseXML = function(data) {
-    var xml,
-        tmp;
+    var xml;
     if (!data || typeof data !== "string") {
       return null;
     }
     try {
-      tmp = new DOMParser();
-      xml = tmp.parseFromString(data, "text/xml");
+      xml = (new window.DOMParser()).parseFromString(data, "text/xml");
     } catch (e) {
       xml = undefined;
     }
@@ -15474,12 +15270,11 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       rlocalProtocol = /^(?:about|app|app-storage|.+-extension|file|res|widget):$/,
       rnoContent = /^(?:GET|HEAD)$/,
       rprotocol = /^\/\//,
-      rurl = /^([\w.+-]+:)(?:\/\/(?:[^\/?#]*@|)([^\/?#:]*)(?::(\d+)|)|)/,
       prefilters = {},
       transports = {},
       allTypes = "*/".concat("*"),
-      ajaxLocation = window.location.href,
-      ajaxLocParts = rurl.exec(ajaxLocation.toLowerCase()) || [];
+      originAnchor = document.createElement("a");
+  originAnchor.href = location.href;
   function addToPrefiltersOrTransports(structure) {
     return function(dataTypeExpression, func) {
       if (typeof dataTypeExpression !== "string") {
@@ -15623,7 +15418,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
             }
           }
           if (conv !== true) {
-            if (conv && s["throws"]) {
+            if (conv && s.throws) {
               response = conv(response);
             } else {
               try {
@@ -15649,9 +15444,9 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     lastModified: {},
     etag: {},
     ajaxSettings: {
-      url: ajaxLocation,
+      url: location.href,
       type: "GET",
-      isLocal: rlocalProtocol.test(ajaxLocParts[1]),
+      isLocal: rlocalProtocol.test(location.protocol),
       global: true,
       processData: true,
       async: true,
@@ -15664,9 +15459,9 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         json: "application/json, text/javascript"
       },
       contents: {
-        xml: /xml/,
-        html: /html/,
-        json: /json/
+        xml: /\bxml\b/,
+        html: /\bhtml/,
+        json: /\bjson\b/
       },
       responseFields: {
         xml: "responseXML",
@@ -15700,7 +15495,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           responseHeadersString,
           responseHeaders,
           timeoutTimer,
-          parts,
+          urlAnchor,
           fireGlobals,
           i,
           s = jQuery.ajaxSetup({}, options),
@@ -15770,12 +15565,18 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       deferred.promise(jqXHR).complete = completeDeferred.add;
       jqXHR.success = jqXHR.done;
       jqXHR.error = jqXHR.fail;
-      s.url = ((url || s.url || ajaxLocation) + "").replace(rhash, "").replace(rprotocol, ajaxLocParts[1] + "//");
+      s.url = ((url || s.url || location.href) + "").replace(rhash, "").replace(rprotocol, location.protocol + "//");
       s.type = options.method || options.type || s.method || s.type;
       s.dataTypes = jQuery.trim(s.dataType || "*").toLowerCase().match(rnotwhite) || [""];
       if (s.crossDomain == null) {
-        parts = rurl.exec(s.url.toLowerCase());
-        s.crossDomain = !!(parts && (parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] || (parts[3] || (parts[1] === "http:" ? "80" : "443")) !== (ajaxLocParts[3] || (ajaxLocParts[1] === "http:" ? "80" : "443"))));
+        urlAnchor = document.createElement("a");
+        try {
+          urlAnchor.href = s.url;
+          urlAnchor.href = urlAnchor.href;
+          s.crossDomain = originAnchor.protocol + "//" + originAnchor.host !== urlAnchor.protocol + "//" + urlAnchor.host;
+        } catch (e) {
+          s.crossDomain = true;
+        }
       }
       if (s.data && s.processData && typeof s.data !== "string") {
         s.data = jQuery.param(s.data, s.traditional);
@@ -15834,8 +15635,11 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         if (fireGlobals) {
           globalEventContext.trigger("ajaxSend", [jqXHR, s]);
         }
+        if (state === 2) {
+          return jqXHR;
+        }
         if (s.async && s.timeout > 0) {
-          timeoutTimer = setTimeout(function() {
+          timeoutTimer = window.setTimeout(function() {
             jqXHR.abort("timeout");
           }, s.timeout);
         }
@@ -15862,7 +15666,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         }
         state = 2;
         if (timeoutTimer) {
-          clearTimeout(timeoutTimer);
+          window.clearTimeout(timeoutTimer);
         }
         transport = undefined;
         responseHeadersString = headers || "";
@@ -15938,13 +15742,13 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         callback = data;
         data = undefined;
       }
-      return jQuery.ajax({
+      return jQuery.ajax(jQuery.extend({
         url: url,
         type: method,
         dataType: type,
         data: data,
         success: callback
-      });
+      }, jQuery.isPlainObject(url) && url));
     };
   });
   jQuery._evalUrl = function(url) {
@@ -16011,10 +15815,10 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     }
   });
   jQuery.expr.filters.hidden = function(elem) {
-    return elem.offsetWidth <= 0 && elem.offsetHeight <= 0;
+    return !jQuery.expr.filters.visible(elem);
   };
   jQuery.expr.filters.visible = function(elem) {
-    return !jQuery.expr.filters.hidden(elem);
+    return elem.offsetWidth > 0 || elem.offsetHeight > 0 || elem.getClientRects().length > 0;
   };
   var r20 = /%20/g,
       rbracket = /\[\]$/,
@@ -16028,7 +15832,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         if (traditional || rbracket.test(prefix)) {
           add(prefix, v);
         } else {
-          buildParams(prefix + "[" + (typeof v === "object" ? i : "") + "]", v, traditional, add);
+          buildParams(prefix + "[" + (typeof v === "object" && v != null ? i : "") + "]", v, traditional, add);
         }
       });
     } else if (!traditional && jQuery.type(obj) === "object") {
@@ -16087,33 +15891,24 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   });
   jQuery.ajaxSettings.xhr = function() {
     try {
-      return new XMLHttpRequest();
+      return new window.XMLHttpRequest();
     } catch (e) {}
   };
-  var xhrId = 0,
-      xhrCallbacks = {},
-      xhrSuccessStatus = {
-        0: 200,
-        1223: 204
-      },
+  var xhrSuccessStatus = {
+    0: 200,
+    1223: 204
+  },
       xhrSupported = jQuery.ajaxSettings.xhr();
-  if (window.attachEvent) {
-    window.attachEvent("onunload", function() {
-      for (var key in xhrCallbacks) {
-        xhrCallbacks[key]();
-      }
-    });
-  }
   support.cors = !!xhrSupported && ("withCredentials" in xhrSupported);
   support.ajax = xhrSupported = !!xhrSupported;
   jQuery.ajaxTransport(function(options) {
-    var callback;
+    var callback,
+        errorCallback;
     if (support.cors || xhrSupported && !options.crossDomain) {
       return {
         send: function(headers, complete) {
           var i,
-              xhr = options.xhr(),
-              id = ++xhrId;
+              xhr = options.xhr();
           xhr.open(options.type, options.url, options.async, options.username, options.password);
           if (options.xhrFields) {
             for (i in options.xhrFields) {
@@ -16132,21 +15927,37 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           callback = function(type) {
             return function() {
               if (callback) {
-                delete xhrCallbacks[id];
-                callback = xhr.onload = xhr.onerror = null;
+                callback = errorCallback = xhr.onload = xhr.onerror = xhr.onabort = xhr.onreadystatechange = null;
                 if (type === "abort") {
                   xhr.abort();
                 } else if (type === "error") {
-                  complete(xhr.status, xhr.statusText);
+                  if (typeof xhr.status !== "number") {
+                    complete(0, "error");
+                  } else {
+                    complete(xhr.status, xhr.statusText);
+                  }
                 } else {
-                  complete(xhrSuccessStatus[xhr.status] || xhr.status, xhr.statusText, typeof xhr.responseText === "string" ? {text: xhr.responseText} : undefined, xhr.getAllResponseHeaders());
+                  complete(xhrSuccessStatus[xhr.status] || xhr.status, xhr.statusText, (xhr.responseType || "text") !== "text" || typeof xhr.responseText !== "string" ? {binary: xhr.response} : {text: xhr.responseText}, xhr.getAllResponseHeaders());
                 }
               }
             };
           };
           xhr.onload = callback();
-          xhr.onerror = callback("error");
-          callback = xhrCallbacks[id] = callback("abort");
+          errorCallback = xhr.onerror = callback("error");
+          if (xhr.onabort !== undefined) {
+            xhr.onabort = errorCallback;
+          } else {
+            xhr.onreadystatechange = function() {
+              if (xhr.readyState === 4) {
+                window.setTimeout(function() {
+                  if (callback) {
+                    errorCallback();
+                  }
+                });
+              }
+            };
+          }
+          callback = callback("abort");
           try {
             xhr.send(options.hasContent && options.data || null);
           } catch (e) {
@@ -16164,8 +15975,8 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     }
   });
   jQuery.ajaxSetup({
-    accepts: {script: "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"},
-    contents: {script: /(?:java|ecma)script/},
+    accepts: {script: "text/javascript, application/javascript, " + "application/ecmascript, application/x-ecmascript"},
+    contents: {script: /\b(?:java|ecma)script\b/},
     converters: {"text script": function(text) {
         jQuery.globalEval(text);
         return text;
@@ -16186,7 +15997,6 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       return {
         send: function(_, complete) {
           script = jQuery("<script>").prop({
-            async: true,
             charset: s.scriptCharset,
             src: s.url
           }).on("load error", callback = function(evt) {
@@ -16220,7 +16030,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     var callbackName,
         overwritten,
         responseContainer,
-        jsonProp = s.jsonp !== false && (rjsonp.test(s.url) ? "url" : typeof s.data === "string" && !(s.contentType || "").indexOf("application/x-www-form-urlencoded") && rjsonp.test(s.data) && "data");
+        jsonProp = s.jsonp !== false && (rjsonp.test(s.url) ? "url" : typeof s.data === "string" && (s.contentType || "").indexOf("application/x-www-form-urlencoded") === 0 && rjsonp.test(s.data) && "data");
     if (jsonProp || s.dataTypes[0] === "jsonp") {
       callbackName = s.jsonpCallback = jQuery.isFunction(s.jsonpCallback) ? s.jsonpCallback() : s.jsonpCallback;
       if (jsonProp) {
@@ -16240,7 +16050,11 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         responseContainer = arguments;
       };
       jqXHR.always(function() {
-        window[callbackName] = overwritten;
+        if (overwritten === undefined) {
+          jQuery(window).removeProp(callbackName);
+        } else {
+          window[callbackName] = overwritten;
+        }
         if (s[callbackName]) {
           s.jsonpCallback = originalSettings.jsonpCallback;
           oldCallbacks.push(callbackName);
@@ -16253,6 +16067,11 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       return "script";
     }
   });
+  support.createHTMLDocument = (function() {
+    var body = document.implementation.createHTMLDocument("").body;
+    body.innerHTML = "<form></form><form></form>";
+    return body.childNodes.length === 2;
+  })();
   jQuery.parseHTML = function(data, context, keepScripts) {
     if (!data || typeof data !== "string") {
       return null;
@@ -16261,13 +16080,13 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       keepScripts = context;
       context = false;
     }
-    context = context || document;
+    context = context || (support.createHTMLDocument ? document.implementation.createHTMLDocument("") : document);
     var parsed = rsingleTag.exec(data),
         scripts = !keepScripts && [];
     if (parsed) {
       return [context.createElement(parsed[1])];
     }
-    parsed = jQuery.buildFragment([data], context, scripts);
+    parsed = buildFragment([data], context, scripts);
     if (scripts && scripts.length) {
       jQuery(scripts).remove();
     }
@@ -16283,7 +16102,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         response,
         self = this,
         off = url.indexOf(" ");
-    if (off >= 0) {
+    if (off > -1) {
       selector = jQuery.trim(url.slice(off));
       url = url.slice(0, off);
     }
@@ -16296,14 +16115,16 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     if (self.length > 0) {
       jQuery.ajax({
         url: url,
-        type: type,
+        type: type || "GET",
         dataType: "html",
         data: params
       }).done(function(responseText) {
         response = arguments;
         self.html(selector ? jQuery("<div>").append(jQuery.parseHTML(responseText)).find(selector) : responseText);
-      }).complete(callback && function(jqXHR, status) {
-        self.each(callback, response || [jqXHR.responseText, status, jqXHR]);
+      }).always(callback && function(jqXHR, status) {
+        self.each(function() {
+          callback.apply(self, response || [jqXHR.responseText, status, jqXHR]);
+        });
       });
     }
     return this;
@@ -16318,7 +16139,6 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       return elem === fn.elem;
     }).length;
   };
-  var docElem = window.document.documentElement;
   function getWindow(elem) {
     return jQuery.isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
   }
@@ -16349,7 +16169,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         curLeft = parseFloat(curCSSLeft) || 0;
       }
       if (jQuery.isFunction(options)) {
-        options = options.call(elem, i, curOffset);
+        options = options.call(elem, i, jQuery.extend({}, curOffset));
       }
       if (options.top != null) {
         props.top = (options.top - curOffset.top) + curTop;
@@ -16385,9 +16205,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       if (!jQuery.contains(docElem, elem)) {
         return box;
       }
-      if (typeof elem.getBoundingClientRect !== strundefined) {
-        box = elem.getBoundingClientRect();
-      }
+      box = elem.getBoundingClientRect();
       win = getWindow(doc);
       return {
         top: box.top + win.pageYOffset - docElem.clientTop,
@@ -16413,8 +16231,8 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
         if (!jQuery.nodeName(offsetParent[0], "html")) {
           parentOffset = offsetParent.offset();
         }
-        parentOffset.top += jQuery.css(offsetParent[0], "borderTopWidth", true);
-        parentOffset.left += jQuery.css(offsetParent[0], "borderLeftWidth", true);
+        parentOffset.top += jQuery.css(offsetParent[0], "borderTopWidth", true) - offsetParent.scrollTop();
+        parentOffset.left += jQuery.css(offsetParent[0], "borderLeftWidth", true) - offsetParent.scrollLeft();
       }
       return {
         top: offset.top - parentOffset.top - jQuery.css(elem, "marginTop", true),
@@ -16423,11 +16241,11 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     },
     offsetParent: function() {
       return this.map(function() {
-        var offsetParent = this.offsetParent || docElem;
-        while (offsetParent && (!jQuery.nodeName(offsetParent, "html") && jQuery.css(offsetParent, "position") === "static")) {
+        var offsetParent = this.offsetParent;
+        while (offsetParent && jQuery.css(offsetParent, "position") === "static") {
           offsetParent = offsetParent.offsetParent;
         }
-        return offsetParent || docElem;
+        return offsetParent || documentElement;
       });
     }
   });
@@ -16443,11 +16261,11 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
           return win ? win[prop] : elem[method];
         }
         if (win) {
-          win.scrollTo(!top ? val : window.pageXOffset, top ? val : window.pageYOffset);
+          win.scrollTo(!top ? val : win.pageXOffset, top ? val : win.pageYOffset);
         } else {
           elem[method] = val;
         }
-      }, method, val, arguments.length, null);
+      }, method, val, arguments.length);
     };
   });
   jQuery.each(["top", "left"], function(i, prop) {
@@ -16484,9 +16302,23 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
       };
     });
   });
-  jQuery.fn.size = function() {
-    return this.length;
-  };
+  jQuery.fn.extend({
+    bind: function(types, data, fn) {
+      return this.on(types, null, data, fn);
+    },
+    unbind: function(types, fn) {
+      return this.off(types, null, fn);
+    },
+    delegate: function(selector, types, data, fn) {
+      return this.on(types, selector, data, fn);
+    },
+    undelegate: function(selector, types, fn) {
+      return arguments.length === 1 ? this.off(selector, "**") : this.off(types, selector || "**", fn);
+    },
+    size: function() {
+      return this.length;
+    }
+  });
   jQuery.fn.andSelf = jQuery.fn.addBack;
   if (typeof define === "function" && define.amd) {
     define("29", [], function() {
@@ -16504,7 +16336,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
     }
     return jQuery;
   };
-  if (typeof noGlobal === strundefined) {
+  if (!noGlobal) {
     window.jQuery = window.$ = jQuery;
   }
   return jQuery;
