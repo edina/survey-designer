@@ -457,7 +457,7 @@
     },
     {
       "label": "Take a photo",
-      "type": "multiimage",
+      "type": "image",
       "required": true,
       "persistent": false,
       "properties": {
