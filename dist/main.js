@@ -4301,8 +4301,8 @@ $__System.register("2", ["3"], function($__export) {
                 persistent = 'data-persistent="on"';
               }
               var visibility = "";
-              if (value.visibility) {
-                visibility = 'data-visibility="' + value.visibility.id.replace("fieldcontain-", "") + ' ' + value.visibility.rule + ' \'' + value.visibility.answer + '\'"';
+              if (properties.visibility) {
+                visibility = 'data-visibility="' + properties.visibility.id.replace("fieldcontain-", "") + ' ' + properties.visibility.operator + ' \'' + properties.visibility.answer + '\'"';
               }
               value.label = self.encodeEntities(value.label);
               switch (type) {
@@ -4527,10 +4527,11 @@ $__System.register("6", ["7", "8", "9"], function($__export) {
                 if (obj.answers.length > 0) {
                   divAnswers.push('<select id="' + this.selectAnswers + '">');
                   obj.answers.forEach(function(element) {
-                    if (visibility && visibility.answer) {
+                    if (visibility && visibility.answer === element) {
                       selected = 'selected="selected"';
                     }
                     divAnswers.push('<option value="' + element + '" ' + selected + '>' + element + '</option>');
+                    selected = "";
                   });
                   divAnswers.push('</select>');
                 } else {
@@ -4560,7 +4561,7 @@ $__System.register("6", ["7", "8", "9"], function($__export) {
           },
           checkForExistingRules: function(id) {
             var dataStorage = new DataStorage();
-            return dataStorage.searchForFieldId(id).visibility;
+            return dataStorage.searchForFieldId(id).properties.visibility;
           },
           enableEvents: function(el) {
             $(document).off('click', '#save-rule');
@@ -7936,17 +7937,20 @@ $__System.register("7", [], function($__export) {
   };
 });
 
-$__System.register("1f", ["3", "8"], function($__export) {
+$__System.register("1f", ["3", "8", "1c"], function($__export) {
   "use strict";
   var __moduleName = "1f";
   var $,
       utils,
+      _,
       Convertor;
   return {
     setters: [function($__m) {
       $ = $__m.default;
     }, function($__m) {
       utils = $__m;
+    }, function($__m) {
+      _ = $__m.default;
     }],
     execute: function() {
       Convertor = function() {
@@ -8085,6 +8089,7 @@ $__System.register("1f", ["3", "8"], function($__export) {
             var section = null;
             var fieldsSelector;
             var ignoreFields;
+            var self = this;
             if (title) {
               form.title = title;
             } else {
@@ -8107,11 +8112,16 @@ $__System.register("1f", ["3", "8"], function($__export) {
               var options;
               var fieldId;
               var type;
+              var visibility;
               var field = null;
               var matched = /fieldcontain-(.*?)-[0-9]+$/.exec($field.attr("id"));
               if (matched === null) {
                 console.log('warning: ' + $field.attr('id') + ' not supported');
                 return;
+              }
+              var visibilityRule = $field.data("visibility");
+              if (visibilityRule) {
+                visibility = self.parseRule(visibilityRule);
               }
               fieldId = matched[0];
               type = matched[1];
@@ -8298,6 +8308,9 @@ $__System.register("1f", ["3", "8"], function($__export) {
                   };
                   break;
               }
+              if (visibility) {
+                field.properties.visibility = visibility;
+              }
               if (field !== null) {
                 field.id = fieldId;
                 form.fields.push(field);
@@ -8310,6 +8323,56 @@ $__System.register("1f", ["3", "8"], function($__export) {
               form.layout = layout;
             }
             return form;
+          },
+          parseRule: function(rule) {
+            var field,
+                operations,
+                operation,
+                value,
+                comparator,
+                matches;
+            var fieldRegExp,
+                opsRegExp,
+                valueRegExp,
+                ruleRegExp;
+            operations = {
+              equal: function(a, b) {
+                return a === b;
+              },
+              notEqual: function(a, b) {
+                return a !== b;
+              },
+              greaterThan: function(a, b) {
+                return Number(a) > Number(b);
+              },
+              smallerThan: function(a, b) {
+                return Number(a) < Number(b);
+              }
+            };
+            fieldRegExp = '(.*)';
+            opsRegExp = '((?:' + _(operations).keys().join(')|(?:') + '))';
+            valueRegExp = '(?:\'(.*)\')';
+            ruleRegExp = fieldRegExp + '\\s+' + opsRegExp + '\\s+' + valueRegExp;
+            matches = (new RegExp(ruleRegExp)).exec(rule);
+            if (matches && matches.length === 4) {
+              field = matches[1];
+              operation = matches[2];
+              value = matches[3];
+            } else {
+              console.warn('Malformed rule: ' + rule);
+              return null;
+            }
+            if (operations.hasOwnProperty(operation)) {
+              comparator = operations[operation];
+            } else {
+              console.warn('Invalid operation: ' + operation);
+              return null;
+            }
+            return {
+              id: "fieldcontain-" + field,
+              operator: comparator,
+              answer: value
+            };
           }
         }, {});
       }();
@@ -8328,7 +8391,9 @@ $__System.register("1d", ["1f", "7"], function($__export) {
     var formInJSON = convertor.getForm($(element));
     var dataStorage = new DataStorage();
     var data = dataStorage.getData();
-    if (data !== null) {}
+    if (data !== null) {
+      formInJSON = Object.assign(formInJSON, data);
+    }
     dataStorage.setData(formInJSON);
     return formInJSON;
   }
