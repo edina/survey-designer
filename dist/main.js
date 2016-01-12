@@ -7390,6 +7390,8 @@ $__System.register("1e", ["1a", "1f", "8", "1d", "7", "19", "5"], function($__ex
           renderExistingSurvey: function(title, data) {
             if (!utils.isJsonString(data)) {
               data = this.convertor.HTMLtoJSON(data, title);
+            } else {
+              data = JSON.parse(data);
             }
             var dataStorage = new DataStorage();
             dataStorage.setData(data);
@@ -10224,7 +10226,7 @@ $__System.register("22", ["23", "8", "1d", "1b", "1e", "4"], function($__export)
               var title = decodeURIComponent(utils.getParams().survey);
               var options = {
                 "remoteDir": "editors",
-                "item": utils.getParams().sid + ".edtr"
+                "item": utils.getParams().sid + ".json"
               };
               this.getEditor(title, options);
             } else {
