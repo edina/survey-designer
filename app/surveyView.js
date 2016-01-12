@@ -102,7 +102,7 @@ export class SurveyView extends Backbone.View {
             var title = decodeURIComponent(utils.getParams().survey);
             var options = {
                 "remoteDir": "editors",
-                "item": utils.getParams().sid+".edtr"
+                "item": utils.getParams().sid+".json"
             };
             this.getEditor(title, options);
         }

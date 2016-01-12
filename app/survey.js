@@ -80,6 +80,9 @@ class Survey {
         if (!utils.isJsonString(data)) {
             data = this.convertor.HTMLtoJSON (data, title);
         }
+        else {
+            data = JSON.parse(data);
+        }
         var dataStorage = new DataStorage();
         dataStorage.setData(data);
         var fieldGenerator = new FieldGenerator(this.renderEl);
