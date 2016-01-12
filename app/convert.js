@@ -10,17 +10,16 @@ class Convertor {
      * go through the dom and find all the fieldcontains to get the equivalent
      * html and convert it to a json file
      */
-    getForm (html) {
-        var $html = $(html);
+    getForm ($html) {
         var c = this;
         var form = {};
-        form.title = $html.filter(".fieldcontain-general").find('input[name="label"]').val();
+        form.title = $html.find(".fieldcontain-general").find('input[name="label"]').val();
         form.geoms = [];
         form.fields = [];
         $html.find('input[name="geometryType"]:checked').each(function(){
             form.geoms.push($(this).val());
         });
-        $html.filter(".fieldcontain").each(function(){
+        $html.find(".fieldcontain").each(function(){
             var $this = $(this);
             var field = {
                 "id": $this.attr("id"),
@@ -371,7 +370,7 @@ class Convertor {
 
                     field = {
                         label:      $field.find('label').text(),
-                        type:       type,
+                        type:       "image",
                         required:   $input.attr('required') !== undefined,
                         persistent: false,
                         properties: {

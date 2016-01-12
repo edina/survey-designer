@@ -49,7 +49,7 @@ class Survey {
         // STARTS and Resets the loop if any{
         if(myInterval > 0) clearInterval(myInterval);  // stop
         myInterval = setInterval( $.proxy(function(){
-            save.saveData(this.classEl);
+            save.saveData(this.renderEl);
         }, this), iFrequency );  // run
     }
 
