@@ -68,11 +68,12 @@ class Visibility {
                 if(obj.answers.length > 0) {
                     divAnswers.push('<select id="'+this.selectAnswers+'">');
                     obj.answers.forEach(function(element){
-                        if(visibility && visibility.answer) {
+                        if(visibility && visibility.answer === element) {
                             selected = 'selected="selected"';
                         }
                         divAnswers.push('<option value="'+element+'" '+
                           selected+'>'+element+'</option>');
+                        selected = "";
                     });
                     divAnswers.push('</select>');
                 }
@@ -111,7 +112,7 @@ class Visibility {
      */
     checkForExistingRules(id) {
         var dataStorage = new DataStorage();
-        return dataStorage.searchForFieldId(id).visibility;
+        return dataStorage.searchForFieldId(id).properties.visibility;
     }
 
     enableEvents(el) {

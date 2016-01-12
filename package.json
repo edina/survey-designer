@@ -52,7 +52,7 @@
       "chai": "npm:chai@^3.4.1",
       "clean-css": "npm:clean-css@^3.4.8",
       "css": "github:systemjs/plugin-css@^0.1.12",
-      "edina/survey-convertor": "github:edina/survey-convertor@0.1.2",
+      "edina/survey-convertor": "github:edina/survey-convertor@0.1.5",
       "i18next-client": "npm:i18next-client@^1.10.2",
       "jquery": "github:components/jquery@^2.1.4",
       "jquery-ui": "github:components/jqueryui@^1.11.4",

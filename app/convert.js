@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import * as utils from './utils';
+import _ from 'underscore';
 
 class Convertor {
     constructor (){
@@ -161,6 +162,7 @@ class Convertor {
         var section = null;
         var fieldsSelector;
         var ignoreFields;
+        var self = this;
 
         if (title) {
             form.title = title;
@@ -194,6 +196,7 @@ class Convertor {
             var options;
             var fieldId;
             var type;
+            var visibility;
 
             var field = null;
             var matched = /fieldcontain-(.*?)-[0-9]+$/.exec($field.attr("id"));
@@ -201,6 +204,10 @@ class Convertor {
             if (matched === null) {
                 console.log('warning: ' + $field.attr('id') + ' not supported');
                 return;
+            }
+            var visibilityRule = $field.data("visibility");
+            if (visibilityRule) {
+                visibility = self.parseRule(visibilityRule);
             }
 
             fieldId = matched[0];
@@ -434,6 +441,9 @@ class Convertor {
                     };
                     break;
             }
+            if (visibility) {
+                field.properties.visibility = visibility;
+            }
 
             if (field !== null) {
                 field.id = fieldId;
@@ -451,6 +461,60 @@ class Convertor {
         }
 
         return form;
+    }
+
+    /**
+     * Parse a rule and returne its three components
+     *
+     * @params {String} rule A triplet with this structure 'fieldname operation value'
+     * @returns {Object} the parsed rule as or null if is not valid
+     *     - field {String} the name of the field
+     *     - comparator {function} a function that represents the operation
+     *     - value {String} the parsed value
+     */
+    parseRule(rule) {
+        var field, operations, operation, value, comparator, matches;
+        var fieldRegExp, opsRegExp, valueRegExp, ruleRegExp;
+
+        operations = {
+            equal: function(a, b) { return a === b; },
+            notEqual: function(a, b) { return a !== b; },
+            greaterThan: function(a, b) { return Number(a) > Number(b); },
+            smallerThan: function(a, b) { return Number(a) < Number(b); }
+        };
+
+        // Define the parts of the rule
+        fieldRegExp = '(.*)';
+        opsRegExp = '((?:' + _(operations).keys().join(')|(?:') + '))';
+        valueRegExp = '(?:\'(.*)\')';
+
+        // Match the three parts of the rule separated by one or more spaces
+        ruleRegExp = fieldRegExp + '\\s+' + opsRegExp + '\\s+' + valueRegExp;
+        matches = (new RegExp(ruleRegExp)).exec(rule);
+
+        if (matches && matches.length === 4) {
+            field = matches[1];
+            operation = matches[2];
+            value = matches[3];
+        }
+        else {
+            console.warn('Malformed rule: ' + rule);
+            return null;
+        }
+
+        if (operations.hasOwnProperty(operation)) {
+            comparator = operations[operation];
+        }
+        else {
+            console.warn('Invalid operation: ' + operation);
+            return null;
+        }
+
+        return {
+            id: "fieldcontain-"+field,
+            operator: comparator,
+            answer: value
+        };
     }
 }
 
