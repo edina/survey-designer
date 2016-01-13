@@ -4466,11 +4466,32 @@ $__System.register("4", ["2"], function($__export) {
   };
 });
 
-$__System.register("5", [], function() { return { setters: [], execute: function() {} } });
+$__System.registerDynamic("5", [], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = function(obj) {
+    var __t,
+        __p = '',
+        __j = Array.prototype.join,
+        print = function() {
+          __p += __j.call(arguments, '');
+        };
+    with (obj || {}) {
+      __p += '<!-- Fixed navbar -->\n<nav class="navbar navbar-inverse" id="myNav">\n  <div class="container-fluid">\n    <div id="navbar" class="navbar-collapse collapse">\n      <ul class="nav navbar-nav" data-spy="affix">\n        <li><a href="#" id="form-save" data-i18n="menu.save">' + ((__t = (save)) == null ? '' : __t) + '</a></li>\n      </ul>\n    </div><!--/.nav-collapse -->\n  </div>\n</nav>\n';
+    }
+    return __p;
+  };
+  global.define = __define;
+  return module.exports;
+});
 
-$__System.register("6", ["7", "8", "9"], function($__export) {
+$__System.register("6", [], function() { return { setters: [], execute: function() {} } });
+
+$__System.register("7", ["8", "9", "a"], function($__export) {
   "use strict";
-  var __moduleName = "6";
+  var __moduleName = "7";
   var DataStorage,
       utils,
       modal,
@@ -4676,7 +4697,7 @@ $__System.register("6", ["7", "8", "9"], function($__export) {
   };
 });
 
-$__System.registerDynamic("a", [], true, function($__require, exports, module) {
+$__System.registerDynamic("b", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -4701,7 +4722,7 @@ $__System.registerDynamic("a", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("b", [], true, function($__require, exports, module) {
+$__System.registerDynamic("c", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -4722,7 +4743,7 @@ $__System.registerDynamic("b", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("c", [], true, function($__require, exports, module) {
+$__System.registerDynamic("d", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -4749,7 +4770,7 @@ $__System.registerDynamic("c", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("d", [], true, function($__require, exports, module) {
+$__System.registerDynamic("e", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -4770,7 +4791,7 @@ $__System.registerDynamic("d", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("e", [], true, function($__require, exports, module) {
+$__System.registerDynamic("f", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -4795,7 +4816,7 @@ $__System.registerDynamic("e", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("f", [], true, function($__require, exports, module) {
+$__System.registerDynamic("10", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -4816,7 +4837,7 @@ $__System.registerDynamic("f", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("10", [], true, function($__require, exports, module) {
+$__System.registerDynamic("11", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -4837,7 +4858,7 @@ $__System.registerDynamic("10", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("11", [], true, function($__require, exports, module) {
+$__System.registerDynamic("12", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -4862,7 +4883,7 @@ $__System.registerDynamic("11", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("12", [], true, function($__require, exports, module) {
+$__System.registerDynamic("13", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -4893,7 +4914,7 @@ $__System.registerDynamic("12", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("13", [], true, function($__require, exports, module) {
+$__System.registerDynamic("14", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -4924,7 +4945,7 @@ $__System.registerDynamic("13", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("14", [], true, function($__require, exports, module) {
+$__System.registerDynamic("15", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -4945,7 +4966,7 @@ $__System.registerDynamic("14", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("15", [], true, function($__require, exports, module) {
+$__System.registerDynamic("16", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -4966,7 +4987,7 @@ $__System.registerDynamic("15", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("16", [], true, function($__require, exports, module) {
+$__System.registerDynamic("17", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -4987,7 +5008,7 @@ $__System.registerDynamic("16", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("17", [], true, function($__require, exports, module) {
+$__System.registerDynamic("18", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -5008,7 +5029,7 @@ $__System.registerDynamic("17", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("18", [], false, function(__require, __exports, __module) {
+$__System.registerDynamic("19", [], false, function(__require, __exports, __module) {
   var _retrieveGlobal = $__System.get("@@global-helpers").prepareGlobal(__module.id, null, null);
   (function() {
     "format global";
@@ -6976,19 +6997,19 @@ $__System.registerDynamic("18", [], false, function(__require, __exports, __modu
   return _retrieveGlobal();
 });
 
-$__System.registerDynamic("19", ["18"], true, function($__require, exports, module) {
+$__System.registerDynamic("1a", ["19"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('18');
+  module.exports = $__require('19');
   global.define = __define;
   return module.exports;
 });
 
-$__System.register("1a", ["3", "19", "1b", "1c", "17", "16", "15", "14", "13", "12", "11", "10", "f", "e", "d", "c", "b", "a", "8", "1d", "7", "6"], function($__export) {
+$__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "13", "12", "11", "10", "f", "e", "d", "c", "b", "9", "1e", "8", "7"], function($__export) {
   "use strict";
-  var __moduleName = "1a";
+  var __moduleName = "1b";
   var $,
       i18next,
       pcapi,
@@ -7330,15 +7351,17 @@ $__System.register("1a", ["3", "19", "1b", "1c", "17", "16", "15", "14", "13", "
   };
 });
 
-$__System.register("1e", ["1a", "1f", "8", "1d", "7", "19", "5"], function($__export) {
+$__System.register("1f", ["1b", "20", "9", "1e", "8", "1a", "6", "1d", "5"], function($__export) {
   "use strict";
-  var __moduleName = "1e";
+  var __moduleName = "1f";
   var FieldGenerator,
       Convertor,
       utils,
       save,
       DataStorage,
       i18next,
+      _,
+      saveTemplate,
       Survey;
   return {
     setters: [function($__m) {
@@ -7353,7 +7376,11 @@ $__System.register("1e", ["1a", "1f", "8", "1d", "7", "19", "5"], function($__ex
       DataStorage = $__m.default;
     }, function($__m) {
       i18next = $__m.default;
-    }, function($__m) {}],
+    }, function($__m) {}, function($__m) {
+      _ = $__m.default;
+    }, function($__m) {
+      saveTemplate = $__m.default;
+    }],
     execute: function() {
       Survey = function() {
         function Survey(options) {
@@ -7366,8 +7393,13 @@ $__System.register("1e", ["1a", "1f", "8", "1d", "7", "19", "5"], function($__ex
         }
         return ($traceurRuntime.createClass)(Survey, {
           initialize: function() {
-            this.$mainBodyEl.html('<div class="mobile">' + '<div class="' + this.renderEl.substring(1) + '">' + '<button type="button" class="btn' + ' btn-default" id="form-save">' + i18n.t("menu.save") + '</button>' + '</div></div>' + '<div id="loader"><img src="app/styles/images/ajax-loader.gif"></div>');
-            $(this.renderEl).prev().append('<button type="button" class="btn' + ' btn-default" id="form-save">' + i18n.t("menu.save") + '</button>');
+            this.$mainBodyEl.html('<div class="mobile">' + '<div class="' + this.renderEl.substring(1) + '">' + '</div></div>' + '<div id="loader"><img src="app/styles/images/ajax-loader.gif"></div>');
+            var $mobile = $(".mobile");
+            $(this.renderEl).before(saveTemplate({"save": i18n.t("menu.save")}));
+            var $myNav = $("#myNav");
+            $mobile.height($(window).height() - $("#header").height() - 84);
+            $(this.renderEl).height($mobile.height() - 100 - $myNav.height());
+            $myNav.width($mobile.width());
           },
           enableAutoSave: function() {
             var iFrequency = 60000;
@@ -7412,7 +7444,7 @@ $__System.register("1e", ["1a", "1f", "8", "1d", "7", "19", "5"], function($__ex
   };
 });
 
-$__System.registerDynamic("20", [], true, function($__require, exports, module) {
+$__System.registerDynamic("21", [], true, function($__require, exports, module) {
   "use strict";
   ;
   var global = this,
@@ -7871,19 +7903,19 @@ $__System.registerDynamic("20", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("1b", ["20"], true, function($__require, exports, module) {
+$__System.registerDynamic("1c", ["21"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('20');
+  module.exports = $__require('21');
   global.define = __define;
   return module.exports;
 });
 
-$__System.register("7", [], function($__export) {
+$__System.register("8", [], function($__export) {
   "use strict";
-  var __moduleName = "7";
+  var __moduleName = "8";
   var DataStorage;
   return {
     setters: [],
@@ -7939,9 +7971,9 @@ $__System.register("7", [], function($__export) {
   };
 });
 
-$__System.register("1f", ["3", "8", "1c"], function($__export) {
+$__System.register("20", ["3", "9", "1d"], function($__export) {
   "use strict";
-  var __moduleName = "1f";
+  var __moduleName = "20";
   var $,
       utils,
       _,
@@ -8383,9 +8415,9 @@ $__System.register("1f", ["3", "8", "1c"], function($__export) {
   };
 });
 
-$__System.register("1d", ["1f", "7"], function($__export) {
+$__System.register("1e", ["20", "8"], function($__export) {
   "use strict";
-  var __moduleName = "1d";
+  var __moduleName = "1e";
   var Convertor,
       DataStorage;
   function saveData(element) {
@@ -8411,7 +8443,7 @@ $__System.register("1d", ["1f", "7"], function($__export) {
   };
 });
 
-$__System.registerDynamic("21", ["3"], false, function(__require, __exports, __module) {
+$__System.registerDynamic("22", ["3"], false, function(__require, __exports, __module) {
   var _retrieveGlobal = $__System.get("@@global-helpers").prepareGlobal(__module.id, "$", null);
   (function() {
     "format global";
@@ -10003,19 +10035,19 @@ $__System.registerDynamic("21", ["3"], false, function(__require, __exports, __m
   return _retrieveGlobal();
 });
 
-$__System.registerDynamic("9", ["21"], true, function($__require, exports, module) {
+$__System.registerDynamic("a", ["22"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('21');
+  module.exports = $__require('22');
   global.define = __define;
   return module.exports;
 });
 
-$__System.register("8", ["9"], function($__export) {
+$__System.register("9", ["a"], function($__export) {
   "use strict";
-  var __moduleName = "8";
+  var __moduleName = "9";
   var modal;
   function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
@@ -10116,9 +10148,9 @@ $__System.register("8", ["9"], function($__export) {
   };
 });
 
-$__System.register("22", ["23", "8", "1d", "1b", "1e", "4"], function($__export) {
+$__System.register("23", ["24", "9", "1e", "1c", "1f", "4"], function($__export) {
   "use strict";
-  var __moduleName = "22";
+  var __moduleName = "23";
   var Backbone,
       utils,
       save,
@@ -10241,9 +10273,9 @@ $__System.register("22", ["23", "8", "1d", "1b", "1e", "4"], function($__export)
   };
 });
 
-$__System.register("24", ["23", "22"], function($__export) {
+$__System.register("25", ["24", "23"], function($__export) {
   "use strict";
-  var __moduleName = "24";
+  var __moduleName = "25";
   var Backbone,
       SurveyView,
       SurveyRouter;
@@ -10270,7 +10302,7 @@ $__System.register("24", ["23", "22"], function($__export) {
   };
 });
 
-$__System.registerDynamic("25", [], true, function($__require, exports, module) {
+$__System.registerDynamic("26", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -10362,22 +10394,12 @@ $__System.registerDynamic("25", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("26", ["25"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = $__require('25');
-  global.define = __define;
-  return module.exports;
-});
-
 $__System.registerDynamic("27", ["26"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__System._nodeRequire ? process : $__require('26');
+  module.exports = $__require('26');
   global.define = __define;
   return module.exports;
 });
@@ -10387,7 +10409,17 @@ $__System.registerDynamic("28", ["27"], true, function($__require, exports, modu
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('27');
+  module.exports = $__System._nodeRequire ? process : $__require('27');
+  global.define = __define;
+  return module.exports;
+});
+
+$__System.registerDynamic("29", ["28"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = $__require('28');
   global.define = __define;
   return module.exports;
 });
@@ -16388,7 +16420,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   });
   jQuery.fn.andSelf = jQuery.fn.addBack;
   if (typeof define === "function" && define.amd) {
-    define("29", [], function() {
+    define("2a", [], function() {
       return jQuery;
     });
   }
@@ -16413,13 +16445,13 @@ _removeDefine();
 })();
 (function() {
 var _removeDefine = $__System.get("@@amd-helpers").createDefine();
-define("3", ["29"], function(main) {
+define("3", ["2a"], function(main) {
   return main;
 });
 
 _removeDefine();
 })();
-$__System.registerDynamic("2a", [], true, function($__require, exports, module) {
+$__System.registerDynamic("2b", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -17628,17 +17660,17 @@ $__System.registerDynamic("2a", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("1c", ["2a"], true, function($__require, exports, module) {
+$__System.registerDynamic("1d", ["2b"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('2a');
+  module.exports = $__require('2b');
   global.define = __define;
   return module.exports;
 });
 
-$__System.registerDynamic("2b", ["1c", "3", "28"], true, function($__require, exports, module) {
+$__System.registerDynamic("2c", ["1d", "3", "29"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -17652,7 +17684,7 @@ $__System.registerDynamic("2b", ["1c", "3", "28"], true, function($__require, ex
           root.Backbone = factory(root, exports, _, $);
         });
       } else if (typeof exports !== 'undefined') {
-        var _ = $__require('1c'),
+        var _ = $__require('1d'),
             $;
         try {
           $ = $__require('3');
@@ -18996,22 +19028,22 @@ $__System.registerDynamic("2b", ["1c", "3", "28"], true, function($__require, ex
       };
       return Backbone;
     }));
-  })($__require('28'));
+  })($__require('29'));
   global.define = __define;
   return module.exports;
 });
 
-$__System.registerDynamic("23", ["2b"], true, function($__require, exports, module) {
+$__System.registerDynamic("24", ["2c"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('2b');
+  module.exports = $__require('2c');
   global.define = __define;
   return module.exports;
 });
 
-$__System.register("1", ["23", "24"], function($__export) {
+$__System.register("1", ["24", "25"], function($__export) {
   "use strict";
   var __moduleName = "1";
   var Backbone,
@@ -19033,7 +19065,7 @@ $__System.register("1", ["23", "24"], function($__export) {
 
 $__System.register('app/styles/app.css!github:systemjs/plugin-css@0.1.20', [], false, function() {});
 (function(c){if (typeof document == 'undefined') return; var d=document,a='appendChild',i='styleSheet',s=d.createElement('style');s.type='text/css';d.getElementsByTagName('head')[0][a](s);s[i]?s[i].cssText=c:s[a](d.createTextNode(c));})
-("body{padding-top:70px;padding-bottom:30px;padding-left:100px;background-color:#e4e1da}.navbar-inverse{background-image:linear-gradient(to bottom,#2F4820 0,#2F4820 100%)}.theme-showcase .navbar .container{width:auto}.mobile{width:450px;height:800px;background-color:#FFF;-webkit-border-radius:20px;-moz-border-radius:20px;border-radius:20px;padding:24px 20px 0 20px}.mobile-content{width:90%;padding:25px;margin:auto 10px;height:700px;border:1px solid #a3a3a3}.mobile-content{overflow-y:scroll}.mobile-content fieldset{border:2px solid #000;border-style:solid;padding:10px;position:relative}.mobile-content legend{width:auto}.mobile-content label{width:100%;font-size:10px;color:#B7B7B7}.fieldcontain .fieldButtons{position:absolute;right:10px;top:0}#dragme{position:absolute;padding-left:0}#dragme li{list-style-type:none}.menu-icon{width:70px;height:70px;zoom:.5;padding:5px;-moz-transform:scale(.5);-moz-transform-origin:0 0}.icon-text{background-image:url(app/styles/images/menu-icon.png);background-position:-235px 15px}.icon-range{background-image:url(app/styles/images/menu-icon.png);background-position:-230px -80px}.icon-textarea{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -185px}.icon-checkbox{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -285px}.icon-radio{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -385px}.icon-select{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -485px}.icon-image{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -585px}.icon-audio{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -805px}.icon-image-los{background-image:url(app/styles/images/menu-icon.png);background-position:-227px -696px}.icon-warning{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -905px}.icon-help{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -1005px}.icon-dtree{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -1105px}#header{height:50px}.btn-file{position:relative;overflow:hidden}.btn-file input[type=file]{position:absolute;top:0;right:0;min-width:100%;min-height:100%;font-size:100px;text-align:right;filter:alpha(opacity=0);opacity:0;outline:0;background:#fff;cursor:inherit;display:block}#loader{position:absolute;top:50%;left:50%;z-index:999999;visibility:hidden}#relate-modal select{width:100%}");
+("body{padding-top:70px;padding-bottom:30px;background-color:#e4e1da}.navbar-inverse{background-image:linear-gradient(to bottom,#2F4820 0,#2F4820 100%)}.theme-showcase .navbar .container{width:auto}.mobile{width:80%;height:800px;background-color:#FFF;-webkit-border-radius:20px;-moz-border-radius:20px;border-radius:20px;padding:24px 20px 0 20px;float:none;margin:0 auto}#myNav{position:fixed}.mobile-content{margin-top:60px;padding:25px;height:80%}.mobile-content{overflow-y:scroll}.mobile-content fieldset{border:2px solid #000;border-style:solid;padding:10px;position:relative}.mobile-content legend{width:auto}.mobile-content label{width:100%;font-size:10px;color:#B7B7B7}.fieldcontain .fieldButtons{position:absolute;right:10px;top:0}#dragme{position:absolute;padding-left:0}#dragme li{list-style-type:none}.menu-icon{width:70px;height:70px;zoom:.5;padding:5px;-moz-transform:scale(.5);-moz-transform-origin:0 0}.icon-text{background-image:url(app/styles/images/menu-icon.png);background-position:-235px 15px}.icon-range{background-image:url(app/styles/images/menu-icon.png);background-position:-230px -80px}.icon-textarea{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -185px}.icon-checkbox{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -285px}.icon-radio{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -385px}.icon-select{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -485px}.icon-image{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -585px}.icon-audio{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -805px}.icon-image-los{background-image:url(app/styles/images/menu-icon.png);background-position:-227px -696px}.icon-warning{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -905px}.icon-help{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -1005px}.icon-dtree{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -1105px}#header{height:50px}.btn-file{position:relative;overflow:hidden}.btn-file input[type=file]{position:absolute;top:0;right:0;min-width:100%;min-height:100%;font-size:100px;text-align:right;filter:alpha(opacity=0);opacity:0;outline:0;background:#fff;cursor:inherit;display:block}#loader{position:absolute;top:50%;left:50%;z-index:999999;visibility:hidden}#relate-modal select{width:100%}");
 })
 (function(factory) {
   factory();
