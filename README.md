@@ -1,5 +1,7 @@
 # survey-designer
 
+[![Build Status](https://api.travis-ci.org/edina/survey-designer.png?branch=master)](https://travis-ci.org/edina/survey-designer)
+
 
 ###Installation instructions
 
