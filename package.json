@@ -6,9 +6,11 @@
   "scripts": {
     "lint": "node_modules/jshint/bin/jshint src/www/js/**.js",
     "release": "npm run lint && node_modules/release-it/bin/release.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha-phantomjs --timeout 10000 test.html",
     "run-server": "node_modules/beefy/bin/beefy --cwd app",
     "bundle": "jspm bundle-sfx app/main dist/main.js",
+    "release-it": "node_modules/release-it/bin/release.js",
+    "release": "npm run lint & npm run test & npm run bundle & npm run release-it",
     "validate": "npm ls"
   },
   "repository": {
