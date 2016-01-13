@@ -5,6 +5,8 @@ import * as save from './save';
 import DataStorage from './data';
 import i18next from 'i18next-client';
 import './styles/app.css!';
+import _ from "underscore";
+import saveTemplate from './templates/save-menu.jst!';
 
 /* global i18n */
 
@@ -29,14 +31,15 @@ class Survey {
     initialize() {
         this.$mainBodyEl.html('<div class="mobile">'+
           '<div class="'+this.renderEl.substring(1)+'">'+
-          '<button type="button" class="btn'+
-                ' btn-default" id="form-save">'+
-                i18n.t("menu.save")+'</button>'+
           '</div></div>'+
           '<div id="loader"><img src="app/styles/images/ajax-loader.gif"></div>');
-        $(this.renderEl).prev().append('<button type="button" class="btn'+
-              ' btn-default" id="form-save">'+
-              i18n.t("menu.save")+'</button>');
+          //adjust heights
+          var $mobile = $(".mobile");
+          $(this.renderEl).before(saveTemplate({"save": i18n.t("menu.save")}));
+          var $myNav = $("#myNav");
+          $mobile.height($(window).height() - $("#header").height() - 84);
+          $(this.renderEl).height($mobile.height() - 100 - $myNav.height());
+          $myNav.width($mobile.width());
     }
 
     /**
@@ -64,6 +67,7 @@ class Survey {
         if(this.title) {
             titleObj = {"title": this.title};
         }
+
         fieldGenerator.render({type: "general"});
         //generate first text field
         fieldGenerator.render({type: 'text'});
@@ -86,6 +90,7 @@ class Survey {
         var dataStorage = new DataStorage();
         dataStorage.setData(data);
         var fieldGenerator = new FieldGenerator(this.renderEl);
+
         //render general settings
         fieldGenerator.render({
             "title": title,
@@ -97,6 +102,7 @@ class Survey {
             fieldGenerator.render(field);
         });
     }
+
 }
 
 export default Survey;
