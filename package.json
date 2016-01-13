@@ -7,7 +7,6 @@
     "lint": "node_modules/jshint/bin/jshint src/www/js/**.js",
     "release": "npm run lint & npm run test & npm run bundle & npm run release-it",
     "test": "mocha-phantomjs --timeout 10000 test.html",
-    "run-server": "node_modules/beefy/bin/beefy --cwd app",
     "bundle": "jspm bundle-sfx app/main dist/main.js",
     "release-it": "node_modules/release-it/bin/release.js",
     "validate": "npm ls"
@@ -29,19 +28,14 @@
   "homepage": "https://github.com/edina/survey-designer",
   "dependencies": {},
   "devDependencies": {
-    "bundlebars": "^1.1.2",
     "chai": "^3.4.1",
-    "istanbul": "^0.4.0",
     "jshint": "^2.8.0",
     "jspm": "^0.16.1",
     "mocha": "^2.3.4",
     "mocha-phantomjs": "^4.0.1",
     "mocha-traceur": "^2.1.0",
-    "mock-local-storage": "^1.0.2",
     "precommit-hook": "^3.0.0",
     "release-it": "^2.3.1",
-    "replace": "^0.3.0",
-    "sinon": "^1.17.2",
     "systemjs": "^0.19.6",
     "traceur": "0.0.92",
     "uglifyjs": "^2.4.10"
