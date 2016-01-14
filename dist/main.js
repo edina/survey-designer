@@ -10234,7 +10234,7 @@ $__System.register("23", ["24", "9", "1e", "1c", "1f", "4"], function($__export)
               "url": this.cfg.baseurl,
               "version": this.cfg.version
             });
-            var user = utils.getParams().group || this.cfg.userid;
+            var user = this.cfg.userid;
             pcapi.setCloudLogin(user);
             var locale = utils.getParams().lang || 'en';
             localStorage.setItem('locale', locale);
