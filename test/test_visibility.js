@@ -41,7 +41,7 @@ describe('#Visibility', () => {
         var id = "fieldcontain-radio-2";
         $("#"+visibility.visibilityId).val(id).trigger('change');
         assert.equal($("#"+visibility.selectAnswers).val(),
-                     dataStorage.searchForFieldId(id).properties.options[0],
+                     dataStorage.searchForFieldId(id).properties.options[0].value,
                      "The change behavior of questions is working");
         assert.equal($("#"+visibility.selectAnswers+ " option").length,
                      dataStorage.searchForFieldId(id).properties.options.length,
@@ -60,9 +60,9 @@ describe('#Visibility', () => {
     it('update visibility', (done) => {
         var id = "fieldcontain-radio-2";
         $("#"+visibility.visibilityId).val(id).trigger('change');
-        $("#"+visibility.selectAnswers).val(dataStorage.searchForFieldId(id).properties.options[2]);
+        $("#"+visibility.selectAnswers).val(dataStorage.searchForFieldId(id).properties.options[2].value);
         assert.equal($("#"+visibility.selectAnswers).val(),
-                     dataStorage.searchForFieldId(id).properties.options[2],
+                     dataStorage.searchForFieldId(id).properties.options[2].value,
                      "The change behavior of questions is working");
         $("#save-rule").trigger('click');
         var visObject = visibility.getVisibility();

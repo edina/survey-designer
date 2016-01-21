@@ -192,13 +192,12 @@ describe('#FieldGenerator', () => {
           field.properties.options.length);
         //check if the values of the options have been printed right
         $result.find('input[name="'+field.id+'"]').each(function(i){
-            if (field.properties.options[i] instanceof Array){
-                assert.equal($(this).val(), field.properties.options[i][0]);
-            }
+            assert.equal($(this).val(), field.properties.options[i].value);
         });
         //check if the images haven been printed right
         $result.find('img').each(function(i){
-            assert.equal($(this).attr("src"), field.properties.options[i][1]);
+            assert.equal(
+                $(this).attr('src'), field.properties.options[i].image.src);
         });
         //check if add checkbox button exists
         assert.equal($result.find('.add-radio').length, 1);
@@ -252,7 +251,7 @@ describe('#FieldGenerator', () => {
           field.properties.options.length);
         //check if the values of the options have been printed right
         $result.find('input[name="'+field.id+'"]').each(function(i){
-            assert.equal($(this).val(), field.properties.options[i]);
+            assert.equal($(this).val(), field.properties.options[i].value);
         });
         //check if add radio button exists
         assert.equal($result.find('.add-radio').length, 1);
@@ -346,11 +345,12 @@ describe('#FieldGenerator', () => {
           field.properties.options.length);
         //check if the values of the options have been printed right
         $result.find('input[name="'+field.id+'"]').each(function(i){
-            assert.equal($(this).val(), field.properties.options[i][0]);
+            assert.equal($(this).val(), field.properties.options[i].value);
         });
         //check if the images haven been printed right
         $result.find('img').each(function(i){
-            assert.equal($(this).attr("src"), field.properties.options[i][1]);
+            assert.equal(
+                $(this).attr("src"), field.properties.options[i].image.src);
         });
         //check if add checkbox button exists
         assert.equal($result.find('.add-checkbox').length, 1);
@@ -403,7 +403,7 @@ describe('#FieldGenerator', () => {
           field.properties.options.length);
         //check if the values of the options have been printed right
         $result.find('input[name="'+field.id+'"]').each(function(i){
-            assert.equal($(this).val(), field.properties.options[i]);
+            assert.equal($(this).val(), field.properties.options[i].value);
         });
         //check if add checkbox button exists
         assert.equal($result.find('.add-checkbox').length, 1);

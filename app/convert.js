@@ -66,43 +66,43 @@ class Convertor {
                 field.required = html.find('input[name="required"]').is(':checked');
                 field.persistent = html.find('input[name="persistent"]').is(':checked');
                 field.properties.other = html.find('input[name="other"]').is(':checked');
-                var checkboxes = [];
+                field.properties.options =
+                    html.find('input[name="' + field.id + '"]')
+                        .toArray()
+                        .map(function(element) {
+                            var $el = $(element);
+                            var $img = $el.closest('.form-inline').find('img');
+                            var option = {};
+                            option.value = $el.val();
+                            if ($img.length > 0) {
+                                option.image = {};
+                                option.image.src =
+                                    utils.getFilenameFromURL($img.attr('src'));
+                            }
 
-                html.find('input[name="'+field.id+'"]').each(function(event){
-                    var $img = $(this).closest(".form-inline").find("img");
-                    if($img.length > 0){
-                        checkboxes.push([]);
-                        var n = checkboxes.length-1;
-                        checkboxes[n].push($(this).val());
-                        checkboxes[n].push(utils.getFilenameFromURL($img.attr("src")));
-                    }
-                    else {
-                        checkboxes.push($(this).val());
-                    }
-                });
-                field.properties.options = checkboxes;
+                            return option;
+                        });
                 break;
             case 'radio':
                 field.required = html.find('input[name="required"]').is(':checked');
                 field.persistent = html.find('input[name="persistent"]').is(':checked');
                 field.properties.other = html.find('input[name="other"]').is(':checked');
-                var radios = [];
+                field.properties.options =
+                    html.find('input[name="' + field.id + '"]')
+                        .toArray()
+                        .map(function(element) {
+                            var $el = $(element);
+                            var $img = $el.closest('.form-inline').find('img');
+                            var option = {};
+                            option.value = $el.val();
+                            if ($img.length > 0) {
+                                option.image = {};
+                                option.image.src =
+                                    utils.getFilenameFromURL($img.attr('src'));
+                            }
 
-                //go through each radio element
-                html.find('input[name="'+field.id+'"]').each(function(event){
-                    var $img = $(this).closest(".form-inline").find("img");
-                    //if it has images next to them then save the image src as well
-                    if($img.length > 0){
-                        radios.push([]);
-                        var n = radios.length-1;
-                        radios[n].push($(this).val());
-                        radios[n].push(utils.getFilenameFromURL($img.attr("src")));
-                    }
-                    else {
-                        radios.push($(this).val());
-                    }
-                });
-                field.properties.options = radios;
+                            return option;
+                        });
                 break;
             case 'select':
                 field.required = html.find('input[name="required"]').is(':checked');
@@ -261,17 +261,14 @@ class Convertor {
 
                     options = $input.map(function(i, element) {
                         var $checkbox = $(element);
-                        var checkbox;
+                        var checkbox = {};
+                        checkbox.value = $checkbox.val();
+
                         var $img = $checkbox.prev().find('img');
                         if ($img.is('img')) {
-                            checkbox = [];
-                            checkbox.push($checkbox.val());
-                            checkbox.push(
-                                pcapi.buildFSUrl('editors', $img.attr("src"))
-                            );
-                        }
-                        else {
-                            checkbox = $checkbox.val();
+                            checkbox.image = {};
+                            checkbox.image.src =
+                                pcapi.buildFSUrl('editors', $img.attr("src"));
                         }
 
                         return checkbox;
@@ -296,18 +293,14 @@ class Convertor {
 
                     options = $input.map(function(i, element) {
                         var $radio = $(element);
-                        var radio;
+                        var radio = {};
+                        radio.value = $radio.val();
 
                         var $img = $radio.prev().find('img');
                         if ($img.is('img')) {
-                            radio = [];
-                            radio.push($radio.val());
-                            radio.push(
-                                pcapi.buildFSUrl('editors', $img.attr('src'))
-                            );
-                        }
-                        else {
-                            radio = $radio.val();
+                            radio.image = {};
+                            radio.image.src =
+                                pcapi.buildFSUrl('editors', $img.attr('src'));
                         }
 
                         return radio;

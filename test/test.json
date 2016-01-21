@@ -95,11 +95,21 @@
       "persistent": false,
       "properties": {
         "options": [
-          "Cliff",
-          "Slope",
-          "Plain",
-          "Depression",
-          "Ravine"
+          {
+            "value": "Cliff"
+          },
+          {
+            "value": "Slope"
+          },
+          {
+            "value": "Plain"
+          },
+          {
+            "value": "Depression"
+          },
+          {
+            "value": "Ravine"
+          }
         ]
       },
       "id": "fieldcontain-radio-1"
@@ -123,9 +133,15 @@
       "persistent": false,
       "properties": {
         "options": [
-          "Sandy",
-          "Silt",
-          "Loam"
+          {
+            "value": "Sandy"
+          },
+          {
+            "value": "Silt"
+          },
+          {
+            "value": "Loam"
+          }
         ]
       },
       "id": "fieldcontain-radio-2"
@@ -149,8 +165,12 @@
       "persistent": false,
       "properties": {
         "options": [
-          "Yes",
-          "No"
+          {
+            "value": "Yes"
+          },
+          {
+            "value": "No"
+          }
         ]
       },
       "id": "fieldcontain-radio-3"
@@ -330,13 +350,27 @@
       "persistent": false,
       "properties": {
         "options": [
-          "Upper storey dominated by high evergreen shrubs",
-          "Understory dominated by phrygana",
-          "Absence of illegal logging",
-          "Presence/practice of normal (regular) grazing",
-          "Absence of dense road network or infrastructures",
-          "Absence of evidence(s) of primary or secondary succession",
-          "Presence of juniper seedlings"
+          {
+            "value": "Upper storey dominated by high evergreen shrubs"
+          },
+          {
+            "value": "Understory dominated by phrygana"
+          },
+          {
+            "value": "Absence of illegal logging"
+          },
+          {
+            "value": "Presence/practice of normal (regular) grazing"
+          },
+          {
+            "value": "Absence of dense road network or infrastructures"
+          },
+          {
+            "value": "Absence of evidence(s) of primary or secondary succession"
+          },
+          {
+            "value": "Presence of juniper seedlings"
+          }
         ]
       },
       "id": "fieldcontain-checkbox-1"
@@ -348,15 +382,33 @@
       "persistent": false,
       "properties": {
         "options": [
-          "Upper storey dominated by  high evergreen shrubs",
-          "Understory dominated by phrygana and/or therophytes",
-          "Absence of illegal logging",
-          "Presence/practice of normal (regular) grazing",
-          "Absence of dense road network or infrastructures",
-          "Absence of evidence(s) of primary or secondary succession",
-          "Absence of indications of significant/important erosion (e.g. crevasse-like erosion)",
-          "Rich in important plant species community",
-          "Presence of juniper seedlings"
+          {
+            "value": "Upper storey dominated by  high evergreen shrubs"
+          },
+          {
+            "value": "Understory dominated by phrygana and/or therophytes"
+          },
+          {
+            "value": "Absence of illegal logging"
+          },
+          {
+            "value": "Presence/practice of normal (regular) grazing"
+          },
+          {
+            "value": "Absence of dense road network or infrastructures"
+          },
+          {
+            "value": "Absence of evidence(s) of primary or secondary succession"
+          },
+          {
+            "value": "Absence of indications of significant/important erosion (e.g. crevasse-like erosion)"
+          },
+          {
+            "value": "Rich in important plant species community"
+          },
+          {
+            "value": "Presence of juniper seedlings"
+          }
         ]
       },
       "id": "fieldcontain-checkbox-2"
@@ -368,11 +420,21 @@
       "persistent": false,
       "properties": {
         "options": [
-          "Upper storey dominated by  high evergreen shrubs",
-          "Absence of illegal logging",
-          "Presence/practice of normal (regular) grazing",
-          "Absence of evidence(s) of primary or secondary succession",
-          "Presence of juniper seedlings"
+          {
+            "value": "Upper storey dominated by  high evergreen shrubs"
+          },
+          {
+            "value": "Absence of illegal logging"
+          },
+          {
+            "value": "Presence/practice of normal (regular) grazing"
+          },
+          {
+            "value": "Absence of evidence(s) of primary or secondary succession"
+          },
+          {
+            "value": "Presence of juniper seedlings"
+          }
         ]
       },
       "id": "fieldcontain-checkbox-3"
@@ -384,13 +446,27 @@
       "persistent": false,
       "properties": {
         "options": [
-          "Upper storey dominated by evergreen shrubs",
-          "Abundance of perennial grasses",
-          "Absence of illegal logging",
-          "Absence of evidence(s) of primary or secondary succession",
-          "Rich in plant species community",
-          "Presence of juniper seedlings",
-          "Absence of indications of significant/important erosion (e.g. crevasse-like erosion)"
+          {
+            "value": "Upper storey dominated by evergreen shrubs"
+          },
+          {
+            "value": "Abundance of perennial grasses"
+          },
+          {
+            "value": "Absence of illegal logging"
+          },
+          {
+            "value": "Absence of evidence(s) of primary or secondary succession"
+          },
+          {
+            "value": "Rich in plant species community"
+          },
+          {
+            "value": "Presence of juniper seedlings"
+          },
+          {
+            "value": "Absence of indications of significant/important erosion (e.g. crevasse-like erosion)"
+          }
         ]
       },
       "id": "fieldcontain-checkbox-4"
@@ -402,10 +478,18 @@
       "persistent": false,
       "properties": {
         "options": [
-          "FV Struct. & funct. are expected to be in FV status in more than 75% of the studied locality ",
-          "U1 Struct. & funct. are expected to be in FV stat in 50-75% of the studied locality and not more than 25% in U2 status",
-          "U2 Struct. & funct. are expected to be in FV status in  less than 50% of the studied locality or more than 25% in U2 status",
-          "XX: Not able to asses fucheckboxture conservation status in > 50% of the studied locality"
+          {
+            "value": "FV Struct. & funct. are expected to be in FV status in more than 75% of the studied locality "
+          },
+          {
+            "value": "U1 Struct. & funct. are expected to be in FV stat in 50-75% of the studied locality and not more than 25% in U2 status"
+          },
+          {
+            "value": "U2 Struct. & funct. are expected to be in FV status in  less than 50% of the studied locality or more than 25% in U2 status"
+          },
+          {
+            "value": "XX: Not able to asses fucheckboxture conservation status in > 50% of the studied locality"
+          }
         ]
       },
       "id": "fieldcontain-radio-5"
@@ -417,10 +501,18 @@
       "persistent": false,
       "properties": {
         "options": [
-          "easy",
-          "possible with an average effort",
-          "difficult or impossible",
-          "unable to assess"
+          {
+            "value": "easy"
+          },
+          {
+            "value": "possible with an average effort"
+          },
+          {
+            "value": "difficult or impossible"
+          },
+          {
+            "value": "unable to assess"
+          }
         ]
       },
       "id": "fieldcontain-radio-6"

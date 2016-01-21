@@ -9,16 +9,18 @@
   <label for="other"><%= translate("radio.allow-other") %></label>
   <input type="checkbox" name="other" <%= check(properties.other, "checked") %>>
   <div class="radios">
-  <% properties.options.forEach(function(item, key){ %> 
+  <% properties.options.forEach(function(item, key){ %>
     <div class="form-inline">
-      <% if(typeof item === "object") { %>
-        <img src="<%= item[1] %>" style="width: 50px;">
-        <input type="text" value="<%= item[0] %>" name="<%= id %>" id="<%= id %>-<%= increase(key) %>" class="radio">
-      <% } else {%>
-        <input type="text" value="<%= item %>" name="<%= id %>" id="<%= id %>-<%= increase(key) %>" class="radio">
-        <button type="file" class="btn btn-default btn-sm upload-image" aria-label="<%= translate("radio.upload") %>"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
+      <% if (item.image) { %>
+        <img src="<%= item.image.src %>" style="width: 50px;">
+        <button type="file" class="btn btn-default btn-sm upload-image" aria-label="<%= translate("radio.upload") %>">
+          <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+        </button>
       <% } %>
-      <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="<%= translate("radio.remove") %>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+      <input type="text" value="<%= item.value %>" name="<%= id %>" id="<%= id %>-<%= increase(key) %>" class="radio">
+      <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="<%= translate("radio.remove") %>">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+      </button>
       <input type="file" class="image-upload" id="upload-<%= id %>" style="display: none;">
     </div>
   <% }); %>

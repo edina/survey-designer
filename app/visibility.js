@@ -166,23 +166,13 @@ class Visibility {
             case 'checkbox':
                 obj.operators = ['equal', 'notEqual', 'greaterThan', 'smallerThan'];
                 field.properties.options.forEach(function(v) {
-                    if(typeof(v) === "object"){
-                        obj.answers.push(v[0]);
-                    }
-                    else {
-                        obj.answers.push(v);
-                    }
+                    obj.answers.push(v.value);
                 });
                 break;
             case 'radio':
                 obj.operators = ['equal', 'notEqual', 'greaterThan', 'smallerThan'];
                 field.properties.options.forEach(function(v) {
-                    if(typeof(v) === "object"){
-                        obj.answers.push(v[0]);
-                    }
-                    else {
-                        obj.answers.push(v);
-                    }
+                    obj.answers.push(v.value);
                 });
                 break;
             case 'select':

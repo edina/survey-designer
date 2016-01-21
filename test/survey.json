@@ -103,9 +103,15 @@
             "properties": {
                 "other": false,
                 "options": [
-                    "No",
-                    "Yes, as part of volunteer group or society",
-                    "Yes, I work in the industry"
+                    {
+                        "value": "No"
+                    },
+                    {
+                        "value": "Yes, as part of volunteer group or society"
+                    },
+                    {
+                        "value": "Yes, I work in the industry"
+                    }
                 ]
             }
         },
@@ -118,39 +124,57 @@
             "properties": {
                 "other": false,
                 "options": [
-                    [
-                        "Street",
-                        "5a.jpg"
-                    ],
-                    [
-                        "Garden",
-                        "5b.jpg"
-                    ],
-                    [
-                        "School",
-                        "5c.jpg"
-                    ],
-                    [
-                        "Park",
-                        "5d.jpg"
-                    ],
-                    [
-                        "Open field",
-                        "5e.jpg"
-                    ],
-                    [
-                        "Hedge",
-                        "5f.jpg"
-                    ],
-                    [
-                        "Woodland edge",
-                        "5g.jpg"
-                    ],
-                    [
-                        "Inside woodland",
-                        "5h.jpg"
-                    ],
-                    "other"
+                    {
+                        "value": "Street",
+                        "image": {
+                            "src": "5a.jpg"
+                        }
+                    },
+                    {
+                        "value": "Garden",
+                        "image": {
+                            "src": "5b.jpg"
+                        }
+                    },
+                    {
+                        "value": "School",
+                        "image": {
+                            "src": "5c.jpg"
+                        }
+                    },
+                    {
+                        "value": "Park",
+                        "image": {
+                            "src": "5d.jpg"
+                        }
+                    },
+                    {
+                        "value": "Open field",
+                        "image": {
+                            "src": "5e.jpg"
+                        }
+                    },
+                    {
+                        "value": "Hedge",
+                        "image": {
+                            "src": "5f.jpg"
+                        }
+                    },
+                    {
+                        "value": "Woodland edge",
+                        "image": {
+                            "src": "5g.jpg"
+                        }
+                    },
+                    {
+                        "value": "Inside woodland",
+                        "image": {
+                            "src": "5h.jpg"
+                        }
+                    },
+                    {
+                        "value": "other"
+                    }
                 ]
             }
         },
@@ -162,10 +186,18 @@
             "persistent": false,
             "properties": {
                 "options": [
-                    "Alder",
-                    "Ash",
-                    "Beech",
-                    "Other"
+                    {
+                        "value": "Alder"
+                    },
+                    {
+                        "value": "Ash"
+                    },
+                    {
+                        "value": "Beech"
+                    },
+                    {
+                        "value": "Other"
+                    }
                 ]
             }
         },
@@ -210,22 +242,30 @@
             "properties": {
                 "other": false,
                 "options": [
-                    [
-                        "Brown leaf edges",
-                        "15a.png"
-                    ],
-                    [
-                        "Brown spots",
-                        "15b.png"
-                    ],
-                    [
-                        "Leaves all brown",
-                        "15c.png"
-                    ],
-                    [
-                        "None",
-                        "15d.png"
-                    ]
+                    {
+                        "value": "Brown leaf edges",
+                        "image": {
+                            "src": "15a.png"
+                        }
+                    },
+                    {
+                        "value": "Brown spots",
+                        "image": {
+                            "src": "15b.png"
+                        }
+                    },
+                    {
+                        "value": "Leaves all brown",
+                        "image": {
+                            "src": "15c.png"
+                        }
+                    },
+                    {
+                        "value": "None",
+                        "image": {
+                            "src": "15d.png"
+                        }
+                    }
                 ]
             }
         },
@@ -238,10 +278,18 @@
             "properties": {
                 "other": false,
                 "options": [
-                    "Birds or birds’ nests",
-                    "Squirrels",
-                    "A large hollow in the trunk",
-                    "Other"
+                    {
+                        "value": "Birds or birds’ nests"
+                    },
+                    {
+                        "value": "Squirrels"
+                    },
+                    {
+                        "value": "A large hollow in the trunk"
+                    },
+                    {
+                        "value": "Other"
+                    }
                 ]
             }
         },
