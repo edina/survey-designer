@@ -2,7 +2,6 @@
 import chai from 'chai';
 var assert = chai.assert;
 var expect = chai.expect;
-import _ from "underscore";
 import $ from 'jquery';
 import Convertor from '../app/convert';
 import testJSON  from './test.json!';
@@ -331,10 +330,7 @@ describe('surveyConvertor#HTMLtoJSON', function() {
 
     it('check .edtr to JSON conversion', function(){
         var ed = convertor.HTMLtoJSON(editor);
-        console.log(JSON.stringify(testJSON));
-        console.log(JSON.stringify(ed));
         assert.deepEqual(testJSON, ed);
-        //expect(testJSON).to.deep.equal(ed);
     });
 
 
