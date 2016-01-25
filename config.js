@@ -2,19 +2,20 @@ System.config({
   defaultJSExtensions: true,
   transpiler: "traceur",
   paths: {
-    "github:*": "https://github.jspm.io/*",
-    "npm:*": "https://npm.jspm.io/*"
+    "github:*": "jspm_packages/github/*",
+    "npm:*": "jspm_packages/npm/*"
   },
 
   map: {
-    "babel": "npm:babel-core@5.8.34",
-    "babel-runtime": "npm:babel-runtime@5.8.34",
+    "babel": "npm:babel-core@5.8.35",
+    "babel-runtime": "npm:babel-runtime@5.8.35",
     "backbone": "npm:backbone@1.2.3",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
     "chai": "npm:chai@3.4.1",
     "clean-css": "npm:clean-css@3.4.9",
     "core-js": "npm:core-js@1.2.6",
     "css": "github:systemjs/plugin-css@0.1.20",
+    "survey-convertor": "github:edina/survey-convertor@0.1.6",
     "handlebars": "github:components/handlebars.js@4.0.3",
     "hbs": "github:davis/plugin-hbs@1.2.0",
     "i18next-client": "npm:i18next-client@1.11.4",
@@ -24,7 +25,6 @@ System.config({
     "jst": "github:podio/plugin-jst@0.1.2",
     "mocha": "npm:mocha@2.3.4",
     "pcapi": "npm:pcapi@0.1.2",
-    "survey-convertor": "github:edina/survey-convertor@0.1.5",
     "text": "github:systemjs/plugin-text@0.0.4",
     "traceur": "github:jmcriffey/bower-traceur@0.0.88",
     "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88",
@@ -35,7 +35,7 @@ System.config({
     "github:davis/plugin-hbs@1.2.0": {
       "handlebars": "github:components/handlebars.js@4.0.3"
     },
-    "github:edina/survey-convertor@0.1.5": {
+    "github:edina/survey-convertor@0.1.6": {
       "jquery": "github:components/jquery@2.2.0"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
@@ -88,7 +88,7 @@ System.config({
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
     },
-    "npm:babel-runtime@5.8.34": {
+    "npm:babel-runtime@5.8.35": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:backbone@1.2.3": {

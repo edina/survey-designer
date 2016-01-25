@@ -111,14 +111,13 @@ class Convertor {
                 html.find('input[name="'+field.id+'"]').each(function(event){
                     var $img = $(this).closest(".form-inline").find("img");
                     //if it has images next to them then save the image src as well
+                    var select = {"value": $(this).val()};
                     if($img.length > 0) {
-                        options.push([]);
-                        var n = options.length-1;
-                        options[n].push($(this).val());
-                        options[n].push(utils.getFilenameFromURL($img.attr("src")));
-                    } else{
-                        options.push($(this).val());
+                        select.image = {
+                          "src": utils.getFilenameFromURL($img.attr("src"))
+                        };
                     }
+                    options.push(select);
                 });
                 field.properties.options = options;
                 break;
@@ -261,14 +260,12 @@ class Convertor {
 
                     options = $input.map(function(i, element) {
                         var $checkbox = $(element);
-                        var checkbox = {};
-                        checkbox.value = $checkbox.val();
-
+                        var checkbox = {"value": $checkbox.val()};
                         var $img = $checkbox.prev().find('img');
                         if ($img.is('img')) {
-                            checkbox.image = {};
-                            checkbox.image.src =
-                                pcapi.buildFSUrl('editors', $img.attr("src"));
+                            checkbox.image = {
+                                "src": $img.attr("src")
+                            };
                         }
 
                         return checkbox;
@@ -293,14 +290,13 @@ class Convertor {
 
                     options = $input.map(function(i, element) {
                         var $radio = $(element);
-                        var radio = {};
-                        radio.value = $radio.val();
 
                         var $img = $radio.prev().find('img');
+                        var radio = {"value": $radio.val()};
                         if ($img.is('img')) {
-                            radio.image = {};
-                            radio.image.src =
-                                pcapi.buildFSUrl('editors', $img.attr('src'));
+                            radio.image = {
+                                "src": $img.attr("src")
+                            };
                         }
 
                         return radio;
