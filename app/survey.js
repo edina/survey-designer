@@ -63,12 +63,12 @@ class Survey {
         //initialize fieldGenerator
         var fieldGenerator = new FieldGenerator(this.renderEl);
         //generate general settings
-        var titleObj;
-        if(this.title) {
-            titleObj = {"title": this.title};
-        }
+        var generalObj = {
+          type: "general",
+          title: this.title
+        };
 
-        fieldGenerator.render({type: "general"});
+        fieldGenerator.render(generalObj);
         //generate first text field
         fieldGenerator.render({type: 'text'});
     }
@@ -81,11 +81,13 @@ class Survey {
     */
     renderExistingSurvey(title, data) {
         //if data is html then convert it to json
-        if (!utils.isJsonString(data)) {
-            data = this.convertor.HTMLtoJSON (data, title);
-        }
-        else {
-            data = JSON.parse(data);
+        if (typeof data === 'string') {
+            if(utils.isJsonString(data)) {
+                data = JSON.parse(data);
+            }
+            else{
+                data = this.convertor.HTMLtoJSON (data, this.title);
+            }
         }
         var dataStorage = new DataStorage();
         dataStorage.setData(data);
@@ -93,7 +95,7 @@ class Survey {
 
         //render general settings
         fieldGenerator.render({
-            "title": title,
+            "title": this.title,
             "geoms": data.geoms,
             "type": "general"
         });

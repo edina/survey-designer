@@ -197,7 +197,9 @@ describe('#FieldGenerator', () => {
         //check if the images haven been printed right
         $result.find('img').each(function(i){
             assert.equal(
-                $(this).attr('src'), field.properties.options[i].image.src);
+                $(this).attr('src'),
+                pcapi.buildFSUrl("editors",field.properties.options[i].image.src)
+            );
         });
         //check if add checkbox button exists
         assert.equal($result.find('.add-radio').length, 1);
@@ -296,7 +298,7 @@ describe('#FieldGenerator', () => {
           field.properties.options.length);
         //check if the values of the options have been printed right
         $result.find('input[name="'+field.id+'"]').each(function(i){
-            assert.equal($(this).val(), field.properties.options[i]);
+            assert.equal($(this).val(), field.properties.options[i].value);
         });
         //check if add checkbox button exists
         assert.equal($result.find('.add-select').length, 1);
@@ -350,7 +352,9 @@ describe('#FieldGenerator', () => {
         //check if the images haven been printed right
         $result.find('img').each(function(i){
             assert.equal(
-                $(this).attr("src"), field.properties.options[i].image.src);
+                $(this).attr('src'),
+                pcapi.buildFSUrl("editors",field.properties.options[i].image.src)
+            );
         });
         //check if add checkbox button exists
         assert.equal($result.find('.add-checkbox').length, 1);

@@ -42,6 +42,25 @@ class Convertor {
      */
     fieldToJSON (field, html) {
         field.label = html.find('input[name="label"]').val();
+
+        var createOptions = function(html, id){
+            return html.find('input[name="' + id + '"]')
+              .toArray()
+              .map(function(element) {
+                  var $el = $(element);
+                  var $img = $el.closest('.form-inline').find('img');
+                  var option = {
+                    "value":  $el.val()
+                  };
+                  if ($img.length > 0) {
+                      option.image = {};
+                      option.image.src =
+                          utils.getFilenameFromURL($img.attr('src'));
+                  }
+                  return option;
+              });
+        };
+
         switch (field.type) {
             case 'text':
                 field.required = html.find('input[name="required"]').is(':checked');
@@ -66,60 +85,18 @@ class Convertor {
                 field.required = html.find('input[name="required"]').is(':checked');
                 field.persistent = html.find('input[name="persistent"]').is(':checked');
                 field.properties.other = html.find('input[name="other"]').is(':checked');
-                field.properties.options =
-                    html.find('input[name="' + field.id + '"]')
-                        .toArray()
-                        .map(function(element) {
-                            var $el = $(element);
-                            var $img = $el.closest('.form-inline').find('img');
-                            var option = {};
-                            option.value = $el.val();
-                            if ($img.length > 0) {
-                                option.image = {};
-                                option.image.src =
-                                    utils.getFilenameFromURL($img.attr('src'));
-                            }
-
-                            return option;
-                        });
+                field.properties.options = createOptions(html, field.id);
                 break;
             case 'radio':
                 field.required = html.find('input[name="required"]').is(':checked');
                 field.persistent = html.find('input[name="persistent"]').is(':checked');
                 field.properties.other = html.find('input[name="other"]').is(':checked');
-                field.properties.options =
-                    html.find('input[name="' + field.id + '"]')
-                        .toArray()
-                        .map(function(element) {
-                            var $el = $(element);
-                            var $img = $el.closest('.form-inline').find('img');
-                            var option = {};
-                            option.value = $el.val();
-                            if ($img.length > 0) {
-                                option.image = {};
-                                option.image.src =
-                                    utils.getFilenameFromURL($img.attr('src'));
-                            }
-
-                            return option;
-                        });
+                field.properties.options = createOptions(html, field.id);
                 break;
             case 'select':
                 field.required = html.find('input[name="required"]').is(':checked');
                 field.persistent = html.find('input[name="persistent"]').is(':checked');
-                var options = [];
-                html.find('input[name="'+field.id+'"]').each(function(event){
-                    var $img = $(this).closest(".form-inline").find("img");
-                    //if it has images next to them then save the image src as well
-                    var select = {"value": $(this).val()};
-                    if($img.length > 0) {
-                        select.image = {
-                          "src": utils.getFilenameFromURL($img.attr("src"))
-                        };
-                    }
-                    options.push(select);
-                });
-                field.properties.options = options;
+                field.properties.options = createOptions(html, field.id);
                 break;
             case 'dtree':
                 var $a =  html.find('.dtree-url');

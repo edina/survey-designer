@@ -7,9 +7,9 @@
   <label for="persistent"><%= translate("select.persistent") %></label>
   <input type="checkbox" name="persistent" <%= check(persistent, "checked") %>>
   <div class="options">
-    <% properties.options.forEach(function(item, key){ %> 
+    <% properties.options.forEach(function(item, key){ %>
     <div class="form-inline">
-      <input type="text" value="<%= item %>" name="<%= id %>" id="<%= id %>-<%= increase(key) %>" class="select">
+      <input type="text" value="<%= item.value %>" name="<%= id %>" id="<%= id %>-<%= increase(key) %>" class="select">
       <button type="button" class="btn btn-default btn-sm remove-select" aria-label="<%= translate("select.remove") %>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
     </div>
     <% }); %>

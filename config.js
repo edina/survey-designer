@@ -2,8 +2,8 @@ System.config({
   defaultJSExtensions: true,
   transpiler: "traceur",
   paths: {
-    "github:*": "jspm_packages/github/*",
-    "npm:*": "jspm_packages/npm/*"
+    "github:*": "https://github.jspm.io/*",
+    "npm:*": "https://npm.jspm.io/*"
   },
 
   map: {
@@ -15,7 +15,6 @@ System.config({
     "clean-css": "npm:clean-css@3.4.9",
     "core-js": "npm:core-js@1.2.6",
     "css": "github:systemjs/plugin-css@0.1.20",
-    "survey-convertor": "github:edina/survey-convertor@0.1.6",
     "handlebars": "github:components/handlebars.js@4.0.3",
     "hbs": "github:davis/plugin-hbs@1.2.0",
     "i18next-client": "npm:i18next-client@1.11.4",
@@ -25,6 +24,7 @@ System.config({
     "jst": "github:podio/plugin-jst@0.1.2",
     "mocha": "npm:mocha@2.3.4",
     "pcapi": "npm:pcapi@0.1.2",
+    "survey-convertor": "github:edina/survey-convertor@0.1.6",
     "text": "github:systemjs/plugin-text@0.0.4",
     "traceur": "github:jmcriffey/bower-traceur@0.0.88",
     "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88",

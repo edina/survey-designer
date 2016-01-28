@@ -13,6 +13,7 @@ export class SurveyView extends Backbone.View {
         this.cfg = cfg;
         this.element = "#content";
         this.subElement = ".mobile-content";
+        this.params = utils.getParams();
         this.render();
     }
 
@@ -23,8 +24,8 @@ export class SurveyView extends Backbone.View {
             var htmlConvertor = new Convertor();
 
             var title = formInJSON.title;
-            if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
-                title = utils.getParams().sid;
+            if ("sid" in this.params && this.params.sid !== undefined) {
+                title = this.params.sid;
             }
             var options = {
                 remoteDir: "editors",
@@ -32,7 +33,7 @@ export class SurveyView extends Backbone.View {
                 data: JSON.stringify(formInJSON)
             };
 
-            if(utils.getParams().public === 'true'){
+            if(this.params.public === 'true'){
                 options.urlParams = {
                     'public': 'true'
                 };
@@ -44,7 +45,7 @@ export class SurveyView extends Backbone.View {
                 data: htmlConvertor.JSONtoHTML(formInJSON).join("")
             };
 
-            if(utils.getParams().public === 'true'){
+            if(this.params.public === 'true'){
                 optionsForHTML.urlParams = {
                     'public': 'true'
                 };
@@ -60,7 +61,7 @@ export class SurveyView extends Backbone.View {
         }, this));
     }
 
-    getEditor (title, options) {
+    getEditor (options, title) {
         utils.loading(true);
         var survey;
         pcapi.getEditor(options).then($.proxy(function(data){
@@ -88,10 +89,14 @@ export class SurveyView extends Backbone.View {
             ns: { namespaces: ['survey'], defaultNs: 'survey'},
             detectLngQS: 'lang'
         }, $.proxy(function(){
-            this.survey = new Survey({
-                "element": this.element,
-                "subElement": this.subElement
-            });
+            var options = {
+              "element": this.element,
+              "subElement": this.subElement
+            };
+            if(this.params && this.params.survey) {
+                options.title = decodeURIComponent(this.params.survey);
+            }
+            this.survey = new Survey(options);
             this.renderSurvey();
             this.formSave();
         }, this));
@@ -99,12 +104,12 @@ export class SurveyView extends Backbone.View {
 
     renderSurvey () {
         if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
-            var title = decodeURIComponent(utils.getParams().survey);
+            var title = decodeURIComponent(this.params.survey);
             var options = {
                 "remoteDir": "editors",
                 "item": utils.getParams().sid+".json"
             };
-            this.getEditor(title, options);
+            this.getEditor(options, title);
         }
         else {
             this.survey.render();

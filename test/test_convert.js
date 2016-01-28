@@ -206,9 +206,15 @@ describe('surveyConvertor#fieldToJSON', function() {
             "persistent":false,
             "properties":{
                 "options": [
-                    "option 1",
-                    "option 2",
-                    "option 3"
+                    {
+                      "value": "option 1"
+                    },
+                    {
+                      "value": "option 2"
+                    },
+                    {
+                      "value": "option 3"
+                    }
                 ]
             }
         };

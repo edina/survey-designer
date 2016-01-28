@@ -6,6 +6,7 @@ before_script:
 - npm install
 - npm -g install jspm
 - jspm install
+- jspm setmode remote
 script:
 - npm run test
 env:
