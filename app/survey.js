@@ -17,9 +17,9 @@ class Survey {
     * @param options.title {String} the title of the Survey
     */
     constructor(options) {
-        this.$mainBodyEl = $(options.element);
+        this.options = options;
         this.title = options.title;
-        this.renderEl = options.subElement;
+        this.renderEl = "."+options.subElement;
         this.convertor = new Convertor();
         this.initialize();
         this.enableAutoSave();
@@ -29,24 +29,25 @@ class Survey {
     * initialize the survey rendering
     */
     initialize() {
-        this.$mainBodyEl.html('<div class="mobile">'+
-          '<div class="'+this.renderEl.substring(1)+'">'+
+        document.getElementById(this.options.element).innerHTML = '<div class="mobile">'+
+          '<div class="'+this.options.subElement+'">'+
           '</div></div>'+
-          '<div id="loader"><img src="app/styles/images/ajax-loader.gif"></div>');
+          '<div id="loader"><img src="app/styles/images/ajax-loader.gif"></div>';
           //adjust heights
           var $mobile = $(".mobile");
-          $(this.renderEl).before(saveTemplate({"save": i18n.t("menu.save")}));
+          var $mobileContent = $(this.renderEl);
+          $mobileContent.before(saveTemplate({"save": i18n.t("menu.save")}));
           var $myNav = $("#myNav");
           $mobile.height($(window).height() - $("#header").height() - 84);
-          $(this.renderEl).height($mobile.height() - 100 - $myNav.height());
+          $mobileContent.height($mobile.height() - 100 - $myNav.height());
           $myNav.width($mobile.width());
     }
 
     /**
     * auto save the form on localstorage
     */
-    enableAutoSave() {
-        var iFrequency = 60000; // expressed in miliseconds
+    enableAutoSave(time) {
+        var iFrequency = time || 60000; // expressed in miliseconds
         var myInterval = 0;
 
         // STARTS and Resets the loop if any{

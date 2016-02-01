@@ -11,8 +11,10 @@ export class SurveyView extends Backbone.View {
 
     initialize () {
         this.cfg = cfg;
-        this.element = "#content";
-        this.subElement = ".mobile-content";
+        this.options = {
+            "element": "content",
+            "subElement": "mobile-content"
+        };
         this.params = utils.getParams();
         this.render();
     }
@@ -20,7 +22,7 @@ export class SurveyView extends Backbone.View {
     formSave() {
         $(document).off('click', '#form-save');
         $(document).on('click', '#form-save', $.proxy(function(){
-            var formInJSON = save.saveData(this.subElement);
+            var formInJSON = save.saveData("."+this.options.subElement);
             var htmlConvertor = new Convertor();
 
             var title = formInJSON.title;
@@ -89,14 +91,10 @@ export class SurveyView extends Backbone.View {
             ns: { namespaces: ['survey'], defaultNs: 'survey'},
             detectLngQS: 'lang'
         }, $.proxy(function(){
-            var options = {
-              "element": this.element,
-              "subElement": this.subElement
-            };
             if(this.params && this.params.survey) {
-                options.title = decodeURIComponent(this.params.survey);
+                this.options.title = decodeURIComponent(this.params.survey);
             }
-            this.survey = new Survey(options);
+            this.survey = new Survey(this.options);
             this.renderSurvey();
             this.formSave();
         }, this));
