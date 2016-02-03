@@ -23,9 +23,10 @@ import Visibility from './visibility';
 
 /* global i18n */
 class FieldGenerator {
-    constructor (el){
+    constructor (el, layout){
         this.el = el;
         this.$el = $(el);
+        this.layout = layout;
     }
 
     render(data, element) {
@@ -48,9 +49,10 @@ class FieldGenerator {
         var type = data.type;
         //in order not to attach all the underscore functions to the data object
         var templateData = Object.assign({}, data);
-        templateData.id = templateData.id || "fieldcontain-"+type+"-"+this.findHighestElement(type);
+        templateData.id = templateData.id || type+"-"+this.findHighestElement(type);
         templateData.label = templateData.label || i18n.t(type+".label");
         templateData.required = templateData.required || false;
+        templateData.header = false;
         templateData.persistent = templateData.persistent || false;
         templateData.properties = templateData.properties || {};
         _.extend(templateData, this.viewHelpers());
@@ -61,6 +63,9 @@ class FieldGenerator {
                 return generalTemplate(templateData);
             case 'text':
                 templateData.properties["max-chars"] = templateData.properties["max-chars"] || 10;
+                if(this.layout) {
+                    templateData.header = this.layout.headers.indexOf(templateData.id) > -1;
+                }
                 return textTemplate(templateData);
             case 'textarea':
                 return textareaTemplate(templateData);
@@ -119,20 +124,20 @@ class FieldGenerator {
      * @param {String} type such as text, textarea etc
      */
     addFieldButtons(type) {
-        if(type !== "general"){
-            var fields = this.$el.find('.fieldcontain-'+type);
-            var id = "fieldcontain-"+type+"-"+(fields.length);
-            $(fields[fields.length - 1]).attr("id", id);
-            var $id = $("#"+id);
-            if(fields.length > 1 || type !== "text"){
-                var buttons = '<div class="fieldButtons">' +
-                      '<button type="button" class="btn btn-default remove-field" aria-label="Remove field"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'+
-                      '<div class="btn btn-default sortit" aria-label="Sort field"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span></div>'+
-                      '</div>';
-                $id.append(buttons);
-            }
-            $id.append(addfieldTemplate({data: cfg.options}));
+        var fields = this.$el.find('.fieldcontain-'+type);
+        var id = "fieldcontain-"+type+"-"+(fields.length);
+        $(fields[fields.length - 1]).attr("id", id);
+        var $id = $("#"+id);
+        if(fields.length > 1 || type !== "text"){
+            var buttons = '<div class="fieldButtons">' +
+                  '<button type="button" class="btn btn-default '+
+                      'remove-field" aria-label="Remove field">'+
+                      '<span class="glyphicon '+
+                      'glyphicon-remove" aria-hidden="true"></span></button>'+
+                  '</div>';
+            $id.append(buttons);
         }
+        $id.append(addfieldTemplate({data: cfg.options}));
     }
 
     /**

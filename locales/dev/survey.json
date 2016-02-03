@@ -39,7 +39,8 @@
         "max-chars": 256,
         "required": "Required",
         "persistent": "Persistent",
-        "relate": "Visibility"
+        "relate": "Visibility",
+        "header": "Use as a record name"
     },
     "textarea": {
         "name": "textarea",

@@ -17,8 +17,9 @@ describe('#FieldGenerator', () => {
     var fieldGenerator;
 
     before(function(done){
+        console.log(testForm)
         $("#content").append('<div class="'+cl.substring(1)+'"></div>');
-        fieldGenerator = new FieldGenerator(cl);
+        fieldGenerator = new FieldGenerator(cl, testForm.recordLayout);
 
         i18n.init({// jshint ignore:line
             ns: { namespaces: ['survey'], defaultNs: 'survey'},
@@ -47,6 +48,12 @@ describe('#FieldGenerator', () => {
         //check label for required
         assert.equal($result.find('label[for="required"]').text(),
           language.text.required);
+        //check value of header
+        assert.equal($result.find('input[name="header"]').is(':checked'),
+          testForm.recordLayout.headers.indexOf(field.id) > -1);
+        //check label for header
+        assert.equal($result.find('label[for="header"]').text(),
+          language.text.header);
         //check value of placeholder
         assert.equal($result.find('input[name="placeholder"]').attr("placeholder"),
           field.properties.placeholder);
@@ -67,7 +74,54 @@ describe('#FieldGenerator', () => {
           language.text["max-chars-title"]);
 
         done();
-      });
+    });
+
+    it('checkTextFieldThatIsNOTHeader', (done) => {
+        var field = testForm.fields[12];
+        var result = fieldGenerator.createField(field);
+        var $result = $(result);
+
+        //check legend
+        assert.equal($result.find('legend').text(),
+          language.text["field-title"]);
+        //check label from locales
+        assert.equal($result.find('label[for="label"]').text(),
+          language.text["label-title"]);
+        //check value from survey.json for label
+        assert.equal($result.find('input[name="label"]').val(), field.label);
+        //check value of required
+        assert.equal($result.find('input[name="required"]').is(':checked'),
+          field.required);
+        //check label for required
+        assert.equal($result.find('label[for="required"]').text(),
+          language.text.required);
+        //check value of header
+        assert.equal($result.find('input[name="header"]').is(':checked'),
+          testForm.recordLayout.headers.indexOf(field.id) > -1);
+        //check label for header
+        assert.equal($result.find('label[for="header"]').text(),
+          language.text.header);
+        //check value of placeholder
+        assert.equal($result.find('input[name="placeholder"]').attr("placeholder"),
+          field.properties.placeholder);
+        //check label for placeholder
+        assert.equal($result.find('label[for="placeholder"]').text(),
+          language.text["default-text-title"]);
+        //check value for persistent
+        assert.equal($result.find('input[name="persistent"]').is(':checked'),
+          field.persistent);
+        //check label for persistent
+        assert.equal($result.find('label[for="persistent"]').text(),
+          language.text.persistent);
+        //check max chars value
+        assert.equal($result.find('input[name="max-chars"]').val(),
+          field.properties["max-chars"]);
+        //check label for max-chars
+        assert.equal($result.find('label[for="max-chars"]').text(),
+          language.text["max-chars-title"]);
+
+        done();
+    });
 
     it('checkTextareaField', (done) => {
         var field = testForm.fields[1];

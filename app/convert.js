@@ -16,9 +16,13 @@ class Convertor {
         var form = {};
         form.title = $html.find(".fieldcontain-general").find('input[name="label"]').val();
         form.geoms = [];
+        form.recordLayout = {"headers": []};
         form.fields = [];
         $html.find('input[name="geometryType"]:checked').each(function(){
             form.geoms.push($(this).val());
+        });
+        $html.find('input[name="header"]:checked').each(function(){
+            form.recordLayout.headers.push($(this).val());
         });
         $html.find(".fieldcontain").each(function(){
             var $this = $(this);
@@ -136,6 +140,7 @@ class Convertor {
         var form = {};
         var layout = null;
         var section = null;
+        var recordLayout = null;
         var fieldsSelector;
         var ignoreFields;
         var self = this;

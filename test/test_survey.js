@@ -40,20 +40,10 @@ describe('Survey', function() {
         var formJSON = {
           "title":"dummyTitle",
           "geoms":["point"],
-          "fields":[
-            {
-              "id":"fieldcontain-text-1",
-              "type":"text",
-              "required":false,
-              "persistent":false,
-              "properties":{
-                "prefix":"",
-                "placeholder":"",
-                "max-chars":"10"
-              },
-              "label":"This is a label"
-            }
-          ]
+          "recordLayout": {
+              "headers": []
+          },
+          "fields":[]
         };
         survey.render();
         var formInJSON = convertor.getForm($("."+options.subElement));
@@ -82,7 +72,7 @@ describe('Survey', function() {
         };
         survey.renderExistingSurvey(formJSON.title, formJSON);
         formJSON.fields.forEach(function(element, index){
-              assert.notEqual(document.getElementById(element.id), null);
+            assert.notEqual(document.getElementById(element.id), null);
         });
         done();
     });

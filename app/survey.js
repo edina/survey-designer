@@ -70,8 +70,6 @@ class Survey {
         };
 
         fieldGenerator.render(generalObj);
-        //generate first text field
-        fieldGenerator.render({type: 'text'});
     }
 
     //TO-DO: investigate if title is needed or should be picked up by the HTMLtoJSON function
@@ -92,7 +90,7 @@ class Survey {
         }
         var dataStorage = new DataStorage();
         dataStorage.setData(data);
-        var fieldGenerator = new FieldGenerator(this.renderEl);
+        var fieldGenerator = new FieldGenerator(this.renderEl, data.recordLayout);
 
         //render general settings
         fieldGenerator.render({

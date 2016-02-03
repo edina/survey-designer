@@ -1,9 +1,11 @@
 <fieldset class="fieldcontain fieldcontain-text" id="<%= id %>" data-type="<%= type %>">
   <legend><%= translate("text.field-title") %></legend>
   <label for="label"><%= translate("text.label-title") %></label>
-  <input type="text" name="label" value="<%= label %>">  
+  <input type="text" name="label" value="<%= label %>">
   <label for="required"><%= translate("text.required") %></label>
   <input type="checkbox" name="required" <%= check(required, "checked") %>>
+  <label for="header"><%= translate("text.header") %></label>
+  <input type="checkbox" name="header" <%= check(header, "checked") %>>
   <label for="prefix"><%= translate("text.prefix-title") %></label>
   <input type="text" name="prefix" placeholder="<%= translate("text.prefix") %>" value="<%= properties.prefix %>">
   <label for="persistent"><%= translate("text.persistent") %></label>
