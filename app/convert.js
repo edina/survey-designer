@@ -26,14 +26,16 @@ class Convertor {
         });
         $html.find(".fieldcontain").each(function(){
             var $this = $(this);
-            var field = {
-                "id": $this.attr("id"),
-                "type": $this.data("type"),
-                "required": false,
-                "persistent": false,
-                "properties": {}
-            };
-            form.fields.push(c.fieldToJSON(field, $this));
+            if(!$this.hasClass("fieldcontain-general")){
+                var field = {
+                    "id": $this.attr("id"),
+                    "type": $this.data("type"),
+                    "required": false,
+                    "persistent": false,
+                    "properties": {}
+                };
+                form.fields.push(c.fieldToJSON(field, $this));
+            }
         });
         return form;
     }
