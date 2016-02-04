@@ -375,7 +375,9 @@ class FieldGenerator {
                 utils.giveFeedback("File was uploaded");
                 $("#"+id+" .btn-file").remove();
                 $("#"+id+" button").remove();
-                $("#"+id+" .btn-filename").html('<a href="'+pcapi.buildFSUrl('editors', dtreeFname)+'">'+dtreeFname+'</a>');
+                $("#"+id+" .btn-filename").html('<a class="dtree-url" '+
+                    'href="'+pcapi.buildFSUrl('editors', dtreeFname)+'">'+
+                    dtreeFname+'</a>');
             }, this));
         }, this));
     }

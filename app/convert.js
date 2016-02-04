@@ -12,7 +12,7 @@ class Convertor {
      * html and convert it to a json file
      */
     getForm ($html) {
-        var c = this;
+        var self = this;
         var form = {};
         form.title = $html.find(".fieldcontain-general").find('input[name="label"]').val();
         form.geoms = [];
@@ -22,7 +22,7 @@ class Convertor {
             form.geoms.push($(this).val());
         });
         $html.find('input[name="header"]:checked').each(function(){
-            form.recordLayout.headers.push($(this).val());
+            form.recordLayout.headers.push($(this).closest(".fieldcontain").attr("id"));
         });
         $html.find(".fieldcontain").each(function(){
             var $this = $(this);
@@ -34,7 +34,7 @@ class Convertor {
                     "persistent": false,
                     "properties": {}
                 };
-                form.fields.push(c.fieldToJSON(field, $this));
+                form.fields.push(self.fieldToJSON(field, $this));
             }
         });
         return form;
