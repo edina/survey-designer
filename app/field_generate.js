@@ -251,7 +251,7 @@ class FieldGenerator {
             }
 
             utils.loading(true);
-            pcapi.uploadFile(options).then($.proxy(function(data) {
+            pcapi.uploadFile(options, "PUT").then($.proxy(function(data) {
                 utils.loading(false);
                 utils.giveFeedback(data.msg);
                 var name = utils.getFilenameFromURL(data.path);
@@ -370,7 +370,7 @@ class FieldGenerator {
             }
 
             utils.loading(true);
-            pcapi.uploadFile(options).then($.proxy(function(result, data){
+            pcapi.uploadFile(options, "PUT").then($.proxy(function(result, data){
                 utils.loading(false);
                 utils.giveFeedback("File was uploaded");
                 $("#"+id+" .btn-file").remove();
