@@ -17,9 +17,11 @@ describe('#FieldGenerator', () => {
     var fieldGenerator;
 
     before(function(done){
-        console.log(testForm)
+        var options = {
+            "layout": testForm.recordLayout
+        };
         $("#content").append('<div class="'+cl.substring(1)+'"></div>');
-        fieldGenerator = new FieldGenerator(cl, testForm.recordLayout);
+        fieldGenerator = new FieldGenerator(cl, options);
 
         i18n.init({// jshint ignore:line
             ns: { namespaces: ['survey'], defaultNs: 'survey'},
@@ -36,42 +38,44 @@ describe('#FieldGenerator', () => {
 
         //check legend
         assert.equal($result.find('legend').text(),
-          language.text["field-title"]);
+          language.text["field-title"], "The legend is right");
         //check label from locales
         assert.equal($result.find('label[for="label"]').text(),
-          language.text["label-title"]);
+          language.text["label-title"], "The label is right");
         //check value from survey.json for label
-        assert.equal($result.find('input[name="label"]').val(), field.label);
+        assert.equal($result.find('input[name="label"]').val(), field.label,
+            "The value for label is right");
         //check value of required
         assert.equal($result.find('input[name="required"]').is(':checked'),
-          field.required);
+          field.required, "The required option is checked");
         //check label for required
         assert.equal($result.find('label[for="required"]').text(),
-          language.text.required);
+          language.text.required, "The label for required is right");
         //check value of header
         assert.equal($result.find('input[name="header"]').is(':checked'),
-          testForm.recordLayout.headers.indexOf(field.id) > -1);
+            testForm.recordLayout.headers.indexOf(field.id) > -1,
+            "The header value is checked");
         //check label for header
         assert.equal($result.find('label[for="header"]').text(),
-          language.text.header);
+          language.text.header, "The label for header is right");
         //check value of placeholder
         assert.equal($result.find('input[name="placeholder"]').attr("placeholder"),
-          field.properties.placeholder);
+          field.properties.placeholder, "The value for placeholder is right");
         //check label for placeholder
         assert.equal($result.find('label[for="placeholder"]').text(),
-          language.text["default-text-title"]);
+          language.text["default-text-title"], "The label for placeholder is right");
         //check value for persistent
         assert.equal($result.find('input[name="persistent"]').is(':checked'),
-          field.persistent);
+          field.persistent, "The peristent options is checked");
         //check label for persistent
         assert.equal($result.find('label[for="persistent"]').text(),
-          language.text.persistent);
+          language.text.persistent, "The label for persistent is right");
         //check max chars value
         assert.equal($result.find('input[name="max-chars"]').val(),
-          field.properties["max-chars"]);
+          field.properties["max-chars"], "The max chars value is right");
         //check label for max-chars
         assert.equal($result.find('label[for="max-chars"]').text(),
-          language.text["max-chars-title"]);
+          language.text["max-chars-title"], "the max chars label is right");
 
         done();
     });
@@ -503,7 +507,7 @@ describe('#FieldGenerator', () => {
         assert.equal($result.find("input[name='label']").val(),
           field.label);
         assert.equal($result.find("a").attr("href"),
-          pcapi.buildFSUrl('editors', field.properties.filename));
+          pcapi.buildUrl('editors', field.properties.filename));
         done();
     });
 
@@ -511,7 +515,7 @@ describe('#FieldGenerator', () => {
         var field = {
             "id": "form-dtree-1",
             "type": "dtree"
-        }
+        };
         var result = fieldGenerator.createField(field);
         var $result = $(result);
         assert.equal($result.find("legend").text(),

@@ -23,10 +23,10 @@ import Visibility from './visibility';
 
 /* global i18n */
 class FieldGenerator {
-    constructor (el, layout){
+    constructor (el, options){
         this.el = el;
         this.$el = $(el);
-        this.layout = layout;
+        this.options = options;
     }
 
     render(data, element) {
@@ -63,8 +63,8 @@ class FieldGenerator {
                 return generalTemplate(templateData);
             case 'text':
                 templateData.properties["max-chars"] = templateData.properties["max-chars"] || 10;
-                if(this.layout) {
-                    templateData.header = this.layout.headers.indexOf(templateData.id) > -1;
+                if(this.options && this.options.layout) {
+                    templateData.header = this.options.layout.headers.indexOf(templateData.id) > -1;
                 }
                 return textTemplate(templateData);
             case 'textarea':
@@ -87,7 +87,11 @@ class FieldGenerator {
                 }
                 return selectTemplate(templateData);
             case 'dtree':
-                templateData.url = pcapi.buildFSUrl('editors', templateData.properties.filename);
+                if(this.options && this.options.formsFolder) {
+                    templateData.properties.filename = this.options.formsFolder +
+                        "/"+templateData.properties.filename;
+                }
+                templateData.url = pcapi.buildUrl('editors', templateData.properties.filename);
                 return dtreeTemplate(templateData);
             case 'image':
                 if(this.$el.find('.fieldcontain-image').length === 0) {
@@ -125,7 +129,7 @@ class FieldGenerator {
      */
     addFieldButtons(type) {
         var fields = this.$el.find('.fieldcontain-'+type);
-        var id = "fieldcontain-"+type+"-"+(fields.length);
+        var id = type+"-"+(fields.length);
         $(fields[fields.length - 1]).attr("id", id);
         var $id = $("#"+id);
         if(fields.length > 1 || type !== "text"){
@@ -195,11 +199,11 @@ class FieldGenerator {
         this.$el.off("click", ".add-"+type);
         this.$el.on("click", ".add-"+type, function(){
             var fieldcontainId = utils.numberFromId($(this).closest('.fieldcontain-'+type).prop("id"));
-            var finds = $("#fieldcontain-"+type+"-"+fieldcontainId).find('.'+type);
+            var finds = $("#"+type+"-"+fieldcontainId).find('.'+type);
 
             var value = i18n.t(type+".text");
             var nextElement = '<div class="form-inline">'+
-                               '<input type="text" value="'+value+'" name="fieldcontain-'+type+'-'+fieldcontainId+'" id="checkbox-'+fieldcontainId+'" class="'+type+'">';
+                               '<input type="text" value="'+value+'" name="'+type+'-'+fieldcontainId+'" id="checkbox-'+fieldcontainId+'" class="'+type+'">';
             if(type !== "select") {
                 nextElement += '<button type="file" class="btn btn-default btn-sm upload-image" aria-label="Upload '+type+'"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>';
             }
@@ -208,8 +212,8 @@ class FieldGenerator {
                            '</div>';
             $(this).prev().append(nextElement);
             var i = 1;
-            $("#fieldcontain-"+type+"-"+fieldcontainId).find('.'+type).each(function(){
-                $(this).prop("id", 'fieldcontain-'+type+'-'+fieldcontainId+'-'+i);
+            $("#"+type+"-"+fieldcontainId).find('.'+type).each(function(){
+                $(this).prop("id", type+'-'+fieldcontainId+'-'+i);
                 i++;
             });
         });
@@ -232,19 +236,23 @@ class FieldGenerator {
             var files = e.target.files || e.dataTransfer.files;
             // Our file var now holds the selected file
             var file = files[0];
-            type = $(e.target).closest('.fieldcontain').attr("id").split("-")[1];
+            type = $(e.target).closest('.fieldcontain').attr("id").split("-")[0];
             ///let convertor = new Convertor();
             //var title = convertor.getTitle();
+            var path = "";
+            if(this.options && this.options.formsFolder) {
+                path = this.options.formsFolder+"/";
+            }
 
-            var publicEditor = utils.getParams().public === 'true';
             var options = {
                 "remoteDir": "editors",
-                "path": file.name,
+                "path": path+file.name,
                 "file": file,
                 "contentType": false
             };
 
-            if(publicEditor){
+            //COBWEB-specific
+            if(this.options.copyToPublic){
                 options.urlParams = {
                     'public': 'true'
                 };
@@ -257,7 +265,7 @@ class FieldGenerator {
                 var name = utils.getFilenameFromURL(data.path);
                 var $formLine = $(e.target).closest('.form-inline');
                 var $inputText = $formLine.find('input[type="text"]');
-                $inputText.before('<img src="'+pcapi.buildFSUrl('editors', name)+'" style="width: 50px;">');
+                $inputText.before('<img src="'+pcapi.buildUrl('editors', path+name)+'" style="width: 50px;">');
                 $formLine.find('button.upload-image').remove();
             }, this));
         }, this));
@@ -276,7 +284,58 @@ class FieldGenerator {
     }
 
     enabledTreeEvents() {
-        this.uploadFile('.add-dtree', '.upload-dtree');
+        let $browseElement = $('.add-dtree');
+        let $uploadElement = $('.upload-dtree');
+        var file;
+        $browseElement.unbind();
+        // Set an event listener on the Choose File field.
+        $browseElement.bind("change", function(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            // Our file var now holds the selected file
+            file = files[0];
+            $(this).parent().next().append(file.name);
+        });
+
+        $uploadElement.unbind('click');
+        $uploadElement.click($.proxy(function(){
+            // TODO: When we migrate to modules get the sid & publicEditor from core
+            var index = this.findHighestElement('dtree') - 1;
+            var id = "dtree-"+index;
+            var dtreeFname;
+            var ext = utils.getExtension(file.name);
+            if(this.options && this.options.formsFolder) {
+                dtreeFname = this.options.formsFolder+"/"+this.options.formsFolder +
+                             '-' + index + '.' + ext;
+            }
+            else {
+                dtreeFname = file.name;
+            }
+
+            var options = {
+                "remoteDir": "editors",
+                "path": dtreeFname,
+                "file": file,
+                "contentType": false
+            };
+
+            //very COBWEB specific for copying over to public users
+            if(this.options.copyToPublic){
+                options.urlParams = {
+                    'public': 'true'
+                };
+            }
+
+            utils.loading(true);
+            pcapi.uploadFile(options, "PUT").then($.proxy(function(result, data){
+                utils.loading(false);
+                utils.giveFeedback("File was uploaded");
+                $("#"+id+" .btn-file").remove();
+                $("#"+id+" button").remove();
+                $("#"+id+" .btn-filename").html('<a class="dtree-url" '+
+                    'href="'+pcapi.buildUrl('editors', dtreeFname)+'">'+
+                    dtreeFname+'</a>');
+            }, this));
+        }, this));
     }
 
     enableRemoveField() {
@@ -294,7 +353,7 @@ class FieldGenerator {
     findHighestElement (type){
         var j = 0;
         this.$el.find(".fieldcontain-"+type).each(function(){
-            var i = parseInt($(this).attr("id").split("-")[2]);
+            var i = parseInt($(this).attr("id").split("-")[1]);
             if(i >= j) {
                 j = i;
             }
@@ -335,51 +394,7 @@ class FieldGenerator {
      * @param {String} uploadElement
      */
     uploadFile (browseElement, uploadElement) {
-        var file;
-        $(browseElement).unbind();
-        // Set an event listener on the Choose File field.
-        $(browseElement).bind("change", function(e) {
-            var files = e.target.files || e.dataTransfer.files;
-            // Our file var now holds the selected file
-            file = files[0];
-            $(this).parent().next().append(file.name);
-        });
 
-        $(uploadElement).unbind('click');
-        $(uploadElement).click($.proxy(function(){
-            // TODO: When we migrate to modules get the sid & publicEditor from core
-            var index = this.findHighestElement('dtree') - 1;
-            var id = "fieldcontain-dtree-"+index;
-            var dtreeFname = file.name;
-            var ext = utils.getExtension(dtreeFname);
-            if("sid" in utils.getParams()){
-                dtreeFname = utils.getParams().sid + '-' + index + '.' + ext;
-            }
-            var publicEditor = utils.getParams().public === 'true';
-            var options = {
-                "remoteDir": "editors",
-                "path": dtreeFname,
-                "file": file,
-                "contentType": false
-            };
-
-            if(publicEditor){
-                options.urlParams = {
-                    'public': 'true'
-                };
-            }
-
-            utils.loading(true);
-            pcapi.uploadFile(options, "PUT").then($.proxy(function(result, data){
-                utils.loading(false);
-                utils.giveFeedback("File was uploaded");
-                $("#"+id+" .btn-file").remove();
-                $("#"+id+" button").remove();
-                $("#"+id+" .btn-filename").html('<a class="dtree-url" '+
-                    'href="'+pcapi.buildFSUrl('editors', dtreeFname)+'">'+
-                    dtreeFname+'</a>');
-            }, this));
-        }, this));
     }
 
 }

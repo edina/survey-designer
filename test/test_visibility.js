@@ -12,10 +12,11 @@ describe('#Visibility', () => {
     var dataStorage = new DataStorage();
     var cl = ".mobile-content";
     var fieldGenerator;
-    var triggeredId = "fieldcontain-checkbox-3";
+    var triggeredId = "checkbox-3";
 
     before((done) => {
         $("#content").append('<div class="'+cl.substring(1)+'"></div>');
+        dataStorage.setData(testJSON);
         fieldGenerator = new FieldGenerator(cl);
         $.each(testJSON.fields, function(index, field){
             fieldGenerator.render(field);
@@ -30,7 +31,7 @@ describe('#Visibility', () => {
             if ($.inArray(field.type, visibility.ELEMENTS_TO_EXCLUDE) === -1) {
                 fields.push(field);
             }
-        })
+        });
         assert.equal($("#"+visibility.visibilityId+ " option").length,
                      fields.length-1,
                      "The number of questions is right");
@@ -38,7 +39,7 @@ describe('#Visibility', () => {
     });
 
     it('check change event of questions', (done) => {
-        var id = "fieldcontain-radio-2";
+        var id = "radio-2";
         $("#"+visibility.visibilityId).val(id).trigger('change');
         assert.equal($("#"+visibility.selectAnswers).val(),
                      dataStorage.searchForFieldId(id).properties.options[0].value,
@@ -58,7 +59,7 @@ describe('#Visibility', () => {
     });
 
     it('update visibility', (done) => {
-        var id = "fieldcontain-radio-2";
+        var id = "radio-2";
         $("#"+visibility.visibilityId).val(id).trigger('change');
         $("#"+visibility.selectAnswers).val(dataStorage.searchForFieldId(id).properties.options[2].value);
         assert.equal($("#"+visibility.selectAnswers).val(),

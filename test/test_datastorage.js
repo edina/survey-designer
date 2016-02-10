@@ -17,7 +17,7 @@ describe('#DataStorage', () => {
     });
 
     it('searchFieldId', () => {
-        var id = "fieldcontain-checkbox-3";
+        var id = "checkbox-3";
         assert.equal(dataStorage.searchForFieldId(id).id, id);
     });
 

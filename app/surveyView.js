@@ -16,6 +16,10 @@ export class SurveyView extends Backbone.View {
             "subElement": "mobile-content"
         };
         this.params = utils.getParams();
+        if(this.params) {
+            this.options.formsFolder = this.params.sid;
+            this.options.copyToPublic = (this.params.public === 'true');
+        }
         this.render();
     }
 
@@ -101,7 +105,7 @@ export class SurveyView extends Backbone.View {
     }
 
     renderSurvey () {
-        if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
+        if ("sid" in this.params && this.params.sid !== undefined) {
             var title = decodeURIComponent(this.params.survey);
             var options = {
                 "remoteDir": "editors",

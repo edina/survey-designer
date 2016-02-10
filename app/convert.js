@@ -180,9 +180,10 @@ class Convertor {
             var fieldId;
             var type;
             var visibility;
-
             var field = null;
-            var matched = /fieldcontain-(.*?)-[0-9]+$/.exec($field.attr("id"));
+
+            var $fieldId = $field.attr("id").replace(/fieldcontain-|form-/g, "");
+            var matched = /(.*?)-[0-9]+$/.exec($fieldId);
 
             if (matched === null) {
                 console.log('warning: ' + $field.attr('id') + ' not supported');
@@ -193,7 +194,8 @@ class Convertor {
                 visibility = self.parseRule(visibilityRule);
             }
 
-            fieldId = matched[0];
+            //special case when multiimage
+            fieldId = matched[0].replace("multiimage", "image");
             type = matched[1];
             switch (type) {
                 case 'text':
@@ -270,7 +272,7 @@ class Convertor {
                     };
                     break;
                 case 'radio':
-                    $input = $field.find('input[name="' + fieldId + '"]');
+                    $input = $field.find('input[type="radio"]');
 
                     options = $input.map(function(i, element) {
                         var $radio = $(element);
@@ -484,7 +486,7 @@ class Convertor {
         }
 
         return {
-            id: "fieldcontain-"+field,
+            id: field,
             operator: comparator,
             answer: value
         };

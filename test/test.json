@@ -1,562 +1,468 @@
 {
-  "title": "5210 ‘’Arborescent matorral with Juniperus spp.’’ – all clusters",
-  "geoms": [
-    "point"
-  ],
-  "fields": [
-    {
-      "label": "Plot code",
-      "type": "text",
-      "required": true,
-      "persistent": false,
-      "properties": {
-        "prefix": "5210",
-        "placeholder": "",
-        "max-chars": "10"
-      },
-      "id": "fieldcontain-text-1"
-    },
-    {
-      "label": "Site Code",
-      "type": "text",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "prefix": "",
-        "placeholder": "",
-        "max-chars": "10"
-      },
-      "id": "fieldcontain-text-2"
-    },
-    {
-      "label": "Matriculation number",
-      "type": "text",
-      "required": true,
-      "persistent": true,
-      "properties": {
-        "prefix": "",
-        "placeholder": "Enter your matriculation number",
-        "max-chars": "524288"
-      },
-      "id": "fieldcontain-text-3"
-    },
-    {
-      "label": "Existing relevé nr",
-      "type": "text",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "prefix": "",
-        "placeholder": "",
-        "max-chars": "10"
-      },
-      "id": "fieldcontain-text-4"
-    },
-    {
-      "label": "Locality",
-      "type": "text",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "prefix": "",
-        "placeholder": "",
-        "max-chars": "10"
-      },
-      "id": "fieldcontain-text-5"
-    },
-    {
-      "label": "Plot size (m^2)",
-      "type": "range",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "step": "1",
-        "min": "0",
-        "max": "1000"
-      },
-      "id": "fieldcontain-range-1"
-    },
-    {
-      "label": "Area assessed (m^2)",
-      "type": "range",
-      "required": true,
-      "persistent": false,
-      "properties": {
-        "step": "100",
-        "min": "0",
-        "max": "10000"
-      },
-      "id": "fieldcontain-range-2"
-    },
-    {
-      "label": "Relief",
-      "type": "radio",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "options": [
-          {
-            "value": "Cliff"
-          },
-          {
-            "value": "Slope"
-          },
-          {
-            "value": "Plain"
-          },
-          {
-            "value": "Depression"
-          },
-          {
-            "value": "Ravine"
-          }
-        ]
-      },
-      "id": "fieldcontain-radio-1"
-    },
-    {
-      "label": "Geological substratum",
-      "type": "text",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "prefix": "",
-        "placeholder": "",
-        "max-chars": "20"
-      },
-      "id": "fieldcontain-text-6"
-    },
-    {
-      "label": "Soil type",
-      "type": "radio",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "options": [
-          {
-            "value": "Sandy"
-          },
-          {
-            "value": "Silt"
-          },
-          {
-            "value": "Loam"
-          }
-        ]
-      },
-      "id": "fieldcontain-radio-2"
-    },
-    {
-      "label": "Adjacent vegetation",
-      "type": "text",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "prefix": "",
-        "placeholder": "(habitat) type(s)",
-        "max-chars": "50"
-      },
-      "id": "fieldcontain-text-7"
-    },
-    {
-      "label": "Substratum with significant disturbances (e.g. erosion, trampling)",
-      "type": "radio",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "options": [
-          {
-            "value": "Yes"
-          },
-          {
-            "value": "No"
-          }
-        ]
-      },
-      "id": "fieldcontain-radio-3"
-    },
-    {
-      "label": "Invasive/Ruderal spe",
-      "type": "text",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "prefix": "",
-        "placeholder": "",
-        "max-chars": "30"
-      },
-      "id": "fieldcontain-text-8"
-    },
-    {
-      "label": "Other",
-      "type": "text",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "prefix": "",
-        "placeholder": "",
-        "max-chars": "10"
-      },
-      "id": "fieldcontain-text-9"
-    },
-    {
-      "label": "Boulders (>20 cm) - Cover (%)",
-      "type": "range",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "step": "5",
-        "min": "0",
-        "max": "100"
-      },
-      "id": "fieldcontain-range-3"
-    },
-    {
-      "label": "Stones (2-20 cm) - Cover (%)",
-      "type": "range",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "step": "5",
-        "min": "0",
-        "max": "100"
-      },
-      "id": "fieldcontain-range-4"
-    },
-    {
-      "label": "Gravel (2mm-2 cm) - Cover (%)",
-      "type": "range",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "step": "5",
-        "min": "0",
-        "max": "100"
-      },
-      "id": "fieldcontain-range-5"
-    },
-    {
-      "label": "Fine soil - Cover (%)",
-      "type": "range",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "step": "5",
-        "min": "0",
-        "max": "100"
-      },
-      "id": "fieldcontain-range-6"
-    },
-    {
-      "label": "Litter - Cover (%)",
-      "type": "range",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "step": "5",
-        "min": "0",
-        "max": "100"
-      },
-      "id": "fieldcontain-range-7"
-    },
-    {
-      "label": "Moss - Cover (%)",
-      "type": "range",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "step": "5",
-        "min": "0",
-        "max": "100"
-      },
-      "id": "fieldcontain-range-8"
-    },
-    {
-      "label": "Tree (>2m) - Cover (%)",
-      "type": "range",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "step": "5",
-        "min": "0",
-        "max": "100"
-      },
-      "id": "fieldcontain-range-9"
-    },
-    {
-      "label": "Tree (>2m) - Height (m)",
-      "type": "range",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "step": "1",
-        "min": "0",
-        "max": "40"
-      },
-      "id": "fieldcontain-range-10"
-    },
-    {
-      "label": "Shrub (0.5-2m) - Cover (%)",
-      "type": "range",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "step": "5",
-        "min": "0",
-        "max": "100"
-      },
-      "id": "fieldcontain-range-11"
-    },
-    {
-      "label": "Shrub (0.5-2m) - Height (m)",
-      "type": "range",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "step": "0.1",
-        "min": "0.5",
-        "max": "2"
-      },
-      "id": "fieldcontain-range-12"
-    },
-    {
-      "label": "Herb (<0.5m) - Cover (%)",
-      "type": "range",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "step": "5",
-        "min": "0",
-        "max": "100"
-      },
-      "id": "fieldcontain-range-13"
-    },
-    {
-      "label": "Herb (<0.5m) - Height (m)",
-      "type": "range",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "step": "0.1",
-        "min": "0",
-        "max": "0.5"
-      },
-      "id": "fieldcontain-range-14"
-    },
-    {
-      "label": "Specific Structure and Functions [with Juniperus macrocarpa (5211)]",
-      "type": "checkbox",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "options": [
-          {
-            "value": "Upper storey dominated by high evergreen shrubs"
-          },
-          {
-            "value": "Understory dominated by phrygana"
-          },
-          {
-            "value": "Absence of illegal logging"
-          },
-          {
-            "value": "Presence/practice of normal (regular) grazing"
-          },
-          {
-            "value": "Absence of dense road network or infrastructures"
-          },
-          {
-            "value": "Absence of evidence(s) of primary or secondary succession"
-          },
-          {
-            "value": "Presence of juniper seedlings"
-          }
-        ]
-      },
-      "id": "fieldcontain-checkbox-1"
-    },
-    {
-      "label": "Specific Structure and Functions [with Juniperus phoenicea (5212)]",
-      "type": "checkbox",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "options": [
-          {
-            "value": "Upper storey dominated by  high evergreen shrubs"
-          },
-          {
-            "value": "Understory dominated by phrygana and/or therophytes"
-          },
-          {
-            "value": "Absence of illegal logging"
-          },
-          {
-            "value": "Presence/practice of normal (regular) grazing"
-          },
-          {
-            "value": "Absence of dense road network or infrastructures"
-          },
-          {
-            "value": "Absence of evidence(s) of primary or secondary succession"
-          },
-          {
-            "value": "Absence of indications of significant/important erosion (e.g. crevasse-like erosion)"
-          },
-          {
-            "value": "Rich in important plant species community"
-          },
-          {
-            "value": "Presence of juniper seedlings"
-          }
-        ]
-      },
-      "id": "fieldcontain-checkbox-2"
-    },
-    {
-      "label": "Specific Structure and Functions [with Juniperus excelsa – J. foetidissima (5213)]",
-      "type": "checkbox",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "options": [
-          {
-            "value": "Upper storey dominated by  high evergreen shrubs"
-          },
-          {
-            "value": "Absence of illegal logging"
-          },
-          {
-            "value": "Presence/practice of normal (regular) grazing"
-          },
-          {
-            "value": "Absence of evidence(s) of primary or secondary succession"
-          },
-          {
-            "value": "Presence of juniper seedlings"
-          }
-        ]
-      },
-      "id": "fieldcontain-checkbox-3"
-    },
-    {
-      "label": "Specific Structure and Functions [with Juniperus communis (ex 5130)]",
-      "type": "checkbox",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "options": [
-          {
-            "value": "Upper storey dominated by evergreen shrubs"
-          },
-          {
-            "value": "Abundance of perennial grasses"
-          },
-          {
-            "value": "Absence of illegal logging"
-          },
-          {
-            "value": "Absence of evidence(s) of primary or secondary succession"
-          },
-          {
-            "value": "Rich in plant species community"
-          },
-          {
-            "value": "Presence of juniper seedlings"
-          },
-          {
-            "value": "Absence of indications of significant/important erosion (e.g. crevasse-like erosion)"
-          }
-        ]
-      },
-      "id": "fieldcontain-checkbox-4"
-    },
-    {
-      "label": "Future Status",
-      "type": "radio",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "options": [
-          {
-            "value": "FV Struct. & funct. are expected to be in FV status in more than 75% of the studied locality "
-          },
-          {
-            "value": "U1 Struct. & funct. are expected to be in FV stat in 50-75% of the studied locality and not more than 25% in U2 status"
-          },
-          {
-            "value": "U2 Struct. & funct. are expected to be in FV status in  less than 50% of the studied locality or more than 25% in U2 status"
-          },
-          {
-            "value": "XX: Not able to asses fucheckboxture conservation status in > 50% of the studied locality"
-          }
-        ]
-      },
-      "id": "fieldcontain-radio-5"
-    },
-    {
-      "label": "Restoration possibility",
-      "type": "radio",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "options": [
-          {
-            "value": "easy"
-          },
-          {
-            "value": "possible with an average effort"
-          },
-          {
-            "value": "difficult or impossible"
-          },
-          {
-            "value": "unable to assess"
-          }
-        ]
-      },
-      "id": "fieldcontain-radio-6"
-    },
-    {
-      "label": "Positive impacts",
-      "type": "textarea",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "placeholder": "(management actions, policy changes etc). Description and importance."
-      },
-      "id": "fieldcontain-textarea-1"
-    },
-    {
-      "label": "Pressures and threats",
-      "type": "dtree",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "filename": "9de51d0c-4aee-41f3-b555-9bed58a9c4fa-1.json"
-      },
-      "id": "fieldcontain-dtree-1"
-    },
-    {
-      "label": "Typical species",
-      "type": "dtree",
-      "required": false,
-      "persistent": false,
-      "properties": {
-        "filename": "9de51d0c-4aee-41f3-b555-9bed58a9c4fa-2.json"
-      },
-      "id": "fieldcontain-dtree-2"
-    },
-    {
-      "label": "Take a photo",
-      "type": "image",
-      "required": true,
-      "persistent": false,
-      "properties": {
-        "los": false,
-        "multi-image": true
-      },
-      "id": "fieldcontain-multiimage-1"
-    }
-  ]
+	"title": "5210 ‘’Arborescent matorral with Juniperus spp.’’ – all clusters",
+	"geoms": ["point"],
+	"fields": [{
+		"label": "Plot code",
+		"type": "text",
+		"required": true,
+		"persistent": false,
+		"properties": {
+			"prefix": "5210",
+			"placeholder": "",
+			"max-chars": "10"
+		},
+		"id": "text-1"
+	}, {
+		"label": "Site Code",
+		"type": "text",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"prefix": "",
+			"placeholder": "",
+			"max-chars": "10"
+		},
+		"id": "text-2"
+	}, {
+		"label": "Matriculation number",
+		"type": "text",
+		"required": true,
+		"persistent": true,
+		"properties": {
+			"prefix": "",
+			"placeholder": "Enter your matriculation number",
+			"max-chars": "524288"
+		},
+		"id": "text-3"
+	}, {
+		"label": "Existing relevé nr",
+		"type": "text",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"prefix": "",
+			"placeholder": "",
+			"max-chars": "10"
+		},
+		"id": "text-4"
+	}, {
+		"label": "Locality",
+		"type": "text",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"prefix": "",
+			"placeholder": "",
+			"max-chars": "10"
+		},
+		"id": "text-5"
+	}, {
+		"label": "Plot size (m^2)",
+		"type": "range",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"step": "1",
+			"min": "0",
+			"max": "1000"
+		},
+		"id": "range-1"
+	}, {
+		"label": "Area assessed (m^2)",
+		"type": "range",
+		"required": true,
+		"persistent": false,
+		"properties": {
+			"step": "100",
+			"min": "0",
+			"max": "10000"
+		},
+        "id": "range-2"
+    }, {
+		"label": "Relief",
+		"type": "radio",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"options": [{
+				"value": "Cliff"
+			}, {
+				"value": "Slope"
+			}, {
+				"value": "Plain"
+			}, {
+				"value": "Depression"
+			}, {
+				"value": "Ravine"
+			}]
+		},
+		"id": "radio-1"
+	}, {
+		"label": "Geological substratum",
+		"type": "text",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"prefix": "",
+			"placeholder": "",
+			"max-chars": "20"
+		},
+		"id": "text-6"
+	}, {
+		"label": "Soil type",
+		"type": "radio",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"options": [{
+				"value": "Sandy"
+			}, {
+				"value": "Silt"
+			}, {
+				"value": "Loam"
+			}]
+		},
+		"id": "radio-2"
+	}, {
+		"label": "Adjacent vegetation",
+		"type": "text",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"prefix": "",
+			"placeholder": "(habitat) type(s)",
+			"max-chars": "50"
+		},
+		"id": "text-7"
+	}, {
+		"label": "Substratum with significant disturbances (e.g. erosion, trampling)",
+		"type": "radio",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"options": [{
+				"value": "Yes"
+			}, {
+				"value": "No"
+			}]
+		},
+		"id": "radio-3"
+	}, {
+		"label": "Invasive/Ruderal spe",
+		"type": "text",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"prefix": "",
+			"placeholder": "",
+			"max-chars": "30"
+		},
+		"id": "text-8"
+	}, {
+		"label": "Other",
+		"type": "text",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"prefix": "",
+			"placeholder": "",
+			"max-chars": "10"
+		},
+		"id": "text-9"
+	}, {
+		"label": "Boulders (>20 cm) - Cover (%)",
+		"type": "range",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"step": "5",
+			"min": "0",
+			"max": "100"
+		},
+		"id": "range-3"
+	}, {
+		"label": "Stones (2-20 cm) - Cover (%)",
+		"type": "range",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"step": "5",
+			"min": "0",
+			"max": "100"
+		},
+		"id": "range-4"
+	}, {
+		"label": "Gravel (2mm-2 cm) - Cover (%)",
+		"type": "range",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"step": "5",
+			"min": "0",
+			"max": "100"
+		},
+		"id": "range-5"
+	}, {
+		"label": "Fine soil - Cover (%)",
+		"type": "range",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"step": "5",
+			"min": "0",
+			"max": "100"
+		},
+		"id": "range-6"
+	}, {
+		"label": "Litter - Cover (%)",
+		"type": "range",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"step": "5",
+			"min": "0",
+			"max": "100"
+		},
+		"id": "range-7"
+	}, {
+		"label": "Moss - Cover (%)",
+		"type": "range",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"step": "5",
+			"min": "0",
+			"max": "100"
+		},
+		"id": "range-8"
+	}, {
+		"label": "Tree (>2m) - Cover (%)",
+		"type": "range",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"step": "5",
+			"min": "0",
+			"max": "100"
+		},
+		"id": "range-9"
+	}, {
+		"label": "Tree (>2m) - Height (m)",
+		"type": "range",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"step": "1",
+			"min": "0",
+			"max": "40"
+		},
+		"id": "range-10"
+	}, {
+		"label": "Shrub (0.5-2m) - Cover (%)",
+		"type": "range",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"step": "5",
+			"min": "0",
+			"max": "100"
+		},
+		"id": "range-11"
+	}, {
+		"label": "Shrub (0.5-2m) - Height (m)",
+		"type": "range",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"step": "0.1",
+			"min": "0.5",
+			"max": "2"
+		},
+		"id": "range-12"
+	}, {
+		"label": "Herb (<0.5m) - Cover (%)",
+		"type": "range",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"step": "5",
+			"min": "0",
+			"max": "100"
+		},
+		"id": "range-13"
+	}, {
+		"label": "Herb (<0.5m) - Height (m)",
+		"type": "range",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"step": "0.1",
+			"min": "0",
+			"max": "0.5"
+		},
+		"id": "range-14"
+	}, {
+		"label": "Specific Structure and Functions [with Juniperus macrocarpa (5211)]",
+		"type": "checkbox",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"options": [{
+				"value": "Upper storey dominated by high evergreen shrubs"
+			}, {
+				"value": "Understory dominated by phrygana"
+			}, {
+				"value": "Absence of illegal logging"
+			}, {
+				"value": "Presence/practice of normal (regular) grazing"
+			}, {
+				"value": "Absence of dense road network or infrastructures"
+			}, {
+				"value": "Absence of evidence(s) of primary or secondary succession"
+			}, {
+				"value": "Presence of juniper seedlings"
+			}]
+		},
+		"id": "checkbox-1"
+	}, {
+		"label": "Specific Structure and Functions [with Juniperus phoenicea (5212)]",
+		"type": "checkbox",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"options": [{
+				"value": "Upper storey dominated by  high evergreen shrubs"
+			}, {
+				"value": "Understory dominated by phrygana and/or therophytes"
+			}, {
+				"value": "Absence of illegal logging"
+			}, {
+				"value": "Presence/practice of normal (regular) grazing"
+			}, {
+				"value": "Absence of dense road network or infrastructures"
+			}, {
+				"value": "Absence of evidence(s) of primary or secondary succession"
+			}, {
+				"value": "Absence of indications of significant/important erosion (e.g. crevasse-like erosion)"
+			}, {
+				"value": "Rich in important plant species community"
+			}, {
+				"value": "Presence of juniper seedlings"
+			}]
+		},
+		"id": "checkbox-2"
+	}, {
+		"label": "Specific Structure and Functions [with Juniperus excelsa – J. foetidissima (5213)]",
+		"type": "checkbox",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"options": [{
+				"value": "Upper storey dominated by  high evergreen shrubs"
+			}, {
+				"value": "Absence of illegal logging"
+			}, {
+				"value": "Presence/practice of normal (regular) grazing"
+			}, {
+				"value": "Absence of evidence(s) of primary or secondary succession"
+			}, {
+				"value": "Presence of juniper seedlings"
+			}]
+		},
+		"id": "checkbox-3"
+	}, {
+		"label": "Specific Structure and Functions [with Juniperus communis (ex 5130)]",
+		"type": "checkbox",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"options": [{
+				"value": "Upper storey dominated by evergreen shrubs"
+			}, {
+				"value": "Abundance of perennial grasses"
+			}, {
+				"value": "Absence of illegal logging"
+			}, {
+				"value": "Absence of evidence(s) of primary or secondary succession"
+			}, {
+				"value": "Rich in plant species community"
+			}, {
+				"value": "Presence of juniper seedlings"
+			}, {
+				"value": "Absence of indications of significant/important erosion (e.g. crevasse-like erosion)"
+			}]
+		},
+		"id": "checkbox-4"
+	}, {
+		"label": "Future Status",
+		"type": "radio",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"options": [{
+				"value": "FV Struct. & funct. are expected to be in FV status in more than 75% of the studied locality "
+			}, {
+				"value": "U1 Struct. & funct. are expected to be in FV stat in 50-75% of the studied locality and not more than 25% in U2 status"
+			}, {
+				"value": "U2 Struct. & funct. are expected to be in FV status in  less than 50% of the studied locality or more than 25% in U2 status"
+			}, {
+				"value": "XX: Not able to asses fucheckboxture conservation status in > 50% of the studied locality"
+			}]
+		},
+		"id": "radio-5"
+	}, {
+		"label": "Restoration possibility",
+		"type": "radio",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"options": [{
+				"value": "easy"
+			}, {
+				"value": "possible with an average effort"
+			}, {
+				"value": "difficult or impossible"
+			}, {
+				"value": "unable to assess"
+			}]
+		},
+		"id": "radio-6"
+	}, {
+		"label": "Positive impacts",
+		"type": "textarea",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"placeholder": "(management actions, policy changes etc). Description and importance."
+		},
+		"id": "textarea-1"
+	}, {
+		"label": "Pressures and threats",
+		"type": "dtree",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"filename": "9de51d0c-4aee-41f3-b555-9bed58a9c4fa-1.json"
+		},
+		"id": "dtree-1"
+	}, {
+		"label": "Typical species",
+		"type": "dtree",
+		"required": false,
+		"persistent": false,
+		"properties": {
+			"filename": "9de51d0c-4aee-41f3-b555-9bed58a9c4fa-2.json"
+		},
+		"id": "dtree-2"
+	}, {
+		"label": "Take a photo",
+		"type": "image",
+		"required": true,
+		"persistent": false,
+		"properties": {
+			"los": false,
+			"multi-image": true
+		},
+		"id": "image-1"
+	}]
 }

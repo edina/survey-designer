@@ -24,7 +24,7 @@ describe('surveyConvertor#fieldToJSON', function() {
 
     it('checkforTextConversion', function(done) {
         var field = {
-          "id":"fieldcontain-text-1",
+          "id":"text-1",
           "label":"This is a label",
           "type":"text",
           "required":true,

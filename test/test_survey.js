@@ -57,7 +57,7 @@ describe('Survey', function() {
             "geoms":["point"],
             "fields":[
               {
-                "id":"fieldcontain-text-1",
+                "id":"text-1",
                 "type":"text",
                 "required":false,
                 "persistent":false,
@@ -83,7 +83,7 @@ describe('Survey', function() {
             "geoms":["point"],
             "fields":[
               {
-                "id":"fieldcontain-text-1",
+                "id":"text-1",
                 "type":"text",
                 "required":false,
                 "persistent":false,

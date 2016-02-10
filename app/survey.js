@@ -62,7 +62,7 @@ class Survey {
     */
     render() {
         //initialize fieldGenerator
-        var fieldGenerator = new FieldGenerator(this.renderEl);
+        var fieldGenerator = new FieldGenerator(this.renderEl, this.options);
         //generate general settings
         var generalObj = {
           type: "general",
@@ -90,7 +90,8 @@ class Survey {
         }
         var dataStorage = new DataStorage();
         dataStorage.setData(data);
-        var fieldGenerator = new FieldGenerator(this.renderEl, data.recordLayout);
+        this.options.layout = data.recordLayout;
+        var fieldGenerator = new FieldGenerator(this.renderEl, this.options);
 
         //render general settings
         fieldGenerator.render({
