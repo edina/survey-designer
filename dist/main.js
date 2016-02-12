@@ -4328,16 +4328,17 @@ $__System.register("2", ["3"], function($__export) {
                   html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
                   html.push('<fieldset>\n<legend>' + value.label + '</legend>\n');
                   properties.options.forEach(function(v, k) {
-                    if ($traceurRuntime.typeof((v)) === "object") {
+                    if ("image" in v) {
                       html.push('<label for="' + key + '-' + k + '">\n');
                       html.push('<div class="ui-grid-a grids">\n');
-                      html.push('<div class="ui-block-a"><p>' + v[0] + '</p></div>\n');
-                      html.push('<div class="ui-block-b"><img src="' + utils.getFilenameFromURL(v[1]) + '"></div>\n');
+                      html.push('<div class="ui-block-a"><p>' + v.value + '</p></div>\n');
+                      html.push('<div class="ui-block-b"><img src="' + self.getFilenameFromURL(v.image.src) + '"></div>\n');
+                      html.push('</div>\n');
                       html.push('</label>');
-                      html.push('<input name="' + key + '-' + k + '" id="' + key + '-' + k + '" value="' + v[0] + '" type="' + type + '" ' + required + '>\n');
+                      html.push('<input name="' + key + '-' + k + '" id="' + key + '-' + k + '" value="' + v.value + '" type="' + type + '" ' + required + '>\n');
                     } else {
-                      html.push('<label for="' + key + '-' + k + '">' + v + '</label>\n');
-                      html.push('<input name="' + key + '-' + k + '" id="' + key + '-' + k + '" value="' + v + '" type="' + type + '" ' + required + '>\n');
+                      html.push('<label for="' + key + '-' + k + '">' + v.value + '</label>\n');
+                      html.push('<input name="' + key + '-' + k + '" id="' + key + '-' + k + '" value="' + v.value + '" type="' + type + '" ' + required + '>\n');
                     }
                   });
                   if (value.other === true) {
@@ -4350,16 +4351,17 @@ $__System.register("2", ["3"], function($__export) {
                   html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
                   html.push('<fieldset>\n<legend>' + value.label + '</legend>\n');
                   properties.options.forEach(function(v, k) {
-                    if ($traceurRuntime.typeof((v)) === "object") {
+                    if ("image" in v) {
                       html.push('<label for="' + key + '-' + k + '">\n');
                       html.push('<div class="ui-grid-a grids">\n');
-                      html.push('<div class="ui-block-a"><p>' + v[0] + '</p></div>\n');
-                      html.push('<div class="ui-block-b"><img src="' + utils.getFilenameFromURL(v[1]) + '"></div>\n');
+                      html.push('<div class="ui-block-a"><p>' + v.value + '</p></div>\n');
+                      html.push('<div class="ui-block-b"><img src="' + self.getFilenameFromURL(v.image.src) + '"></div>\n');
+                      html.push('</div>\n');
                       html.push('</label>');
-                      html.push('<input name="' + key + '" id="' + key + '-' + k + '" value="' + v[0] + '" type="' + type + '" ' + required + '>\n');
+                      html.push('<input name="' + key + '" id="' + key + '-' + k + '" value="' + v.value + '" type="' + type + '" ' + required + '>\n');
                     } else {
-                      html.push('<label for="' + key + '-' + k + '">' + v + '</label>\n');
-                      html.push('<input name="' + key + '" id="' + key + '-' + k + '" value="' + v + '" type="' + type + '" ' + required + '>\n');
+                      html.push('<label for="' + key + '-' + k + '">' + v.value + '</label>\n');
+                      html.push('<input name="' + key + '" id="' + key + '-' + k + '" value="' + v.value + '" type="' + type + '" ' + required + '>\n');
                     }
                   });
                   if (value.other === true) {
@@ -4440,6 +4442,9 @@ $__System.register("2", ["3"], function($__export) {
             html.push('</div>\n');
             html.push('</form>');
             return html;
+          },
+          getFilenameFromURL: function(path) {
+            return path.substring(path.length, path.lastIndexOf('/') + 1);
           }
         }, {});
       }();
@@ -4619,21 +4624,13 @@ $__System.register("7", ["8", "9", "a"], function($__export) {
               case 'checkbox':
                 obj.operators = ['equal', 'notEqual', 'greaterThan', 'smallerThan'];
                 field.properties.options.forEach(function(v) {
-                  if ($traceurRuntime.typeof((v)) === "object") {
-                    obj.answers.push(v[0]);
-                  } else {
-                    obj.answers.push(v);
-                  }
+                  obj.answers.push(v.value);
                 });
                 break;
               case 'radio':
                 obj.operators = ['equal', 'notEqual', 'greaterThan', 'smallerThan'];
                 field.properties.options.forEach(function(v) {
-                  if ($traceurRuntime.typeof((v)) === "object") {
-                    obj.answers.push(v[0]);
-                  } else {
-                    obj.answers.push(v);
-                  }
+                  obj.answers.push(v.value);
                 });
                 break;
               case 'select':
@@ -4762,7 +4759,7 @@ $__System.registerDynamic("d", [], true, function($__require, exports, module) {
       } else {
         __p += '\n  <span class="btn btn-default btn-file">\n    Browse<input type="file" class="add-dtree" aria-label="' + ((__t = (translate("dtree.add-dtree"))) == null ? '' : __t) + '">\n  </span>\n  <span class="btn-filename"></span>\n  <button type="button" class="btn btn-default btn-sm upload-dtree" aria-label="' + ((__t = (translate("dtree.upload"))) == null ? '' : __t) + '">' + ((__t = (translate("dtree.upload"))) == null ? '' : __t) + '</button>\n  ';
       }
-      __p += '\n</fieldset>\n';
+      __p += '\n  <br>\n  <button type="button" class="btn btn-default btn-sm relate" aria-label="' + ((__t = (translate("radio.relate"))) == null ? '' : __t) + '">' + ((__t = (translate("radio.relate"))) == null ? '' : __t) + '</button>\n</fieldset>\n';
     }
     return __p;
   };
@@ -4873,7 +4870,7 @@ $__System.registerDynamic("12", [], true, function($__require, exports, module) 
     with (obj || {}) {
       __p += '<fieldset class="fieldcontain fieldcontain-select" id="' + ((__t = (id)) == null ? '' : __t) + '" data-type="' + ((__t = (type)) == null ? '' : __t) + '">\n  <legend>' + ((__t = (translate("select.field-title"))) == null ? '' : __t) + '</legend>\n  <label for="label">' + ((__t = (translate("select.label-title"))) == null ? '' : __t) + '</label>\n  <input type="text" name="label" value="' + ((__t = (label)) == null ? '' : __t) + '"> <br>\n  <label for="required">' + ((__t = (translate("select.required"))) == null ? '' : __t) + '</label>\n  <input type="checkbox" name="required" ' + ((__t = (check(required, "checked"))) == null ? '' : __t) + '> <br>\n  <label for="persistent">' + ((__t = (translate("select.persistent"))) == null ? '' : __t) + '</label>\n  <input type="checkbox" name="persistent" ' + ((__t = (check(persistent, "checked"))) == null ? '' : __t) + '>\n  <div class="options">\n    ';
       properties.options.forEach(function(item, key) {
-        __p += ' \n    <div class="form-inline">\n      <input type="text" value="' + ((__t = (item)) == null ? '' : __t) + '" name="' + ((__t = (id)) == null ? '' : __t) + '" id="' + ((__t = (id)) == null ? '' : __t) + '-' + ((__t = (increase(key))) == null ? '' : __t) + '" class="select">\n      <button type="button" class="btn btn-default btn-sm remove-select" aria-label="' + ((__t = (translate("select.remove"))) == null ? '' : __t) + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>\n    </div>\n    ';
+        __p += '\n    <div class="form-inline">\n      <input type="text" value="' + ((__t = (item.value)) == null ? '' : __t) + '" name="' + ((__t = (id)) == null ? '' : __t) + '" id="' + ((__t = (id)) == null ? '' : __t) + '-' + ((__t = (increase(key))) == null ? '' : __t) + '" class="select">\n      <button type="button" class="btn btn-default btn-sm remove-select" aria-label="' + ((__t = (translate("select.remove"))) == null ? '' : __t) + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>\n    </div>\n    ';
       });
       __p += '\n  </div>\n  <button type="button" class="btn btn-default btn-sm add-select" aria-label="' + ((__t = (translate("select.add-option"))) == null ? '' : __t) + '"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>\n</fieldset>\n';
     }
@@ -4898,13 +4895,11 @@ $__System.registerDynamic("13", [], true, function($__require, exports, module) 
     with (obj || {}) {
       __p += '<fieldset class="fieldcontain fieldcontain-radio" id="' + ((__t = (id)) == null ? '' : __t) + '" data-type="' + ((__t = (type)) == null ? '' : __t) + '">\n  <legend>' + ((__t = (translate("radio.field-title"))) == null ? '' : __t) + '</legend>\n  <label for="label">' + ((__t = (translate("radio.label-title"))) == null ? '' : __t) + '</label>\n  <input type="text" name="label" value=\'' + ((__t = (label)) == null ? '' : __t) + '\'> <br>\n  <label for="required">' + ((__t = (translate("radio.required"))) == null ? '' : __t) + '</label>\n  <input type="checkbox" name="required" ' + ((__t = (check(required, "checked"))) == null ? '' : __t) + '><br>\n  <label for="persistent">' + ((__t = (translate("radio.persistent"))) == null ? '' : __t) + '</label>\n  <input type="checkbox" name="persistent" ' + ((__t = (check(persistent, "checked"))) == null ? '' : __t) + '><br>\n  <label for="other">' + ((__t = (translate("radio.allow-other"))) == null ? '' : __t) + '</label>\n  <input type="checkbox" name="other" ' + ((__t = (check(properties.other, "checked"))) == null ? '' : __t) + '>\n  <div class="radios">\n  ';
       properties.options.forEach(function(item, key) {
-        __p += ' \n    <div class="form-inline">\n      ';
-        if (typeof item === "object") {
-          __p += '\n        <img src="' + ((__t = (item[1])) == null ? '' : __t) + '" style="width: 50px;">\n        <input type="text" value="' + ((__t = (item[0])) == null ? '' : __t) + '" name="' + ((__t = (id)) == null ? '' : __t) + '" id="' + ((__t = (id)) == null ? '' : __t) + '-' + ((__t = (increase(key))) == null ? '' : __t) + '" class="radio">\n      ';
-        } else {
-          __p += '\n        <input type="text" value="' + ((__t = (item)) == null ? '' : __t) + '" name="' + ((__t = (id)) == null ? '' : __t) + '" id="' + ((__t = (id)) == null ? '' : __t) + '-' + ((__t = (increase(key))) == null ? '' : __t) + '" class="radio">\n        <button type="file" class="btn btn-default btn-sm upload-image" aria-label="' + ((__t = (translate("radio.upload"))) == null ? '' : __t) + '"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>\n      ';
+        __p += '\n    <div class="form-inline">\n      ';
+        if (item.image) {
+          __p += '\n        <img src="' + ((__t = (pcapi.buildUrl('editors', item.image.src))) == null ? '' : __t) + '" style="width: 50px;">\n        <button type="file" class="btn btn-default btn-sm upload-image" aria-label="' + ((__t = (translate("radio.upload"))) == null ? '' : __t) + '">\n          <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>\n        </button>\n      ';
         }
-        __p += '\n      <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="' + ((__t = (translate("radio.remove"))) == null ? '' : __t) + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>\n      <input type="file" class="image-upload" id="upload-' + ((__t = (id)) == null ? '' : __t) + '" style="display: none;">\n    </div>\n  ';
+        __p += '\n      <input type="text" value="' + ((__t = (item.value)) == null ? '' : __t) + '" name="' + ((__t = (id)) == null ? '' : __t) + '" id="' + ((__t = (id)) == null ? '' : __t) + '-' + ((__t = (increase(key))) == null ? '' : __t) + '" class="radio">\n      <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="' + ((__t = (translate("radio.remove"))) == null ? '' : __t) + '">\n        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>\n      </button>\n      <input type="file" class="image-upload" id="upload-' + ((__t = (id)) == null ? '' : __t) + '" style="display: none;">\n    </div>\n  ';
       });
       __p += '\n  </div>\n  <button type="button" class="btn btn-default btn-sm add-radio" aria-label="' + ((__t = (translate("radio.add-radio"))) == null ? '' : __t) + '"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>\n  <button type="button" class="btn btn-default btn-sm relate" aria-label="' + ((__t = (translate("radio.relate"))) == null ? '' : __t) + '">' + ((__t = (translate("radio.relate"))) == null ? '' : __t) + '</button>\n</fieldset>\n';
     }
@@ -4929,13 +4924,11 @@ $__System.registerDynamic("14", [], true, function($__require, exports, module) 
     with (obj || {}) {
       __p += '<fieldset class="fieldcontain fieldcontain-checkbox" id="' + ((__t = (id)) == null ? '' : __t) + '"  data-type="' + ((__t = (type)) == null ? '' : __t) + '">\n  <legend>' + ((__t = (translate("checkbox.field-title"))) == null ? '' : __t) + '</legend>\n  <label for="label">' + ((__t = (translate("checkbox.label-title"))) == null ? '' : __t) + '</label>\n  <input type="text" name="label" value=\'' + ((__t = (label)) == null ? '' : __t) + '\'><br>\n  <label for="required">' + ((__t = (translate("checkbox.required"))) == null ? '' : __t) + '</label>\n  <input type="checkbox" name="required" ' + ((__t = (check(required, "checked"))) == null ? '' : __t) + '><br>\n  <label for="persistent">' + ((__t = (translate("checkbox.persistent"))) == null ? '' : __t) + '</label>\n  <input type="checkbox" name="persistent" ' + ((__t = (check(persistent, "checked"))) == null ? '' : __t) + '><br>\n  <label for="other">' + ((__t = (translate("checkbox.allow-other"))) == null ? '' : __t) + '</label>\n  <input type="checkbox" name="other" ' + ((__t = (check(properties.other, "checked"))) == null ? '' : __t) + '>\n  <div class="checkboxes">\n  ';
       properties.options.forEach(function(item, key) {
-        __p += '  \n    <div class="form-inline">\n      ';
-        if (typeof item === "object") {
-          __p += '\n        <img src="' + ((__t = (item[1])) == null ? '' : __t) + '" style="width: 50px;">\n        <input type="text" value="' + ((__t = (item[0])) == null ? '' : __t) + '" name="' + ((__t = (id)) == null ? '' : __t) + '" id="' + ((__t = (id)) == null ? '' : __t) + '-' + ((__t = (increase(key))) == null ? '' : __t) + '" class="checkbox">\n      ';
-        } else {
-          __p += '\n        <input type="text" value="' + ((__t = (item)) == null ? '' : __t) + '" name="' + ((__t = (id)) == null ? '' : __t) + '" id="' + ((__t = (id)) == null ? '' : __t) + '-' + ((__t = (increase(key))) == null ? '' : __t) + '" class="checkbox">\n        <button type="file" class="btn btn-default btn-sm upload-image" aria-label="' + ((__t = (translate("checkbox.upload"))) == null ? '' : __t) + '">\n          <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>\n        </button>\n      ';
+        __p += '\n    <div class="form-inline">\n      ';
+        if (item.image) {
+          __p += '\n        <img src="' + ((__t = (pcapi.buildUrl('editors', item.image.src))) == null ? '' : __t) + '" style="width: 50px;">\n        <button type="file" class="btn btn-default btn-sm upload-image" aria-label="' + ((__t = (translate("checkbox.upload"))) == null ? '' : __t) + '">\n          <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>\n        </button>\n      ';
         }
-        __p += '\n      <button type="button" class="btn btn-default btn-sm remove-checkbox" aria-label="' + ((__t = (translate("checkbox.remove"))) == null ? '' : __t) + '">\n        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>\n      </button>\n      <input type="file" class="image-upload" id="upload-' + ((__t = (id)) == null ? '' : __t) + '" style="display: none;">\n    </div>\n  ';
+        __p += '\n      <input type="text" value="' + ((__t = (item.value)) == null ? '' : __t) + '" name="' + ((__t = (id)) == null ? '' : __t) + '" id="' + ((__t = (id)) == null ? '' : __t) + '-' + ((__t = (increase(key))) == null ? '' : __t) + '" class="checkbox">\n      <button type="button" class="btn btn-default btn-sm remove-checkbox" aria-label="' + ((__t = (translate("checkbox.remove"))) == null ? '' : __t) + '">\n        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>\n      </button>\n      <input type="file" class="image-upload" id="upload-' + ((__t = (id)) == null ? '' : __t) + '" style="display: none;">\n    </div>\n  ';
       });
       __p += '\n  </div>\n  <button type="button" class="btn btn-default btn-sm add-checkbox" aria-label="' + ((__t = (translate("checkbox.add-checkbox"))) == null ? '' : __t) + '">\n    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>\n  </button>\n  <button type="button" class="btn btn-default btn-sm relate" aria-label="' + ((__t = (translate("checkbox.relate"))) == null ? '' : __t) + '">\n    ' + ((__t = (translate("checkbox.relate"))) == null ? '' : __t) + '\n  </button>\n</fieldset>\n';
     }
@@ -5000,7 +4993,7 @@ $__System.registerDynamic("17", [], true, function($__require, exports, module) 
           __p += __j.call(arguments, '');
         };
     with (obj || {}) {
-      __p += '<fieldset class="fieldcontain fieldcontain-text" id="' + ((__t = (id)) == null ? '' : __t) + '" data-type="' + ((__t = (type)) == null ? '' : __t) + '">\n  <legend>' + ((__t = (translate("text.field-title"))) == null ? '' : __t) + '</legend>\n  <label for="label">' + ((__t = (translate("text.label-title"))) == null ? '' : __t) + '</label>\n  <input type="text" name="label" value="' + ((__t = (label)) == null ? '' : __t) + '">  \n  <label for="required">' + ((__t = (translate("text.required"))) == null ? '' : __t) + '</label>\n  <input type="checkbox" name="required" ' + ((__t = (check(required, "checked"))) == null ? '' : __t) + '>\n  <label for="prefix">' + ((__t = (translate("text.prefix-title"))) == null ? '' : __t) + '</label>\n  <input type="text" name="prefix" placeholder="' + ((__t = (translate("text.prefix"))) == null ? '' : __t) + '" value="' + ((__t = (properties.prefix)) == null ? '' : __t) + '">\n  <label for="persistent">' + ((__t = (translate("text.persistent"))) == null ? '' : __t) + '</label>\n  <input type="checkbox" name="persistent" ' + ((__t = (check(persistent, "checked"))) == null ? '' : __t) + '>' + ((__t = (translate("text.persistent"))) == null ? '' : __t) + '\n  <label for="placeholder">' + ((__t = (translate("text.default-text-title"))) == null ? '' : __t) + '</label>\n  <input type="text" name="placeholder" placeholder="' + ((__t = (translate("text.default-text"))) == null ? '' : __t) + '" value="' + ((__t = (properties.placeholder)) == null ? '' : __t) + '">\n  <label for="max-chars">' + ((__t = (translate("text.max-chars-title"))) == null ? '' : __t) + '</label>\n  <input type="number" name="max-chars" value="' + ((__t = (properties["max-chars"])) == null ? '' : __t) + '">\n</fieldset>\n';
+      __p += '<fieldset class="fieldcontain fieldcontain-text" id="' + ((__t = (id)) == null ? '' : __t) + '" data-type="' + ((__t = (type)) == null ? '' : __t) + '">\n  <legend>' + ((__t = (translate("text.field-title"))) == null ? '' : __t) + '</legend>\n  <label for="label">' + ((__t = (translate("text.label-title"))) == null ? '' : __t) + '</label>\n  <input type="text" name="label" value="' + ((__t = (label)) == null ? '' : __t) + '">\n  <label for="required">' + ((__t = (translate("text.required"))) == null ? '' : __t) + '</label>\n  <input type="checkbox" name="required" ' + ((__t = (check(required, "checked"))) == null ? '' : __t) + '>\n  <label for="header">' + ((__t = (translate("text.header"))) == null ? '' : __t) + '</label>\n  <input type="checkbox" name="header" ' + ((__t = (check(header, "checked"))) == null ? '' : __t) + '>\n  <label for="prefix">' + ((__t = (translate("text.prefix-title"))) == null ? '' : __t) + '</label>\n  <input type="text" name="prefix" placeholder="' + ((__t = (translate("text.prefix"))) == null ? '' : __t) + '" value="' + ((__t = (properties.prefix)) == null ? '' : __t) + '">\n  <label for="persistent">' + ((__t = (translate("text.persistent"))) == null ? '' : __t) + '</label>\n  <input type="checkbox" name="persistent" ' + ((__t = (check(persistent, "checked"))) == null ? '' : __t) + '>' + ((__t = (translate("text.persistent"))) == null ? '' : __t) + '\n  <label for="placeholder">' + ((__t = (translate("text.default-text-title"))) == null ? '' : __t) + '</label>\n  <input type="text" name="placeholder" placeholder="' + ((__t = (translate("text.default-text"))) == null ? '' : __t) + '" value="' + ((__t = (properties.placeholder)) == null ? '' : __t) + '">\n  <label for="max-chars">' + ((__t = (translate("text.max-chars-title"))) == null ? '' : __t) + '</label>\n  <input type="number" name="max-chars" value="' + ((__t = (properties["max-chars"])) == null ? '' : __t) + '">\n</fieldset>\n';
     }
     return __p;
   };
@@ -5021,7 +5014,7 @@ $__System.registerDynamic("18", [], true, function($__require, exports, module) 
           __p += __j.call(arguments, '');
         };
     with (obj || {}) {
-      __p += '<fieldset class="fieldcontain-general"  data-type="' + ((__t = (type)) == null ? '' : __t) + '">\n  <legend>' + ((__t = (translate("general.field-title"))) == null ? '' : __t) + '</legend>\n  <label for="label">' + ((__t = (translate("general.label-title"))) == null ? '' : __t) + '</label>\n  <input type="text" name="label" value="' + ((__t = (title)) == null ? '' : __t) + '">\n  <div class="control-group">\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("point", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.point-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.point-label"))) == null ? '' : __t) + '</label>\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("line", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.line-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.line-label"))) == null ? '' : __t) + '</label>\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("polygon", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.polygon-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.polygon-label"))) == null ? '' : __t) + '</label>\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("box", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.box-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.box-label"))) == null ? '' : __t) + '</label>\n  </div>\n</fieldset>\n';
+      __p += '<fieldset class="fieldcontain fieldcontain-general"  data-type="' + ((__t = (type)) == null ? '' : __t) + '">\n  <legend>' + ((__t = (translate("general.field-title"))) == null ? '' : __t) + '</legend>\n  <label for="label">' + ((__t = (translate("general.label-title"))) == null ? '' : __t) + '</label>\n  <input type="text" name="label" value="' + ((__t = (title)) == null ? '' : __t) + '">\n  <div class="control-group">\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("point", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.point-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.point-label"))) == null ? '' : __t) + '</label>\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("line", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.line-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.line-label"))) == null ? '' : __t) + '</label>\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("polygon", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.polygon-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.polygon-label"))) == null ? '' : __t) + '</label>\n    <label class="radio"><input type="checkbox" name="geometryType" ' + ((__t = (checkGeometries("box", geoms))) == null ? '' : __t) + ' value="' + ((__t = (translate("general.box-value"))) == null ? '' : __t) + '">' + ((__t = (translate("general.box-label"))) == null ? '' : __t) + '</label>\n  </div>\n</fieldset>\n';
     }
     return __p;
   };
@@ -7081,9 +7074,10 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
     }],
     execute: function() {
       FieldGenerator = function() {
-        function FieldGenerator(el) {
+        function FieldGenerator(el, options) {
           this.el = el;
           this.$el = $(el);
+          this.options = options;
         }
         return ($traceurRuntime.createClass)(FieldGenerator, {
           render: function(data, element) {
@@ -7098,9 +7092,10 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
           createField: function(data) {
             var type = data.type;
             var templateData = Object.assign({}, data);
-            templateData.id = templateData.id || "fieldcontain-" + type + "-" + this.findHighestElement(type);
+            templateData.id = templateData.id || type + "-" + this.findHighestElement(type);
             templateData.label = templateData.label || i18n.t(type + ".label");
             templateData.required = templateData.required || false;
+            templateData.header = false;
             templateData.persistent = templateData.persistent || false;
             templateData.properties = templateData.properties || {};
             _.extend(templateData, this.viewHelpers());
@@ -7111,6 +7106,9 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
                 return generalTemplate(templateData);
               case 'text':
                 templateData.properties["max-chars"] = templateData.properties["max-chars"] || 10;
+                if (this.options && this.options.layout) {
+                  templateData.header = this.options.layout.headers.indexOf(templateData.id) > -1;
+                }
                 return textTemplate(templateData);
               case 'textarea':
                 return textareaTemplate(templateData);
@@ -7132,7 +7130,10 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
                 }
                 return selectTemplate(templateData);
               case 'dtree':
-                templateData.url = pcapi.buildFSUrl('editors', templateData.properties.filename);
+                if (this.options && this.options.formsFolder) {
+                  templateData.properties.filename = this.options.formsFolder + "/" + templateData.properties.filename;
+                }
+                templateData.url = pcapi.buildUrl('editors', templateData.properties.filename);
                 return dtreeTemplate(templateData);
               case 'image':
                 if (this.$el.find('.fieldcontain-image').length === 0) {
@@ -7164,17 +7165,15 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
             return '';
           },
           addFieldButtons: function(type) {
-            if (type !== "general") {
-              var fields = this.$el.find('.fieldcontain-' + type);
-              var id = "fieldcontain-" + type + "-" + (fields.length);
-              $(fields[fields.length - 1]).attr("id", id);
-              var $id = $("#" + id);
-              if (fields.length > 1 || type !== "text") {
-                var buttons = '<div class="fieldButtons">' + '<button type="button" class="btn btn-default remove-field" aria-label="Remove field"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>' + '<div class="btn btn-default sortit" aria-label="Sort field"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span></div>' + '</div>';
-                $id.append(buttons);
-              }
-              $id.append(addfieldTemplate({data: cfg.options}));
+            var fields = this.$el.find('.fieldcontain-' + type);
+            var id = type + "-" + (fields.length);
+            $(fields[fields.length - 1]).attr("id", id);
+            var $id = $("#" + id);
+            if (fields.length > 1 || type !== "text") {
+              var buttons = '<div class="fieldButtons">' + '<button type="button" class="btn btn-default ' + 'remove-field" aria-label="Remove field">' + '<span class="glyphicon ' + 'glyphicon-remove" aria-hidden="true"></span></button>' + '</div>';
+              $id.append(buttons);
             }
+            $id.append(addfieldTemplate({data: cfg.options}));
           },
           enableActions: function() {
             this.enableCheckboxEvents();
@@ -7205,17 +7204,17 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
             this.$el.off("click", ".add-" + type);
             this.$el.on("click", ".add-" + type, function() {
               var fieldcontainId = utils.numberFromId($(this).closest('.fieldcontain-' + type).prop("id"));
-              var finds = $("#fieldcontain-" + type + "-" + fieldcontainId).find('.' + type);
+              var finds = $("#" + type + "-" + fieldcontainId).find('.' + type);
               var value = i18n.t(type + ".text");
-              var nextElement = '<div class="form-inline">' + '<input type="text" value="' + value + '" name="fieldcontain-' + type + '-' + fieldcontainId + '" id="checkbox-' + fieldcontainId + '" class="' + type + '">';
+              var nextElement = '<div class="form-inline">' + '<input type="text" value="' + value + '" name="' + type + '-' + fieldcontainId + '" id="checkbox-' + fieldcontainId + '" class="' + type + '">';
               if (type !== "select") {
                 nextElement += '<button type="file" class="btn btn-default btn-sm upload-image" aria-label="Upload ' + type + '"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>';
               }
               nextElement += '<button type="button" class="btn btn-default btn-sm remove-' + type + '" aria-label="Remove ' + type + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>' + '<input type="file" class="image-upload" id="upload-' + type + '-' + fieldcontainId + '" style="display: none;">' + '</div>';
               $(this).prev().append(nextElement);
               var i = 1;
-              $("#fieldcontain-" + type + "-" + fieldcontainId).find('.' + type).each(function() {
-                $(this).prop("id", 'fieldcontain-' + type + '-' + fieldcontainId + '-' + i);
+              $("#" + type + "-" + fieldcontainId).find('.' + type).each(function() {
+                $(this).prop("id", type + '-' + fieldcontainId + '-' + i);
                 i++;
               });
             });
@@ -7231,25 +7230,28 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
             this.$el.on("change", ".image-upload", $.proxy(function(e) {
               var files = e.target.files || e.dataTransfer.files;
               var file = files[0];
-              type = $(e.target).closest('.fieldcontain').attr("id").split("-")[1];
-              var publicEditor = utils.getParams().public === 'true';
+              type = $(e.target).closest('.fieldcontain').attr("id").split("-")[0];
+              var path = "";
+              if (this.options && this.options.formsFolder) {
+                path = this.options.formsFolder + "/";
+              }
               var options = {
                 "remoteDir": "editors",
-                "path": file.name,
+                "path": path + file.name,
                 "file": file,
                 "contentType": false
               };
-              if (publicEditor) {
+              if (this.options.copyToPublic) {
                 options.urlParams = {'public': 'true'};
               }
               utils.loading(true);
-              pcapi.uploadFile(options).then($.proxy(function(data) {
+              pcapi.uploadFile(options, "PUT").then($.proxy(function(data) {
                 utils.loading(false);
                 utils.giveFeedback(data.msg);
                 var name = utils.getFilenameFromURL(data.path);
                 var $formLine = $(e.target).closest('.form-inline');
                 var $inputText = $formLine.find('input[type="text"]');
-                $inputText.before('<img src="' + pcapi.buildFSUrl('editors', name) + '" style="width: 50px;">');
+                $inputText.before('<img src="' + pcapi.buildUrl('editors', path + name) + '" style="width: 50px;">');
                 $formLine.find('button.upload-image').remove();
               }, this));
             }, this));
@@ -7265,7 +7267,44 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
             });
           },
           enabledTreeEvents: function() {
-            this.uploadFile('.add-dtree', '.upload-dtree');
+            var $browseElement = $('.add-dtree');
+            var $uploadElement = $('.upload-dtree');
+            var file;
+            $browseElement.unbind();
+            $browseElement.bind("change", function(e) {
+              var files = e.target.files || e.dataTransfer.files;
+              file = files[0];
+              $(this).parent().next().append(file.name);
+            });
+            $uploadElement.unbind('click');
+            $uploadElement.click($.proxy(function() {
+              var index = this.findHighestElement('dtree') - 1;
+              var id = "dtree-" + index;
+              var dtreeFname;
+              var ext = utils.getExtension(file.name);
+              if (this.options && this.options.formsFolder) {
+                dtreeFname = this.options.formsFolder + "/" + this.options.formsFolder + '-' + index + '.' + ext;
+              } else {
+                dtreeFname = file.name;
+              }
+              var options = {
+                "remoteDir": "editors",
+                "path": dtreeFname,
+                "file": file,
+                "contentType": false
+              };
+              if (this.options.copyToPublic) {
+                options.urlParams = {'public': 'true'};
+              }
+              utils.loading(true);
+              pcapi.uploadFile(options, "PUT").then($.proxy(function(result, data) {
+                utils.loading(false);
+                utils.giveFeedback("File was uploaded");
+                $("#" + id + " .btn-file").remove();
+                $("#" + id + " button").remove();
+                $("#" + id + " .btn-filename").html('<a class="dtree-url" ' + 'href="' + pcapi.buildUrl('editors', dtreeFname) + '">' + dtreeFname + '</a>');
+              }, this));
+            }, this));
           },
           enableRemoveField: function() {
             this.$el.off("click", ".remove-field");
@@ -7276,7 +7315,7 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
           findHighestElement: function(type) {
             var j = 0;
             this.$el.find(".fieldcontain-" + type).each(function() {
-              var i = parseInt($(this).attr("id").split("-")[2]);
+              var i = parseInt($(this).attr("id").split("-")[1]);
               if (i >= j) {
                 j = i;
               }
@@ -7307,43 +7346,7 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
               }
             };
           },
-          uploadFile: function(browseElement, uploadElement) {
-            var file;
-            $(browseElement).unbind();
-            $(browseElement).bind("change", function(e) {
-              var files = e.target.files || e.dataTransfer.files;
-              file = files[0];
-              $(this).parent().next().append(file.name);
-            });
-            $(uploadElement).unbind('click');
-            $(uploadElement).click($.proxy(function() {
-              var index = this.findHighestElement('dtree') - 1;
-              var id = "fieldcontain-dtree-" + index;
-              var dtreeFname = file.name;
-              var ext = utils.getExtension(dtreeFname);
-              if ("sid" in utils.getParams()) {
-                dtreeFname = utils.getParams().sid + '-' + index + '.' + ext;
-              }
-              var publicEditor = utils.getParams().public === 'true';
-              var options = {
-                "remoteDir": "editors",
-                "path": dtreeFname,
-                "file": file,
-                "contentType": false
-              };
-              if (publicEditor) {
-                options.urlParams = {'public': 'true'};
-              }
-              utils.loading(true);
-              pcapi.uploadFile(options).then($.proxy(function(result, data) {
-                utils.loading(false);
-                utils.giveFeedback("File was uploaded");
-                $("#" + id + " .btn-file").remove();
-                $("#" + id + " button").remove();
-                $("#" + id + " .btn-filename").html('<a href="' + pcapi.buildFSUrl('editors', dtreeFname) + '">' + dtreeFname + '</a>');
-              }, this));
-            }, this));
-          }
+          uploadFile: function(browseElement, uploadElement) {}
         }, {});
       }();
       $__export('default', FieldGenerator);
@@ -7384,25 +7387,26 @@ $__System.register("1f", ["1b", "20", "9", "1e", "8", "1a", "6", "1d", "5"], fun
     execute: function() {
       Survey = function() {
         function Survey(options) {
-          this.$mainBodyEl = $(options.element);
+          this.options = options;
           this.title = options.title;
-          this.renderEl = options.subElement;
+          this.renderEl = "." + options.subElement;
           this.convertor = new Convertor();
           this.initialize();
           this.enableAutoSave();
         }
         return ($traceurRuntime.createClass)(Survey, {
           initialize: function() {
-            this.$mainBodyEl.html('<div class="mobile">' + '<div class="' + this.renderEl.substring(1) + '">' + '</div></div>' + '<div id="loader"><img src="app/styles/images/ajax-loader.gif"></div>');
+            document.getElementById(this.options.element).innerHTML = '<div class="mobile">' + '<div class="' + this.options.subElement + '">' + '</div></div>' + '<div id="loader"><img src="app/styles/images/ajax-loader.gif"></div>';
             var $mobile = $(".mobile");
-            $(this.renderEl).before(saveTemplate({"save": i18n.t("menu.save")}));
+            var $mobileContent = $(this.renderEl);
+            $mobileContent.before(saveTemplate({"save": i18n.t("menu.save")}));
             var $myNav = $("#myNav");
             $mobile.height($(window).height() - $("#header").height() - 84);
-            $(this.renderEl).height($mobile.height() - 100 - $myNav.height());
+            $mobileContent.height($mobile.height() - 100 - $myNav.height());
             $myNav.width($mobile.width());
           },
-          enableAutoSave: function() {
-            var iFrequency = 60000;
+          enableAutoSave: function(time) {
+            var iFrequency = time || 60000;
             var myInterval = 0;
             if (myInterval > 0)
               clearInterval(myInterval);
@@ -7411,25 +7415,27 @@ $__System.register("1f", ["1b", "20", "9", "1e", "8", "1a", "6", "1d", "5"], fun
             }, this), iFrequency);
           },
           render: function() {
-            var fieldGenerator = new FieldGenerator(this.renderEl);
-            var titleObj;
-            if (this.title) {
-              titleObj = {"title": this.title};
-            }
-            fieldGenerator.render({type: "general"});
-            fieldGenerator.render({type: 'text'});
+            var fieldGenerator = new FieldGenerator(this.renderEl, this.options);
+            var generalObj = {
+              type: "general",
+              title: this.title
+            };
+            fieldGenerator.render(generalObj);
           },
           renderExistingSurvey: function(title, data) {
-            if (!utils.isJsonString(data)) {
-              data = this.convertor.HTMLtoJSON(data, title);
-            } else {
-              data = JSON.parse(data);
+            if (typeof data === 'string') {
+              if (utils.isJsonString(data)) {
+                data = JSON.parse(data);
+              } else {
+                data = this.convertor.HTMLtoJSON(data, this.title);
+              }
             }
             var dataStorage = new DataStorage();
             dataStorage.setData(data);
-            var fieldGenerator = new FieldGenerator(this.renderEl);
+            this.options.layout = data.recordLayout;
+            var fieldGenerator = new FieldGenerator(this.renderEl, this.options);
             fieldGenerator.render({
-              "title": title,
+              "title": this.title,
               "geoms": data.geoms,
               "type": "general"
             });
@@ -7868,9 +7874,10 @@ $__System.registerDynamic("21", [], true, function($__require, exports, module) 
         console.debug("PUT item to " + options.remoteDir + " with " + requestOptions.url);
         return doRequest(requestOptions);
       },
-      uploadFile: function(options) {
+      uploadFile: function(options, type) {
+        type = type || "POST";
         var userId = options.userid || getCloudLoginId();
-        var requestOptions = {"type": "POST"};
+        var requestOptions = {"type": type};
         requestOptions.url = this.buildFSUserUrl(userId, options.remoteDir, options.path);
         if (reservedDirs.indexOf(options.remoteDir) > -1) {
           requestOptions.url = this.buildUserUrl(userId, options.remoteDir, options.path, options.urlParams);
@@ -7993,29 +8000,47 @@ $__System.register("20", ["3", "9", "1d"], function($__export) {
         }
         return ($traceurRuntime.createClass)(Convertor, {
           getForm: function($html) {
-            var c = this;
+            var self = this;
             var form = {};
             form.title = $html.find(".fieldcontain-general").find('input[name="label"]').val();
             form.geoms = [];
+            form.recordLayout = {"headers": []};
             form.fields = [];
             $html.find('input[name="geometryType"]:checked').each(function() {
               form.geoms.push($(this).val());
             });
+            $html.find('input[name="header"]:checked').each(function() {
+              form.recordLayout.headers.push($(this).closest(".fieldcontain").attr("id"));
+            });
             $html.find(".fieldcontain").each(function() {
               var $this = $(this);
-              var field = {
-                "id": $this.attr("id"),
-                "type": $this.data("type"),
-                "required": false,
-                "persistent": false,
-                "properties": {}
-              };
-              form.fields.push(c.fieldToJSON(field, $this));
+              if (!$this.hasClass("fieldcontain-general")) {
+                var field = {
+                  "id": $this.attr("id"),
+                  "type": $this.data("type"),
+                  "required": false,
+                  "persistent": false,
+                  "properties": {}
+                };
+                form.fields.push(self.fieldToJSON(field, $this));
+              }
             });
             return form;
           },
           fieldToJSON: function(field, html) {
             field.label = html.find('input[name="label"]').val();
+            var createOptions = function(html, id) {
+              return html.find('input[name="' + id + '"]').toArray().map(function(element) {
+                var $el = $(element);
+                var $img = $el.closest('.form-inline').find('img');
+                var option = {"value": $el.val()};
+                if ($img.length > 0) {
+                  option.image = {};
+                  option.image.src = utils.getFilenameFromURL($img.attr('src'));
+                }
+                return option;
+              });
+            };
             switch (field.type) {
               case 'text':
                 field.required = html.find('input[name="required"]').is(':checked');
@@ -8040,54 +8065,18 @@ $__System.register("20", ["3", "9", "1d"], function($__export) {
                 field.required = html.find('input[name="required"]').is(':checked');
                 field.persistent = html.find('input[name="persistent"]').is(':checked');
                 field.properties.other = html.find('input[name="other"]').is(':checked');
-                var checkboxes = [];
-                html.find('input[name="' + field.id + '"]').each(function(event) {
-                  var $img = $(this).closest(".form-inline").find("img");
-                  if ($img.length > 0) {
-                    checkboxes.push([]);
-                    var n = checkboxes.length - 1;
-                    checkboxes[n].push($(this).val());
-                    checkboxes[n].push(utils.getFilenameFromURL($img.attr("src")));
-                  } else {
-                    checkboxes.push($(this).val());
-                  }
-                });
-                field.properties.options = checkboxes;
+                field.properties.options = createOptions(html, field.id);
                 break;
               case 'radio':
                 field.required = html.find('input[name="required"]').is(':checked');
                 field.persistent = html.find('input[name="persistent"]').is(':checked');
                 field.properties.other = html.find('input[name="other"]').is(':checked');
-                var radios = [];
-                html.find('input[name="' + field.id + '"]').each(function(event) {
-                  var $img = $(this).closest(".form-inline").find("img");
-                  if ($img.length > 0) {
-                    radios.push([]);
-                    var n = radios.length - 1;
-                    radios[n].push($(this).val());
-                    radios[n].push(utils.getFilenameFromURL($img.attr("src")));
-                  } else {
-                    radios.push($(this).val());
-                  }
-                });
-                field.properties.options = radios;
+                field.properties.options = createOptions(html, field.id);
                 break;
               case 'select':
                 field.required = html.find('input[name="required"]').is(':checked');
                 field.persistent = html.find('input[name="persistent"]').is(':checked');
-                var options = [];
-                html.find('input[name="' + field.id + '"]').each(function(event) {
-                  var $img = $(this).closest(".form-inline").find("img");
-                  if ($img.length > 0) {
-                    options.push([]);
-                    var n = options.length - 1;
-                    options[n].push($(this).val());
-                    options[n].push(utils.getFilenameFromURL($img.attr("src")));
-                  } else {
-                    options.push($(this).val());
-                  }
-                });
-                field.properties.options = options;
+                field.properties.options = createOptions(html, field.id);
                 break;
               case 'dtree':
                 var $a = html.find('.dtree-url');
@@ -8121,6 +8110,7 @@ $__System.register("20", ["3", "9", "1d"], function($__export) {
             var form = {};
             var layout = null;
             var section = null;
+            var recordLayout = null;
             var fieldsSelector;
             var ignoreFields;
             var self = this;
@@ -8148,7 +8138,8 @@ $__System.register("20", ["3", "9", "1d"], function($__export) {
               var type;
               var visibility;
               var field = null;
-              var matched = /fieldcontain-(.*?)-[0-9]+$/.exec($field.attr("id"));
+              var $fieldId = $field.attr("id").replace(/fieldcontain-|form-/g, "");
+              var matched = /(.*?)-[0-9]+$/.exec($fieldId);
               if (matched === null) {
                 console.log('warning: ' + $field.attr('id') + ' not supported');
                 return;
@@ -8157,7 +8148,7 @@ $__System.register("20", ["3", "9", "1d"], function($__export) {
               if (visibilityRule) {
                 visibility = self.parseRule(visibilityRule);
               }
-              fieldId = matched[0];
+              fieldId = matched[0].replace("multiimage", "image");
               type = matched[1];
               switch (type) {
                 case 'text':
@@ -8202,14 +8193,10 @@ $__System.register("20", ["3", "9", "1d"], function($__export) {
                   $input = $field.find('input[type="checkbox"]');
                   options = $input.map(function(i, element) {
                     var $checkbox = $(element);
-                    var checkbox;
+                    var checkbox = {"value": $checkbox.val()};
                     var $img = $checkbox.prev().find('img');
                     if ($img.is('img')) {
-                      checkbox = [];
-                      checkbox.push($checkbox.val());
-                      checkbox.push(pcapi.buildFSUrl('editors', $img.attr("src")));
-                    } else {
-                      checkbox = $checkbox.val();
+                      checkbox.image = {"src": $img.attr("src")};
                     }
                     return checkbox;
                   });
@@ -8225,17 +8212,13 @@ $__System.register("20", ["3", "9", "1d"], function($__export) {
                   };
                   break;
                 case 'radio':
-                  $input = $field.find('input[name="' + fieldId + '"]');
+                  $input = $field.find('input[type="radio"]');
                   options = $input.map(function(i, element) {
                     var $radio = $(element);
-                    var radio;
                     var $img = $radio.prev().find('img');
+                    var radio = {"value": $radio.val()};
                     if ($img.is('img')) {
-                      radio = [];
-                      radio.push($radio.val());
-                      radio.push(pcapi.buildFSUrl('editors', $img.attr('src')));
-                    } else {
-                      radio = $radio.val();
+                      radio.image = {"src": $img.attr("src")};
                     }
                     return radio;
                   });
@@ -8403,7 +8386,7 @@ $__System.register("20", ["3", "9", "1d"], function($__export) {
               return null;
             }
             return {
-              id: "fieldcontain-" + field,
+              id: field,
               operator: comparator,
               answer: value
             };
@@ -8426,7 +8409,7 @@ $__System.register("1e", ["20", "8"], function($__export) {
     var dataStorage = new DataStorage();
     var data = dataStorage.getData();
     if (data !== null) {
-      formInJSON = Object.assign(formInJSON, data);
+      formInJSON = Object.assign(data, formInJSON);
     }
     dataStorage.setData(formInJSON);
     return formInJSON;
@@ -10060,20 +10043,20 @@ $__System.register("9", ["a"], function($__export) {
   }
   function getParams() {
     var query = window.location.search.substring(1);
-    var query_string = {};
+    var queryString = {};
     var params = query.split("&");
     for (var i = 0; i < params.length; i++) {
       var pair = params[i].split("=");
-      if (typeof query_string[pair[0]] === "undefined") {
-        query_string[pair[0]] = pair[1];
-      } else if (typeof query_string[pair[0]] === "string") {
-        var arr = [query_string[pair[0]], pair[1]];
-        query_string[pair[0]] = arr;
+      if (typeof queryString[pair[0]] === "undefined") {
+        queryString[pair[0]] = pair[1];
+      } else if (typeof queryString[pair[0]] === "string") {
+        var arr = [queryString[pair[0]], pair[1]];
+        queryString[pair[0]] = arr;
       } else {
-        query_string[pair[0]].push(pair[1]);
+        queryString[pair[0]].push(pair[1]);
       }
     }
-    return query_string;
+    return queryString;
   }
   function giveFeedback(msg) {
     if ($("#feedback").length === 0) {
@@ -10087,6 +10070,7 @@ $__System.register("9", ["a"], function($__export) {
     try {
       JSON.parse(str);
     } catch (e) {
+      console.error(e);
       return false;
     }
     return true;
@@ -10106,7 +10090,7 @@ $__System.register("9", ["a"], function($__export) {
     return makeModalWindow(id, 'Feedback', body);
   }
   function makeModalWindow(id, title, body, footer) {
-    var form = new Array();
+    var form = [];
     form.push('<div class="modal fade" id="' + id + '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">');
     form.push('<div class="modal-dialog" role="document">');
     form.push('<div class="modal-content">');
@@ -10133,16 +10117,6 @@ $__System.register("9", ["a"], function($__export) {
       modal = $__m.default;
     }],
     execute: function() {
-      ;
-      ;
-      ;
-      ;
-      ;
-      ;
-      ;
-      ;
-      ;
-      ;
       $__export("endsWith", endsWith), $__export("getExtension", getExtension), $__export("getFilenameFromURL", getFilenameFromURL), $__export("getParams", getParams), $__export("giveFeedback", giveFeedback), $__export("isJsonString", isJsonString), $__export("loading", loading), $__export("makeAlertModal", makeAlertModal), $__export("makeModalWindow", makeModalWindow), $__export("numberFromId", numberFromId), $__export("typeFromId", typeFromId);
     }
   };
@@ -10180,25 +10154,32 @@ $__System.register("23", ["24", "9", "1e", "1c", "1f", "4"], function($__export)
         return ($traceurRuntime.createClass)(SurveyView, {
           initialize: function() {
             this.cfg = cfg;
-            this.element = "#content";
-            this.subElement = ".mobile-content";
+            this.options = {
+              "element": "content",
+              "subElement": "mobile-content"
+            };
+            this.params = utils.getParams();
+            if (this.params) {
+              this.options.formsFolder = this.params.sid;
+              this.options.copyToPublic = (this.params.public === 'true');
+            }
             this.render();
           },
           formSave: function() {
             $(document).off('click', '#form-save');
             $(document).on('click', '#form-save', $.proxy(function() {
-              var formInJSON = save.saveData(this.subElement);
+              var formInJSON = save.saveData("." + this.options.subElement);
               var htmlConvertor = new Convertor();
               var title = formInJSON.title;
-              if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
-                title = utils.getParams().sid;
+              if ("sid" in this.params && this.params.sid !== undefined) {
+                title = this.params.sid;
               }
               var options = {
                 remoteDir: "editors",
                 path: encodeURIComponent(title) + ".json",
                 data: JSON.stringify(formInJSON)
               };
-              if (utils.getParams().public === 'true') {
+              if (this.params.public === 'true') {
                 options.urlParams = {'public': 'true'};
               }
               var optionsForHTML = {
@@ -10206,7 +10187,7 @@ $__System.register("23", ["24", "9", "1e", "1c", "1f", "4"], function($__export)
                 path: encodeURIComponent(title) + ".edtr",
                 data: htmlConvertor.JSONtoHTML(formInJSON).join("")
               };
-              if (utils.getParams().public === 'true') {
+              if (this.params.public === 'true') {
                 optionsForHTML.urlParams = {'public': 'true'};
               }
               pcapi.updateItem(options).then(function(result) {
@@ -10217,7 +10198,7 @@ $__System.register("23", ["24", "9", "1e", "1c", "1f", "4"], function($__export)
               });
             }, this));
           },
-          getEditor: function(title, options) {
+          getEditor: function(options, title) {
             utils.loading(true);
             var survey;
             pcapi.getEditor(options).then($.proxy(function(data) {
@@ -10245,22 +10226,22 @@ $__System.register("23", ["24", "9", "1e", "1c", "1f", "4"], function($__export)
               },
               detectLngQS: 'lang'
             }, $.proxy(function() {
-              this.survey = new Survey({
-                "element": this.element,
-                "subElement": this.subElement
-              });
+              if (this.params && this.params.survey) {
+                this.options.title = decodeURIComponent(this.params.survey);
+              }
+              this.survey = new Survey(this.options);
               this.renderSurvey();
               this.formSave();
             }, this));
           },
           renderSurvey: function() {
-            if ("sid" in utils.getParams() && utils.getParams().sid !== undefined) {
-              var title = decodeURIComponent(utils.getParams().survey);
+            if ("sid" in this.params && this.params.sid !== undefined) {
+              var title = decodeURIComponent(this.params.survey);
               var options = {
                 "remoteDir": "editors",
                 "item": utils.getParams().sid + ".json"
               };
-              this.getEditor(title, options);
+              this.getEditor(options, title);
             } else {
               this.survey.render();
             }
