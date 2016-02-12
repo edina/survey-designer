@@ -256,7 +256,7 @@ describe('#FieldGenerator', () => {
         $result.find('img').each(function(i){
             assert.equal(
                 $(this).attr('src'),
-                pcapi.buildFSUrl("editors",field.properties.options[i].image.src)
+                pcapi.buildUrl("editors",field.properties.options[i].image.src)
             );
         });
         //check if add checkbox button exists
@@ -411,7 +411,7 @@ describe('#FieldGenerator', () => {
         $result.find('img').each(function(i){
             assert.equal(
                 $(this).attr('src'),
-                pcapi.buildFSUrl("editors",field.properties.options[i].image.src)
+                pcapi.buildUrl("editors",field.properties.options[i].image.src)
             );
         });
         //check if add checkbox button exists
