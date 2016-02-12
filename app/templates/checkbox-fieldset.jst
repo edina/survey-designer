@@ -12,7 +12,7 @@
   <% properties.options.forEach(function(item, key){ %>
     <div class="form-inline">
       <% if (item.image) { %>
-        <img src="<%= pcapi.buildFSUrl('editors', item.image.src) %>" style="width: 50px;">
+        <img src="<%= pcapi.buildUrl('editors', item.image.src) %>" style="width: 50px;">
         <button type="file" class="btn btn-default btn-sm upload-image" aria-label="<%= translate("checkbox.upload") %>">
           <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
         </button>
