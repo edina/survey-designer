@@ -75,9 +75,15 @@ class FieldGenerator {
                 templateData.properties.step = templateData.properties.step || 1;
                 return rangeTemplate(templateData);
             case 'checkbox':
+                if(this.options && this.options.formsFolder) {
+                    templateData.properties.extraPath = this.options.formsFolder;
+                }
                 templateData.properties.options = templateData.properties.options || [];
                 return checkboxTemplate(templateData);
             case 'radio':
+                if(this.options && this.options.formsFolder) {
+                    templateData.properties.extraPath = this.options.formsFolder;
+                }
                 templateData.properties.options = templateData.properties.options || [];
                 return radioTemplate(templateData);
             case 'select':
