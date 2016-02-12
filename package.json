@@ -54,7 +54,7 @@
       "json": "github:systemjs/plugin-json@^0.1.0",
       "jst": "github:podio/plugin-jst@^0.1.2",
       "mocha": "npm:mocha@^2.3.4",
-      "pcapi": "npm:pcapi@0.1.2",
+      "pcapi": "npm:pcapi@0.1.4",
       "text": "github:systemjs/plugin-text@^0.0.4",
       "underscore": "npm:underscore@^1.8.3"
     },
@@ -68,7 +68,6 @@
   },
   "pre-commit": [
     "lint",
-    "validate",
-    "test"
+    "validate"
   ]
 }

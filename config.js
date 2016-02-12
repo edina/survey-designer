@@ -11,10 +11,11 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.35",
     "backbone": "npm:backbone@1.2.3",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
-    "chai": "npm:chai@3.4.1",
+    "chai": "npm:chai@3.5.0",
     "clean-css": "npm:clean-css@3.4.9",
     "core-js": "npm:core-js@1.2.6",
     "css": "github:systemjs/plugin-css@0.1.20",
+    "edina/survey-convertor": "github:edina/survey-convertor@0.1.6",
     "handlebars": "github:components/handlebars.js@4.0.3",
     "hbs": "github:davis/plugin-hbs@1.2.0",
     "i18next-client": "npm:i18next-client@1.11.4",
@@ -22,8 +23,8 @@ System.config({
     "jquery-ui": "github:components/jqueryui@1.11.4",
     "json": "github:systemjs/plugin-json@0.1.0",
     "jst": "github:podio/plugin-jst@0.1.2",
-    "mocha": "npm:mocha@2.3.4",
-    "pcapi": "npm:pcapi@0.1.2",
+    "mocha": "npm:mocha@2.4.5",
+    "pcapi": "npm:pcapi@0.1.4",
     "survey-convertor": "github:edina/survey-convertor@0.1.6",
     "text": "github:systemjs/plugin-text@0.0.4",
     "traceur": "github:jmcriffey/bower-traceur@0.0.88",
@@ -103,7 +104,7 @@ System.config({
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:chai@3.4.1": {
+    "npm:chai@3.5.0": {
       "assertion-error": "npm:assertion-error@1.0.1",
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "deep-eql": "npm:deep-eql@0.1.3",
@@ -157,7 +158,7 @@ System.config({
     "npm:jquery@1.11.2": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:mocha@2.3.4": {
+    "npm:mocha@2.4.5": {
       "css": "github:systemjs/plugin-css@0.1.20"
     },
     "npm:os-browserify@0.1.2": {
@@ -166,7 +167,7 @@ System.config({
     "npm:path-browserify@0.0.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:pcapi@0.1.2": {
+    "npm:pcapi@0.1.4": {
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
       "jquery": "npm:jquery@1.11.2",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
