@@ -105,7 +105,7 @@ class Convertor {
                 field.properties.options = createOptions(html, field.id);
                 break;
             case 'dtree':
-                var $a =  html.find('.dtree-url');
+                var $a = html.find('.dtree-url');
                 field.properties.filename = $a.text();
                 break;
             case 'image':

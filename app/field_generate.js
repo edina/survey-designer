@@ -93,11 +93,12 @@ class FieldGenerator {
                 }
                 return selectTemplate(templateData);
             case 'dtree':
-                if(this.options && this.options.formsFolder) {
-                    templateData.properties.filename = this.options.formsFolder +
+                var fnameURL = templateData.properties.filename;
+                if(this.options && this.options.formsFolder && templateData.properties.filename) {
+                    fnameURL = this.options.formsFolder +
                         "/"+templateData.properties.filename;
                 }
-                templateData.url = pcapi.buildUrl('editors', templateData.properties.filename);
+                templateData.url = pcapi.buildUrl('editors', fnameURL);
                 return dtreeTemplate(templateData);
             case 'image':
                 if(this.$el.find('.fieldcontain-image').length === 0) {
@@ -307,14 +308,15 @@ class FieldGenerator {
             // TODO: When we migrate to modules get the sid & publicEditor from core
             var index = this.findHighestElement('dtree') - 1;
             var id = "dtree-"+index;
-            var dtreeFname;
+            var dtreeFname, dtreeFnameURL;
             var ext = utils.getExtension(file.name);
             if(this.options && this.options.formsFolder) {
-                dtreeFname = this.options.formsFolder+"/"+this.options.formsFolder +
-                             '-' + index + '.' + ext;
+                dtreeFname = this.options.formsFolder +'-' + index + '.' + ext;
+                dtreeFnameURL = this.options.formsFolder+"/"+ dtreeFname;
             }
             else {
                 dtreeFname = file.name;
+                dtreeFnameURL = dtreeFname;
             }
 
             var options = {
@@ -336,9 +338,9 @@ class FieldGenerator {
                 utils.loading(false);
                 utils.giveFeedback("File was uploaded");
                 $("#"+id+" .btn-file").remove();
-                $("#"+id+" button").remove();
+                $("#"+id+" .upload-dtree").remove();
                 $("#"+id+" .btn-filename").html('<a class="dtree-url" '+
-                    'href="'+pcapi.buildUrl('editors', dtreeFname)+'">'+
+                    'href="'+pcapi.buildUrl('editors', dtreeFnameURL)+'">'+
                     dtreeFname+'</a>');
             }, this));
         }, this));
