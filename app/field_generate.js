@@ -321,7 +321,7 @@ class FieldGenerator {
 
             var options = {
                 "remoteDir": "editors",
-                "path": dtreeFname,
+                "path": dtreeFnameURL,
                 "file": file,
                 "contentType": false
             };

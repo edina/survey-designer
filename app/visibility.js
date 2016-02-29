@@ -177,7 +177,9 @@ class Visibility {
                 break;
             case 'select':
                 obj.operators = ['equal', 'notEqual', 'greaterThan', 'smallerThan'];
-                obj.answers = field.properties.options;
+                field.properties.options.forEach(function(v) {
+                    obj.answers.push(v.value);
+                });
                 break;
             case 'dtree':
                 break;
