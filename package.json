@@ -53,6 +53,8 @@
       "jquery-ui": "github:components/jqueryui@^1.11.4",
       "json": "github:systemjs/plugin-json@^0.1.0",
       "jst": "github:podio/plugin-jst@^0.1.2",
+      "leaflet": "github:Leaflet/Leaflet@^0.7.7",
+      "leaflet-draw": "npm:leaflet-draw@^0.2.3",
       "mocha": "npm:mocha@^2.3.4",
       "pcapi": "npm:pcapi@0.1.4",
       "text": "github:systemjs/plugin-text@^0.0.4",

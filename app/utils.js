@@ -1,4 +1,5 @@
 import modal from 'bootstrap';
+import modalTemplate from './templates/modal.jst!';
 
 function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
@@ -61,29 +62,34 @@ function loading(param){
     }
 }
 
+/**
+ * create a modal window with alert/feedback
+ * @param id of the modal window
+ * @param msg that will be contained on the body of the modal
+ * @returns html of the modal window
+ */
 function makeAlertModal(id, msg){
-    var body = [];
-    body.push('<div class="alert">');
-    body.push(msg);
-    body.push('</div>');
-    return makeModalWindow(id, 'Feedback', body);
+    let options = {
+        "id": id,
+        "title": "Feedback",
+        "body": msg,
+        "footer": "",
+        "size": ""
+    };
+    return makeModalWindow(options);
 }
 
-function makeModalWindow(id, title, body, footer){
-    var form = [];
-    form.push('<div class="modal fade" id="'+id+'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">');
-    form.push('<div class="modal-dialog" role="document">');
-    form.push('<div class="modal-content">');
-    form.push('<div class="modal-header">');
-    form.push('<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
-    form.push('<h4 class="modal-title" id="myModalLabel">'+title+'</h4>');
-    form.push('</div>');
-    form.push('<div class="modal-body">');
-    form = form.concat(body);
-    form.push('</div>');
-    form = form.concat(footer);
-    form.push('</div></div></div>');
-    return form;
+/**
+ * create a modal window
+ * @param options.id id of the div of the modal window
+ * @param options.title of the modal
+ * @param options.body body of the modal
+ * @param options.footer footer of the modal
+ * @param options.size the size of the modal (empty string or modal-lg)
+ * @returns html of the modal window
+ */
+function makeModalWindow(options){
+    return modalTemplate(options);
 }
 
 function numberFromId(id){
