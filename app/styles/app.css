@@ -198,3 +198,7 @@ body {
     min-width: 100%;
     display: block;
 }
+
+input[type="text"] {
+    width: 100%;
+}
