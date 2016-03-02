@@ -25,7 +25,8 @@
         "polygon-label": "πολύγωνο",
         "box-value": "box",
         "box-label": "κουτί",
-        "relate": "Σχέτισε"
+        "relate": "Σχέτισε",
+        "addAttribute": "Προσθήκη ιδιότητας"
     },
     "text": {
         "name": "κείμενο",

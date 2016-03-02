@@ -8,4 +8,24 @@
     <label class="radio"><input type="checkbox" name="geometryType" <%= checkGeometries("polygon", geoms) %> value="<%= translate("general.polygon-value") %>"><%= translate("general.polygon-label") %></label>
     <label class="radio"><input type="checkbox" name="geometryType" <%= checkGeometries("box", geoms) %> value="<%= translate("general.box-value") %>"><%= translate("general.box-label") %></label>
   </div>
+  <button type="button" id="add-attribute" class="btn btn-default"><%= translate("general.addAttribute") %></button>
+  <div id="attributes">
+    <% if (typeof(extra) !== "undefined") { %>
+    <% extra.forEach(function(item, index){ %>
+    <% for (var key in item){ %>
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" class="form-control" name="attribute-key" placeholder="Add a key value" value="<%= key %>">
+        </div>
+        <div class="col-md-2">
+            ------------>
+        </div>
+        <div class="col-md-6">
+            <input type="text" class="form-control"name="attribute-value" placeholder="Add an attribute" value="<%= item[key] %>">
+        </div>
+    </div>
+    <% } %>
+    <% }); %>
+    <% } %>
+  </div>
 </fieldset>

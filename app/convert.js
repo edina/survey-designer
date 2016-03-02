@@ -18,8 +18,20 @@ class Convertor {
         form.geoms = [];
         form.recordLayout = {"headers": []};
         form.fields = [];
+        form.extra = [];
         $html.find('input[name="geometryType"]:checked').each(function(){
             form.geoms.push($(this).val());
+        });
+        var values = [];
+        $html.find('input[name="attribute-value"]').each(function(){
+            values.push($(this).val());
+        });
+        $html.find('input[name="attribute-key"]').each(function(index, element){
+            var value = $(element).val();
+            var extra = {
+                value: values[index]
+            };
+            form.extra.push(extra);
         });
         $html.find('input[name="header"]:checked').each(function(){
             form.recordLayout.headers.push($(this).closest(".fieldcontain").attr("id"));

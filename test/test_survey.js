@@ -43,7 +43,8 @@ describe('Survey', function() {
           "recordLayout": {
               "headers": []
           },
-          "fields":[]
+          "fields":[],
+          "extra":[]
         };
         survey.render();
         var formInJSON = convertor.getForm($("."+options.subElement));

@@ -16,6 +16,7 @@ import warningTemplate from './templates/warning-fieldset.jst!';
 import dtreeTemplate from './templates/dtree-fieldset.jst!';
 import sectionTemplate from './templates/section-fieldset.jst!';
 import addfieldTemplate from './templates/add-button.jst!';
+import addAttributeTemplate from './templates/add-attribute.jst!';
 import * as utils from './utils';
 import * as save from './save';
 import DataStorage from './data';
@@ -161,6 +162,14 @@ class FieldGenerator {
         this.enabledTreeEvents();
         this.enableRemoveField();
         this.enableAddField();
+        this.enableAddAttribute();
+    }
+
+    enableAddAttribute() {
+        this.$el.off("click", "#add-attribute");
+        this.$el.on("click", "#add-attribute", $.proxy(function(event){
+            $("#attributes").append(addAttributeTemplate());
+        }, this));
     }
 
     /**
