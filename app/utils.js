@@ -37,7 +37,7 @@ function getParams(){
 
 function giveFeedback(msg){
     if($("#feedback").length ===0){
-        $("body").append(makeAlertModal("feedback", msg).join(""));
+        $("body").append(makeAlertModal("feedback", msg));
     }else{
         $("#feedback").find('.alert').html(msg);
     }

@@ -224,7 +224,14 @@ class Visibility {
             footer.push('<button type="button" class="btn btn-primary"'+
               ' id="save-rule" data-dismiss="modal">'+i18n.t("save")+'</button>');
             footer.push('</div');
-            $("body").append(utils.makeModalWindow(id, "Visibility Rules", body, footer).join(""));
+            var options = {
+                id: id,
+                title: "Visibility Rules",
+                body: body,
+                footer: footer,
+                size: ""
+            };
+            $("body").append(utils.makeModalWindow(options));
         }
         $("#"+id).modal("show");
         //append questions
