@@ -4,6 +4,7 @@ import * as save from './save';
 import pcapi from 'pcapi';
 import Survey from './survey';
 import Convertor from 'survey-convertor';
+import Mapper from './map';
 
 /* global cfg, i18n */
 
@@ -100,6 +101,8 @@ export class SurveyView extends Backbone.View {
             }
             this.survey = new Survey(this.options);
             this.renderSurvey();
+            let map = new Mapper();
+            map.initialize();
             this.formSave();
         }, this));
     }
