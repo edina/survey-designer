@@ -32,14 +32,9 @@ class Mapper {
                 utils.makeModalWindow(options));
             let d1 = document.getElementsByClassName('fieldcontain-general');
             d1[0].insertAdjacentHTML('beforeEnd', modalButton);
-            //var height = window.innerHeight;
-            //console.log(height)
-            //document.getElementById('map-parent').setAttribute("style","width:"+
-        //        height+"px");
         }
 
         $('#'+modalId).on('shown.bs.modal', $.proxy(function (e) {
-            console.log('xxxxxxxxxx')
             this.map.invalidateSize(true);
         }, this));
     }
