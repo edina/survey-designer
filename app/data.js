@@ -6,6 +6,12 @@ class DataStorage {
         }
     }
 
+    addField(key, value){
+        var data = this.getData();
+        data[key] = value;
+        this.setData(data);
+    }
+
     /**
     * save data on localStorage
     * @param {Object} data a json object of the data
