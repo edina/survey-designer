@@ -25,4 +25,19 @@ describe('#DataStorage', () => {
         var type = "checkbox";
         console.log(dataStorage.searchForFieldProperty("type", type));
     });
+
+    it('addField', () => {
+        var geometry = {
+		    "type": "Polygon"
+        };
+        dataStorage.addField("geometry", geometry);
+        var data = dataStorage.getData();
+        assert.deepEqual(data.geometry, geometry);
+    });
+
+    it('removeField', () => {
+        dataStorage.removeField("geometry");
+        var data = dataStorage.getData();
+        assert.isUndefined(data.geometry, "No geometry is defined");
+    });
 });

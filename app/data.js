@@ -6,12 +6,6 @@ class DataStorage {
         }
     }
 
-    addField(key, value){
-        var data = this.getData();
-        data[key] = value;
-        this.setData(data);
-    }
-
     /**
     * save data on localStorage
     * @param {Object} data a json object of the data
@@ -71,6 +65,31 @@ class DataStorage {
         var data = this.getData();
         var index = data.fields.findIndex(x => x.id === id);
         data.fields[index].properties[key] = value;
+        this.setData(data);
+    }
+
+    /**
+     * add field on data and save it on localstorage
+     * @param key
+     * @param value
+     */
+    addField(key, value) {
+        var data = this.getData();
+        data[key] = value;
+        this.setData(data);
+    }
+
+    getField(key) {
+        return this.getData()[key];
+    }
+
+    /**
+     * remove field from data and save it to localstorage
+     * @param key
+     */
+    removeField(key) {
+        var data = this.getData();
+        delete data[key];
         this.setData(data);
     }
 }

@@ -7,7 +7,8 @@ import DataStorage from './data';
 
 class Mapper {
     constructor () {
-        this.geometry;
+        this.dataStorage = new DataStorage();
+        this.bbox;
         this.map;
     }
 
@@ -17,7 +18,6 @@ class Mapper {
     }
 
     createModalMap () {
-        let dataStorage = new DataStorage();
         let modalId = "map-modal";
         let modalButton = '<button type="button" class="btn btn-primary"'+
             ' data-toggle="modal" data-target="#'+modalId+'">'+
@@ -28,7 +28,7 @@ class Mapper {
                 'id': modalId,
                 'title': 'Map',
                 'body': '<div id="map-parent"><div id="map"></div></div>',
-                'footer': '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" id="save-bbox">Save changes</button>',
+                'footer': '',
                 "size": "modal-lg"
             };
             document.body.insertAdjacentHTML('afterbegin',
@@ -39,12 +39,6 @@ class Mapper {
 
         $('#'+modalId).on('shown.bs.modal', $.proxy(function (e) {
             this.map.invalidateSize(false);
-        }, this));
-
-        $(document).off('click', '#save-bbox');
-        $(document).on('click', '#save-bbox', $.proxy(function(){
-            dataStorage.addField("geometry", this.geometry);
-            $('#'+modalId).modal('hide');
         }, this));
     }
 
@@ -77,10 +71,22 @@ class Mapper {
         map.on('draw:created', $.proxy(function (e) {
             if(Object.keys(drawnItems._layers).length === 0) {
                 var layer = e.layer;
-                this.geometry = layer.toGeoJSON().geometry;
+                this.dataStorage.addField("bbox", layer.toGeoJSON());
                 drawnItems.addLayer(layer);
             }
         }, this));
+        //if layer already exists, delete is not working by clicking on it
+        //so a solution was to to clear the layer after clicking save on delete
+        map.on('draw:deleted', $.proxy(function(e){
+            this.dataStorage.removeField("bbox");
+            drawnItems.clearLayers();
+        }, this));
+
+        this.bbox = this.dataStorage.getField("bbox");
+        if(this.bbox) {
+            var layer = L.geoJson(this.bbox);
+            drawnItems.addLayer(layer);
+        }
         this.map = map;
     }
 }
