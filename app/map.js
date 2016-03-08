@@ -33,8 +33,9 @@ class Mapper {
             };
             document.body.insertAdjacentHTML('afterbegin',
                 utils.makeModalWindow(options));
-            let d1 = document.getElementsByClassName('fieldcontain-general');
-            d1[0].insertAdjacentHTML('beforeEnd', modalButton);
+            let d1 = document.getElementsByClassName('fieldcontain-general')[0]
+                .getElementsByClassName('add-button');
+            d1[0].insertAdjacentHTML('beforeBegin', modalButton);
         }
 
         $('#'+modalId).on('shown.bs.modal', $.proxy(function (e) {
