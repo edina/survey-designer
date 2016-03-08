@@ -4897,6 +4897,10 @@ $__System.registerDynamic("13", [], true, function($__require, exports, module) 
       properties.options.forEach(function(item, key) {
         __p += '\n    <div class="form-inline">\n      ';
         if (item.image) {
+          __p += '\n        ';
+          if (properties.extraPath) {
+            item.image.src = properties.extraPath + '/' + item.image.src;
+          }
           __p += '\n        <img src="' + ((__t = (pcapi.buildUrl('editors', item.image.src))) == null ? '' : __t) + '" style="width: 50px;">\n        <button type="file" class="btn btn-default btn-sm upload-image" aria-label="' + ((__t = (translate("radio.upload"))) == null ? '' : __t) + '">\n          <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>\n        </button>\n      ';
         }
         __p += '\n      <input type="text" value="' + ((__t = (item.value)) == null ? '' : __t) + '" name="' + ((__t = (id)) == null ? '' : __t) + '" id="' + ((__t = (id)) == null ? '' : __t) + '-' + ((__t = (increase(key))) == null ? '' : __t) + '" class="radio">\n      <button type="button" class="btn btn-default btn-sm remove-radio" aria-label="' + ((__t = (translate("radio.remove"))) == null ? '' : __t) + '">\n        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>\n      </button>\n      <input type="file" class="image-upload" id="upload-' + ((__t = (id)) == null ? '' : __t) + '" style="display: none;">\n    </div>\n  ';
@@ -4926,6 +4930,10 @@ $__System.registerDynamic("14", [], true, function($__require, exports, module) 
       properties.options.forEach(function(item, key) {
         __p += '\n    <div class="form-inline">\n      ';
         if (item.image) {
+          __p += '\n        ';
+          if (properties.extraPath) {
+            item.image.src = properties.extraPath + '/' + item.image.src;
+          }
           __p += '\n        <img src="' + ((__t = (pcapi.buildUrl('editors', item.image.src))) == null ? '' : __t) + '" style="width: 50px;">\n        <button type="file" class="btn btn-default btn-sm upload-image" aria-label="' + ((__t = (translate("checkbox.upload"))) == null ? '' : __t) + '">\n          <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>\n        </button>\n      ';
         }
         __p += '\n      <input type="text" value="' + ((__t = (item.value)) == null ? '' : __t) + '" name="' + ((__t = (id)) == null ? '' : __t) + '" id="' + ((__t = (id)) == null ? '' : __t) + '-' + ((__t = (increase(key))) == null ? '' : __t) + '" class="checkbox">\n      <button type="button" class="btn btn-default btn-sm remove-checkbox" aria-label="' + ((__t = (translate("checkbox.remove"))) == null ? '' : __t) + '">\n        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>\n      </button>\n      <input type="file" class="image-upload" id="upload-' + ((__t = (id)) == null ? '' : __t) + '" style="display: none;">\n    </div>\n  ';
@@ -7118,9 +7126,15 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
                 templateData.properties.step = templateData.properties.step || 1;
                 return rangeTemplate(templateData);
               case 'checkbox':
+                if (this.options && this.options.formsFolder) {
+                  templateData.properties.extraPath = this.options.formsFolder;
+                }
                 templateData.properties.options = templateData.properties.options || [];
                 return checkboxTemplate(templateData);
               case 'radio':
+                if (this.options && this.options.formsFolder) {
+                  templateData.properties.extraPath = this.options.formsFolder;
+                }
                 templateData.properties.options = templateData.properties.options || [];
                 return radioTemplate(templateData);
               case 'select':
@@ -7130,10 +7144,11 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
                 }
                 return selectTemplate(templateData);
               case 'dtree':
-                if (this.options && this.options.formsFolder) {
-                  templateData.properties.filename = this.options.formsFolder + "/" + templateData.properties.filename;
+                var fnameURL = templateData.properties.filename;
+                if (this.options && this.options.formsFolder && templateData.properties.filename) {
+                  fnameURL = this.options.formsFolder + "/" + templateData.properties.filename;
                 }
-                templateData.url = pcapi.buildUrl('editors', templateData.properties.filename);
+                templateData.url = pcapi.buildUrl('editors', fnameURL);
                 return dtreeTemplate(templateData);
               case 'image':
                 if (this.$el.find('.fieldcontain-image').length === 0) {
@@ -7280,12 +7295,15 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
             $uploadElement.click($.proxy(function() {
               var index = this.findHighestElement('dtree') - 1;
               var id = "dtree-" + index;
-              var dtreeFname;
+              var dtreeFname,
+                  dtreeFnameURL;
               var ext = utils.getExtension(file.name);
               if (this.options && this.options.formsFolder) {
-                dtreeFname = this.options.formsFolder + "/" + this.options.formsFolder + '-' + index + '.' + ext;
+                dtreeFname = this.options.formsFolder + '-' + index + '.' + ext;
+                dtreeFnameURL = this.options.formsFolder + "/" + dtreeFname;
               } else {
                 dtreeFname = file.name;
+                dtreeFnameURL = dtreeFname;
               }
               var options = {
                 "remoteDir": "editors",
@@ -7301,8 +7319,8 @@ $__System.register("1b", ["3", "1a", "1c", "1d", "18", "17", "16", "15", "14", "
                 utils.loading(false);
                 utils.giveFeedback("File was uploaded");
                 $("#" + id + " .btn-file").remove();
-                $("#" + id + " button").remove();
-                $("#" + id + " .btn-filename").html('<a class="dtree-url" ' + 'href="' + pcapi.buildUrl('editors', dtreeFname) + '">' + dtreeFname + '</a>');
+                $("#" + id + " .upload-dtree").remove();
+                $("#" + id + " .btn-filename").html('<a class="dtree-url" ' + 'href="' + pcapi.buildUrl('editors', dtreeFnameURL) + '">' + dtreeFname + '</a>');
               }, this));
             }, this));
           },
