@@ -7,6 +7,7 @@ import i18next from 'i18next-client';
 import './styles/app.css!';
 import _ from "underscore";
 import saveTemplate from './templates/save-menu.jst!';
+import Mapper from './map';
 
 /* global i18n */
 
@@ -23,6 +24,7 @@ class Survey {
         this.convertor = new Convertor();
         this.initialize();
         this.enableAutoSave();
+        this.map = new Mapper();
     }
 
     /**
@@ -70,6 +72,7 @@ class Survey {
         };
 
         fieldGenerator.render(generalObj);
+        this.map.initialize();
     }
 
     //TO-DO: investigate if title is needed or should be picked up by the HTMLtoJSON function
@@ -90,6 +93,8 @@ class Survey {
         }
         var dataStorage = new DataStorage();
         dataStorage.setData(data);
+        //the layout is defining which fields will be used on the displayed list
+        //of records on the device
         this.options.layout = data.recordLayout;
         var fieldGenerator = new FieldGenerator(this.renderEl, this.options);
 
@@ -103,6 +108,7 @@ class Survey {
         data.fields.forEach(function(field, index){
             fieldGenerator.render(field);
         });
+        this.map.initialize();
     }
 
 }
