@@ -1,5 +1,6 @@
 import Backbone from 'backbone';
 import { SurveyView } from './surveyView';
+import { UploadLayerView } from './uploadLayerView';
 
 
 export class SurveyRouter extends Backbone.Router {
@@ -7,7 +8,8 @@ export class SurveyRouter extends Backbone.Router {
   constructor () {
     super();
     this.routes = {
-      'survey-designer': 'survey'
+      'survey-designer': 'survey',
+      'upload-layer': 'uploadLayers'
     };
     this._bindRoutes();
   }
@@ -15,5 +17,9 @@ export class SurveyRouter extends Backbone.Router {
   survey () {
     console.log('Route#survey');
     new SurveyView();
+  }
+
+  uploadLayers () {
+    new UploadLayerView();
   }
 }

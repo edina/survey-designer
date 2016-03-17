@@ -343,7 +343,7 @@ class FieldGenerator {
             }
 
             utils.loading(true);
-            pcapi.uploadFile(options, "PUT").then($.proxy(function(result, data){
+            pcapi.uploadFile(options, "PUT").then($.proxy(function(data){
                 utils.loading(false);
                 utils.giveFeedback("File was uploaded");
                 $("#"+id+" .btn-file").remove();

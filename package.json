@@ -55,6 +55,7 @@
       "jst": "github:podio/plugin-jst@^0.1.2",
       "leaflet": "github:Leaflet/Leaflet@^0.7.7",
       "leaflet-draw": "npm:leaflet-draw@^0.2.3",
+      "leaflet-omnivore": "npm:leaflet-omnivore@^0.3.2",
       "mocha": "npm:mocha@^2.3.4",
       "pcapi": "npm:pcapi@0.1.4",
       "text": "github:systemjs/plugin-text@^0.0.4",

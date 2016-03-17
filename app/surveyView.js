@@ -20,6 +20,8 @@ export class SurveyView extends Backbone.View {
             this.options.formsFolder = this.params.sid;
             this.options.copyToPublic = (this.params.public === 'true');
         }
+        $('#header-menu li').removeClass('active');
+        $('#header-menu li a[href="#/survey-designer"]').parent().addClass('active');
         this.render();
     }
 

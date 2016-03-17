@@ -1,37 +1,42 @@
+html, body, #container{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
 body {
-  padding-top: 70px;
-  padding-bottom: 30px;
+  padding-top: 60px;
   background-color: #e4e1da;
 }
 
 .navbar-inverse{
-  background-image: linear-gradient(to bottom,#2F4820 0,#2F4820 100%);
+    background-image: linear-gradient(to bottom,#2F4820 0,#2F4820 100%);
 }
 
 .theme-showcase .navbar .container {
-  width: auto;
+    width: auto;
 }
 
 .mobile{
-  width: 80%;
-  height: 800px;
-  background-color: #FFFFFF;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-  padding: 24px 20px 0px 20px;
-  float: none;
-  margin: 0 auto;
+    width: 80%;
+    height: 800px;
+    background-color: #FFFFFF;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    padding: 24px 20px 0px 20px;
+    float: none;
+    margin: 0 auto;
 }
 
 #myNav{
-  position: fixed;
+    position: fixed;
 }
 
 .mobile-content{
-  margin-top: 60px;
-  padding: 25px;
-  height: 80%;
+    margin-top: 60px;
+    padding: 25px;
+    height: 80%;
 }
 
 /** fieldset */
@@ -58,103 +63,98 @@ body {
 }
 
 #dragme{
-  position: absolute;
-  padding-left:0px;
+    position: absolute;
+    padding-left:0px;
 }
 #dragme li{
-  list-style-type: none;
+    list-style-type: none;
 }
 
 /*** menu ***/
 .menu-icon{
-  width: 70px;
-  height: 70px;
-  zoom:0.5;
-  padding: 5px;
-  -moz-transform:scale(0.5);
-  -moz-transform-origin: 0 0;
+    width: 70px;
+    height: 70px;
+    zoom:0.5;
+    padding: 5px;
+    -moz-transform:scale(0.5);
+    -moz-transform-origin: 0 0;
 }
 
 .icon-text{
-  background-image: url("images/menu-icon.png");
-  background-position: -235px 15px;
+    background-image: url("images/menu-icon.png");
+    background-position: -235px 15px;
 }
 
 .icon-range{
-  background-image: url("images/menu-icon.png");
-  background-position: -230px -80px;
+    background-image: url("images/menu-icon.png");
+    background-position: -230px -80px;
 }
 
 .icon-textarea{
-  background-image: url("images/menu-icon.png");
-  background-position: -235px -185px;
+    background-image: url("images/menu-icon.png");
+    background-position: -235px -185px;
 }
 
 .icon-checkbox{
-  background-image: url("images/menu-icon.png");
-  background-position: -235px -285px;
+    background-image: url("images/menu-icon.png");
+    background-position: -235px -285px;
 }
 
 .icon-radio{
-  background-image: url("images/menu-icon.png");
-  background-position: -235px -385px;
+    background-image: url("images/menu-icon.png");
+    background-position: -235px -385px;
 }
 
 .icon-select{
-  background-image: url("images/menu-icon.png");
-  background-position: -235px -485px;
+    background-image: url("images/menu-icon.png");
+    background-position: -235px -485px;
 }
 
 .icon-image{
-  background-image: url("images/menu-icon.png");
-  background-position: -235px -585px;
+    background-image: url("images/menu-icon.png");
+    background-position: -235px -585px;
 }
 
 .icon-audio{
-  background-image: url("images/menu-icon.png");
-  background-position: -235px -805px;
+    background-image: url("images/menu-icon.png");
+    background-position: -235px -805px;
 }
 
 .icon-image-los{
-  background-image: url("images/menu-icon.png");
-  background-position: -227px -696px;
+    background-image: url("images/menu-icon.png");
+    background-position: -227px -696px;
 }
 
 .icon-warning{
-  background-image: url("images/menu-icon.png");
-  background-position: -235px -905px;
+    background-image: url("images/menu-icon.png");
+    background-position: -235px -905px;
 }
 
 .icon-help{
-  background-image: url("images/menu-icon.png");
-  background-position: -235px -1005px;
+    background-image: url("images/menu-icon.png");
+    background-position: -235px -1005px;
 }
 
 .icon-dtree{
-  background-image: url("images/menu-icon.png");
-  background-position: -235px -1105px;
+    background-image: url("images/menu-icon.png");
+    background-position: -235px -1105px;
 }
 
 #header{
-  height: 50px;
+    height: 50px;
 }
 
 #content{
-
-    /*z-index: 10;
     height: 100%;
-    margin: 0 auto;
     width: 100%;
-    padding-right: 0px;
-    padding-left: 0px;
-    overflow-y: scroll;
-    overflow-x: hidden;*/
+    overflow: hidden;
 }
 
 .btn-file {
     position: relative;
     overflow: hidden;
 }
+
 .btn-file input[type=file] {
     position: absolute;
     top: 0;
@@ -191,14 +191,32 @@ body {
     position: relative;
 }
 
-#map {
-    width: 100px;
-    height:100px;
-    min-height: 100%;
-    min-width: 100%;
-    display: block;
-}
-
 input[type="text"] {
     width: 100%;
+}
+
+#sidebar {
+    width: 240px;
+    height: 100%;
+    max-width: 100%;
+    float: left;
+    -webkit-transition: all 0.7s ease-out;
+    -moz-transition: all 0.7s ease-out;
+    transition: all 0.7s ease-out;
+    box-shadow: 0 10px 10px rgba(0,0,0,0.5);
+    background-color: #ffffff;
+}
+
+#map, #mapLayer {
+    width: auto;
+    height: 100%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+#showHidePanel {
+    position: absolute;
+    left: 10px;
+    top: 40px;
+    z-index: 1000;
+    width: 50px;
 }

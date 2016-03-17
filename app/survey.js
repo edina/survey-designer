@@ -7,7 +7,7 @@ import i18next from 'i18next-client';
 import './styles/app.css!';
 import _ from "underscore";
 import saveTemplate from './templates/save-menu.jst!';
-import Mapper from './map';
+import BBox from './bbox';
 
 /* global i18n */
 
@@ -21,10 +21,8 @@ class Survey {
         this.options = options;
         this.title = options.title;
         this.renderEl = "."+options.subElement;
-        this.convertor = new Convertor();
         this.initialize();
         this.enableAutoSave();
-        this.map = new Mapper();
     }
 
     /**
@@ -43,6 +41,10 @@ class Survey {
           $mobile.height($(window).height() - $("#header").height() - 84);
           $mobileContent.height($mobile.height() - 100 - $myNav.height());
           $myNav.width($mobile.width());
+          let options = {
+              id: 'map'
+          };
+          this.bbox = new BBox(options);
     }
 
     /**
@@ -72,7 +74,7 @@ class Survey {
         };
 
         fieldGenerator.render(generalObj);
-        this.map.initialize();
+        this.bbox.initialize();
     }
 
     //TO-DO: investigate if title is needed or should be picked up by the HTMLtoJSON function
@@ -83,12 +85,13 @@ class Survey {
     */
     renderExistingSurvey(title, data) {
         //if data is html then convert it to json
+        let convertor = new Convertor();
         if (typeof data === 'string') {
             if(utils.isJsonString(data)) {
                 data = JSON.parse(data);
             }
             else{
-                data = this.convertor.HTMLtoJSON (data, this.title);
+                data = convertor.HTMLtoJSON (data, this.title);
             }
         }
         var dataStorage = new DataStorage();
@@ -108,7 +111,7 @@ class Survey {
         data.fields.forEach(function(field, index){
             fieldGenerator.render(field);
         });
-        this.map.initialize();
+        this.bbox.initialize();
     }
 
 }
