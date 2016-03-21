@@ -12,7 +12,7 @@ class BBox {
     initialize () {
         let modalId = "map-modal";
         let modalButton = '<button type="button" class="btn btn-primary"'+
-            ' data-toggle="modal" data-target="#'+modalId+'">'+
+            ' data-toggle="modal" id="define-bbox" data-target="#'+modalId+'">'+
             'Define bbox</button>';
 
         //initialize only once

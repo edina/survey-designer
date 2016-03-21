@@ -80,7 +80,11 @@ class DataStorage {
     }
 
     getField(key) {
-        return this.getData()[key];
+        let data = this.getData();
+        if(data){
+            return data[key];
+        }
+        return '';
     }
 
     /**
