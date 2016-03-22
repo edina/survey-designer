@@ -1,6 +1,9 @@
 {
 	"title": "5210 ‘’Arborescent matorral with Juniperus spp.’’ – all clusters",
 	"geoms": ["point"],
+	"extra": {
+		"foo": "bar"
+	},
 	"fields": [{
 		"label": "Plot code",
 		"type": "text",
