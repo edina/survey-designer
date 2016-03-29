@@ -328,7 +328,7 @@ describe('surveyConvertor#fieldToJSON', function() {
     });
 });
 
-describe('surveyConvertor#HTMLtoJSON', function() {
+/*describe('surveyConvertor#HTMLtoJSON', function() {
     var convertor;
     beforeEach(function() {
         convertor = new Convertor();
@@ -340,4 +340,4 @@ describe('surveyConvertor#HTMLtoJSON', function() {
     });
 
 
-});
+});*/
