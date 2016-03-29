@@ -72,6 +72,8 @@ class Survey {
           type: "general",
           title: this.title
         };
+        var dataStorage = new DataStorage();
+        dataStorage.setData({});
 
         fieldGenerator.render(generalObj);
         this.bbox.initialize();
