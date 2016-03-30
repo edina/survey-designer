@@ -13,7 +13,7 @@ function saveData(element) {
     //merging existing changes with the json that comes from the form
     //mostly applied on visibility rules that have been changed
     if (data !== null) {
-        formInJSON = Object.assign(formInJSON, data);
+        formInJSON = Object.assign(data, formInJSON);
     }
     dataStorage.setData(formInJSON);
     return formInJSON;
