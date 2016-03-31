@@ -4261,6 +4261,368 @@ $__System.registerDynamic("2", [], true, function($__require, exports, module) {
   var global = this,
       __define = global.define;
   global.define = undefined;
+  module.exports = function(obj) {
+    var __t,
+        __p = '',
+        __j = Array.prototype.join,
+        print = function() {
+          __p += __j.call(arguments, '');
+        };
+    with (obj || {}) {
+      __p += '<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">Features</h3>\n    </div>\n    <div class="panel-body">\n        <div class="row">\n            <div class="col-xs-12 col-md-12">\n                <button type="file" class="btn btn-default btn-sm upload-layer" aria-label="Upload radio">\n                    <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Upload a layer\n                </button>\n                <input type="file" class="layer-upload" style="display: none;">\n            </div>\n        </div>\n        <div class="row">\n            <div class="col-xs-8 col-md-8">\n                <input type="text" class="form-control search" placeholder="Filter">\n                </div>\n            <div class="col-xs-4 col-md-4">\n                <button type="button" class="btn btn-primary pull-right sort asc" data-sort="feature-name" id="sort-btn"><i class="fa fa-sort"></i>&nbsp;&nbsp;Sort</button>\n            </div>\n        </div>\n    </div>\n    <div id="features"></div>\n</div>\n';
+    }
+    return __p;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+$__System.register("3", ["4", "5", "6", "7", "2"], function($__export) {
+  "use strict";
+  var __moduleName = "3";
+  var Backbone,
+      utils,
+      pcapi,
+      Mapper,
+      sidePanelTemplate,
+      UploadLayerView;
+  return {
+    setters: [function($__m) {
+      Backbone = $__m.default;
+    }, function($__m) {
+      utils = $__m;
+    }, function($__m) {
+      pcapi = $__m.default;
+    }, function($__m) {
+      Mapper = $__m.default;
+    }, function($__m) {
+      sidePanelTemplate = $__m.default;
+    }],
+    execute: function() {
+      UploadLayerView = function($__super) {
+        function UploadLayerView() {
+          $traceurRuntime.superConstructor(UploadLayerView).apply(this, arguments);
+        }
+        return ($traceurRuntime.createClass)(UploadLayerView, {
+          initialize: function() {
+            var params = utils.getParams();
+            this.options = {};
+            if (params) {
+              this.options.copyToPublic = (params.public === 'true');
+            }
+            pcapi.init({
+              "url": cfg.baseurl,
+              "version": cfg.version
+            });
+            pcapi.setCloudLogin(cfg.userid);
+            $('#header-menu li').removeClass('active');
+            $('#header-menu li a[href="#/upload-layer"]').parent().addClass('active');
+            this.mapper = new Mapper({id: 'mapLayer'});
+            this.render();
+          },
+          createLayersList: function() {
+            utils.loading(true);
+            var options = {"remoteDir": "features"};
+            pcapi.getItems(options).then($.proxy(function(data) {
+              utils.loading(false);
+              var list = '<ul class="list-group">';
+              data.metadata.forEach(function(element, index) {
+                var layerName = element.replace("/features//", "");
+                list += '<li class="list-group-item"> ' + '<input type="checkbox" class="map-layer" value="' + layerName + '">' + layerName + '</li>';
+              });
+              list += '</ul>';
+              $("#features").html(list);
+            }, this));
+          },
+          render: function() {
+            var mapId = 'mapLayer';
+            $("#content").html('<div id="sidebar"></div>' + '<div id="' + mapId + '">' + '<button type="button" class="btn-custom btn btn-default popover-hover" ' + 'id="showHidePanel" data-content="Hide/Reveal Search Panel">' + '<span class="glyphicon glyphicon-chevron-left"></span>' + '</button>' + '</div>');
+            this.map = this.mapper.initMap();
+            this.enableEvents();
+            $("#sidebar").html(sidePanelTemplate());
+            this.createLayersList();
+          },
+          displayLayer: function() {
+            $(document).off('change', '.map-layer');
+            $(document).on('change', '.map-layer', $.proxy(function(event) {
+              var $currentTarget = $(event.currentTarget);
+              var layerName = $currentTarget.val();
+              if ($currentTarget.is(":checked")) {
+                this.mapper.addKMLLayer(layerName, pcapi.buildUrl('features', layerName));
+              } else {
+                this.mapper.removeLayer(layerName);
+              }
+            }, this));
+          },
+          enableEvents: function() {
+            this.showHidePanel();
+            this.uploadLayer();
+            this.displayLayer();
+          },
+          showHidePanel: function() {
+            $(document).off('click', "#showHidePanel");
+            $(document).on('click', "#showHidePanel", $.proxy(function() {
+              $('#sidebar').toggle();
+              $("#showHidePanel span").toggleClass("glyphicon-chevron-left glyphicon-chevron-right");
+              this.map.invalidateSize();
+              return false;
+            }, this));
+          },
+          uploadLayer: function() {
+            $(document).off("click", ".upload-layer");
+            $(document).on("click", ".upload-layer", function() {
+              $(this).next().trigger('click');
+            });
+            $(document).off("change", ".layer-upload");
+            $(document).on("change", ".layer-upload", $.proxy(function(e) {
+              var files = e.target.files || e.dataTransfer.files;
+              var file = files[0];
+              var path = "";
+              var options = {
+                "remoteDir": "features",
+                "path": path + file.name,
+                "file": file,
+                "contentType": false
+              };
+              if (this.options.copyToPublic) {
+                options.urlParams = {'public': 'true'};
+              }
+              utils.loading(true);
+              pcapi.uploadFile(options, "PUT").then($.proxy(function(data) {
+                utils.loading(false);
+                utils.giveFeedback(data.msg);
+                var name = utils.getFilenameFromURL(data.path);
+                console.log(name);
+              }, this));
+            }, this));
+          }
+        }, {}, $__super);
+      }(Backbone.View);
+      $__export("UploadLayerView", UploadLayerView);
+    }
+  };
+});
+
+$__System.register("8", ["9"], function($__export) {
+  "use strict";
+  var __moduleName = "8";
+  var $,
+      Convertor;
+  return {
+    setters: [function($__m) {
+      $ = $__m.default;
+    }],
+    execute: function() {
+      Convertor = function() {
+        function Convertor() {
+          this.form = {};
+        }
+        return ($traceurRuntime.createClass)(Convertor, {
+          encodeEntities: function(text) {
+            return $('<div />').text(text).html();
+          },
+          JSONtoHTML: function(form) {
+            var self = this;
+            if (form) {
+              this.form = form;
+            }
+            var html = [];
+            this.form.title = this.form.title.replace('"', '&quot;');
+            html.push('<form data-title=\"' + this.form.title + '\" data-ajax=\"false\" novalidate>\n');
+            html.push('<div class="fieldcontain fieldcontain-geometryType"' + ' id="fieldcontain-geometryType" data-cobweb-type="geometryType">\n');
+            html.push('<input type="hidden" data-record-geometry="' + this.form.geoms.join(",") + '" value="' + this.form.geoms.join(",") + '">\n');
+            html.push('</div>\n');
+            this.form = this.form || [];
+            this.form.fields.forEach(function(value) {
+              var key = value.id;
+              var properties = value.properties;
+              var splits = key.split("-");
+              var type = splits[1];
+              var n = splits[2];
+              var required = "";
+              if (value.required) {
+                required = 'required="required"';
+              }
+              var persistent = "";
+              if (value.persistent) {
+                persistent = 'data-persistent="on"';
+              }
+              var visibility = "";
+              if (properties.visibility) {
+                visibility = 'data-visibility="' + properties.visibility.id.replace("fieldcontain-", "") + ' ' + properties.visibility.operator + ' \'' + properties.visibility.answer + '\'"';
+              }
+              value.label = self.encodeEntities(value.label);
+              switch (type) {
+                case 'text':
+                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
+                  html.push('<label for="form-' + type + '-' + n + '">' + value.label + '</label>\n');
+                  html.push('<input name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" type="text" ' + required + ' placeholder="' + properties.placeholder + '" maxlength="' + properties["max-chars"] + '" value="' + properties.prefix + '">\n');
+                  html.push('</div>\n');
+                  break;
+                case 'textarea':
+                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
+                  html.push('<label for="form-' + type + '-' + n + '">' + value.label + '</label>\n');
+                  html.push('<textarea name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" ' + required + ' placeholder="' + properties.placeholder + '"></textarea>\n');
+                  html.push('</div>\n');
+                  break;
+                case 'range':
+                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
+                  html.push('<label for="form-' + type + '-' + n + '">' + (value.label) + '</label>\n');
+                  html.push('<input name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" type="range" ' + required + ' placeholder="' + properties.placeholder + '" step="' + properties.step + '" min="' + properties.min + '" max="' + properties.max + '">\n');
+                  html.push('</div>\n');
+                  break;
+                case 'checkbox':
+                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
+                  html.push('<fieldset>\n<legend>' + value.label + '</legend>\n');
+                  properties.options.forEach(function(v, k) {
+                    if ("image" in v) {
+                      html.push('<label for="' + key + '-' + k + '">\n');
+                      html.push('<div class="ui-grid-a grids">\n');
+                      html.push('<div class="ui-block-a"><p>' + v.value + '</p></div>\n');
+                      html.push('<div class="ui-block-b"><img src="' + self.getFilenameFromURL(v.image.src) + '"></div>\n');
+                      html.push('</div>\n');
+                      html.push('</label>');
+                      html.push('<input name="' + key + '-' + k + '" id="' + key + '-' + k + '" value="' + v.value + '" type="' + type + '" ' + required + '>\n');
+                    } else {
+                      html.push('<label for="' + key + '-' + k + '">' + v.value + '</label>\n');
+                      html.push('<input name="' + key + '-' + k + '" id="' + key + '-' + k + '" value="' + v.value + '" type="' + type + '" ' + required + '>\n');
+                    }
+                  });
+                  if (value.other === true) {
+                    html.push('<label for="' + key + '-' + properties.options.length + '" class="other">' + i18n.t('checkbox.other') + '</label>\n');
+                    html.push('<input name="' + key + '" id="' + key + '-' + properties.options.length + '" value="other"' + ' class="other" type="' + type + '" ' + required + '>\n');
+                  }
+                  html.push('</fieldset>\n</div>\n');
+                  break;
+                case 'radio':
+                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
+                  html.push('<fieldset>\n<legend>' + value.label + '</legend>\n');
+                  properties.options.forEach(function(v, k) {
+                    if ("image" in v) {
+                      html.push('<label for="' + key + '-' + k + '">\n');
+                      html.push('<div class="ui-grid-a grids">\n');
+                      html.push('<div class="ui-block-a"><p>' + v.value + '</p></div>\n');
+                      html.push('<div class="ui-block-b"><img src="' + self.getFilenameFromURL(v.image.src) + '"></div>\n');
+                      html.push('</div>\n');
+                      html.push('</label>');
+                      html.push('<input name="' + key + '" id="' + key + '-' + k + '" value="' + v.value + '" type="' + type + '" ' + required + '>\n');
+                    } else {
+                      html.push('<label for="' + key + '-' + k + '">' + v.value + '</label>\n');
+                      html.push('<input name="' + key + '" id="' + key + '-' + k + '" value="' + v.value + '" type="' + type + '" ' + required + '>\n');
+                    }
+                  });
+                  if (value.other === true) {
+                    html.push('<label for="' + key + '-' + properties.options.length + '" class="other">' + i18n.t('radio.other') + '</label>\n');
+                    html.push('<input name="' + key + '" id="' + key + '-' + properties.options.length + '" value="other" class="other" type="' + type + '" ' + required + '>\n');
+                  }
+                  html.push('</fieldset>\n</div>\n');
+                  break;
+                case 'select':
+                  html.push('<div class="fieldcontain" id="' + key + '"' + ' data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
+                  html.push('<fieldset>\n<legend>' + value.label + '</legend>\n');
+                  if (required !== "") {
+                    html.push('<select name="' + key + '" required="required">\n');
+                    html.push('<option value=""></option>\n');
+                  } else {
+                    html.push('<select id="' + key + '">\n');
+                  }
+                  properties.options.forEach(function(v, k) {
+                    html.push('<option value="' + v + '">' + v + '</option>\n');
+                  });
+                  html.push('</select>\n</fieldset>\n</div>\n');
+                  break;
+                case 'dtree':
+                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + visibility + '>\n');
+                  html.push('<fieldset>\n<label for="fieldcontain-' + type + '-' + n + '">' + value.label + '</label>\n');
+                  html.push('<div class="button-wrapper button-dtree"></div>\n');
+                  html.push('</fieldset>\n');
+                  html.push('<input type="hidden" data-dtree="' + properties.filename + '" value="' + properties.filename + '">\n');
+                  html.push('</div>\n');
+                  break;
+                case 'multiimage':
+                case 'image':
+                  var cl = "camera";
+                  if (properties["multi-image"] === true) {
+                    type = 'multiimage';
+                  }
+                  if (properties.los === true) {
+                    cl = "camera-va";
+                  }
+                  html.push('<div class="fieldcontain" id="fieldcontain-' + type + '-1" data-fieldtrip-type="' + cl + '" ' + visibility + '>\n');
+                  html.push('<div class="button-wrapper button-' + cl + '">\n');
+                  html.push('<input name="form-image-1" id="form-image-1"' + ' type="file" accept="image/png" capture="' + cl + '" ' + required + ' class="' + cl + '">\n');
+                  html.push('<label for="form-image-1">' + value.label + '</label>\n');
+                  if (properties.blur) {
+                    html.push('<div style="display:none;" id="blur-threshold" value="' + properties.blur + '"></div>');
+                  }
+                  html.push('</div>\n</div>\n');
+                  break;
+                case 'audio':
+                  html.push('<div class="fieldcontain" id="fieldcontain-audio-1" data-fieldtrip-type="microphone" ' + visibility + '>\n');
+                  html.push('<div class="button-wrapper button-microphone">\n');
+                  html.push('<input name="form-audio-1" id="form-audio-1" type="file" accept="audio/*" capture="microphone" ' + required + ' class="microphone">\n');
+                  html.push('<label for="form-audio-1">' + value.label + '</label>\n');
+                  html.push('</div>\n</div>\n');
+                  break;
+                case 'gps':
+                  break;
+                case 'warning':
+                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '">\n');
+                  html.push('<label for="form-' + type + '-' + n + '">' + value.label + '</label>\n');
+                  html.push('<textarea name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" ' + required + ' placeholder="' + properties.placeholder + '"></textarea>\n');
+                  html.push('</div>\n');
+                  break;
+                case 'section':
+                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '">\n');
+                  html.push('<h3>' + value.label + '</h3>\n');
+                  html.push('</div>\n');
+                  break;
+              }
+            });
+            html.push('<div id="save-cancel-editor-buttons" class="fieldcontain ui-grid-a">\n');
+            html.push('<div class="ui-block-a">\n');
+            html.push('<input type="submit" name="record" value="Save">\n');
+            html.push('</div>\n');
+            html.push('<div class="ui-block-b">\n');
+            html.push('<input type="button" name="cancel" value="Cancel">\n');
+            html.push('</div>\n');
+            html.push('</div>\n');
+            html.push('</form>');
+            return html;
+          },
+          getFilenameFromURL: function(path) {
+            return path.substring(path.length, path.lastIndexOf('/') + 1);
+          }
+        }, {});
+      }();
+      $__export('default', Convertor);
+    }
+  };
+});
+
+$__System.register("a", ["8"], function($__export) {
+  "use strict";
+  var __moduleName = "a";
+  var $__exportNames = {undefined: true};
+  return {
+    setters: [function($__m) {
+      $__export({default: $__m.default});
+      var exportObj = Object.create(null);
+      Object.keys($__m).forEach(function(p) {
+        if (p !== 'default' && !$__exportNames[p])
+          exportObj[p] = $__m[p];
+      });
+      $__export(exportObj);
+    }],
+    execute: function() {}
+  };
+});
+
+$__System.registerDynamic("b", [], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
   "format cjs";
   !function(t, e) {
     L.drawVersion = "0.2.4-dev", L.drawLocal = {
@@ -5423,12 +5785,12 @@ $__System.registerDynamic("2", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("3", ["2"], true, function($__require, exports, module) {
+$__System.registerDynamic("c", ["b"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('2');
+  module.exports = $__require('b');
   global.define = __define;
   return module.exports;
 });
@@ -5442,7 +5804,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   if (typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = L;
   } else if (typeof define === 'function' && define.amd) {
-    define("4", [], L);
+    define("d", [], L);
   }
   L.noConflict = function() {
     window.L = oldL;
@@ -11940,15 +12302,15 @@ _removeDefine();
 })();
 (function() {
 var _removeDefine = $__System.get("@@amd-helpers").createDefine();
-define("5", ["4"], function(main) {
+define("e", ["d"], function(main) {
   return main;
 });
 
 _removeDefine();
 })();
-$__System.register("6", ["5", "7", "3", "8", "9"], function($__export) {
+$__System.register("7", ["e", "f", "c", "5", "10"], function($__export) {
   "use strict";
-  var __moduleName = "6";
+  var __moduleName = "7";
   var L,
       modal,
       draw,
@@ -11969,40 +12331,30 @@ $__System.register("6", ["5", "7", "3", "8", "9"], function($__export) {
     }],
     execute: function() {
       Mapper = function() {
-        function Mapper() {
-          this.dataStorage = new DataStorage();
-          this.bbox;
-          this.map;
+        function Mapper(options) {
+          this.mapId = options.id;
+          this.lat = options.lat || 51.505;
+          this.lng = options.lng || -0.09;
+          this.zoom = options.zoom || 12;
+          this.layers = {};
         }
         return ($traceurRuntime.createClass)(Mapper, {
-          initialize: function() {
-            this.createModalMap();
-            this.initMap();
-          },
-          createModalMap: function() {
-            var modalId = "map-modal";
-            var modalButton = '<button type="button" class="btn btn-primary"' + ' data-toggle="modal" data-target="#' + modalId + '">' + 'Define bbox</button>';
-            if (document.getElementById(modalId) === null) {
-              var options = {
-                'id': modalId,
-                'title': 'Map',
-                'body': '<div id="map-parent"><div id="map"></div></div>',
-                'footer': '',
-                "size": "modal-lg"
-              };
-              document.body.insertAdjacentHTML('afterbegin', utils.makeModalWindow(options));
-              var d1 = document.getElementsByClassName('fieldcontain-general')[0].getElementsByClassName('add-button');
-              d1[0].insertAdjacentHTML('beforeBegin', modalButton);
-            }
-            $('#' + modalId).on('shown.bs.modal', $.proxy(function(e) {
-              this.map.invalidateSize(false);
-            }, this));
-          },
           initMap: function() {
-            var map = L.map('map').setView([51.505, -0.09], 13);
+            var map = L.map(this.mapId, {
+              center: new L.LatLng(this.lat, this.lng),
+              zoom: this.zoom,
+              zoomControl: false
+            });
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+            var zoomControl = L.control.zoom({position: 'topright'});
+            map.addControl(zoomControl);
+            this.map = map;
+            return map;
+          },
+          addDrawControl: function() {
             var drawnItems = new L.FeatureGroup();
-            map.addLayer(drawnItems);
+            var dataStorage = new DataStorage();
+            this.map.addLayer(drawnItems);
             var drawControl = new L.Control.Draw({
               draw: {
                 position: 'topleft',
@@ -12016,24 +12368,33 @@ $__System.register("6", ["5", "7", "3", "8", "9"], function($__export) {
                 edit: true
               }
             });
-            map.addControl(drawControl);
-            map.on('draw:created', $.proxy(function(e) {
+            this.map.addControl(drawControl);
+            this.map.on('draw:created', $.proxy(function(e) {
               if (Object.keys(drawnItems._layers).length === 0) {
                 var layer = e.layer;
-                this.dataStorage.addField("bbox", layer.toGeoJSON());
+                dataStorage.addField("bbox", layer.toGeoJSON());
                 drawnItems.addLayer(layer);
               }
             }, this));
-            map.on('draw:deleted', $.proxy(function(e) {
-              this.dataStorage.removeField("bbox");
+            this.map.on('draw:deleted', $.proxy(function(e) {
+              dataStorage.removeField("bbox");
               drawnItems.clearLayers();
             }, this));
-            this.bbox = this.dataStorage.getField("bbox");
-            if (this.bbox) {
-              var layer = L.geoJson(this.bbox);
+            var bbox = dataStorage.getField("bbox");
+            if (bbox) {
+              var layer = L.geoJson(bbox);
               drawnItems.addLayer(layer);
             }
-            this.map = map;
+          },
+          addKMLLayer: function(layerName, layerUrl) {
+            var layer = omnivore.kml(layerUrl).addTo(this.map);
+            this.layers[layerName] = layer;
+          },
+          getLayer: function(layerName) {
+            return this.layers[layerName];
+          },
+          removeLayer: function(layerName) {
+            this.map.removeLayer(this.layers[layerName]);
           }
         }, {});
       }();
@@ -12042,222 +12403,53 @@ $__System.register("6", ["5", "7", "3", "8", "9"], function($__export) {
   };
 });
 
-$__System.register("a", ["b"], function($__export) {
+$__System.register("11", ["7", "5"], function($__export) {
   "use strict";
-  var __moduleName = "a";
-  var $,
-      Convertor;
+  var __moduleName = "11";
+  var Mapper,
+      utils,
+      BBox;
   return {
     setters: [function($__m) {
-      $ = $__m.default;
+      Mapper = $__m.default;
+    }, function($__m) {
+      utils = $__m;
     }],
     execute: function() {
-      Convertor = function() {
-        function Convertor() {
-          this.form = {};
+      BBox = function() {
+        function BBox(options) {
+          this.bbox;
+          this.mapper = new Mapper(options);
+          this.mapId = options.id;
         }
-        return ($traceurRuntime.createClass)(Convertor, {
-          encodeEntities: function(text) {
-            return $('<div />').text(text).html();
-          },
-          JSONtoHTML: function(form) {
-            var self = this;
-            if (form) {
-              this.form = form;
+        return ($traceurRuntime.createClass)(BBox, {initialize: function() {
+            var modalId = "map-modal";
+            var modalButton = '<button type="button" class="btn btn-primary"' + ' data-toggle="modal" id="define-bbox" data-target="#' + modalId + '">' + 'Define bbox</button>';
+            if (document.getElementById(modalId) === null) {
+              var options = {
+                'id': modalId,
+                'title': 'Map',
+                'body': '<div id="map-parent"><div id="' + this.mapId + '"></div></div>',
+                'footer': '',
+                "size": "modal-lg"
+              };
+              document.body.insertAdjacentHTML('afterbegin', utils.makeModalWindow(options));
+              var map = this.mapper.initMap();
+              this.mapper.addDrawControl();
+              $('#' + modalId).on('shown.bs.modal', $.proxy(function(e) {
+                map.invalidateSize(false);
+              }, this));
             }
-            var html = [];
-            this.form.title = this.form.title.replace('"', '&quot;');
-            html.push('<form data-title=\"' + this.form.title + '\" data-ajax=\"false\" novalidate>\n');
-            html.push('<div class="fieldcontain fieldcontain-geometryType"' + ' id="fieldcontain-geometryType" data-cobweb-type="geometryType">\n');
-            html.push('<input type="hidden" data-record-geometry="' + this.form.geoms.join(",") + '" value="' + this.form.geoms.join(",") + '">\n');
-            html.push('</div>\n');
-            this.form = this.form || [];
-            this.form.fields.forEach(function(value) {
-              var key = value.id;
-              var properties = value.properties;
-              var splits = key.split("-");
-              var type = splits[1];
-              var n = splits[2];
-              var required = "";
-              if (value.required) {
-                required = 'required="required"';
-              }
-              var persistent = "";
-              if (value.persistent) {
-                persistent = 'data-persistent="on"';
-              }
-              var visibility = "";
-              if (properties.visibility) {
-                visibility = 'data-visibility="' + properties.visibility.id.replace("fieldcontain-", "") + ' ' + properties.visibility.operator + ' \'' + properties.visibility.answer + '\'"';
-              }
-              value.label = self.encodeEntities(value.label);
-              switch (type) {
-                case 'text':
-                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
-                  html.push('<label for="form-' + type + '-' + n + '">' + value.label + '</label>\n');
-                  html.push('<input name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" type="text" ' + required + ' placeholder="' + properties.placeholder + '" maxlength="' + properties["max-chars"] + '" value="' + properties.prefix + '">\n');
-                  html.push('</div>\n');
-                  break;
-                case 'textarea':
-                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
-                  html.push('<label for="form-' + type + '-' + n + '">' + value.label + '</label>\n');
-                  html.push('<textarea name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" ' + required + ' placeholder="' + properties.placeholder + '"></textarea>\n');
-                  html.push('</div>\n');
-                  break;
-                case 'range':
-                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
-                  html.push('<label for="form-' + type + '-' + n + '">' + (value.label) + '</label>\n');
-                  html.push('<input name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" type="range" ' + required + ' placeholder="' + properties.placeholder + '" step="' + properties.step + '" min="' + properties.min + '" max="' + properties.max + '">\n');
-                  html.push('</div>\n');
-                  break;
-                case 'checkbox':
-                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
-                  html.push('<fieldset>\n<legend>' + value.label + '</legend>\n');
-                  properties.options.forEach(function(v, k) {
-                    if ("image" in v) {
-                      html.push('<label for="' + key + '-' + k + '">\n');
-                      html.push('<div class="ui-grid-a grids">\n');
-                      html.push('<div class="ui-block-a"><p>' + v.value + '</p></div>\n');
-                      html.push('<div class="ui-block-b"><img src="' + self.getFilenameFromURL(v.image.src) + '"></div>\n');
-                      html.push('</div>\n');
-                      html.push('</label>');
-                      html.push('<input name="' + key + '-' + k + '" id="' + key + '-' + k + '" value="' + v.value + '" type="' + type + '" ' + required + '>\n');
-                    } else {
-                      html.push('<label for="' + key + '-' + k + '">' + v.value + '</label>\n');
-                      html.push('<input name="' + key + '-' + k + '" id="' + key + '-' + k + '" value="' + v.value + '" type="' + type + '" ' + required + '>\n');
-                    }
-                  });
-                  if (value.other === true) {
-                    html.push('<label for="' + key + '-' + properties.options.length + '" class="other">' + i18n.t('checkbox.other') + '</label>\n');
-                    html.push('<input name="' + key + '" id="' + key + '-' + properties.options.length + '" value="other"' + ' class="other" type="' + type + '" ' + required + '>\n');
-                  }
-                  html.push('</fieldset>\n</div>\n');
-                  break;
-                case 'radio':
-                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
-                  html.push('<fieldset>\n<legend>' + value.label + '</legend>\n');
-                  properties.options.forEach(function(v, k) {
-                    if ("image" in v) {
-                      html.push('<label for="' + key + '-' + k + '">\n');
-                      html.push('<div class="ui-grid-a grids">\n');
-                      html.push('<div class="ui-block-a"><p>' + v.value + '</p></div>\n');
-                      html.push('<div class="ui-block-b"><img src="' + self.getFilenameFromURL(v.image.src) + '"></div>\n');
-                      html.push('</div>\n');
-                      html.push('</label>');
-                      html.push('<input name="' + key + '" id="' + key + '-' + k + '" value="' + v.value + '" type="' + type + '" ' + required + '>\n');
-                    } else {
-                      html.push('<label for="' + key + '-' + k + '">' + v.value + '</label>\n');
-                      html.push('<input name="' + key + '" id="' + key + '-' + k + '" value="' + v.value + '" type="' + type + '" ' + required + '>\n');
-                    }
-                  });
-                  if (value.other === true) {
-                    html.push('<label for="' + key + '-' + properties.options.length + '" class="other">' + i18n.t('radio.other') + '</label>\n');
-                    html.push('<input name="' + key + '" id="' + key + '-' + properties.options.length + '" value="other" class="other" type="' + type + '" ' + required + '>\n');
-                  }
-                  html.push('</fieldset>\n</div>\n');
-                  break;
-                case 'select':
-                  html.push('<div class="fieldcontain" id="' + key + '"' + ' data-fieldtrip-type="' + type + '" ' + persistent + ' ' + visibility + '>\n');
-                  html.push('<fieldset>\n<legend>' + value.label + '</legend>\n');
-                  if (required !== "") {
-                    html.push('<select name="' + key + '" required="required">\n');
-                    html.push('<option value=""></option>\n');
-                  } else {
-                    html.push('<select id="' + key + '">\n');
-                  }
-                  properties.options.forEach(function(v, k) {
-                    html.push('<option value="' + v + '">' + v + '</option>\n');
-                  });
-                  html.push('</select>\n</fieldset>\n</div>\n');
-                  break;
-                case 'dtree':
-                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '" ' + visibility + '>\n');
-                  html.push('<fieldset>\n<label for="fieldcontain-' + type + '-' + n + '">' + value.label + '</label>\n');
-                  html.push('<div class="button-wrapper button-dtree"></div>\n');
-                  html.push('</fieldset>\n');
-                  html.push('<input type="hidden" data-dtree="' + properties.filename + '" value="' + properties.filename + '">\n');
-                  html.push('</div>\n');
-                  break;
-                case 'multiimage':
-                case 'image':
-                  var cl = "camera";
-                  if (properties["multi-image"] === true) {
-                    type = 'multiimage';
-                  }
-                  if (properties.los === true) {
-                    cl = "camera-va";
-                  }
-                  html.push('<div class="fieldcontain" id="fieldcontain-' + type + '-1" data-fieldtrip-type="' + cl + '" ' + visibility + '>\n');
-                  html.push('<div class="button-wrapper button-' + cl + '">\n');
-                  html.push('<input name="form-image-1" id="form-image-1"' + ' type="file" accept="image/png" capture="' + cl + '" ' + required + ' class="' + cl + '">\n');
-                  html.push('<label for="form-image-1">' + value.label + '</label>\n');
-                  if (properties.blur) {
-                    html.push('<div style="display:none;" id="blur-threshold" value="' + properties.blur + '"></div>');
-                  }
-                  html.push('</div>\n</div>\n');
-                  break;
-                case 'audio':
-                  html.push('<div class="fieldcontain" id="fieldcontain-audio-1" data-fieldtrip-type="microphone" ' + visibility + '>\n');
-                  html.push('<div class="button-wrapper button-microphone">\n');
-                  html.push('<input name="form-audio-1" id="form-audio-1" type="file" accept="audio/*" capture="microphone" ' + required + ' class="microphone">\n');
-                  html.push('<label for="form-audio-1">' + value.label + '</label>\n');
-                  html.push('</div>\n</div>\n');
-                  break;
-                case 'gps':
-                  break;
-                case 'warning':
-                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '">\n');
-                  html.push('<label for="form-' + type + '-' + n + '">' + value.label + '</label>\n');
-                  html.push('<textarea name="form-' + type + '-' + n + '" id="form-' + type + '-' + n + '" ' + required + ' placeholder="' + properties.placeholder + '"></textarea>\n');
-                  html.push('</div>\n');
-                  break;
-                case 'section':
-                  html.push('<div class="fieldcontain" id="' + key + '" data-fieldtrip-type="' + type + '">\n');
-                  html.push('<h3>' + value.label + '</h3>\n');
-                  html.push('</div>\n');
-                  break;
-              }
-            });
-            html.push('<div id="save-cancel-editor-buttons" class="fieldcontain ui-grid-a">\n');
-            html.push('<div class="ui-block-a">\n');
-            html.push('<input type="submit" name="record" value="Save">\n');
-            html.push('</div>\n');
-            html.push('<div class="ui-block-b">\n');
-            html.push('<input type="button" name="cancel" value="Cancel">\n');
-            html.push('</div>\n');
-            html.push('</div>\n');
-            html.push('</form>');
-            return html;
-          },
-          getFilenameFromURL: function(path) {
-            return path.substring(path.length, path.lastIndexOf('/') + 1);
-          }
-        }, {});
+            var d1 = document.getElementsByClassName('fieldcontain-general')[0].getElementsByClassName('add-button');
+            d1[0].insertAdjacentHTML('beforeBegin', modalButton);
+          }}, {});
       }();
-      $__export('default', Convertor);
+      $__export('default', BBox);
     }
   };
 });
 
-$__System.register("c", ["a"], function($__export) {
-  "use strict";
-  var __moduleName = "c";
-  var $__exportNames = {undefined: true};
-  return {
-    setters: [function($__m) {
-      $__export({default: $__m.default});
-      var exportObj = Object.create(null);
-      Object.keys($__m).forEach(function(p) {
-        if (p !== 'default' && !$__exportNames[p])
-          exportObj[p] = $__m[p];
-      });
-      $__export(exportObj);
-    }],
-    execute: function() {}
-  };
-});
-
-$__System.registerDynamic("d", [], true, function($__require, exports, module) {
+$__System.registerDynamic("12", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12278,11 +12470,11 @@ $__System.registerDynamic("d", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.register("e", [], function() { return { setters: [], execute: function() {} } });
+$__System.register("13", [], function() { return { setters: [], execute: function() {} } });
 
-$__System.register("f", ["9", "8", "7"], function($__export) {
+$__System.register("14", ["10", "5", "f"], function($__export) {
   "use strict";
-  var __moduleName = "f";
+  var __moduleName = "14";
   var DataStorage,
       utils,
       modal,
@@ -12489,7 +12681,7 @@ $__System.register("f", ["9", "8", "7"], function($__export) {
   };
 });
 
-$__System.registerDynamic("10", [], true, function($__require, exports, module) {
+$__System.registerDynamic("15", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12510,7 +12702,7 @@ $__System.registerDynamic("10", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("11", [], true, function($__require, exports, module) {
+$__System.registerDynamic("16", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12523,7 +12715,7 @@ $__System.registerDynamic("11", [], true, function($__require, exports, module) 
           __p += __j.call(arguments, '');
         };
     with (obj || {}) {
-      __p += '<div class="dropdown add-button">\n  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">\n    Add\n    <span class="caret"></span>\n  </button>\n  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">\n    ';
+      __p += '<div class="dropdown add-button">\n  <button class="btn btn-default dropdown-toggle dropdownMenu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">\n    Add\n    <span class="caret"></span>\n  </button>\n  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">\n    ';
       for (var i = 0; i < data.length; i++) {
         __p += '\n      <li>\n        <a href="javascript:void(0);" class="add-field" data-toggle="tooltip" data-placement="right" title="' + ((__t = (data[i])) == null ? '' : __t) + '">\n          <span class="glyphicon icon-' + ((__t = (data[i])) == null ? '' : __t) + '" aria-hidden="true"></span>' + ((__t = (data[i])) == null ? '' : __t) + '\n        </a>\n      </li>\n    ';
       }
@@ -12535,7 +12727,7 @@ $__System.registerDynamic("11", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("12", [], true, function($__require, exports, module) {
+$__System.registerDynamic("17", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12556,7 +12748,7 @@ $__System.registerDynamic("12", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("13", [], true, function($__require, exports, module) {
+$__System.registerDynamic("18", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12583,7 +12775,7 @@ $__System.registerDynamic("13", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("14", [], true, function($__require, exports, module) {
+$__System.registerDynamic("19", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12604,7 +12796,7 @@ $__System.registerDynamic("14", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("15", [], true, function($__require, exports, module) {
+$__System.registerDynamic("1a", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12629,7 +12821,7 @@ $__System.registerDynamic("15", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("16", [], true, function($__require, exports, module) {
+$__System.registerDynamic("1b", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12650,7 +12842,7 @@ $__System.registerDynamic("16", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("17", [], true, function($__require, exports, module) {
+$__System.registerDynamic("1c", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12671,7 +12863,7 @@ $__System.registerDynamic("17", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("18", [], true, function($__require, exports, module) {
+$__System.registerDynamic("1d", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12696,7 +12888,7 @@ $__System.registerDynamic("18", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("19", [], true, function($__require, exports, module) {
+$__System.registerDynamic("1e", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12729,7 +12921,7 @@ $__System.registerDynamic("19", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("1a", [], true, function($__require, exports, module) {
+$__System.registerDynamic("1f", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12762,7 +12954,7 @@ $__System.registerDynamic("1a", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("1b", [], true, function($__require, exports, module) {
+$__System.registerDynamic("20", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12783,7 +12975,7 @@ $__System.registerDynamic("1b", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("1c", [], true, function($__require, exports, module) {
+$__System.registerDynamic("21", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12804,7 +12996,7 @@ $__System.registerDynamic("1c", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("1d", [], true, function($__require, exports, module) {
+$__System.registerDynamic("22", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12825,7 +13017,7 @@ $__System.registerDynamic("1d", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("1e", [], true, function($__require, exports, module) {
+$__System.registerDynamic("23", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -12858,7 +13050,7 @@ $__System.registerDynamic("1e", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("1f", [], false, function(__require, __exports, __module) {
+$__System.registerDynamic("24", [], false, function(__require, __exports, __module) {
   var _retrieveGlobal = $__System.get("@@global-helpers").prepareGlobal(__module.id, null, null);
   (function() {
     "format global";
@@ -14826,19 +15018,19 @@ $__System.registerDynamic("1f", [], false, function(__require, __exports, __modu
   return _retrieveGlobal();
 });
 
-$__System.registerDynamic("20", ["1f"], true, function($__require, exports, module) {
+$__System.registerDynamic("25", ["24"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('1f');
+  module.exports = $__require('24');
   global.define = __define;
   return module.exports;
 });
 
-$__System.register("21", ["b", "20", "22", "23", "1e", "1d", "1c", "1b", "1a", "19", "18", "17", "16", "15", "14", "13", "12", "11", "10", "8", "24", "9", "f"], function($__export) {
+$__System.register("26", ["9", "25", "6", "27", "23", "22", "21", "20", "1f", "1e", "1d", "1c", "1b", "1a", "19", "18", "17", "16", "15", "5", "28", "10", "14"], function($__export) {
   "use strict";
-  var __moduleName = "21";
+  var __moduleName = "26";
   var $,
       i18next,
       pcapi,
@@ -15153,7 +15345,7 @@ $__System.register("21", ["b", "20", "22", "23", "1e", "1d", "1c", "1b", "1a", "
                 options.urlParams = {'public': 'true'};
               }
               utils.loading(true);
-              pcapi.uploadFile(options, "PUT").then($.proxy(function(result, data) {
+              pcapi.uploadFile(options, "PUT").then($.proxy(function(data) {
                 utils.loading(false);
                 utils.giveFeedback("File was uploaded");
                 $("#" + id + " .btn-file").remove();
@@ -15210,9 +15402,9 @@ $__System.register("21", ["b", "20", "22", "23", "1e", "1d", "1c", "1b", "1a", "
   };
 });
 
-$__System.register("25", ["21", "26", "8", "24", "9", "20", "e", "23", "d"], function($__export) {
+$__System.register("29", ["26", "2a", "5", "28", "10", "25", "13", "27", "12", "11"], function($__export) {
   "use strict";
-  var __moduleName = "25";
+  var __moduleName = "29";
   var FieldGenerator,
       Convertor,
       utils,
@@ -15221,6 +15413,7 @@ $__System.register("25", ["21", "26", "8", "24", "9", "20", "e", "23", "d"], fun
       i18next,
       _,
       saveTemplate,
+      BBox,
       Survey;
   return {
     setters: [function($__m) {
@@ -15239,6 +15432,8 @@ $__System.register("25", ["21", "26", "8", "24", "9", "20", "e", "23", "d"], fun
       _ = $__m.default;
     }, function($__m) {
       saveTemplate = $__m.default;
+    }, function($__m) {
+      BBox = $__m.default;
     }],
     execute: function() {
       Survey = function() {
@@ -15246,7 +15441,6 @@ $__System.register("25", ["21", "26", "8", "24", "9", "20", "e", "23", "d"], fun
           this.options = options;
           this.title = options.title;
           this.renderEl = "." + options.subElement;
-          this.convertor = new Convertor();
           this.initialize();
           this.enableAutoSave();
         }
@@ -15260,6 +15454,8 @@ $__System.register("25", ["21", "26", "8", "24", "9", "20", "e", "23", "d"], fun
             $mobile.height($(window).height() - $("#header").height() - 84);
             $mobileContent.height($mobile.height() - 100 - $myNav.height());
             $myNav.width($mobile.width());
+            var options = {id: 'map'};
+            this.bbox = new BBox(options);
           },
           enableAutoSave: function(time) {
             var iFrequency = time || 60000;
@@ -15276,14 +15472,18 @@ $__System.register("25", ["21", "26", "8", "24", "9", "20", "e", "23", "d"], fun
               type: "general",
               title: this.title
             };
+            var dataStorage = new DataStorage();
+            dataStorage.setData({});
             fieldGenerator.render(generalObj);
+            this.bbox.initialize();
           },
           renderExistingSurvey: function(title, data) {
+            var convertor = new Convertor();
             if (typeof data === 'string') {
               if (utils.isJsonString(data)) {
                 data = JSON.parse(data);
               } else {
-                data = this.convertor.HTMLtoJSON(data, this.title);
+                data = convertor.HTMLtoJSON(data, this.title);
               }
             }
             var dataStorage = new DataStorage();
@@ -15298,6 +15498,7 @@ $__System.register("25", ["21", "26", "8", "24", "9", "20", "e", "23", "d"], fun
             data.fields.forEach(function(field, index) {
               fieldGenerator.render(field);
             });
+            this.bbox.initialize();
           }
         }, {});
       }();
@@ -15306,7 +15507,7 @@ $__System.register("25", ["21", "26", "8", "24", "9", "20", "e", "23", "d"], fun
   };
 });
 
-$__System.registerDynamic("27", [], true, function($__require, exports, module) {
+$__System.registerDynamic("2b", [], true, function($__require, exports, module) {
   "use strict";
   ;
   var global = this,
@@ -15766,19 +15967,19 @@ $__System.registerDynamic("27", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("22", ["27"], true, function($__require, exports, module) {
+$__System.registerDynamic("6", ["2b"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('27');
+  module.exports = $__require('2b');
   global.define = __define;
   return module.exports;
 });
 
-$__System.register("9", [], function($__export) {
+$__System.register("10", [], function($__export) {
   "use strict";
-  var __moduleName = "9";
+  var __moduleName = "10";
   var DataStorage;
   return {
     setters: [],
@@ -15833,7 +16034,11 @@ $__System.register("9", [], function($__export) {
             this.setData(data);
           },
           getField: function(key) {
-            return this.getData()[key];
+            var data = this.getData();
+            if (data) {
+              return data[key];
+            }
+            return '';
           },
           removeField: function(key) {
             var data = this.getData();
@@ -15847,9 +16052,9 @@ $__System.register("9", [], function($__export) {
   };
 });
 
-$__System.register("26", ["b", "8", "23"], function($__export) {
+$__System.register("2a", ["9", "5", "27"], function($__export) {
   "use strict";
-  var __moduleName = "26";
+  var __moduleName = "2a";
   var $,
       utils,
       _,
@@ -16277,9 +16482,9 @@ $__System.register("26", ["b", "8", "23"], function($__export) {
   };
 });
 
-$__System.register("24", ["26", "9"], function($__export) {
+$__System.register("28", ["2a", "10"], function($__export) {
   "use strict";
-  var __moduleName = "24";
+  var __moduleName = "28";
   var Convertor,
       DataStorage;
   function saveData(element) {
@@ -16288,7 +16493,7 @@ $__System.register("24", ["26", "9"], function($__export) {
     var dataStorage = new DataStorage();
     var data = dataStorage.getData();
     if (data !== null) {
-      formInJSON = Object.assign(formInJSON, data);
+      formInJSON = Object.assign(data, formInJSON);
     }
     dataStorage.setData(formInJSON);
     return formInJSON;
@@ -16305,7 +16510,7 @@ $__System.register("24", ["26", "9"], function($__export) {
   };
 });
 
-$__System.registerDynamic("28", [], true, function($__require, exports, module) {
+$__System.registerDynamic("2c", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -16326,7 +16531,7 @@ $__System.registerDynamic("28", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("29", ["b"], false, function(__require, __exports, __module) {
+$__System.registerDynamic("2d", ["9"], false, function(__require, __exports, __module) {
   var _retrieveGlobal = $__System.get("@@global-helpers").prepareGlobal(__module.id, "$", null);
   (function() {
     "format global";
@@ -17918,19 +18123,19 @@ $__System.registerDynamic("29", ["b"], false, function(__require, __exports, __m
   return _retrieveGlobal();
 });
 
-$__System.registerDynamic("7", ["29"], true, function($__require, exports, module) {
+$__System.registerDynamic("f", ["2d"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('29');
+  module.exports = $__require('2d');
   global.define = __define;
   return module.exports;
 });
 
-$__System.register("8", ["7", "28"], function($__export) {
+$__System.register("5", ["f", "2c"], function($__export) {
   "use strict";
-  var __moduleName = "8";
+  var __moduleName = "5";
   var modal,
       modalTemplate;
   function endsWith(str, suffix) {
@@ -18015,16 +18220,15 @@ $__System.register("8", ["7", "28"], function($__export) {
   };
 });
 
-$__System.register("2a", ["2b", "8", "24", "22", "25", "c", "6"], function($__export) {
+$__System.register("2e", ["4", "5", "28", "6", "29", "a"], function($__export) {
   "use strict";
-  var __moduleName = "2a";
+  var __moduleName = "2e";
   var Backbone,
       utils,
       save,
       pcapi,
       Survey,
       Convertor,
-      Mapper,
       SurveyView;
   return {
     setters: [function($__m) {
@@ -18039,8 +18243,6 @@ $__System.register("2a", ["2b", "8", "24", "22", "25", "c", "6"], function($__ex
       Survey = $__m.default;
     }, function($__m) {
       Convertor = $__m.default;
-    }, function($__m) {
-      Mapper = $__m.default;
     }],
     execute: function() {
       SurveyView = function($__super) {
@@ -18059,6 +18261,8 @@ $__System.register("2a", ["2b", "8", "24", "22", "25", "c", "6"], function($__ex
               this.options.formsFolder = this.params.sid;
               this.options.copyToPublic = (this.params.public === 'true');
             }
+            $('#header-menu li').removeClass('active');
+            $('#header-menu li a[href="#/survey-designer"]').parent().addClass('active');
             this.render();
           },
           formSave: function() {
@@ -18127,8 +18331,6 @@ $__System.register("2a", ["2b", "8", "24", "22", "25", "c", "6"], function($__ex
               }
               this.survey = new Survey(this.options);
               this.renderSurvey();
-              var map = new Mapper();
-              map.initialize();
               this.formSave();
             }, this));
           },
@@ -18152,36 +18354,47 @@ $__System.register("2a", ["2b", "8", "24", "22", "25", "c", "6"], function($__ex
   };
 });
 
-$__System.register("2c", ["2b", "2a"], function($__export) {
+$__System.register("2f", ["4", "2e", "3"], function($__export) {
   "use strict";
-  var __moduleName = "2c";
+  var __moduleName = "2f";
   var Backbone,
       SurveyView,
+      UploadLayerView,
       SurveyRouter;
   return {
     setters: [function($__m) {
       Backbone = $__m.default;
     }, function($__m) {
       SurveyView = $__m.SurveyView;
+    }, function($__m) {
+      UploadLayerView = $__m.UploadLayerView;
     }],
     execute: function() {
       SurveyRouter = function($__super) {
         function SurveyRouter() {
           $traceurRuntime.superConstructor(SurveyRouter).call(this);
-          this.routes = {'survey-designer': 'survey'};
+          this.routes = {
+            'survey-designer': 'survey',
+            'upload-layer': 'uploadLayers'
+          };
           this._bindRoutes();
         }
-        return ($traceurRuntime.createClass)(SurveyRouter, {survey: function() {
+        return ($traceurRuntime.createClass)(SurveyRouter, {
+          survey: function() {
             console.log('Route#survey');
             new SurveyView();
-          }}, {}, $__super);
+          },
+          uploadLayers: function() {
+            new UploadLayerView();
+          }
+        }, {}, $__super);
       }(Backbone.Router);
       $__export("SurveyRouter", SurveyRouter);
     }
   };
 });
 
-$__System.registerDynamic("2d", [], true, function($__require, exports, module) {
+$__System.registerDynamic("30", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -18273,32 +18486,32 @@ $__System.registerDynamic("2d", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("2e", ["2d"], true, function($__require, exports, module) {
+$__System.registerDynamic("31", ["30"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('2d');
+  module.exports = $__require('30');
   global.define = __define;
   return module.exports;
 });
 
-$__System.registerDynamic("2f", ["2e"], true, function($__require, exports, module) {
+$__System.registerDynamic("32", ["31"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__System._nodeRequire ? process : $__require('2e');
+  module.exports = $__System._nodeRequire ? process : $__require('31');
   global.define = __define;
   return module.exports;
 });
 
-$__System.registerDynamic("30", ["2f"], true, function($__require, exports, module) {
+$__System.registerDynamic("33", ["32"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('2f');
+  module.exports = $__require('32');
   global.define = __define;
   return module.exports;
 });
@@ -24299,7 +24512,7 @@ var _removeDefine = $__System.get("@@amd-helpers").createDefine();
   });
   jQuery.fn.andSelf = jQuery.fn.addBack;
   if (typeof define === "function" && define.amd) {
-    define("31", [], function() {
+    define("34", [], function() {
       return jQuery;
     });
   }
@@ -24324,13 +24537,13 @@ _removeDefine();
 })();
 (function() {
 var _removeDefine = $__System.get("@@amd-helpers").createDefine();
-define("b", ["31"], function(main) {
+define("9", ["34"], function(main) {
   return main;
 });
 
 _removeDefine();
 })();
-$__System.registerDynamic("32", [], true, function($__require, exports, module) {
+$__System.registerDynamic("35", [], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -25539,17 +25752,17 @@ $__System.registerDynamic("32", [], true, function($__require, exports, module) 
   return module.exports;
 });
 
-$__System.registerDynamic("23", ["32"], true, function($__require, exports, module) {
+$__System.registerDynamic("27", ["35"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('32');
+  module.exports = $__require('35');
   global.define = __define;
   return module.exports;
 });
 
-$__System.registerDynamic("33", ["23", "b", "30"], true, function($__require, exports, module) {
+$__System.registerDynamic("36", ["27", "9", "33"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
@@ -25563,10 +25776,10 @@ $__System.registerDynamic("33", ["23", "b", "30"], true, function($__require, ex
           root.Backbone = factory(root, exports, _, $);
         });
       } else if (typeof exports !== 'undefined') {
-        var _ = $__require('23'),
+        var _ = $__require('27'),
             $;
         try {
-          $ = $__require('b');
+          $ = $__require('9');
         } catch (e) {}
         factory(root, exports, _, $);
       } else {
@@ -26907,22 +27120,22 @@ $__System.registerDynamic("33", ["23", "b", "30"], true, function($__require, ex
       };
       return Backbone;
     }));
-  })($__require('30'));
+  })($__require('33'));
   global.define = __define;
   return module.exports;
 });
 
-$__System.registerDynamic("2b", ["33"], true, function($__require, exports, module) {
+$__System.registerDynamic("4", ["36"], true, function($__require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = $__require('33');
+  module.exports = $__require('36');
   global.define = __define;
   return module.exports;
 });
 
-$__System.register("1", ["2b", "2c"], function($__export) {
+$__System.register("1", ["4", "2f"], function($__export) {
   "use strict";
   var __moduleName = "1";
   var Backbone,
@@ -26944,7 +27157,7 @@ $__System.register("1", ["2b", "2c"], function($__export) {
 
 $__System.register('app/styles/app.css!github:systemjs/plugin-css@0.1.20', [], false, function() {});
 (function(c){if (typeof document == 'undefined') return; var d=document,a='appendChild',i='styleSheet',s=d.createElement('style');s.type='text/css';d.getElementsByTagName('head')[0][a](s);s[i]?s[i].cssText=c:s[a](d.createTextNode(c));})
-("body{padding-top:70px;padding-bottom:30px;background-color:#e4e1da}.navbar-inverse{background-image:linear-gradient(to bottom,#2F4820 0,#2F4820 100%)}.theme-showcase .navbar .container{width:auto}.mobile{width:80%;height:800px;background-color:#FFF;-webkit-border-radius:20px;-moz-border-radius:20px;border-radius:20px;padding:24px 20px 0 20px;float:none;margin:0 auto}#myNav{position:fixed}.mobile-content{margin-top:60px;padding:25px;height:80%}.mobile-content{overflow-y:scroll}.mobile-content fieldset{border:2px solid #000;border-style:solid;padding:10px;position:relative}.mobile-content legend{width:auto}.mobile-content label{width:100%;font-size:10px;color:#B7B7B7}.fieldcontain .fieldButtons{position:absolute;right:10px;top:0}#dragme{position:absolute;padding-left:0}#dragme li{list-style-type:none}.menu-icon{width:70px;height:70px;zoom:.5;padding:5px;-moz-transform:scale(.5);-moz-transform-origin:0 0}.icon-text{background-image:url(app/styles/images/menu-icon.png);background-position:-235px 15px}.icon-range{background-image:url(app/styles/images/menu-icon.png);background-position:-230px -80px}.icon-textarea{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -185px}.icon-checkbox{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -285px}.icon-radio{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -385px}.icon-select{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -485px}.icon-image{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -585px}.icon-audio{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -805px}.icon-image-los{background-image:url(app/styles/images/menu-icon.png);background-position:-227px -696px}.icon-warning{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -905px}.icon-help{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -1005px}.icon-dtree{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -1105px}#header{height:50px}.btn-file{position:relative;overflow:hidden}.btn-file input[type=file]{position:absolute;top:0;right:0;min-width:100%;min-height:100%;font-size:100px;text-align:right;filter:alpha(opacity=0);opacity:0;outline:0;background:#fff;cursor:inherit;display:block}#loader{position:absolute;top:50%;left:50%;z-index:999999;visibility:hidden}#relate-modal select{width:100%}#map-parent{min-height:100%;height:300px;width:300px;min-width:100%;position:relative}#map{width:100px;height:100px;min-height:100%;min-width:100%;display:block}input[type=text]{width:100%}");
+("#container,body,html{height:100%;width:100%;overflow:hidden}body{padding-top:60px;background-color:#e4e1da}.navbar-inverse{background-image:linear-gradient(to bottom,#2F4820 0,#2F4820 100%)}.theme-showcase .navbar .container{width:auto}.mobile{width:80%;height:800px;background-color:#FFF;-webkit-border-radius:20px;-moz-border-radius:20px;border-radius:20px;padding:24px 20px 0 20px;float:none;margin:0 auto}#myNav{position:fixed}.mobile-content{margin-top:60px;padding:25px;height:80%}.mobile-content{overflow-y:scroll}.mobile-content fieldset{border:2px solid #000;border-style:solid;padding:10px;position:relative}.mobile-content legend{width:auto}.mobile-content label{width:100%;font-size:10px;color:#B7B7B7}.fieldcontain .fieldButtons{position:absolute;right:10px;top:0}#dragme{position:absolute;padding-left:0}#dragme li{list-style-type:none}.menu-icon{width:70px;height:70px;zoom:.5;padding:5px;-moz-transform:scale(.5);-moz-transform-origin:0 0}.icon-text{background-image:url(app/styles/images/menu-icon.png);background-position:-235px 15px}.icon-range{background-image:url(app/styles/images/menu-icon.png);background-position:-230px -80px}.icon-textarea{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -185px}.icon-checkbox{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -285px}.icon-radio{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -385px}.icon-select{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -485px}.icon-image{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -585px}.icon-audio{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -805px}.icon-image-los{background-image:url(app/styles/images/menu-icon.png);background-position:-227px -696px}.icon-warning{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -905px}.icon-help{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -1005px}.icon-dtree{background-image:url(app/styles/images/menu-icon.png);background-position:-235px -1105px}#header{height:50px}#content{height:100%;width:100%;overflow:hidden}.btn-file{position:relative;overflow:hidden}.btn-file input[type=file]{position:absolute;top:0;right:0;min-width:100%;min-height:100%;font-size:100px;text-align:right;filter:alpha(opacity=0);opacity:0;outline:0;background:#fff;cursor:inherit;display:block}#loader{position:absolute;top:50%;left:50%;z-index:999999;visibility:hidden}#relate-modal select{width:100%}#map-parent{min-height:100%;height:300px;width:300px;min-width:100%;position:relative}input[type=text]{width:100%}#sidebar{width:240px;height:100%;max-width:100%;float:left;-webkit-transition:all .7s ease-out;-moz-transition:all .7s ease-out;transition:all .7s ease-out;box-shadow:0 10px 10px rgba(0,0,0,.5);background-color:#fff}#map,#mapLayer{width:auto;height:100%;box-shadow:0 0 10px rgba(0,0,0,.5)}#showHidePanel{position:absolute;left:10px;top:40px;z-index:1000;width:50px}");
 })
 (function(factory) {
   factory();
