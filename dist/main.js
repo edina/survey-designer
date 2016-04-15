@@ -12440,8 +12440,8 @@ $__System.register("11", ["7", "5"], function($__export) {
                 map.invalidateSize(false);
               }, this));
             }
-            var d1 = document.getElementsByClassName('fieldcontain-general')[0].getElementsByClassName('add-button');
-            d1[0].insertAdjacentHTML('beforeBegin', modalButton);
+            var d1 = document.getElementsByClassName('fieldcontain-general')[0];
+            d1.insertAdjacentHTML('beforeend', modalButton);
           }}, {});
       }();
       $__export('default', BBox);
@@ -15113,7 +15113,7 @@ $__System.register("26", ["9", "25", "6", "27", "23", "22", "21", "20", "1f", "1
         return ($traceurRuntime.createClass)(FieldGenerator, {
           render: function(data, element) {
             if (element) {
-              $(element).after(this.createField(data));
+              element.closest('div').after(this.createField(data));
             } else {
               this.$el.append(this.createField(data));
             }
@@ -15207,11 +15207,11 @@ $__System.register("26", ["9", "25", "6", "27", "23", "22", "21", "20", "1f", "1
             var id = type + "-" + (fields.length);
             $(fields[fields.length - 1]).attr("id", id);
             var $id = $("#" + id);
-            if (fields.length > 1 || type !== "text") {
+            if (type !== "general") {
               var buttons = '<div class="fieldButtons">' + '<button type="button" class="btn btn-default ' + 'remove-field" aria-label="Remove field">' + '<span class="glyphicon ' + 'glyphicon-remove" aria-hidden="true"></span></button>' + '</div>';
               $id.append(buttons);
             }
-            $id.append(addfieldTemplate({data: cfg.options}));
+            $id.after(addfieldTemplate({data: cfg.options}));
           },
           enableActions: function() {
             this.enableCheckboxEvents();
@@ -15233,7 +15233,7 @@ $__System.register("26", ["9", "25", "6", "27", "23", "22", "21", "20", "1f", "1
             this.$el.on("click", ".add-field", $.proxy(function(event) {
               var $this = $(event.target);
               var $fieldcontain = $this.closest('.fieldcontain');
-              this.render({type: $this.text().trim()}, $fieldcontain);
+              this.render({type: $this.text().trim()}, $this);
             }, this));
           },
           enableCheckboxEvents: function() {
