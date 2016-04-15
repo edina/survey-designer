@@ -597,7 +597,7 @@ describe('#FieldGenerator', () => {
         assert.equal($cl.find('.dropdown').length,
           testForm.fields.length);
         assert.equal($cl.find('.fieldButtons').length,
-          testForm.fields.length-1);
+          testForm.fields.length);
         done();
     });
 

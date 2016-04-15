@@ -32,7 +32,7 @@ class FieldGenerator {
 
     render(data, element) {
         if(element) {
-            $(element).after(this.createField(data));
+            element.closest('div').after(this.createField(data));
         }
         else{
             this.$el.append(this.createField(data));
@@ -140,7 +140,7 @@ class FieldGenerator {
         var id = type+"-"+(fields.length);
         $(fields[fields.length - 1]).attr("id", id);
         var $id = $("#"+id);
-        if(fields.length > 1 || type !== "text"){
+        if(type !== "general") {
             var buttons = '<div class="fieldButtons">' +
                   '<button type="button" class="btn btn-default '+
                       'remove-field" aria-label="Remove field">'+
@@ -149,7 +149,7 @@ class FieldGenerator {
                   '</div>';
             $id.append(buttons);
         }
-        $id.append(addfieldTemplate({data: cfg.options}));
+        $id.after(addfieldTemplate({data: cfg.options}));
     }
 
     /**
@@ -180,7 +180,7 @@ class FieldGenerator {
         this.$el.on("click", ".add-field", $.proxy(function(event){
             var $this = $(event.target);
             var $fieldcontain = $this.closest('.fieldcontain');
-            this.render({type: $this.text().trim()}, $fieldcontain);
+            this.render({type: $this.text().trim()}, $this);
         }, this));
     }
 

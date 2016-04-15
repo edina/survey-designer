@@ -34,9 +34,8 @@ class BBox {
             }, this));
         }
 
-        let d1 = document.getElementsByClassName('fieldcontain-general')[0]
-            .getElementsByClassName('add-button');
-        d1[0].insertAdjacentHTML('beforeBegin', modalButton);
+        let d1 = document.getElementsByClassName('fieldcontain-general')[0];
+        d1.insertAdjacentHTML('beforeend', modalButton);
 
     }
 
