@@ -10,6 +10,7 @@ import DataStorage from '../app/data';
 describe('#Visibility', () => {
     var visibility = new Visibility();
     var dataStorage = new DataStorage();
+    var visibilityStorage = new DataStorage("visibility");
     var cl = ".mobile-content";
     var fieldGenerator;
     var triggeredId = "checkbox-3";
@@ -53,8 +54,7 @@ describe('#Visibility', () => {
     it('check save visibility', (done) => {
         $("#save-rule").trigger('click');
         var visObject = visibility.getVisibility();
-        assert.deepEqual(dataStorage.searchForFieldId(triggeredId).properties.visibility,
-                         visObject);
+        assert.deepEqual(visibilityStorage.getField(triggeredId), visObject);
         done();
     });
 
@@ -67,7 +67,7 @@ describe('#Visibility', () => {
                      "The change behavior of questions is working");
         $("#save-rule").trigger('click');
         var visObject = visibility.getVisibility();
-        assert.deepEqual(dataStorage.searchForFieldId(triggeredId).properties.visibility,
+        assert.deepEqual(visibilityStorage.getField(triggeredId),
                          visObject);
         done();
     });

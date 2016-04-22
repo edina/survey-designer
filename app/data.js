@@ -62,7 +62,7 @@ class DataStorage {
     * @param {String} value to update
     */
     updateField(id, key, value) {
-        var data = this.getData();
+        var data = this.getData() || {};
         var index = data.fields.findIndex(x => x.id === id);
         data.fields[index].properties[key] = value;
         this.setData(data);
@@ -74,7 +74,7 @@ class DataStorage {
      * @param value
      */
     addField(key, value) {
-        var data = this.getData();
+        var data = this.getData() || {};
         data[key] = value;
         this.setData(data);
     }

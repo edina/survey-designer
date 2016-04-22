@@ -22,6 +22,25 @@ class Visibility {
         this.visibilityId = "visibility-question";
         this.selectOperators = "visibility-operators";
         this.selectAnswers = "visibility-values";
+        this.initialize();
+    }
+
+    initialize () {
+        //store existing visibilities to different object
+        var visibilityStorage = new DataStorage("visibility");
+        var visibility = {};
+        let data = this.dataStorage.getData();
+        if(data !== null && data.fields) {
+            data.fields.forEach(function(field){
+                if(field.properties.visibility) {
+                    visibility[field.id] = {};
+                    for (var id in field.properties.visibility) {
+                        visibility[field.id][id] = field.properties.visibility[id];
+                    }
+                }
+            });
+        }
+        visibilityStorage.setData(visibility);
     }
 
     /**
@@ -111,16 +130,17 @@ class Visibility {
      * @returns visibility of the found field
      */
     checkForExistingRules(id) {
-        var dataStorage = new DataStorage();
-        return dataStorage.searchForFieldId(id).properties.visibility;
+        var dataStorage = new DataStorage("visibility");
+        return dataStorage.getField(id);
     }
 
     enableEvents(el) {
         //event for saving rule
         $(document).off('click', '#save-rule');
         $(document).on('click', '#save-rule', $.proxy(function() {
-            var dataStorage = new DataStorage();
-            dataStorage.updateField(el, "visibility", this.getVisibility());
+            var dataStorage = new DataStorage("visibility");
+            dataStorage.addField(el, this.getVisibility());
+            //dataStorage.updateField(el, "visibility", this.getVisibility());
         }, this));
 
         //event for updating rules and answers when the user selects
@@ -203,6 +223,7 @@ class Visibility {
      * @param {String} el is the id of the selected question
      */
     showVisibilityWindow(el) {
+        this.elementId = el;
         var body = [];
         var footer = [];
         var id = "relate-modal";
@@ -227,8 +248,8 @@ class Visibility {
             var options = {
                 id: id,
                 title: "Visibility Rules",
-                body: body,
-                footer: footer,
+                body: body.join(""),
+                footer: footer.join(""),
                 size: ""
             };
             $("body").append(utils.makeModalWindow(options));
@@ -247,7 +268,14 @@ class Visibility {
      */
     updateHTMLForAnswers(questionId) {
         //append operators and answers
-        var operatorsAndAnswers = this.getRulesAndAnswers(questionId);
+        let operatorsAndAnswers;
+        //when elementId is different than questionId
+        if(this.elementId !== questionId) {
+            operatorsAndAnswers = this.getRulesAndAnswers(this.elementId);
+        }
+        else {
+            operatorsAndAnswers = this.getRulesAndAnswers(questionId);
+        }
         $("#"+this.divAnswer).html(operatorsAndAnswers.answers.join(""));
         $("#"+this.divOperator).html(operatorsAndAnswers.operators.join(""));
         //if there is visibility dynamically change the value on dom

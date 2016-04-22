@@ -105,6 +105,7 @@ describe('Survey', function() {
 
     after((done) => {
         $("."+options.subElement).remove();
+        $("#map-modal").remove();
         done();
     });
 });

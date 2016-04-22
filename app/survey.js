@@ -96,8 +96,10 @@ class Survey {
                 data = convertor.HTMLtoJSON (data, this.title);
             }
         }
+        //store existing data in localstorage
         var dataStorage = new DataStorage();
         dataStorage.setData(data);
+
         //the layout is defining which fields will be used on the displayed list
         //of records on the device
         this.options.layout = data.recordLayout;

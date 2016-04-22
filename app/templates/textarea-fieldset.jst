@@ -8,4 +8,7 @@
   <input type="text" name="placeholder" placeholder="<%= translate("textarea.default-text") %>" value="<%= properties.placeholder %>">
   <label for="persistent"><%= translate("textarea.persistent") %></label>
   <input type="checkbox" name="persistent" <%= check(persistent, "checked") %>>
+  <button type="button" class="btn btn-default btn-sm relate" aria-label="<%= translate("textarea.relate") %>">
+    <%= translate("textarea.relate") %>
+  </button>
 </fieldset>

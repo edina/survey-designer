@@ -47,7 +47,11 @@ export class SurveyView extends Backbone.View {
                 };
             }
 
-            var optionsForHTML = {
+            pcapi.updateItem(options).then(function(result){
+                utils.giveFeedback("Your form has been uploaded");
+            });
+
+            /*var optionsForHTML = {
                 remoteDir: "editors",
                 path: encodeURIComponent(title)+".edtr",
                 data: htmlConvertor.JSONtoHTML(formInJSON).join("")
@@ -57,15 +61,11 @@ export class SurveyView extends Backbone.View {
                 optionsForHTML.urlParams = {
                     'public': 'true'
                 };
-            }
+            }*/
 
-            pcapi.updateItem(options).then(function(result){
+            /*pcapi.updateItem(optionsForHTML).then(function(result){
                 utils.giveFeedback("Your form has been uploaded");
-            });
-
-            pcapi.updateItem(optionsForHTML).then(function(result){
-                utils.giveFeedback("Your form has been uploaded");
-            });
+            });*/
         }, this));
     }
 

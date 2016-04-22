@@ -149,7 +149,9 @@ class FieldGenerator {
                   '</div>';
             $id.append(buttons);
         }
-        $id.after(addfieldTemplate({data: cfg.options}));
+        let templateData = {data: cfg.options};
+        _.extend(templateData, this.viewHelpers());
+        $id.after(addfieldTemplate(templateData));
     }
 
     /**
@@ -180,7 +182,7 @@ class FieldGenerator {
         this.$el.on("click", ".add-field", $.proxy(function(event){
             var $this = $(event.target);
             var $fieldcontain = $this.closest('.fieldcontain');
-            this.render({type: $this.text().trim()}, $this);
+            this.render({type: $this.attr("title").trim()}, $this);
         }, this));
     }
 

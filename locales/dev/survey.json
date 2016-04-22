@@ -41,8 +41,7 @@
         "required": "Required",
         "persistent": "Persistent",
         "relate": "Visibility",
-        "header": "Use as a record name",
-        "relate": "Visibility"
+        "header": "Use as a record name"
     },
     "textarea": {
         "name": "Description",
