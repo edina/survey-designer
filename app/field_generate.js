@@ -28,6 +28,7 @@ class FieldGenerator {
         this.el = el;
         this.$el = $(el);
         this.options = options;
+        this.visibility = new Visibility();
     }
 
     render(data, element) {
@@ -289,16 +290,16 @@ class FieldGenerator {
         }, this));
 
         //add visibility button
-        var visibility = new Visibility();
         var element = this.el;
         this.$el.off("click", ".relate");
-        this.$el.on("click", ".relate", function() {
+        this.$el.on("click", ".relate", $.proxy(function(e) {
             var dataStorage = new DataStorage();
             if (dataStorage.getData() === null) {
                 save.saveData(element);
             }
-            visibility.showVisibilityWindow($(this).closest('.fieldcontain').attr("id"));
-        });
+            this.visibility.showVisibilityWindow($(e.target)
+                .closest('.fieldcontain').attr("id"));
+        }, this));
     }
 
     enabledTreeEvents() {
@@ -359,9 +360,12 @@ class FieldGenerator {
 
     enableRemoveField() {
         this.$el.off("click", ".remove-field");
-        this.$el.on("click", ".remove-field", function(){
-            $(this).closest('.fieldcontain').remove();
-        });
+        this.$el.on("click", ".remove-field", $.proxy(function(e){
+            let $fieldcontain = $(e.target).closest('.fieldcontain');
+            $fieldcontain.next().remove();
+            $fieldcontain.remove();
+            this.visibility.deleteVisibility($fieldcontain.attr("id"));
+        }, this));
     }
 
     /**

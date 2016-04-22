@@ -134,11 +134,17 @@ class Visibility {
         return dataStorage.getField(id);
     }
 
+    deleteVisibility(id) {
+        let dataStorage = new DataStorage("visibility");
+        dataStorage.removeField(id);
+    }
+
     enableEvents(el) {
         //event for saving rule
         $(document).off('click', '#save-rule');
         $(document).on('click', '#save-rule', $.proxy(function() {
             var dataStorage = new DataStorage("visibility");
+            console.log(el)
             dataStorage.addField(el, this.getVisibility());
             //dataStorage.updateField(el, "visibility", this.getVisibility());
         }, this));
@@ -148,6 +154,7 @@ class Visibility {
         $(document).off('change', '#'+this.visibilityId);
         $(document).on('change', '#'+this.visibilityId, $.proxy(function(e) {
             var questionId = $(e.target).val();
+            console.log(questionId)
             this.updateHTMLForAnswers(questionId);
         }, this));
     }
