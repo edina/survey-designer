@@ -117,6 +117,7 @@
         "required": "Required",
         "multiple-images": "Multiple images",
         "los": "Line of Sight",
+        "relate": "Visibility",
         "label-blur": "Blur Threshold"
     },
     "audio": {
