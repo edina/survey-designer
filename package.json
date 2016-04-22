@@ -7,7 +7,7 @@
     "lint": "node_modules/jshint/bin/jshint src/www/js/**.js",
     "release": "npm run lint & npm run test & npm run bundle & npm run release-it",
     "test": "node_modules/.bin/mocha-phantomjs --timeout 10000 test.html",
-    "bundle": "jspm bundle-sfx app/main dist/main.js",
+    "bundle": "jspm bundle-sfx --minify app/main dist/main.js",
     "release-it": "node_modules/release-it/bin/release.js",
     "validate": "npm ls"
   },
