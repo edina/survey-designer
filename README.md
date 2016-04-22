@@ -42,8 +42,13 @@ npm run bundle
 
 For testing the app you need to:
 ```
-http-server
+jspm setmode remote
+npm run test
 ```
 
-and then open the link:
-http://localhost:8080/test.html
+For running end to end tests you need firstly to download and start selenium server, check the [documentation](http://nightwatchjs.org/guide) and then go and run the tests:
+```
+./nightwatch --test test/e2e/surveyDesigner/create_survey.js
+```
+
+
