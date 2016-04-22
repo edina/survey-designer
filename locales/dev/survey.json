@@ -13,7 +13,7 @@
         "editors-btn-msg": "The list of my forms"
     },
     "general": {
-        "name": "general",
+        "name": "General",
         "field-title": "General",
         "label-title": "Title of the survey",
         "label": "This is a title",
@@ -28,7 +28,7 @@
         "addAttribute": "Add attribute"
     },
     "text": {
-        "name": "text",
+        "name": "Text",
         "field-title": "Text field",
         "label-title": "Field label",
         "label": "This is a label",
@@ -41,10 +41,11 @@
         "required": "Required",
         "persistent": "Persistent",
         "relate": "Visibility",
-        "header": "Use as a record name"
+        "header": "Use as a record name",
+        "relate": "Visibility"
     },
     "textarea": {
-        "name": "textarea",
+        "name": "Description",
         "field-title": "Textarea field",
         "label-title": "Field label",
         "label": "This is a label",
@@ -55,7 +56,7 @@
         "relate": "Visibility"
     },
     "range":{
-        "name": "text",
+        "name": "Range",
         "field-title": "Range field",
         "label-title": "Field label",
         "label": "This is a label",
@@ -67,7 +68,7 @@
         "relate": "Visibility"
     },
     "checkbox": {
-        "name": "checkbox",
+        "name": "Multiple choice",
         "field-title": "Checkbox field",
         "label-title": "Field label",
         "label": "This is a label",
@@ -82,7 +83,7 @@
         "relate": "Visibility"
     },
     "radio": {
-        "name": "radio",
+        "name": "Single choice",
         "field-title": "Radio field",
         "label-title": "Field label",
         "label": "This is a label",
@@ -97,7 +98,7 @@
         "relate": "Visibility"
     },
     "select": {
-        "name": "select",
+        "name": "Drop down",
         "field-title": "Select field",
         "label-title": "Field label",
         "label": "This is a label",
@@ -110,7 +111,7 @@
         "relate": "Visibility"
     },
     "image": {
-        "name": "image",
+        "name": "Image",
         "field-title": "Image field",
         "label-title": "Field label",
         "label": "This is a label",
@@ -120,7 +121,7 @@
         "label-blur": "Blur Threshold"
     },
     "audio": {
-        "name": "audio",
+        "name": "Audio",
         "field-title": "Audio field",
         "label-title": "Field label",
         "label": "This is a label",
@@ -135,7 +136,7 @@
         "background": "To be working on the background"
     },
     "warning": {
-        "name": "warning",
+        "name": "Warning",
         "field-title": "Warning",
         "label-title": "Field label",
         "label": "This is a label",
@@ -143,7 +144,7 @@
         "message": "Warning message goes here"
     },
     "dtree": {
-        "name": "dtree",
+        "name": "Decision tree",
         "field-title": "Decision tree",
         "label-title": "Field label",
         "label": "This is a label",
@@ -153,7 +154,7 @@
         "relate": "Visibility"
     },
     "section": {
-        "name": "section",
+        "name": "Section",
         "field-title": "Section",
         "label-title": "Section title",
         "label": "This is a title",

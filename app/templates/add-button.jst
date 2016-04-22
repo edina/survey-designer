@@ -7,7 +7,7 @@
     <% for(var i=0; i<data.length; i++) { %>
       <li>
         <a href="javascript:void(0);" class="add-field" data-toggle="tooltip" data-placement="right" title="<%= data[i] %>">
-          <span class="glyphicon icon-<%= data[i] %>" aria-hidden="true"></span><%= data[i] %>
+          <span class="glyphicon icon-<%= data[i] %>" aria-hidden="true"></span><%= translate(data[i]+".name") %>
         </a>
       </li>
     <% } %>
