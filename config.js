@@ -33,11 +33,11 @@ System.config({
     "leaflet-draw": "npm:leaflet-draw@0.2.4",
     "leaflet-omnivore": "npm:leaflet-omnivore@0.3.2",
     "mocha": "npm:mocha@2.4.5",
-    "pcapi": "npm:pcapi@0.1.4",
+    "pcapi": "npm:pcapi@0.2.1",
     "survey-convertor": "github:edina/survey-convertor@0.1.6",
     "text": "github:systemjs/plugin-text@0.0.4",
-    "traceur": "github:jmcriffey/bower-traceur@0.0.92",
-    "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.92",
+    "traceur": "github:jmcriffey/bower-traceur@0.0.93",
+    "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.93",
     "underscore": "npm:underscore@1.8.3",
     "github:components/jqueryui@1.11.4": {
       "jquery": "npm:jquery@1.11.2"
@@ -598,7 +598,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:pcapi@0.1.4": {
+    "npm:pcapi@0.2.1": {
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
       "jquery": "npm:jquery@1.11.2",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
