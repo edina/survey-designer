@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "node_modules/jshint/bin/jshint src/www/js/**.js",
     "release": "npm run lint & npm run test & npm run bundle & npm run release-it",
-    "test": "node_modules/.bin/mocha-phantomjs --timeout 10000 test.html",
+    "test": "node_modules/.bin/mocha-phantomjs --ssl-protocol=any --ignore-ssl-errors=true --timeout 10000 test.html",
     "bundle": "jspm bundle-sfx --minify app/main dist/main.js",
     "release-it": "node_modules/release-it/bin/release.js",
     "validate": "npm ls"
@@ -66,8 +66,8 @@
       "babel": "npm:babel-core@^5.8.22",
       "babel-runtime": "npm:babel-runtime@^5.8.20",
       "core-js": "npm:core-js@^1.1.0",
-      "traceur": "github:jmcriffey/bower-traceur@0.0.88",
-      "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88"
+      "traceur": "github:jmcriffey/bower-traceur@0.0.92",
+      "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.92"
     }
   },
   "pre-commit": [
