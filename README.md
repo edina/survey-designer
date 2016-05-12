@@ -7,7 +7,6 @@
 
 Prerequisites:
 - npm
-- jspm
 
 ```
 npm -g install jspm http-server
