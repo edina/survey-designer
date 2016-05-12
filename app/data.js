@@ -1,4 +1,8 @@
 class DataStorage {
+    /**
+     * @constructor
+     * @param {string} el - the key that will be used for storing data to localStorage
+     */
     constructor(el){
         this.formKey = "current-form";
         if(el) {
@@ -79,6 +83,11 @@ class DataStorage {
         this.setData(data);
     }
 
+    /**
+     * get field from localStorage
+     * @param {string} key - the key for finding the attribute
+     * @returns {object} field that corresponds to the key
+     */
     getField(key) {
         let data = this.getData();
         if(data){

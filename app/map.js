@@ -7,6 +7,13 @@ import DataStorage from './data';
 
 
 class Mapper {
+    /**
+     * @constructor
+     * @param {string} options.id - id where map is initialized
+     * @param {float} options.lat - latitude of initial point
+     * @param {float} options.lng - longitude of initial point
+     * @param {integer} options.zoom - zoom level of initial point
+     */
     constructor (options) {
         this.mapId = options.id;
         this.lat = options.lat || 51.505;
@@ -15,6 +22,11 @@ class Mapper {
         this.layers = {};
     }
 
+    /**
+     * initialize map
+     * @returns {object} map - map object with baselayer, starting point,
+     * zoom level and controls
+     */
     initMap () {
         let map = L.map(this.mapId, {
             center: new L.LatLng(this.lat, this.lng),
@@ -34,6 +46,9 @@ class Mapper {
         return map;
     }
 
+    /**
+     * add draw control for drawing the bbox of the survey
+     */
     addDrawControl () {
         // Initialise the FeatureGroup to store editable layers
         let drawnItems = new L.FeatureGroup();
@@ -56,6 +71,7 @@ class Mapper {
         });
         this.map.addControl(drawControl);
         this.map.on('draw:created', $.proxy(function (e) {
+            // add bbox to the localstorage
             if(Object.keys(drawnItems._layers).length === 0) {
                 var layer = e.layer;
                 dataStorage.addField("bbox", layer.toGeoJSON());

@@ -3,6 +3,9 @@ import * as utils from './utils';
 import modal from 'bootstrap';
 
 class Visibility {
+    /**
+     * @constructor of Visibility: define relational visibility between fields
+     */
     constructor() {
         this.ELEMENTS_TO_EXCLUDE = [
           "dtree",
@@ -25,11 +28,15 @@ class Visibility {
         this.initialize();
     }
 
+    /**
+     * initialize visibilty process
+     */
     initialize () {
         //store existing visibilities to different object
         var visibilityStorage = new DataStorage("visibility");
         var visibility = {};
         let data = this.dataStorage.getData();
+        //check if there's any vibility in existing forms
         if(data !== null && data.fields) {
             data.fields.forEach(function(field){
                 if(field.properties.visibility) {
@@ -134,6 +141,10 @@ class Visibility {
         return dataStorage.getField(id);
     }
 
+    /**
+     * delete visibility item from localstorage
+     * @param {string} id - id of the field that will be hidden
+     */
     deleteVisibility(id) {
         let dataStorage = new DataStorage("visibility");
         dataStorage.removeField(id);
@@ -144,7 +155,6 @@ class Visibility {
         $(document).off('click', '#save-rule');
         $(document).on('click', '#save-rule', $.proxy(function() {
             var dataStorage = new DataStorage("visibility");
-            console.log(el)
             dataStorage.addField(el, this.getVisibility());
             //dataStorage.updateField(el, "visibility", this.getVisibility());
         }, this));
@@ -154,7 +164,6 @@ class Visibility {
         $(document).off('change', '#'+this.visibilityId);
         $(document).on('change', '#'+this.visibilityId, $.proxy(function(e) {
             var questionId = $(e.target).val();
-            console.log(questionId)
             this.updateHTMLForAnswers(questionId);
         }, this));
     }

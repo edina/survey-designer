@@ -3,6 +3,9 @@ import * as utils from './utils';
 import _ from 'underscore';
 
 class Convertor {
+    /**
+     * @constructor
+     */
     constructor (){
         this.form = {};
     }
@@ -10,22 +13,28 @@ class Convertor {
     /**
      * go through the dom and find all the fieldcontains to get the equivalent
      * html and convert it to a json file
+     * @param {object} - jquery html object
+     * @returns {object} - form object that contains all the filled in details
      */
     getForm ($html) {
         var self = this;
         var form = {};
+        //assign title
         form.title = $html.find(".fieldcontain-general").find('input[name="label"]').val();
         form.geoms = [];
         form.recordLayout = {"headers": []};
         form.fields = [];
         form.extra = [];
+        //check which geometries are checked
         $html.find('input[name="geometryType"]:checked').each(function(){
             form.geoms.push($(this).val());
         });
         var values = [];
+        //find extra attributes
         $html.find('input[name="attribute-value"]').each(function(){
             values.push($(this).val());
         });
+        //add keys and attributes to the form
         $html.find('input[name="attribute-key"]').each(function(index, element){
             var value = $(element).val();
             var extra = {
@@ -33,9 +42,12 @@ class Convertor {
             };
             form.extra.push(extra);
         });
+        //if header checked then add it to headers, it was asked by crowd-survey
+        //for having multiple data on the editor list
         $html.find('input[name="header"]:checked').each(function(){
             form.recordLayout.headers.push($(this).closest(".fieldcontain").attr("id"));
         });
+        //go through each fieldcontain and attach data to form object
         $html.find(".fieldcontain").each(function(){
             var $this = $(this);
             if(!$this.hasClass("fieldcontain-general")){

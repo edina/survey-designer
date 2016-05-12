@@ -24,6 +24,15 @@ import Visibility from './visibility';
 
 /* global i18n */
 class FieldGenerator {
+    /**
+     * @constructor
+     * @param {string} el - id/class of dom element (.class, #id)
+     * @param {string} options.title - title of the survey
+     * @param {string} options.formsFolder - sid/path coming from the url params,
+     * unique space where items such as dtree, images need to be saved
+     * @param {string} options.copyToPublic - true|false for copying or not
+     * to anonymous user path;
+     */
     constructor (el, options){
         this.el = el;
         this.$el = $(el);
@@ -31,14 +40,22 @@ class FieldGenerator {
         this.visibility = new Visibility();
     }
 
+    /**
+     * render each field from object to html
+     * @param {object} data - each field as object
+     * @param {element} element - the dom element where the field will be rendered to
+     */
     render(data, element) {
+        // if element then append it after it, it's for add field button
         if(element) {
             element.closest('div').after(this.createField(data));
-        }
+        } //if not then append it to the element that the whole survey is configured
         else{
             this.$el.append(this.createField(data));
         }
+        // add extra field buttons
         this.addFieldButtons(data.type);
+        // enable events
         this.enableActions();
     }
 
@@ -65,6 +82,7 @@ class FieldGenerator {
                 return generalTemplate(templateData);
             case 'text':
                 templateData.properties["max-chars"] = templateData.properties["max-chars"] || 10;
+                //check if the field is selected to be as part of they layout
                 if(this.options && this.options.layout) {
                     templateData.header = this.options.layout.headers.indexOf(templateData.id) > -1;
                 }
@@ -77,12 +95,14 @@ class FieldGenerator {
                 templateData.properties.step = templateData.properties.step || 1;
                 return rangeTemplate(templateData);
             case 'checkbox':
+                //check the sid of the user for appending it to the path
                 if(this.options && this.options.formsFolder) {
                     templateData.properties.extraPath = this.options.formsFolder;
                 }
                 templateData.properties.options = templateData.properties.options || [];
                 return checkboxTemplate(templateData);
             case 'radio':
+                //check the sid of the user for appending it to the path
                 if(this.options && this.options.formsFolder) {
                     templateData.properties.extraPath = this.options.formsFolder;
                 }
@@ -90,6 +110,7 @@ class FieldGenerator {
                 return radioTemplate(templateData);
             case 'select':
                 templateData.properties.options = templateData.properties.options || [];
+                //remove the first element if blank
                 if(templateData.properties.options > 0 && templateData.properties.options[0] === "") {
                     templateData.options.shift();
                 }
@@ -139,7 +160,7 @@ class FieldGenerator {
     addFieldButtons(type) {
         var fields = this.$el.find('.fieldcontain-'+type);
         var id = type+"-"+(fields.length);
-        $(fields[fields.length - 1]).attr("id", id);
+        $(fields[fields.lenrendergth - 1]).attr("id", id);
         var $id = $("#"+id);
         if(type !== "general") {
             var buttons = '<div class="fieldButtons">' +
@@ -168,6 +189,9 @@ class FieldGenerator {
         this.enableAddAttribute();
     }
 
+    /**
+     * enable add attribute event for the equivalent button
+     */
     enableAddAttribute() {
         this.$el.off("click", "#add-attribute");
         this.$el.on("click", "#add-attribute", $.proxy(function(event){
@@ -302,6 +326,9 @@ class FieldGenerator {
         }, this));
     }
 
+    /**
+     * enable events related to decision tree field
+     */
     enabledTreeEvents() {
         let $browseElement = $('.add-dtree');
         let $uploadElement = $('.upload-dtree');
@@ -358,6 +385,9 @@ class FieldGenerator {
         }, this));
     }
 
+    /**
+     * event for removing fields from the body
+     */
     enableRemoveField() {
         this.$el.off("click", ".remove-field");
         this.$el.on("click", ".remove-field", $.proxy(function(e){
@@ -384,6 +414,9 @@ class FieldGenerator {
         return j+1;
     }
 
+    /**
+     * helper functions that are used by underscore inside the template engine
+     */
     viewHelpers() {
         return {
             'translate': function(i18nKey) {
@@ -409,15 +442,6 @@ class FieldGenerator {
                 return v+1;
             }
         };
-    }
-
-    /**
-     * upload file on the server
-     * @param {String} browserElement
-     * @param {String} uploadElement
-     */
-    uploadFile (browseElement, uploadElement) {
-
     }
 
 }
