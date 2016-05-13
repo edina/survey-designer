@@ -161,7 +161,7 @@ class FieldGenerator {
     addFieldButtons(type) {
         var fields = this.$el.find('.fieldcontain-'+type);
         var id = type+"-"+(fields.length);
-        $(fields[fields.lenrendergth - 1]).attr("id", id);
+        $(fields[fields.length - 1]).attr("id", id);
         var $id = $("#"+id);
         if(type !== "general") {
             var buttons = '<div class="fieldButtons">' +
