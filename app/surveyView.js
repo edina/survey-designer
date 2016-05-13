@@ -3,7 +3,6 @@ import * as utils from './utils';
 import * as save from './save';
 import pcapi from 'pcapi';
 import Survey from './survey';
-import Convertor from 'survey-convertor';
 
 /* global cfg, i18n */
 
@@ -41,7 +40,6 @@ export class SurveyView extends Backbone.View {
         $(document).on('click', '#form-save', $.proxy(function(){
             //convert form to json object
             var formInJSON = save.saveData("."+this.options.subElement);
-            var htmlConvertor = new Convertor();
 
             var title = formInJSON.title;
             //if sid on the url params then it will become the filename of the editor

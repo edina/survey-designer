@@ -1,8 +1,9 @@
-var cfg = {
-        "baseurl": "<pcapi domain>",
-        "pcapianonymous": "<anon user id",
+{
+    "PCAPI": {
+        "baseurl": "http://localhost:8080",
+        "pcapianonymous": "00000000-0000-0000-0000-000000000000",
         "userid": "00000000-0000-0000-0000-000000000000",
-        "version": "<version>",
+        "version": "",
         "options": [
             "text",
             "range",
@@ -13,8 +14,7 @@ var cfg = {
             "image",
             "audio",
             "warning",
-            "gps",
-            "help",
             "dtree"
         ]
-};
+    }
+}
