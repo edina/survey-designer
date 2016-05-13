@@ -1,13 +1,15 @@
 var fs = require('fs');
 var editor = JSON.parse(fs.readFileSync('test/test.json').toString('utf8'));
 var http = require("http");
+var SD_URL = "http://localhost:8081";
+var PCAPI_URL = "http://localhost:8080";
 
 module.exports = {
     'Demo test survey designer' : function (browser) {
         browser
-            .url('http://localhost:8080/dist/?sid=test#survey-designer')
+            .url(SD_URL+'/dist/?sid=test#survey-designer')
             .waitForElementVisible('body', 1000)
-            .waitForElementVisible('.dropdownMenu', 1000)
+            .waitForElementVisible('.dropdownMenu', 2000)
             .click('.dropdownMenu')
             .isVisible('.dropdown-menu')
             .isVisible('button[id=add-attribute]')
@@ -197,7 +199,7 @@ module.exports = {
     'Create decision tree field': function (browser) {
         var field = editor.fields[33];
         var type = field.type;
-        var url = "http://129.215.169.95:8150/1.3/pcapi/editors/local/00000000-0000-0000-0000-000000000000/test/test-1.json";
+        var url = PCAPI_URL + "/1.3/pcapi/editors/local/00000000-0000-0000-0000-000000000000/test/test-1.json";
         browser
             .click('.dropdownMenu')
             .click('a[title='+type+']')
@@ -227,14 +229,14 @@ module.exports = {
         browser.pause(5000, function () {
             console.log('yyyyyyyyyyyyy')
         var request = http.request({
-            host: "129.215.169.95",
-            port: 8150,
+            host: "localhost",
+            port: 8080,
             path: "/1.3/pcapi/editors/local/00000000-0000-0000-0000-000000000000/test/test-1.json",
             method: "GET"
         }, function (response) {
             console.log('xxxxxxxxxxxxxx')
             console.log(response)
-            browser.end();
+            //browser.end();
             //browser
             //    .assert.equal(response.headers["content-length"], 14022, 'Same file size');
         }).on("error", function (err) {
