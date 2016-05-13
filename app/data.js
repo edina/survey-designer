@@ -1,5 +1,6 @@
 class DataStorage {
     /**
+     * A class for storing, updating searching data to localStorage
      * @constructor
      * @param {string} el - the key that will be used for storing data to localStorage
      */

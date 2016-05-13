@@ -4,10 +4,10 @@ import _ from 'underscore';
 
 class Convertor {
     /**
+     * A class for converting the html content to a form object and vice verca
      * @constructor
      */
     constructor (){
-        this.form = {};
     }
 
     /**

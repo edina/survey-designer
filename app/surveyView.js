@@ -9,6 +9,10 @@ import Convertor from 'survey-convertor';
 
 export class SurveyView extends Backbone.View {
 
+    /**
+     * A class that extends Backbone View and is used for initialing the app
+     * @constructor
+     */
     initialize () {
         this.cfg = cfg;
         //

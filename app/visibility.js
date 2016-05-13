@@ -4,6 +4,8 @@ import modal from 'bootstrap';
 
 class Visibility {
     /**
+     * A class for defining which fields are going to be displayed when a user
+     * selects an option from another field
      * @constructor of Visibility: define relational visibility between fields
      */
     constructor() {

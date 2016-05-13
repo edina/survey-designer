@@ -8,6 +8,7 @@ import DataStorage from './data';
 
 class Mapper {
     /**
+     * A class for initializing a Map object
      * @constructor
      * @param {string} options.id - id where map is initialized
      * @param {float} options.lat - latitude of initial point

@@ -13,10 +13,12 @@ import BBox from './bbox';
 
 class Survey {
     /**
-    * @param options.element {Object} the dom element where everything will be
-    * rendered
-    * @param options.title {String} the title of the Survey
-    */
+     * A class for fetching an existing editor or initializing a new one
+     * @constructor
+     * @param options.element {Object} the dom element where everything will be
+     * rendered
+     * @param options.title {String} the title of the Survey
+     */
     constructor(options) {
         this.options = options;
         this.title = options.title;

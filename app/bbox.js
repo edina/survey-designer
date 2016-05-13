@@ -4,6 +4,7 @@ import * as utils from './utils';
 class BBox {
 
     /**
+     * A class for making a map for defining the BBOX of a survey
      * @constructor
      * @param {object} options.mapper - The base map object
      * @param {mapId} options.id - The id of the map

@@ -25,6 +25,7 @@ import Visibility from './visibility';
 /* global i18n */
 class FieldGenerator {
     /**
+     * A class for rendering fields to html from an object
      * @constructor
      * @param {string} el - id/class of dom element (.class, #id)
      * @param {string} options.title - title of the survey
