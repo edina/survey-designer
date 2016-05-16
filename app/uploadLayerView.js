@@ -3,6 +3,7 @@ import * as utils from './utils';
 import pcapi from 'pcapi';
 import Mapper from './map';
 import sidePanelTemplate from './templates/sidebar.jst!';
+import * as config from './configuration';
 
 /* global cfg, i18n */
 
@@ -14,6 +15,7 @@ export class UploadLayerView extends Backbone.View {
         if(params) {
             this.options.copyToPublic = (params.public === 'true');
         }
+        let cfg = config.getConfig().PCAPI;
         pcapi.init({
             "url": cfg.baseurl,
             "version": cfg.version

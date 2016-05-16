@@ -21,6 +21,7 @@ import * as utils from './utils';
 import * as save from './save';
 import DataStorage from './data';
 import Visibility from './visibility';
+import * as config from './configuration';
 
 /* global i18n */
 class FieldGenerator {
@@ -172,7 +173,7 @@ class FieldGenerator {
                   '</div>';
             $id.append(buttons);
         }
-        let templateData = {data: cfg.options};
+        let templateData = {data: config.getConfig().fields};
         _.extend(templateData, this.viewHelpers());
         $id.after(addfieldTemplate(templateData));
     }

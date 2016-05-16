@@ -5,7 +5,9 @@ import pcapi from 'pcapi';
 import testForm  from './survey.json!';
 import language from '../locales/dev/survey.json!';
 import FieldGenerator from '../app/field_generate';
+import * as config from '../app/configuration';
 
+var cfg = config.getConfig().PCAPI;
 pcapi.init({
     "url": cfg.baseurl,
     "version": cfg.version

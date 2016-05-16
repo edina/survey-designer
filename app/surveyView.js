@@ -3,6 +3,7 @@ import * as utils from './utils';
 import * as save from './save';
 import pcapi from 'pcapi';
 import Survey from './survey';
+import * as config from './configuration';
 
 /* global cfg, i18n */
 
@@ -13,7 +14,7 @@ export class SurveyView extends Backbone.View {
      * @constructor
      */
     initialize () {
-        this.cfg = cfg;
+        this.cfg = config.getConfig().PCAPI;
         //
         this.options = {
             "element": "content",
