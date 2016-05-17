@@ -1,4 +1,4 @@
-import cfg from '../config/env.json!';
+import cfg from '../config/env.json!json';
 import myEnv from '../config/.env!text';
 
 /**
@@ -6,8 +6,8 @@ import myEnv from '../config/.env!text';
  * @returns {object} configuration object of the application
  */
 function getConfig(){
-    let env = myEnv || 'development';
-    return cfg[env];
+    let environment = myEnv.trim() || 'development';
+    return cfg[environment];
 }
 
 export {getConfig};
