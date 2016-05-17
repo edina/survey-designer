@@ -1,12 +1,12 @@
 import cfg from '../config/env.json!';
-import process from 'process';
+import myEnv from '../config/.env!text';
 
 /**
  * get config object
  * @returns {object} configuration object of the application
  */
 function getConfig(){
-    let env = process.env.NODE_ENV || 'development';
+    let env = myEnv || 'development';
     return cfg[env];
 }
 
