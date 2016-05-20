@@ -37,9 +37,8 @@ class Convertor {
         //add keys and attributes to the form
         $html.find('input[name="attribute-key"]').each(function(index, element){
             var value = $(element).val();
-            var extra = {
-                value: values[index]
-            };
+            var extra = {};
+            extra[value] = values[index];
             form.extra.push(extra);
         });
         //if header checked then add it to headers, it was asked by crowd-survey
