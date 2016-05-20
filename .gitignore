@@ -4,3 +4,6 @@ jspm_packages
 lib
 reports
 .editorconfig
+config/.env
+dist/main.js
+dist/main.js.map
