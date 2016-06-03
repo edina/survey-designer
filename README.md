@@ -12,7 +12,7 @@ Prerequisites:
 ```
 npm -g install jspm http-server
 jspm install
-http-server
+npm run serveit
 ```
 
 
