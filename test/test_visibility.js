@@ -34,20 +34,24 @@ describe('#Visibility', () => {
             }
         });
         assert.equal($("#"+visibility.visibilityId+ " option").length,
-                     fields.length-1,
+                     fields.length,
                      "The number of questions is right");
         done();
     });
 
-    it('check change event of questions', (done) => {
+    it('select a visibility rule', (done) => {
         var id = "radio-2";
+        var answerValue =
+            dataStorage.searchForFieldId(id).properties.options[2].value;
         $("#"+visibility.visibilityId).val(id).trigger('change');
-        assert.equal($("#"+visibility.selectAnswers).val(),
-                     dataStorage.searchForFieldId(id).properties.options[0].value,
-                     "The change behavior of questions is working");
-        assert.equal($("#"+visibility.selectAnswers+ " option").length,
+        assert.equal($("#"+visibility.selectAnswers+ " option").length - 1,
                      dataStorage.searchForFieldId(id).properties.options.length,
                      "The number of answers is right");
+        // Select an operator and answer
+        //$('#' + visibility.visibilityId).val(questionId).trigger('change');
+        $('#' + visibility.selectOperators).val('equal').trigger('change');
+        $('#' + visibility.selectAnswers).val(answerValue).trigger('change');
+
         done();
     });
 
@@ -69,6 +73,18 @@ describe('#Visibility', () => {
         var visObject = visibility.getVisibility();
         assert.deepEqual(visibilityStorage.getField(triggeredId),
                          visObject);
+        done();
+    });
+
+    it('test remove visibility', (done) => {
+        // Assert that some visibility rule has been set
+        assert.isDefined(visibilityStorage.getField(triggeredId));
+
+        $("#reset-visibility").trigger('click');
+        $("#save-rule").trigger('click');
+        assert.isUndefined(visibilityStorage.getField(triggeredId),
+            'visibility was removed');
+
         done();
     });
 
