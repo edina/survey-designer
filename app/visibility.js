@@ -58,10 +58,11 @@ class Visibility {
      * @returns array with all the question as select element
      */
     addQuestions(questionId) {
-        var data = this.dataStorage.getData().fields;
+        var data = this.dataStorage.getData().fields || [];
         var body = [];
         if (data.length > 0) {
             body.push('<select id="'+this.visibilityId+'">');
+            body.push('<option selected value disabled></option>');
             for (var i=0; i<data.length; i++) {
                 if ($.inArray(data[i].type, this.ELEMENTS_TO_EXCLUDE) === -1 &&
                     data[i].id !== questionId) {
@@ -85,8 +86,9 @@ class Visibility {
         var divAnswers = [];
         var selectOperators = [];
         var selected = "";
-        var data = this.dataStorage.getData().fields;
+        var data = this.dataStorage.getData().fields || [];
         selectOperators.push('<select id="'+this.selectOperators+'">');
+        selectOperators.push('<option selected value disabled></option>');
         if(visibility) {
             visibilityId = visibility.id;
         }
@@ -95,6 +97,7 @@ class Visibility {
                 var obj = this.getOperatorsAndAnswersFromJSON(element);
                 if(obj.answers.length > 0) {
                     divAnswers.push('<select id="'+this.selectAnswers+'">');
+                    divAnswers.push('<option selected value disabled></option>');
                     obj.answers.forEach(function(element){
                         if(visibility && visibility.answer === element) {
                             selected = 'selected="selected"';
@@ -157,8 +160,22 @@ class Visibility {
         $(document).off('click', '#save-rule');
         $(document).on('click', '#save-rule', $.proxy(function() {
             var dataStorage = new DataStorage("visibility");
-            dataStorage.addField(el, this.getVisibility());
+            var visibility = this.getVisibility();
+            if (visibility.id === null || visibility.operator === null ||
+                  visibility.answer === null ) {
+                dataStorage.addField(el, undefined);
+            }
+            else {
+                dataStorage.addField(el, visibility);
+            }
             //dataStorage.updateField(el, "visibility", this.getVisibility());
+        }, this));
+
+        $(document).off('click', '#reset-visibility');
+        $(document).on('click', '#reset-visibility', $.proxy(function() {
+            $('#' + this.visibilityId).val(null);
+            $('#' + this.selectOperators).val(null);
+            $('#' + this.selectAnswers).val(null);
         }, this));
 
         //event for updating rules and answers when the user selects
@@ -254,6 +271,7 @@ class Visibility {
             body.push('<div class="col-lg-3" id="'+this.divAnswer+'">');
             body.push('</div>');
             body.push('<div class="col-lg-1" id="remove-button-div">');
+            body.push('<span id="reset-visibility" aria-label="Reset visibility">×</span>');
             body.push('</div>');
             body.push('</div><br>');
             //body.push('<button type="button" class="btn btn-primary" id="add-rule">'+i18n.t("add-rule")+'</button>');
