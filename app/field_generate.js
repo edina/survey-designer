@@ -48,15 +48,16 @@ class FieldGenerator {
      * @param {element} element - the dom element where the field will be rendered to
      */
     render(data, element) {
+        var $field = $(this.createField(data));
         // if element then append it after it, it's for add field button
         if(element) {
-            element.closest('div').after(this.createField(data));
+            $field.insertAfter(element.closest('div'));
         } //if not then append it to the element that the whole survey is configured
         else{
-            this.$el.append(this.createField(data));
+            $field.appendTo(this.$el);
         }
         // add extra field buttons
-        this.addFieldButtons(data.type);
+        this.addFieldButtons($field);
         // enable events
         this.enableActions();
     }
@@ -157,25 +158,21 @@ class FieldGenerator {
 
     /**
      * add move and remove buttons for each field that is render on the SD
-     * @param {String} type such as text, textarea etc
+     * @param {JQuery} $field reference to the field in the DOM
      */
-    addFieldButtons(type) {
-        var fields = this.$el.find('.fieldcontain-'+type);
-        var id = type+"-"+(fields.length);
-        $(fields[fields.length - 1]).attr("id", id);
-        var $id = $("#"+id);
-        if(type !== "general") {
+    addFieldButtons($field) {
+        if (!$field.hasClass('fieldcontain-general')) {
             var buttons = '<div class="fieldButtons">' +
                   '<button type="button" class="btn btn-default '+
                       'remove-field" aria-label="Remove field">'+
                       '<span class="glyphicon '+
                       'glyphicon-remove" aria-hidden="true"></span></button>'+
                   '</div>';
-            $id.append(buttons);
+            $field.append(buttons);
         }
         let templateData = {data: config.getConfig().fields};
         _.extend(templateData, this.viewHelpers());
-        $id.after(addfieldTemplate(templateData));
+        $field.after(addfieldTemplate(templateData));
     }
 
     /**
