@@ -1,6 +1,6 @@
 {
   "name": "survey-designer",
-  "version": "0.0.7",
+  "version": "0.8.0",
   "description": "Create custom forms",
   "main": "index.js",
   "scripts": {
