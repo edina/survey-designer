@@ -63,7 +63,7 @@ export class SurveyView extends Backbone.View {
 
             //store the form to pcapi
             pcapi.updateItem(options).then(function(result){
-                utils.giveFeedback("Your form has been uploaded");
+                utils.giveFeedback("Your form has been saved successfully");
             });
 
         }, this));
