@@ -52,7 +52,8 @@
         "default-text": "Place default text here (if any)",
         "required": "Required",
         "persistent": "Persistent",
-        "relate": "Visibility"
+        "readOnly": "Read Only",
+        "relate": "Visibility Rule"
     },
     "range":{
         "name": "Range",

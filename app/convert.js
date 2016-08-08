@@ -101,6 +101,7 @@ class Convertor {
             case 'textarea':
                 field.required = html.find('input[name="required"]').is(':checked');
                 field.persistent = html.find('input[name="persistent"]').is(':checked');
+                field.properties.readOnly = html.find('input[name="readOnly"]').is(':checked');
                 field.properties.placeholder = html.find('input[name="placeholder"]').val();
                 break;
             case 'range':
@@ -246,6 +247,7 @@ class Convertor {
                         persistent: $field.data('persistent') === 'on',
                         properties: {
                             placeholder: $input.attr("placeholder"),
+                            readOnly: $field.data('readOnly') === 'on'
                         }
                     };
                     break;
