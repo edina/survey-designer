@@ -8,14 +8,10 @@
   <input type="text" name="placeholder" placeholder="<%= translate("textarea.default-text") %>" value="<%= properties.placeholder %>">
   <label for="persistent"><%= translate("textarea.persistent") %></label>
   <input type="checkbox" name="persistent" <%= check(persistent, "checked") %> >
-
   <label for="numrows"><%= translate("textarea.numrows") %></label>
   <input type="number" name="numrows" min=2 step=1 defaultValue=2 value=2>
-
-
   <label for="readOnly"><%= translate("textarea.readOnly") %></label>
   <input type="checkbox" name="readOnly" <%= check(properties.readOnly, "checked") %> >
-
   <label for="visibility"><%= translate("textarea.relate") %></label>
   <button type="button" name="visibility" class="btn btn-default btn-sm relate" aria-label="<%= translate("textarea.relate") %>">
      <%= translate("textarea.relate") %>

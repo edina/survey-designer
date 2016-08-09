@@ -29,6 +29,9 @@ System.config({
     "traceur": "github:jmcriffey/bower-traceur@0.0.93",
     "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.93",
     "underscore": "npm:underscore@1.8.3",
+    "github:Leaflet/Leaflet@0.7.7": {
+      "css": "github:systemjs/plugin-css@0.1.21"
+    },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
