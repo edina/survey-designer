@@ -74,6 +74,7 @@ describe('surveyConvertor#fieldToJSON', function() {
         var f = {};
         $html.filter('.fieldcontain').each(function(index, element){
 
+          
           var readOnly = $(element).find('input[name="readOnly"]').is(':checked') ;
 
             f = {
@@ -84,7 +85,7 @@ describe('surveyConvertor#fieldToJSON', function() {
               "persistent": false,
               "properties": {
                 "readOnly": $(element).find('input[name="readOnly"]').is(':checked'),
-                "numrows": $(element).find('input[name="readOnly"]').val()
+                "numrows": $(element).find('input[name="numrows"]').val()
 
               }
             };
