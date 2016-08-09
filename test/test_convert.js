@@ -61,23 +61,32 @@ describe('surveyConvertor#fieldToJSON', function() {
           "required":false,
           "persistent":false,
           "properties":{
-            "placeholder":""
+            "placeholder":"",
+            "readOnly": true
+
           }
         };
 
         var html = fieldGenerator.createField(field);
-        var $html = $(html);
+        var $html = $(html) ;
 
         var f = {};
         $html.filter('.fieldcontain').each(function(index, element){
+
+          var readOnly = $(element).find('input[name="readOnly"]').is(':checked') ;
+
             f = {
               "id": $(element).attr("id"),
               "label": "",
               "type": $(element).data("type"),
               "required": false,
               "persistent": false,
-              "properties": {}
+              "properties": {
+                "readOnly": $(element).find('input[name="readOnly"]').is(':checked')
+
+              }
             };
+
         });
         assert.deepEqual(convertor.fieldToJSON(f, $html), field);
         done();
