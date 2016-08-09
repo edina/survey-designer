@@ -53,6 +53,7 @@
         "required": "Required",
         "persistent": "Persistent",
         "readOnly": "Read Only",
+        "numrows" : "Number of rows to display",
         "relate": "Visibility Rule"
     },
     "range":{
