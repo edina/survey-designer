@@ -62,7 +62,8 @@ describe('surveyConvertor#fieldToJSON', function() {
           "persistent":false,
           "properties":{
             "placeholder":"",
-            "readOnly": true
+            "readOnly": true,
+            "numrows" : 3
 
           }
         };
@@ -82,7 +83,8 @@ describe('surveyConvertor#fieldToJSON', function() {
               "required": false,
               "persistent": false,
               "properties": {
-                "readOnly": $(element).find('input[name="readOnly"]').is(':checked')
+                "readOnly": $(element).find('input[name="readOnly"]').is(':checked'),
+                "numrows": $(element).find('input[name="readOnly"]').val()
 
               }
             };

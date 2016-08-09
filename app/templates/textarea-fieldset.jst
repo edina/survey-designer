@@ -9,7 +9,7 @@
   <label for="persistent"><%= translate("textarea.persistent") %></label>
   <input type="checkbox" name="persistent" <%= check(persistent, "checked") %> >
   <label for="numrows"><%= translate("textarea.numrows") %></label>
-  <input type="number" name="numrows" min=2 step=1 defaultValue=2 value=2>
+  <input type="number" name="numrows" min=2 step=1 defaultValue=2 value=<%= properties.numrows %>>
   <label for="readOnly"><%= translate("textarea.readOnly") %></label>
   <input type="checkbox" name="readOnly" <%= check(properties.readOnly, "checked") %> >
   <label for="visibility"><%= translate("textarea.relate") %></label>
