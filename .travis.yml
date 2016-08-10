@@ -11,4 +11,4 @@ script:
 - echo 'development' > config/.env && npm run test
 env:
   global:
-  - secure: UyGcYk/WIBXoNwD5pKd+rATeUAG59zOMVii2HEwHnc4Yq9owMHg76kFP42iXskvbneCv6BBW7xQIW5cw7STEdEnR/+zN7Rzgrchj/c3GrJrrrjje4XkPmE+LjgG7PQiLMGWsE3E+jMiOe0vGzVch8Mb6/rug3rJi8hCfkAXXbT0=
+  - secure: BfvaJ0nBPd2l8zrZ5tesqrKK6s5kxgyf80/ptgPBPRcZUmAmr+tVCBxApKNJRk7/nXChKFvlFdo1sxWa75EviWT0EvRqc/6f9pF+xZFNx7cma7zzEqjHna989sJMkUiFtIWPpNFpCGWqDJ5lkVSwEcUl77c9b915AkRdi9NqEYk=
