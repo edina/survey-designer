@@ -5,6 +5,7 @@ node_js:
 before_script:
 - npm install
 - npm -g install jspm
+- jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
 - jspm install
 - jspm setmode remote
 script:
