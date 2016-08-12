@@ -91,6 +91,7 @@ class FieldGenerator {
                 }
                 return textTemplate(templateData);
             case 'textarea':
+                templateData.properties["numrows"] = templateData.properties["numrows"] || 2;
                 return textareaTemplate(templateData);
             case 'range':
                 templateData.properties.min = templateData.properties.min || 0;
