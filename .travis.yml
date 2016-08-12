@@ -5,6 +5,7 @@ node_js:
 before_script:
 - npm install
 - npm -g install jspm
+- echo $JSPM_GITHUB_AUTH_TOKEN
 - jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
 - jspm install
 - jspm setmode remote
@@ -12,4 +13,4 @@ script:
 - echo 'development' > config/.env && npm run test
 env:
   global:
-  - secure: fp7AQMHXDarLiPQp9pq3DiQJ4+HCTPOw75ZkmGoz4W687Vy70/K4BtCuensby4748058VuK9GdTdyguodh6hxpbl+VyusuMd2Rh6ZZ41B2FF6H2FUJ3bnV/+CCMgDNQpCuF17Oq9v82AMJ4C8CADgk6bG6WYPJsuOQNYy0nxYZg=
+  - secure: G7cDSIFEiaOYvAfqgccxOkT/hgidL0uM7T9KAOriXNN0EG2xWIHb3tLSrG+v8Rf8RIBj7e0PcnLMi5N8f5rx1HIFn31BsCRHOZAaYM6X89XCixy+vtIzf/KFvZQWDHtUxotxZ+ms5uUiPfo+5ykgPNTJCAilYIiG0/oV27OPaqM=
