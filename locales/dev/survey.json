@@ -54,7 +54,8 @@
         "persistent": "Persistent",
         "readOnly": "Read Only",
         "numrows" : "Number of rows to display",
-        "relate": "Visibility Rule"
+        "relate": "Visibility Rule",
+        "imageCaption": "Upload an image to display above text"
     },
     "range":{
         "name": "Range",

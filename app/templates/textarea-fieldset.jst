@@ -16,4 +16,13 @@
   <button type="button" name="visibility" class="btn btn-default btn-sm relate" aria-label="<%= translate("textarea.relate") %>">
      <%= translate("textarea.relate") %>
   </button>
+  <label for="upload-<%= id %>"><%= translate("textarea.imageCaption") %></label>
+  <input type="file" name="imageCaption" alt="upload image caption" accept="image/*" class="image-upload" id="upload-<%= id %>" > </input>
+
+  <% if (properties.imageCaption) { %>
+
+    <img src="<%= pcapi.buildUrl('editors', properties.imageCaption) %>" style="width: 100px;">
+
+  <% } %>
+
 </fieldset>

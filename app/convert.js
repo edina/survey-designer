@@ -104,6 +104,13 @@ class Convertor {
                 field.properties.readOnly = html.find('input[name="readOnly"]').is(':checked');
                 field.properties.numrows = parseInt(html.find('input[name="numrows"]').val());
                 field.properties.placeholder = html.find('input[name="placeholder"]').val();
+
+
+                  if(html.find('input[name="imageCaption"]').get(0).files.length > 0)
+                  {
+                    field.properties.imageCaption = {} ;
+                    field.properties.imageCaption.src = html.find('input[name="imageCaption"]').get(0).files[0].name ;
+                  }
                 break;
             case 'range':
                 field.required = html.find('input[name="required"]').is(':checked');
@@ -249,6 +256,7 @@ class Convertor {
                         properties: {
                             placeholder: $input.attr("placeholder"),
                             readOnly: $field.data('readOnly') === 'on',
+                            imageCaption: { src: $field.data('imageCaption').files[0].name } ,
                             numrows: parseInt( $field.data('numrows').val() )
                         }
                     };
