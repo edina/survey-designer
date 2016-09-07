@@ -92,6 +92,9 @@ class FieldGenerator {
                 return textTemplate(templateData);
             case 'textarea':
                 templateData.properties["numrows"] = templateData.properties["numrows"] || 2;
+                if(this.options && this.options.formsFolder){
+                    templateData.properties.extraPath = this.options.formsFolder;
+                }
                 return textareaTemplate(templateData);
             case 'range':
                 templateData.properties.min = templateData.properties.min || 0;

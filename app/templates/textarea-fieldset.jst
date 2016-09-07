@@ -17,12 +17,13 @@
      <%= translate("textarea.relate") %>
   </button>
   <label for="upload-<%= id %>"><%= translate("textarea.imageCaption") %></label>
-  <input type="file" name="imageCaption" alt="upload image caption" accept="image/*" class="image-upload" id="upload-<%= id %>" > </input>
-
+  <input type="file" class="image-upload" name="imageCaption" id="upload-<%= id %>">
+  
   <% if (properties.imageCaption) { %>
-
-    <img src="<%= pcapi.buildUrl('editors', properties.imageCaption) %>" style="width: 100px;">
-
+    <% if(properties.extraPath) {
+        properties.imageCaption.src = properties.extraPath+'/'+properties.imageCaption.src;
+    } %>
+    <img src="<%= pcapi.buildUrl('editors', properties.imageCaption.src) %>" style="width: 100px;">
   <% } %>
 
 </fieldset>

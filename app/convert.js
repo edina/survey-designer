@@ -105,12 +105,18 @@ class Convertor {
                 field.properties.numrows = parseInt(html.find('input[name="numrows"]').val());
                 field.properties.placeholder = html.find('input[name="placeholder"]').val();
 
-
-                  if(html.find('input[name="imageCaption"]').get(0).files.length > 0)
-                  {
+                if(html.find('input[name="imageCaption"]')[0].files.length > 0)
+                {
                     field.properties.imageCaption = {} ;
-                    field.properties.imageCaption.src = html.find('input[name="imageCaption"]').get(0).files[0].name ;
-                  }
+                    field.properties.imageCaption.src = html.find('input[name="imageCaption"]')[0].files[0].name;
+                }
+                else{
+                    var $img = html.find('img');
+                    if($img.length > 0){
+                        field.properties.imageCaption = {};
+                        field.properties.imageCaption.src = utils.getFilenameFromURL($img.attr('src'));
+                    }
+                }
                 break;
             case 'range':
                 field.required = html.find('input[name="required"]').is(':checked');

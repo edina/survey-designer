@@ -2,8 +2,8 @@ System.config({
   defaultJSExtensions: true,
   transpiler: "traceur",
   paths: {
-    "github:*": "https://github.jspm.io/*",
-    "npm:*": "https://npm.jspm.io/*"
+    "github:*": "jspm_packages/github/*",
+    "npm:*": "jspm_packages/npm/*"
   },
 
   map: {
