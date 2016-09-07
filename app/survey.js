@@ -79,6 +79,8 @@ class Survey {
 
         fieldGenerator.render(generalObj);
         this.bbox.initialize();
+
+        return fieldGenerator;
     }
 
     //TO-DO: investigate if title is needed or should be picked up by the HTMLtoJSON function
@@ -118,6 +120,8 @@ class Survey {
             fieldGenerator.render(field);
         });
         this.bbox.initialize();
+
+        return fieldGenerator;
     }
 
 }

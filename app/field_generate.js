@@ -60,6 +60,8 @@ class FieldGenerator {
         this.addFieldButtons($field);
         // enable events
         this.enableActions();
+
+        return $field[0].id;
     }
 
     /**

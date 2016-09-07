@@ -17,6 +17,26 @@
     <link href="jspm_packages/github/Leaflet/Leaflet@0.7.7/dist/leaflet.css" rel="stylesheet">
     <link href="jspm_packages/npm/leaflet-draw@0.2.4/dist/leaflet.draw.css" rel="stylesheet">
 
+    <!-- semantics theme -->
+    <style>
+        .cobweb-assistant { border : 1px solid black; }
+        .error { background-color: red; }
+        .narrower-group {
+            padding-left: 2em;
+            border: 1px solid white;
+        }
+        .collection-bits {
+            margin-left: 1em;
+            border: 1px solid black;
+            height: 10em;
+            overflow-y: scroll;
+        }
+        .requirement-body {
+            padding-left: 1em;
+            border: 1px solid red;
+        }
+    </style>
+
   </head>
 
   <body>
@@ -48,6 +68,18 @@
     Scripts
     ==================================================
     Placed at the end of the document so the pages load faster -->
+
+    <!-- semantics start -->
+    <!-- Turtle Parser -->
+    <script src="app/semantics/n3-browser.min.js"></script>
+    <!-- JSONLD Parser -->
+    <script src="http://cdn.jsdelivr.net/g/es6-promise@1.0.0"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jsonld/0.3.15/jsonld.js"></script>
+    <script src="app/semantics/rdf-constants.js"></script>
+    <script src="app/semantics/rdf-cobweb.js"></script>
+    <script src="app/semantics/rdf-cobweb-skos.js"></script>
+    <!-- semantics end -->
+
     <script src="jspm_packages/system.js"></script>
     <script src="config/jspm.config.js"></script>
     <script>

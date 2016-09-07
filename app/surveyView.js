@@ -2,6 +2,7 @@ import Backbone from 'backbone';
 import * as utils from './utils';
 import * as save from './save';
 import pcapi from 'pcapi';
+import Semantics from './semantics';
 import Survey from './survey';
 import * as config from './configuration';
 
@@ -69,6 +70,12 @@ export class SurveyView extends Backbone.View {
         }, this));
     }
 
+    smartAssist(){
+        $('#create-sa').click($.proxy(function(){
+            new Semantics(this.fieldGenerator).showAssistant();
+        }, this));
+    }
+
     /**
      * get editor if exists already
      * @param {string} options.remoteDir - remote dir for pcapi (editor|records)
@@ -82,10 +89,10 @@ export class SurveyView extends Backbone.View {
             utils.loading(false);
 
             if(data.error === 1){
-                this.survey.render();
+                this.fieldGenerator = this.survey.render();
             }
             else {
-                this.survey.renderExistingSurvey(title, data);
+                this.fieldGenerator = this.survey.renderExistingSurvey(title, data);
             }
         }, this));
     }
@@ -119,6 +126,8 @@ export class SurveyView extends Backbone.View {
             this.renderSurvey();
             //enable form save event
             this.formSave();
+
+            this.smartAssist();
         }, this));
     }
 
@@ -133,7 +142,7 @@ export class SurveyView extends Backbone.View {
             this.getEditor(options, title);
         }//otherwise intialize the survey class
         else {
-            this.survey.render();
+            this.fieldGenerator = this.survey.render();
         }
     }
 
