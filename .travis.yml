@@ -9,7 +9,3 @@ before_script:
 - jspm setmode remote
 script:
 - echo 'development' > config/.env && npm run test
-env:
-  global:
-  - secure: X9e19SklATuQxjV4CurQdTf6rcpGAFLQqs/UIRgaDLivXwHF+GD12Gzd9lqxC96ehN0SgcgMS0+EojBkGfeyFKJroABmZdFsYUfYIEaZBpl3UVIO6v7WmUxkWO/Zl+K6raIAKuMT/p1PVFx9HG75mQFUdJchgpudXQnAbnB3n4A=
-  - secure: FVWJK77TYHoqRBoooccwMHGdzh8Uyikq6sXmFpuSYBhQkq5Y+ecnDS9GV3MiMmYHV3wnUkr06fQL7oMdoFSAnejjK4RreTmJ8FyQ0FZBas8rAD/U+8jWXt9qNj+KfKBsAR4iWn0gVmphxJgy6hRktpvbq9CsWSbmSwj2p8Eqe6A=
