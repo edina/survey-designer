@@ -183,6 +183,7 @@ class FieldGenerator {
      * enable all events
      */
     enableActions() {
+        this.enableTextAreaEvents();
         this.enableCheckboxEvents();
         this.enableRadioEvents();
         this.enableSelectEvents();
@@ -214,6 +215,12 @@ class FieldGenerator {
         }, this));
     }
 
+    /**
+     * enable events for textarea
+     */
+    enableTextAreaEvents(){
+        this.enableMultipleOptionsEvents('textarea');
+    }  
     /**
      * enable events for checkboxes
      */
@@ -311,6 +318,8 @@ class FieldGenerator {
                 var name = utils.getFilenameFromURL(data.path);
                 var $formLine = $(e.target).closest('.form-inline');
                 var $inputText = $formLine.find('input[type="text"]');
+                if(type === 'textarea')
+                    $formLine.find('img').attr('src',pcapi.buildUrl('editors', path+name));
                 $inputText.before('<img src="'+pcapi.buildUrl('editors', path+name)+'" style="width: 50px;">');
                 $formLine.find('button.upload-image').remove();
             }, this));
