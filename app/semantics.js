@@ -34,12 +34,19 @@ class Semantics {
             // create each option
             $.each(control.entries, function(i, option){
                 $('#' + id + ' .add-radio').click();
+                $('#add-attribute').click();
             });
 
-            // populate each option
             $.each(control.entries, function(i, option){
-                var oId = id + '-' + (i + 1);
+                let n = i + 1;
+
+                // populate each option
+                let oId = id + '-' + n;
                 $('#' + oId).val(option.label);
+
+                // create attribute entries
+                $("input[name='attribute-key']").eq(i).val(option.id);
+                $("input[name='attribute-value']").eq(i).val(option.label);
             });
         }, this))
     }
