@@ -15,6 +15,7 @@ import gpsTemplate from './templates/gps-fieldset.jst!';
 import warningTemplate from './templates/warning-fieldset.jst!';
 import dtreeTemplate from './templates/dtree-fieldset.jst!';
 import sectionTemplate from './templates/section-fieldset.jst!';
+import staticImageTemplate from './templates/staticimage-fieldset.jst!';
 import addfieldTemplate from './templates/add-button.jst!';
 import addAttributeTemplate from './templates/add-attribute.jst!';
 import * as utils from './utils';
@@ -156,6 +157,12 @@ class FieldGenerator {
                 return '';
             case 'section':
                 return sectionTemplate(templateData);
+            case 'staticImage':
+                //check the sid of the user for appending it to the path
+                if(this.options && this.options.formsFolder) {
+                    templateData.properties.extraPath = this.options.formsFolder;
+                }
+                return staticImageTemplate(templateData);
         }
         return '';
     }
@@ -318,9 +325,15 @@ class FieldGenerator {
                 var name = utils.getFilenameFromURL(data.path);
                 var $formLine = $(e.target).closest('.form-inline');
                 var $inputText = $formLine.find('input[type="text"]');
-                if(type === 'textarea')
-                    $formLine.find('img').attr('src',pcapi.buildUrl('editors', path+name));
-                $inputText.before('<img src="'+pcapi.buildUrl('editors', path+name)+'" style="width: 50px;">');
+                if(type === 'textarea' || type === 'staticImage'){
+                    var $img = $formLine.find('img');
+                    if($img.length > 0)
+                        $img.attr('src',pcapi.buildUrl('editors', path+name));
+                    else
+                        $inputText.before('<img src="'+pcapi.buildUrl('editors', path+name)+'" style="width: 100px;">');
+                }
+                else
+                    $inputText.before('<img src="'+pcapi.buildUrl('editors', path+name)+'" style="width: 50px;">');
                 $formLine.find('button.upload-image').remove();
             }, this));
         }, this));

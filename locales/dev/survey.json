@@ -162,5 +162,15 @@
         "label-title": "Section title",
         "label": "This is a title",
         "placeholder": "Insert a title"
+    },
+    "staticImage": {
+        "name": "Static Image",
+        "field-title": "Static Image",
+        "label-title": "Field label",
+        "label": "This is a label",
+        "required": "Required",
+        "label-imageCaption": "Upload an image",
+        "label-caption": "Caption text",
+        "caption": "Insert text"
     }
 }

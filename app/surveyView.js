@@ -23,6 +23,7 @@ export class SurveyView extends Backbone.View {
         //get the params from the url, info like if the survey is public and the
         //sid of the user are needed
         this.params = utils.getParams();
+        
         if(this.params) {
             this.options.formsFolder = this.params.sid;
             this.options.copyToPublic = (this.params.public === 'true');

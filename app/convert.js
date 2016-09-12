@@ -164,6 +164,21 @@ class Convertor {
                 break;
             case 'section':
                 break;
+            case 'staticImage':
+                field.required = true;
+                if(html.find('input[name="imageCaption"]')[0].files.length > 0)
+                {
+                    field.properties.imageCaption = {} ;
+                    field.properties.imageCaption.src = html.find('input[name="imageCaption"]')[0].files[0].name;
+                }
+                else{
+                    if(html.find('img').length > 0){
+                        field.properties.imageCaption = {};
+                        field.properties.imageCaption.src = utils.getFilenameFromURL(html.find('img').attr('src'));
+                    }
+                }
+                field.properties.caption = html.find('textarea').val();
+                break;
             case undefined:
                 break;
         }
