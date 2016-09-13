@@ -164,7 +164,7 @@ class Convertor {
                 break;
             case 'section':
                 break;
-            case 'staticImage':
+            case 'static-image':
                 field.required = true;
                 if(html.find('input[name="imageCaption"]')[0].files.length > 0)
                 {

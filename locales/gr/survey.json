@@ -165,7 +165,7 @@
         "label": "Αυτός είναι ένας τίτλος",
         "placeholder": "Καταχώρησε ένα τίτλο"
     },
-    "staticImage": {
+    "static-image": {
         "name": "Static Image",
         "field-title": "Static Image",
         "label-title": "Field label",

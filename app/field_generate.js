@@ -157,7 +157,7 @@ class FieldGenerator {
                 return '';
             case 'section':
                 return sectionTemplate(templateData);
-            case 'staticImage':
+            case 'static-image':
                 //check the sid of the user for appending it to the path
                 if(this.options && this.options.formsFolder) {
                     templateData.properties.extraPath = this.options.formsFolder;
@@ -325,7 +325,7 @@ class FieldGenerator {
                 var name = utils.getFilenameFromURL(data.path);
                 var $formLine = $(e.target).closest('.form-inline');
                 var $inputText = $formLine.find('input[type="text"]');
-                if(type === 'textarea' || type === 'staticImage'){
+                if(type === 'textarea' || type === 'static'){   //The type static-image has been split so only static remains in that variable, see line 300
                     var $img = $formLine.find('img');
                     if($img.length > 0)
                         $img.attr('src',pcapi.buildUrl('editors', path+name));

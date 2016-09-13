@@ -163,7 +163,7 @@
         "label": "This is a title",
         "placeholder": "Insert a title"
     },
-    "staticImage": {
+    "static-image": {
         "name": "Static Image",
         "field-title": "Static Image",
         "label-title": "Field label",
