@@ -58,7 +58,7 @@
         "readOnly": "Μη επεξεργάσιμο πεδίο",
         "numrows" : "Αριθμός στηλών",
         "relate": "Σχέτισε",
-        "imageCaption": "Ανεβάστε μια φωτογραφία"
+        "image-caption": "Ανεβάστε μια φωτογραφία"
     },
     "range":{
         "name": "Διακύμανση",
@@ -171,7 +171,7 @@
         "label-title": "Field label",
         "label": "This is a label",
         "required": "Required",
-        "label-imageCaption": "Upload an image",
+        "label-image-caption": "Upload an image",
         "label-caption": "Caption text",
         "caption": "Insert text"
     }

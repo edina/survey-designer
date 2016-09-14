@@ -16,15 +16,15 @@
   <button type="button" name="visibility" class="btn btn-default btn-sm relate" aria-label="<%= translate("textarea.relate") %>">
      <%= translate("textarea.relate") %>
   </button>
-  <label for="upload-<%= id %>"><%= translate("textarea.imageCaption") %></label>
+  <label for="upload-<%= id %>"><%= translate("textarea.image-caption") %></label>
   <div class="form-inline">
-    <input type="file" class="image-upload" name="imageCaption" id="upload-<%= id %>">
+    <input type="file" class="image-upload" name="image-caption" id="upload-<%= id %>">
     <input type="text" style="display:none;">
-    <% if (properties.imageCaption) { %>
+    <% if (properties['image-caption']) { %>
       <% if(properties.extraPath) {
-          properties.imageCaption.src = properties.extraPath+'/'+properties.imageCaption.src;
+          properties['image-caption'].src = properties.extraPath+'/'+properties['image-caption'].src;
       } %>
-      <img src="<%= pcapi.buildUrl('editors', properties.imageCaption.src) %>" style="width: 100px;">
+      <img src="<%= pcapi.buildUrl('editors', properties['image-caption'].src) %>" style="width: 100px;">
     <% } %>
   </div>
 </fieldset>

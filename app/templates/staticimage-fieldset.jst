@@ -2,15 +2,15 @@
   <legend><%= translate("static-image.field-title") %></legend>
   <label for="label"><%= translate("static-image.label-title") %></label>
   <input type="text" name="label" value="<%= label %>" id="label-<%= id %>">
-  <label for="imageCaption"><%= translate("static-image.label-imageCaption")%></label>
+  <label for="imageCaption"><%= translate("static-image.label-image-caption")%></label>
   <div class="form-inline">
-  	<input type="file" class="image-upload" name="imageCaption" id="imageCaption-<%= id %>">
+  	<input type="file" class="image-upload" name="image-caption" id="image-caption-<%= id %>">
     <input type="text" style="display:none;">
-	<% if (properties.imageCaption) { %>
+	<% if (properties['image-caption']) { %>
 		<% if(properties.extraPath) {
-	    	properties.imageCaption.src = properties.extraPath+'/'+properties.imageCaption.src;
+	    	properties['image-caption'].src = properties.extraPath+'/'+properties['image-caption'].src;
 	    } %>
-	   		<img src="<%= pcapi.buildUrl('editors', properties.imageCaption.src) %>" style="width: 100px;">
+	   		<img src="<%= pcapi.buildUrl('editors', properties['image-caption'].src) %>" style="width: 100px;">
 	<% } %>
   </div>
   <label for="caption"><%= translate("static-image.label-caption") %></label>

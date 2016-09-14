@@ -55,7 +55,7 @@
         "readOnly": "Read Only",
         "numrows" : "Number of rows to display",
         "relate": "Visibility Rule",
-        "imageCaption": "Upload an image to display above text"
+        "image-caption": "Upload an image to display above text"
     },
     "range":{
         "name": "Range",
@@ -169,7 +169,7 @@
         "label-title": "Field label",
         "label": "This is a label",
         "required": "Required",
-        "label-imageCaption": "Upload an image",
+        "label-image-caption": "Upload an image",
         "label-caption": "Caption text",
         "caption": "Insert text"
     }
