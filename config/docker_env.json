@@ -1,7 +1,7 @@
 {
     "release": {
         "PCAPI": {
-            "baseurl": "http://0.0.0.0:8080",
+            "baseurl": "http://BASE_URL",
             "userid": "00000000-0000-0000-0000-000000000000",
             "version": ""
         },

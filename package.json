@@ -9,6 +9,8 @@
     "release": "npm run lint & npm run test & npm run bundle & npm run release-it",
     "test": "node_modules/.bin/mocha-phantomjs --ssl-protocol=any --ignore-ssl-errors=true --timeout 20000 test.html",
     "bundle": "echo 'production' > config/.env & jspm bundle-sfx --minify app/main dist/main.js",
+    "release-tar": "echo 'release' > config/.env && tar cvfz survey-designer.tar.gz locales/ app/ jspm_packages/ config/ index.html",
+
     "release-it": "node_modules/release-it/bin/release.js",
     "validate": "npm ls"
   },
